@@ -13,18 +13,18 @@
     {
       "stage": "pre-commit",
       "exit_code": 1,
-      "seconds": 7.242
+      "seconds": 6.129
     },
     {
       "stage": "pre-push",
       "exit_code": 1,
-      "seconds": 6.081
+      "seconds": 7.232
     }
   ],
   "merge_ready": false,
   "remaining_failures": [
-    "pipeline reference policy conflicts with immutable pin hold pending parent/user approval",
-    "jscpd differential must be rerun on the committed follow-up head; staged changes are not its comparison input"
+    "SC-GHA-010 (two workflow references) and SC-HOOK-003: pipeline main approval remains pending; immutable refs unchanged",
+    "jscpd differential: seven repeated generated JSON schema blocks across reviewed OpenAPI, runtime contract and native MCP snapshot"
   ],
   "protocol_boundary": {
     "legacy_confirmation": "all four effectful GETs accepted/refused",
@@ -40,5 +40,14 @@
     "snapshots_bundled": false,
     "preserved_originals": "Local validation evidence and immutable historical capture commit recorded in api-spec/source-review.json",
     "authored_fixture": "tests/fixtures/request_structs.rs is an authored parser fixture, not an upstream snapshot"
-  }
+  },
+  "gate_input_commit": "ac0b6f0e20566740d191194832adf99790d68915",
+  "deterministic_regeneration": {
+    "identical": true,
+    "tracked_files": 155,
+    "seconds": 0.244,
+    "source_inputs": "External exact captures verified against source-review hashes"
+  },
+  "other_configured_gates": "PASS: scanner provenance, KISS, complexity, function duplication, security, secret history, stdio, cycles, schema contracts, formatting, spec gates and pytest",
+  "protocol_error": "elicitation via server-initiated requests is unavailable on 2026-07-28 connections."
 }
