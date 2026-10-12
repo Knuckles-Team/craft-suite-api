@@ -30,22 +30,22 @@
     },
     "skills": {
       "applicable": true,
-      "path": "templateconnector_api/skills"
+      "path": "artcraft_api/skills"
     }
   },
   "capability_evidence": {
     "api": {
       "artifact": "docs/capabilities/api.json",
-      "artifact_sha256": "eecff1a29a1a594e3260eeb81c0a2d5df0b37375744509015bdf25a6bfb614d2",
-      "source": "templateconnector_api/api/__init__.py",
+      "artifact_sha256": "b88b22412a8bf5439727d8d3d5605846b08d820cd76333c70d3412217ec72db3",
+      "source": "artcraft_api/api/__init__.py",
       "source_sha256": "163db5f8c42a0ba745518a06a434a7e2c9367c07fc8475203dc5b49a8b6b8e88"
     },
     "mcp": {
       "artifact": "docs/capabilities/mcp.json",
-      "artifact_sha256": "bb3866b7c93d9c68ec283ca1f6565f46658f9306913314a538d76c31e468d006",
+      "artifact_sha256": "cb6b548b671d753bbc45ecc46fcc622ad746e50242f5951f2f095e8b86af8137",
       "http_transport": "true",
-      "source": "templateconnector_api/mcp_server.py",
-      "source_sha256": "160c813ebfdc253605ab3a9b0895bf67e329e78f9d3fb77fb3751b38644c745f"
+      "source": "artcraft_api/mcp_server.py",
+      "source_sha256": "57827d18c0ec7ad44c43aa0093778e103666656041d0d9607694c27faf2ebc92"
     }
   },
   "content_signals": {
@@ -59,7 +59,7 @@
     "llms-sections/installation/llms.txt",
     "llms-sections/deployment/llms.txt",
     "llms-sections/usage-api-cli-mcp/llms.txt",
-    "llms-sections/backing-platform-templateconnector-api/llms.txt",
+    "llms-sections/backing-platform-artcraft/llms.txt",
     "llms-sections/concepts/llms.txt",
     "llms-sections/glossary/llms.txt",
     "llms-sections/spec-delivery/llms.txt",
@@ -71,50 +71,50 @@
   "generator_version": "1.0.0",
   "project": {
     "kind": "package",
-    "name": "templateconnector-api"
+    "name": "artcraft-api"
   },
   "provenance": {
-    "applicability_sha256": "25c2faae51e060fccc2caf94528ffe0df7baf914ca4dc3d803aae4724f47005c",
-    "mkdocs_sha256": "1d879de4080264bc44893fdfc98e533aa3cfba1763b3397bf2b08fc8bfdf007e",
+    "applicability_sha256": "caffc078d57256e0275da8f832cc9fff443d9c9eb868af4080281782a2f99f6e",
+    "mkdocs_sha256": "4a4ab1e44be80244e5b48f2a11bb432834a58f024b1f5531528d276b4ec969bc",
     "pages": [
       {
-        "bytes": 1706,
-        "sha256": "0e3f220ce29fb1bf4bc8297b0bdf1003a31d9eeedd77150ceda94995764e34a2",
+        "bytes": 1603,
+        "sha256": "14cad8c143901f6b29a2eef9f8c6da5ee91f3571c61527ffffe90a84273e3711",
         "source": "docs/index.md"
       },
       {
-        "bytes": 1017,
-        "sha256": "5752ef917a6940a04148aace0a4826e04d4c0f376ee0f89fcdfb39168a14af16",
+        "bytes": 1015,
+        "sha256": "de65cf7a19af1a6b7d30c2ce9ae29fe184b1d44efaf5d285fc269abed5285837",
         "source": "docs/overview.md"
       },
       {
-        "bytes": 2009,
-        "sha256": "369d465bd09d7a3c3e986231a6c573440dfde7975f8501beb4915f518ec58727",
+        "bytes": 1919,
+        "sha256": "58adcfccc146e9f1af4eb164f5eee74e322491a1852d02d6c076366b5cd04d83",
         "source": "docs/architecture.md"
       },
       {
-        "bytes": 807,
-        "sha256": "e140f53f6732c76e966fe149d7e1481e29091dcad694dceaea26ff73bc6018ef",
+        "bytes": 744,
+        "sha256": "ee6b42a1b0f5eed11bceaf38dcd6f6551f3e6a8396256e7956f7ecbaac51299c",
         "source": "docs/installation.md"
       },
       {
-        "bytes": 2960,
-        "sha256": "5a1a06ff4fc4d1ff9350efe1af7d00f6af5bde0fdc725028d2f33dc0dfcaba8f",
+        "bytes": 2852,
+        "sha256": "b469b76c6bc6e263d784e11d35cf5b5f0e0449ba425e5e5fb17bc4068ac807e0",
         "source": "docs/deployment.md"
       },
       {
-        "bytes": 1442,
-        "sha256": "1e6cc4dd473831afcd1029bc426726c09b0294d35faa183dfbc01f25c67848cf",
+        "bytes": 1379,
+        "sha256": "6dfd417e619ab0c3c64aa0564c7e19875ddf6451a51762cde44157cc91cfb26b",
         "source": "docs/usage.md"
       },
       {
-        "bytes": 733,
-        "sha256": "75c51d8aa8244beb7d27ebd7157ffbd1fa2837ac98b20686a23e1822cbe66b39",
+        "bytes": 711,
+        "sha256": "ccd169f4a71887779cf07dd42dfdec620004f67173a4e11dd501e02254a471ed",
         "source": "docs/platform.md"
       },
       {
-        "bytes": 801,
-        "sha256": "d20b403652c2d7bd0239e470a35c3297b2e2b4cc74291afd946ee0008cc44513",
+        "bytes": 768,
+        "sha256": "bbde2db0c220c2120f3815fca1a0a6cf869df44dfd68f24fa2712df61e9d968f",
         "source": "docs/concepts.md"
       },
       {
@@ -123,8 +123,8 @@
         "source": "docs/glossary.md"
       },
       {
-        "bytes": 1146,
-        "sha256": "df9accaec45a586a3d8f6d71660c4e19c203c800c19c5bf03f96dbda300aadc2",
+        "bytes": 1128,
+        "sha256": "1b7ccbff567d8ababf546c1e639f2828f2489bc41b5216548832bc35821b8f43",
         "source": "docs/spec-delivery.md"
       }
     ],

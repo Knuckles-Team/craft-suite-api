@@ -1,11 +1,11 @@
-# templateconnector-api — Concept Overview
+# artcraft-api — Concept Overview
 
 > **Category**: Integration | **Ecosystem Role**: MCP Server
 > Built on [`agent-connector-sdk`](https://github.com/Knuckles-Team/agent-connector-sdk).
 
 ## Description
 
-Templateconnector Api API + MCP Server
+ArtCraft backend API connector and MCP server
 
 ## Architecture
 

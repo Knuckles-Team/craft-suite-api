@@ -1,22 +1,22 @@
-# templateconnector-api
+# artcraft-api
 
-Templateconnector Api **API + MCP Server** using the connector SDK — a
+ArtCraft **API + MCP Server** using the connector SDK — a
 typed, action-routed connector.
 
 !!! info "Official documentation"
-    This site is the canonical reference for `templateconnector-api`, maintained alongside
+    This site is the canonical reference for `artcraft-api`, maintained alongside
     every release.
 
-[![PyPI](https://img.shields.io/pypi/v/templateconnector-api)](https://pypi.org/project/templateconnector-api/)
+[![PyPI](https://img.shields.io/pypi/v/artcraft-api)](https://pypi.org/project/artcraft-api/)
 ![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')
-[![License](https://img.shields.io/pypi/l/templateconnector-api)](https://github.com/Knuckles-Team/templateconnector-api/blob/main/LICENSE)
-[![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/Knuckles-Team/templateconnector-api)
+[![License](https://img.shields.io/pypi/l/artcraft-api)](https://github.com/Knuckles-Team/artcraft-api/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/Knuckles-Team/artcraft-api)
 
 ## Overview
 
-`templateconnector-api` wraps the target service with typed, deterministic MCP tools.
+`artcraft-api` wraps the target service with typed, deterministic MCP tools.
 
-Tools resolve `TEMPLATECONNECTOR_API_BASE_URL`, `TEMPLATECONNECTOR_API_TOKEN_REF`, and the SDK TLS
+Tools resolve `ARTCRAFT_API_BASE_URL`, `ARTCRAFT_API_TOKEN_REF`, and the SDK TLS
 profile when invoked. Discovery requires no vendor credentials or live service.
 
 ## Explore the documentation

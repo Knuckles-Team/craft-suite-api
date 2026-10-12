@@ -14,7 +14,7 @@ name: Cross-platform coverage
 on:
   pull_request:
     paths:
-      - 'templateconnector_api/**'
+      - 'artcraft_api/**'
       - 'scripts/**'
       - 'tests/**'
       - 'pyproject.toml'

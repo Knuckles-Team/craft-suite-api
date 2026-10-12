@@ -1,9 +1,9 @@
 INHERIT: .pipeline-theme/templates/mkdocs-theme/base.mkdocs.yml
-site_name: "templateconnector-api"
-site_description: "Templateconnector Api API + MCP Server"
-site_url: "https://knuckles-team.github.io/templateconnector-api/"
-repo_name: "Knuckles-Team/templateconnector-api"
-repo_url: "https://github.com/Knuckles-Team/templateconnector-api"
+site_name: "artcraft-api"
+site_description: "ArtCraft backend API connector and MCP server"
+site_url: "https://knuckles-team.github.io/artcraft-api/"
+repo_name: "Knuckles-Team/artcraft-api"
+repo_url: "https://github.com/Knuckles-Team/artcraft-api"
 edit_uri: "edit/main/docs/"
 copyright: "Copyright &copy; Knuckles-Team — MIT licensed"
 
@@ -12,7 +12,7 @@ plugins:
 
 extra:
   ecosystem:
-    current: "templateconnector-api"
+    current: "artcraft-api"
 
 nav:
   - Home: index.md
@@ -21,7 +21,7 @@ nav:
   - Installation: installation.md
   - Deployment: deployment.md
   - Usage (API / CLI / MCP): usage.md
-  - Backing Platform (Templateconnector Api): platform.md
+  - Backing Platform (ArtCraft): platform.md
   - Concepts: concepts.md
   - Glossary: glossary.md
   - Spec delivery: spec-delivery.md
