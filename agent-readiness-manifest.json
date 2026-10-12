@@ -38,14 +38,14 @@
       "artifact": "docs/capabilities/api.json",
       "artifact_sha256": "b88b22412a8bf5439727d8d3d5605846b08d820cd76333c70d3412217ec72db3",
       "source": "artcraft_api/api/__init__.py",
-      "source_sha256": "163db5f8c42a0ba745518a06a434a7e2c9367c07fc8475203dc5b49a8b6b8e88"
+      "source_sha256": "60c4220046512ee8606075ae97b3393bc301fb562f3c5cb9d19c3b51ec117544"
     },
     "mcp": {
       "artifact": "docs/capabilities/mcp.json",
       "artifact_sha256": "cb6b548b671d753bbc45ecc46fcc622ad746e50242f5951f2f095e8b86af8137",
       "http_transport": "true",
       "source": "artcraft_api/mcp_server.py",
-      "source_sha256": "57827d18c0ec7ad44c43aa0093778e103666656041d0d9607694c27faf2ebc92"
+      "source_sha256": "1134cd43d0296f75a11704f49c01a05b9f114ebcaafe396ef6884f26b40ebdf9"
     }
   },
   "content_signals": {
@@ -78,8 +78,8 @@
     "mkdocs_sha256": "4a4ab1e44be80244e5b48f2a11bb432834a58f024b1f5531528d276b4ec969bc",
     "pages": [
       {
-        "bytes": 1603,
-        "sha256": "14cad8c143901f6b29a2eef9f8c6da5ee91f3571c61527ffffe90a84273e3711",
+        "bytes": 1569,
+        "sha256": "455724ae53a55af9114a9bbb701f1892176d7788d9eac5574be2dcc49427d358",
         "source": "docs/index.md"
       },
       {
@@ -88,23 +88,23 @@
         "source": "docs/overview.md"
       },
       {
-        "bytes": 1919,
-        "sha256": "58adcfccc146e9f1af4eb164f5eee74e322491a1852d02d6c076366b5cd04d83",
+        "bytes": 1945,
+        "sha256": "5fe9373c0e91caaf2e9947c940ebd7607a7c35ee431c9f5302235f12bab42baf",
         "source": "docs/architecture.md"
       },
       {
-        "bytes": 744,
-        "sha256": "ee6b42a1b0f5eed11bceaf38dcd6f6551f3e6a8396256e7956f7ecbaac51299c",
+        "bytes": 1636,
+        "sha256": "b83c73fb3cd5273a81bde7990e5e9f0a95b0de97cf48af2fdb471bcc4d25ee89",
         "source": "docs/installation.md"
       },
       {
-        "bytes": 2852,
-        "sha256": "b469b76c6bc6e263d784e11d35cf5b5f0e0449ba425e5e5fb17bc4068ac807e0",
+        "bytes": 3823,
+        "sha256": "8c87a361fd49d4ea06a0dd2a8d5f267aae5d0ad0ee3d016235b47b28658aa3ce",
         "source": "docs/deployment.md"
       },
       {
-        "bytes": 1334,
-        "sha256": "81255c5eab58dc8304caa252124146e371ab909f6ab61289addd3ad9938933a2",
+        "bytes": 1853,
+        "sha256": "ba25beb6314ebdb6ae6d301bdb130edbb49f3e0e4cde0859f743cf6c37713584",
         "source": "docs/usage.md"
       },
       {

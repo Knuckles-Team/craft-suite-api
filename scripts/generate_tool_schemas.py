@@ -5,30 +5,36 @@ Run from the project environment: python scripts/generate_tool_schemas.py [--che
 All tools retain both schemas in schemas/mcp_tools.json. Only tools in real
 extraction presets receive connector pins; an empty starter preset is valid.
 """
+
 from __future__ import annotations
 
 import argparse
 import asyncio
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 try:
-    from fastmcp import Client
-    from agent_connector_sdk.manifest.loader import (
-        load_tool_presets, require_valid_connector_package,
-    )
     from agent_connector_sdk.manifest.live_contract import validate_live_tool_contract
+    from agent_connector_sdk.manifest.loader import (
+        load_tool_presets,
+        require_valid_connector_package,
+    )
     from agent_connector_sdk.manifest.tool_schema import (
         COMPATIBILITY_FINGERPRINT_ALGORITHM,
-        canonical_input_schema, canonical_output_schema,
+        canonical_input_schema,
+        canonical_output_schema,
     )
+    from fastmcp import Client
+
     from artcraft_api.mcp_server import build_server
 except ImportError as exc:
-    raise SystemExit("Install this project's declared dependencies before generating schemas") from exc
+    raise SystemExit(
+        "Install this project's declared dependencies before generating schemas"
+    ) from exc
 
 PACKAGE = ROOT / "artcraft_api"
 
@@ -55,15 +61,27 @@ async def generate(check: bool) -> None:
             "compatibility_sha256": contract.compatibility_sha256,
         }
     presets = load_tool_presets(PACKAGE / "connectors/mcp_source_presets.json")
-    pinned = {preset.tool: contracts[preset.tool]["compatibility_sha256"]
-              for preset in presets.values()}
-    _write_or_check(ROOT / "schemas/mcp_tools.json", {
-        "algorithm": COMPATIBILITY_FINGERPRINT_ALGORITHM, "tools": contracts,
-    }, check)
-    _write_or_check(PACKAGE / "connectors/tool_schema_fingerprints.json", {
-        "connector": "artcraft-api", "algorithm": COMPATIBILITY_FINGERPRINT_ALGORITHM,
-        "tools": pinned,
-    }, check)
+    pinned = {
+        preset.tool: contracts[preset.tool]["compatibility_sha256"]
+        for preset in presets.values()
+    }
+    _write_or_check(
+        ROOT / "schemas/mcp_tools.json",
+        {
+            "algorithm": COMPATIBILITY_FINGERPRINT_ALGORITHM,
+            "tools": contracts,
+        },
+        check,
+    )
+    _write_or_check(
+        PACKAGE / "connectors/tool_schema_fingerprints.json",
+        {
+            "connector": "artcraft-api",
+            "algorithm": COMPATIBILITY_FINGERPRINT_ALGORITHM,
+            "tools": pinned,
+        },
+        check,
+    )
     require_valid_connector_package(PACKAGE)
 
 

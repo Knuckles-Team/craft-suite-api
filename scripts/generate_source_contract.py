@@ -35,6 +35,47 @@ def references(value):
             yield from references(item)
 
 
+def _request_fields(source, name):
+    match = re.search(
+        r"pub struct " + re.escape(name) + r"\s*\{(.*?)^\}", source, re.S | re.M
+    )
+    if match is None:
+        raise ValueError("Pinned request struct missing")
+    return dict(re.findall(r"^\s*pub (\w+):\s*([^\n,]+),", match.group(1), re.M))
+
+
+def _bound_unsigned_query(item, fields, parameters):
+    for field_name, unsigned_type in item.get("query_unsigned_bounds", {}).items():
+        if unsigned_type != "u32" or fields[field_name] != "Option<u32>":
+            raise ValueError("Pinned u32 request bound mismatch")
+        parameters[field_name]["schema"].update(minimum=0, maximum=2**32 - 1)
+
+
+def verify_request(item, operation, sources, handler, evidence):
+    name = item.get("request_struct")
+    if not name:
+        return []
+    if f"Query<{name}>" not in handler:
+        raise ValueError("Pinned request type mismatch")
+    fields = _request_fields(sources[item["types"]], name)
+    parameters = {p["name"]: p for p in operation["parameters"] if p["in"] == "query"}
+    if set(fields) != set(parameters):
+        raise ValueError("Pinned query fields mismatch")
+    for field_name, rust_type in fields.items():
+        if parameters[field_name].get("required", False) != (
+            not rust_type.startswith("Option<")
+        ):
+            raise ValueError("Pinned query optionality mismatch")
+    _bound_unsigned_query(item, fields, parameters)
+    return [
+        {
+            "struct": name,
+            "fields": fields,
+            "evidence": evidence(item["types"], f"pub struct {name}"),
+        }
+    ]
+
+
 def generate(root: Path, skill: Path):
     spec_dir = root / "api-spec"
     review = json.loads((spec_dir / "source-review.json").read_text())
@@ -113,6 +154,7 @@ def generate(root: Path, skill: Path):
             and "require_user_session(" not in handler
         ):
             raise ValueError(f"Required-session evidence missing: {path}")
+        request_checks = verify_request(item, operation, sources, handler, evidence)
         operation["security"] = security
         operation["description"] = item["notes"]
         # The SDK intentionally exposes sanitized HTTP errors, not their bodies.
@@ -126,6 +168,7 @@ def generate(root: Path, skill: Path):
             "method": "GET",
             "runtime_read_only": not item["effects"],
             "live_verified": False,
+            "request_checks": request_checks,
             "handler_evidence": evidence(item["handler"], f'path = "{path}"'),
             "registration_evidence": evidence(
                 item["routes"], f"web::get().to({action})"

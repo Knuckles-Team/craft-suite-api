@@ -21,7 +21,7 @@ is withheld because the public schema lacks source fields. Generation, uploads,
 account management, administrative routes and all other endpoints are unsupported
 in this version. No arbitrary route or method can be supplied through these tools.
 
-## Configuration and use
+## Usage
 
 Set `ARTCRAFT_API_BASE_URL` to the approved backend HTTPS origin. For session
 operations, set `ARTCRAFT_API_TOKEN_REF` to an SDK credential reference such as
@@ -32,7 +32,9 @@ are refused, and credentials cannot cross the configured origin.
 
 `ARTCRAFT_API_ALLOW_WRITES` defaults to false. The conservative gate also covers
 GET handlers that can populate the session cache; MCP additionally asks for
-confirmation. The four public catalog actions work without that enablement or a
+confirmation from an elicitation-capable MCP client. Clients negotiating a protocol
+without server-initiated elicitation fail closed; this validation covers legacy
+MCP confirmation and does not claim modern-protocol write support. The four public catalog actions work without that enablement or a
 credential. `ARTCRAFT_API_ALLOW_PLAINTEXT` defaults to false.
 
 After installing the declared SDK and package dependencies in an approved source
@@ -44,7 +46,7 @@ environment, run `artcraft-mcp` (stdio by default). For example, call:
 
 This repository is source-validated. Package release, registry installation,
 container startup, live service access and deployment are not certified here.
-Do not treat the generated starter graph mapping as an ArtCraft ingestion contract.
+Graph ingestion is unavailable: no tenant-scoped ArtCraft mapping or complete receipt contract has been implemented. The generic ingestion starter has been removed.
 
 ## Provenance and regeneration
 

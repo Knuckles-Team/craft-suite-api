@@ -1,0 +1,46 @@
+{
+  "base": "bf7207daa6c56ff29c82fcc863864d6a34e56cb7",
+  "package_tests": {
+    "passed": 76,
+    "seconds": 3.92,
+    "provider": "mock HTTP transport, actual pinned SDK and native MCP"
+  },
+  "ruff": "PASS all 36 Python files at 0.15.12",
+  "strict_mkdocs": "PASS",
+  "schema_check": "PASS",
+  "staged_complexity": "PASS",
+  "production_complexity_census": "PASS",
+  "full_configured_gates": [
+    {
+      "stage": "pre-commit",
+      "exit_code": 1,
+      "seconds": 7.242
+    },
+    {
+      "stage": "pre-push",
+      "exit_code": 1,
+      "seconds": 6.081
+    }
+  ],
+  "merge_ready": false,
+  "remaining_failures": [
+    "missing jscpd provenance",
+    "missing hand-authored KISS configuration",
+    "supply-chain requires main pipeline references; inherited references are pinned",
+    "missing dependency resolver lock",
+    "security false positive in pinned public upstream synthetic fixture",
+    "whitespace/EOF hooks modify exact pinned public evidence"
+  ],
+  "protocol_boundary": {
+    "legacy_confirmation": "all four effectful GETs accepted/refused",
+    "2026-07-28": "fails closed before outbound provider access"
+  },
+  "windows_baseline": "report-only green executed zero tests; not acceptance",
+  "runtime": "No image build, live service call, credentials, security settings or deployment changed.",
+  "root_review_required_before_merge": true,
+  "deterministic_regeneration": {
+    "identical": true,
+    "tracked_files_checked": 176,
+    "seconds": 0.243
+  }
+}

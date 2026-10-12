@@ -1,6 +1,6 @@
 # Connector architecture
 
-The `artcraft-api` package owns external-system operations and source mappings.
+The `artcraft-api` package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented.
 The [shared connector SDK](https://github.com/Knuckles-Team/agent-connector-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md) owns reusable runtime contracts.
 
 ```mermaid
@@ -11,19 +11,17 @@ flowchart LR
     Client --> Vendor[Configured external system]
     Resolver[Credential references and TLS policy] --> Client
     Content[Packaged skills prompts ontology manifest] --> Server
-    Source[Authorized source observations] --> Mapper[Connector ingest mapper]
-    Mapper --> SDK[Shared connector ingest service]
 ```
 
 ## Source and verification map
 
 | Boundary | Source | Verification target |
 |---|---|---|
-| MCP entry and routing | `artcraft_api/mcp_server.py`, `artcraft_api/mcp/mcp_system.py` | `tests/test_artcraft_mcp_validation.py` |
+| MCP entry and routing | `artcraft_api/mcp_server.py`, `artcraft_api/mcp/__init__.py` | `tests/test_artcraft_mcp_validation.py` |
 | Credentials and TLS | `artcraft_api/auth.py` | `tests/test_auth.py` |
-| External requests | `artcraft_api/api/api_client_base.py` | `tests/test_api_wrapper.py` |
+| External requests | `artcraft_api/api/api_client_system.py`, `artcraft_api/openapi_runtime.py` | `tests/test_api_wrapper.py` |
 | Native content and tool schemas | Package content and `scripts/generate_tool_schemas.py` | Live schema check; native content verification remains pending |
-| Source observations | `artcraft_api/kg_ingest.py` | `tests/test_kg_ingest.py` |
+| Withheld ingestion | No callable ingestion module | `tests/test_source_contract.py` verifies the starter cannot be imported |
 
 The [capability specification](https://github.com/Knuckles-Team/artcraft-api/blob/main/specs/artcraft-api/spec.md)
 defines the planned behavior and acceptance targets.

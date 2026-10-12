@@ -1,25 +1,29 @@
 ---
 name: artcraft-starter
 description: >-
-  ArtCraft backend API connector and MCP server Use when working with ArtCraft via this package's MCP
-  server/agent — discover its tools, run an operation, or check its reference
-  docs. Replace this starter skill with real, trigger-oriented capabilities.
+  Browse ArtCraft audio, image, mesh, and splat model catalogs through this
+  connector's public MCP operations. Use for model availability and returned
+  capabilities; generation and video catalog discovery are unavailable.
 license: MIT
-tags: [artcraft-starter, starter, mcp]
+tags: [artcraft, model-catalog, mcp]
 metadata:
   version: '0.1.0'
 ---
 
-# ArtCraft Starter Skill
+# Browse ArtCraft model catalogs
 
-Starter skill for the **ArtCraft** package. Use the `mcp-client` universal
-skill to connect to this package's MCP server and invoke its tools.
+Use `omni_gen_operations` with one of these exact actions:
 
-## Usage
+- `omni_gen_audio_models_handler`
+- `omni_gen_image_models_handler`
+- `omni_gen_mesh_models_handler`
+- `omni_gen_splat_models_handler`
 
-1. Discover available tools on the package's MCP server.
-2. Invoke the relevant tool with the required arguments.
-3. Verify the result before concluding.
+The approved provider origin and TLS configuration come from the operator.
+These four static catalog reads require no signed session or write enablement.
+Report capabilities returned by the selected action. The pinned image handler
+ignores its provider filter, so do not describe its response as provider-filtered.
 
-> Replace this with concrete, trigger-oriented capabilities for ArtCraft
-> (one capability per skill — keep it atomic).
+Do not invoke generation, uploads, job polling, video discovery, arbitrary routes,
+or graph ingestion: this connector does not support them. Source validation does
+not prove a live backend, full enum/serializer parity or deployed availability.

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "spec_id": "CONN-ARTCRAFT-API",
-  "owner_repo": "artcraft-api",
+  "owner_repo": "quality-source-main.bundle",
   "delivery_state": "SPECIFIED",
   "requirement_ids": [
     "CONN-ARTCRAFT-API-R001",
@@ -41,7 +41,7 @@
     },
     {
       "id": "CONN-ARTCRAFT-API-R005",
-      "title": "Typed source observations",
+      "title": "Withhold unscoped ingestion",
       "delivery_state": "SPECIFIED",
       "landed_in": [],
       "verified_by": []

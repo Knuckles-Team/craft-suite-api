@@ -53,6 +53,43 @@ def _value(value):
     raise ValueError("Unsupported parameter value")
 
 
+def _path_value(value):
+    rendered = _value(value)
+    if rendered in {".", ".."} or any(c in rendered for c in "/\\%\r\n\x00"):
+        raise ValueError("Unsafe path parameter")
+    return quote(rendered, safe="")
+
+
+def _query_value(query, parameter, value):
+    name = parameter["name"]
+    if isinstance(value, list):
+        if parameter.get("explode", True):
+            query.extend((name, _value(item)) for item in value)
+        else:
+            query.append((name, ",".join(_value(item) for item in value)))
+    elif value is not None:
+        query.append((name, _value(value)))
+
+
+def _header_value(name, value):
+    credential_headers = {
+        str(scheme.get("name", "")).casefold()
+        for scheme in CONTRACT["security_schemes"].values()
+        if scheme.get("type") == "apiKey" and scheme.get("in") == "header"
+    }
+    if name.casefold() in credential_headers | {
+        "authorization",
+        "cookie",
+        "host",
+        "x-api-key",
+    }:
+        raise ValueError("Authentication headers are controlled by credentials")
+    rendered = _value(value)
+    if any(c in rendered for c in "\r\n\x00"):
+        raise ValueError("Invalid header parameter")
+    return rendered
+
+
 def _parameters(operation, arguments):
     path = operation["path"]
     query, headers = [], {}
@@ -63,35 +100,11 @@ def _parameters(operation, arguments):
             continue
         value = values[name]
         if location == "path":
-            rendered = _value(value)
-            if rendered in {".", ".."} or any(c in rendered for c in "/\\%\r\n\x00"):
-                raise ValueError("Unsafe path parameter")
-            path = path.replace("{" + name + "}", quote(rendered, safe=""))
+            path = path.replace("{" + name + "}", _path_value(value))
         elif location == "query":
-            if isinstance(value, list):
-                if parameter.get("explode", True):
-                    query.extend((name, _value(item)) for item in value)
-                else:
-                    query.append((name, ",".join(_value(item) for item in value)))
-            elif value is not None:
-                query.append((name, _value(value)))
+            _query_value(query, parameter, value)
         elif location == "header":
-            credential_headers = {
-                str(scheme.get("name", "")).casefold()
-                for scheme in CONTRACT["security_schemes"].values()
-                if scheme.get("type") == "apiKey" and scheme.get("in") == "header"
-            }
-            if name.casefold() in credential_headers | {
-                "authorization",
-                "cookie",
-                "host",
-                "x-api-key",
-            }:
-                raise ValueError("Authentication headers are controlled by credentials")
-            rendered = _value(value)
-            if any(c in rendered for c in "\r\n\x00"):
-                raise ValueError("Invalid header parameter")
-            headers[name] = rendered
+            headers[name] = _header_value(name, value)
     if "{" in path or "}" in path:
         raise ValueError("Missing path parameter")
     return path, query, headers
@@ -158,13 +171,7 @@ class OpenApiClient:
     def close(self):
         self.session.close()
 
-    def execute(self, domain: str, arguments: dict[str, Any]):
-        if domain not in CONTRACT["domains"]:
-            raise ValueError("Unknown domain")
-        validate(arguments, CONTRACT["schemas"][domain][0])
-        operation = CONTRACT["operations"][arguments["action"]]
-        if operation["domain"] != domain:
-            raise ValueError("Action is outside this domain")
+    def _authorize(self, operation):
         if not operation["read_only"] and not self.allow_writes:
             raise PermissionError("Writes require explicit operator enablement")
         requirements = operation["security"]
@@ -173,6 +180,15 @@ class OpenApiClient:
             for choice in requirements
         ):
             raise PermissionError("Action requires a supported credential reference")
+
+    def execute(self, domain: str, arguments: dict[str, Any]):
+        if domain not in CONTRACT["domains"]:
+            raise ValueError("Unknown domain")
+        validate(arguments, CONTRACT["schemas"][domain][0])
+        operation = CONTRACT["operations"][arguments["action"]]
+        if operation["domain"] != domain:
+            raise ValueError("Action is outside this domain")
+        self._authorize(operation)
         path, query, headers = _parameters(operation, arguments)
         target = self.session.base_url.join(path)
         origin = self.session.base_url
@@ -186,68 +202,18 @@ class OpenApiClient:
             )
         options = {"params": query, "headers": headers, "follow_redirects": False}
         if "body" in arguments:
-            body = arguments["body"]
-            if len(json.dumps(body).encode()) > MAX_BYTES:
-                raise ValueError("Request size limit exceeded")
-            media = operation["content_type"]
-            if media == "application/json":
-                options["json"] = body
-            elif media == "application/x-www-form-urlencoded":
-                options["data"] = body
-            elif media == "multipart/form-data":
-                options.update(
-                    _multipart(
-                        body,
-                        operation["input"]["properties"]["body"],
-                        CONTRACT["definitions"],
-                    )
-                )
+            options.update(_request_body(operation, arguments["body"]))
         return self._send(operation, path, options)
 
     def _send(self, operation, path, options):
-        body = bytearray()
         deadline = time.monotonic() + 60
         with self.session.stream(operation["method"], path, **options) as response:
             if not 200 <= response.status_code < 300:
                 raise RuntimeError(
                     f"Provider returned HTTP {response.status_code}; no automatic retry"
                 )
-            for chunk in response.iter_bytes():
-                if time.monotonic() > deadline or len(body) + len(chunk) > MAX_BYTES:
-                    raise RuntimeError("Provider response limit exceeded")
-                body.extend(chunk)
-            content_type = (
-                response.headers.get("content-type", "").split(";", 1)[0].strip()
-            )
-            expected = operation["responses"].get(str(response.status_code))
-            if expected is None:
-                raise ValueError("Undeclared provider success status")
-            if not expected:
-                if body:
-                    raise ValueError("Unexpected provider response body")
-                content_type, data = "", None
-            elif content_type not in expected:
-                raise ValueError("Undeclared provider response media type")
-            elif (
-                operation["response_modes"][str(response.status_code)][content_type]
-                == "json"
-            ):
-                try:
-                    data = json.loads(body)
-                except (ValueError, UnicodeDecodeError) as exc:
-                    raise ValueError("Provider response is not JSON") from exc
-            elif (
-                operation["response_modes"][str(response.status_code)][content_type]
-                == "text"
-            ):
-                try:
-                    data = body.decode(response.charset_encoding or "utf-8")
-                except (UnicodeDecodeError, LookupError) as exc:
-                    raise ValueError(
-                        "Provider text response cannot be decoded"
-                    ) from exc
-            else:
-                data = base64.b64encode(body).decode()
+            body = _read_response(response, deadline)
+            content_type, data = _response_value(operation, response, body)
             result = {
                 "action": operation["action"],
                 "status": response.status_code,
@@ -256,6 +222,60 @@ class OpenApiClient:
             }
             validate(result, CONTRACT["schemas"][operation["domain"]][1])
             return result
+
+
+def _request_body(operation, body):
+    if len(json.dumps(body).encode()) > MAX_BYTES:
+        raise ValueError("Request size limit exceeded")
+    media = operation["content_type"]
+    if media == "application/json":
+        return {"json": body}
+    if media == "application/x-www-form-urlencoded":
+        return {"data": body}
+    if media == "multipart/form-data":
+        return _multipart(
+            body, operation["input"]["properties"]["body"], CONTRACT["definitions"]
+        )
+    return {}
+
+
+def _read_response(response, deadline):
+    body = bytearray()
+    for chunk in response.iter_bytes():
+        if time.monotonic() > deadline or len(body) + len(chunk) > MAX_BYTES:
+            raise RuntimeError("Provider response limit exceeded")
+        body.extend(chunk)
+    return body
+
+
+def _decode_response(mode, response, body):
+    if mode == "json":
+        try:
+            return json.loads(body)
+        except (ValueError, UnicodeDecodeError) as exc:
+            raise ValueError("Provider response is not JSON") from exc
+    if mode == "text":
+        try:
+            return body.decode(response.charset_encoding or "utf-8")
+        except (UnicodeDecodeError, LookupError) as exc:
+            raise ValueError("Provider text response cannot be decoded") from exc
+    return base64.b64encode(body).decode()
+
+
+def _response_value(operation, response, body):
+    content_type = response.headers.get("content-type", "").split(";", 1)[0].strip()
+    status = str(response.status_code)
+    expected = operation["responses"].get(status)
+    if expected is None:
+        raise ValueError("Undeclared provider success status")
+    if not expected:
+        if body:
+            raise ValueError("Unexpected provider response body")
+        return "", None
+    if content_type not in expected:
+        raise ValueError("Undeclared provider response media type")
+    mode = operation["response_modes"][status][content_type]
+    return content_type, _decode_response(mode, response, body)
 
 
 class OpenApiTool(Tool):

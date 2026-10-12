@@ -2,6 +2,26 @@
 
 This page covers running `artcraft-api` as long-lived servers.
 
+## Build from a reviewed source commit
+
+The production Dockerfile installs the local package and its MCP runtime extra.
+No prebuilt ArtCraft connector image is currently verified. Build only on an
+approved image-build host, using the exact reviewed checkout as the context:
+
+```bash
+SOURCE_COMMIT=$(git rev-parse --verify 'HEAD^{commit}')
+git archive --format=tar "$SOURCE_COMMIT" | docker build \
+  --file docker/Dockerfile --target mcp \
+  --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
+  --tag artcraft-api:mcp-local -
+```
+
+A source commit does not freeze the index-resolved dependency closure. The shared
+[runtime artifact contract](https://github.com/Knuckles-Team/pipelines/blob/7b3d18d72b5622d455ece3bbe45a9482bc6e8b5e/reference/container-runtime.md)
+defines separate artifact qualification. This source correction does not build,
+publish, qualify or deploy an image. Transport examples below require a separately
+approved and verified environment.
+
 > `artcraft-api` ships an **MCP server** (console script `artcraft-mcp`).
 
 <!-- BEGIN GENERATED: deployment-options -->

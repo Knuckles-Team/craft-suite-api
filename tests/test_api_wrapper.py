@@ -1,25 +1,33 @@
+"""Transport boundaries exercised through the production operation-bound client."""
 
 import ssl
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import bearer_auth
+from agent_connector_sdk.auth.static import api_key_auth
+from agent_connector_sdk.http.errors import TlsVerificationError
 from agent_connector_sdk.tls.errors import TransportSecurityError
 from agent_connector_sdk.tls.resolve import resolve_tls_profile
 
-from artcraft_api.api import ApiClientBase
-from artcraft_api.api import api_client_base
+from artcraft_api import openapi_runtime
+from artcraft_api.api import ApiClientSystem
+
+ACTION = "omni_gen_audio_models_handler"
+PAYLOAD = {"success": True, "models": [{"model": "suno_music"}], "providers": []}
 
 
 @pytest.fixture
 def client_factory(monkeypatch):
-    monkeypatch.setenv("SCAFFOLD_TEST_TOKEN", "test-token")
+    monkeypatch.setenv("ARTCRAFT_FIXTURE_SESSION", "fixture-session")
     clients = []
 
-    def create(handler, base_url="https://service.example.invalid", *, allow_plaintext=False):
-        client = ApiClientBase(
-            base_url=base_url,
-            auth=bearer_auth("env://SCAFFOLD_TEST_TOKEN"),
+    def create(
+        handler, base_url="https://service.example.invalid", *, allow_plaintext=False
+    ):
+        client = ApiClientSystem(
+            base_url,
+            api_key_auth("env://ARTCRAFT_FIXTURE_SESSION", header="session"),
+            credential_scheme="signed_session",
             transport=httpx.MockTransport(handler),
             allow_plaintext=allow_plaintext,
         )
@@ -31,32 +39,56 @@ def client_factory(monkeypatch):
         client.close()
 
 
-@pytest.mark.concept("CRAFT-001")
+def execute(client, **arguments):
+    return client.execute("omni_gen", {"action": ACTION, **arguments})
+
+
 def test_request_returns_json_and_uses_sdk_auth(client_factory):
     def respond(request):
-        assert request.url == httpx.URL("https://service.example.invalid/health")
-        assert request.headers["Authorization"] == "Bearer test-token"
+        assert request.url == httpx.URL(
+            "https://service.example.invalid/v1/omni_gen/models/audio"
+        )
+        assert request.headers["session"] == "fixture-session"
+        assert "authorization" not in request.headers
         assert all(value == 30.0 for value in request.extensions["timeout"].values())
-        return httpx.Response(200, json={"ok": True})
+        return httpx.Response(200, json=PAYLOAD)
 
     client = client_factory(respond)
-    assert client.request("GET", "/health") == {"ok": True}
+    assert execute(client)["data"] == PAYLOAD
     assert client.session.follow_redirects is False
     assert client.session.trust_env is False
 
 
-@pytest.mark.parametrize("path", [
-    "https://other.example.invalid/health",
-    "//other.example.invalid/health",
-    "https://user:secret@service.example.invalid/health",
-    "https://service.example.invalid:8443/health",
-])
-def test_request_rejects_origin_or_credentials(client_factory, path):
+@pytest.mark.parametrize(
+    "path",
+    [
+        "https://other.example.invalid/catalog",
+        "//other.example.invalid/catalog",
+        "https://service.example.invalid:8443/catalog",
+        "http://service.example.invalid/catalog",
+    ],
+)
+def test_catalogued_path_cannot_escape_origin(client_factory, monkeypatch, path):
     calls = []
     client = client_factory(lambda request: calls.append(request))
-    with pytest.raises(ValueError, match="API path"):
-        client.request("GET", path)
+    monkeypatch.setitem(openapi_runtime.CONTRACT["operations"][ACTION], "path", path)
+    with pytest.raises(ValueError, match="configured provider origin"):
+        execute(client)
     assert not calls
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "https://user:secret@service.example.invalid",
+        "https://service.example.invalid/prefix",
+        "https://service.example.invalid?key=secret",
+        "https://service.example.invalid#fragment",
+    ],
+)
+def test_invalid_provider_origin_rejected(client_factory, target):
+    with pytest.raises(ValueError):
+        client_factory(lambda request: httpx.Response(200), target)
 
 
 def test_redirect_not_followed(client_factory):
@@ -64,43 +96,51 @@ def test_redirect_not_followed(client_factory):
 
     def respond(request):
         calls.append(request)
-        return httpx.Response(302, headers={"location": "https://other.example.invalid"})
+        return httpx.Response(
+            302, headers={"location": "https://other.example.invalid"}
+        )
 
-    client = client_factory(respond)
-    with pytest.raises(httpx.HTTPStatusError):
-        client.request("GET", "/health")
+    with pytest.raises(RuntimeError, match="HTTP 302"):
+        execute(client_factory(respond))
     assert len(calls) == 1
 
 
 @pytest.mark.parametrize("options", [{"follow_redirects": True}, {"timeout": None}])
 def test_request_rejects_safety_overrides(client_factory, options):
-    client = client_factory(lambda request: httpx.Response(200, json={}))
+    calls = []
+    client = client_factory(lambda request: calls.append(request))
     with pytest.raises(ValueError):
-        client.request("GET", "/health", **options)
+        execute(client, **options)
+    assert not calls
 
 
 def test_plaintext_remote_rejected(client_factory):
     with pytest.raises(ValueError, match="plaintext"):
-        client_factory(lambda request: httpx.Response(200), "http://service.example.invalid")
+        client_factory(
+            lambda request: httpx.Response(200), "http://service.example.invalid"
+        )
 
 
-def test_plaintext_opt_in_stays_on_configured_origin(client_factory):
+def test_plaintext_opt_in_stays_on_configured_origin(client_factory, monkeypatch):
     calls = []
 
     def respond(request):
         calls.append(request)
-        return httpx.Response(200, json={"ok": True})
+        return httpx.Response(200, json=PAYLOAD)
 
     client = client_factory(
         respond, "http://service.example.invalid", allow_plaintext=True
     )
-    assert client.request("GET", "/health") == {"ok": True}
+    assert execute(client)["data"] == PAYLOAD
     assert calls[0].url.scheme == "http"
-    for target in ("http://other.example.invalid/health", "https://service.example.invalid/health"):
-        with pytest.raises(ValueError, match="API path"):
-            client.request("GET", target)
+    monkeypatch.setitem(
+        openapi_runtime.CONTRACT["operations"][ACTION],
+        "path",
+        "https://service.example.invalid/catalog",
+    )
+    with pytest.raises(ValueError, match="configured provider origin"):
+        execute(client)
     assert len(calls) == 1
-    assert client.session.follow_redirects is False
 
 
 def test_plaintext_opt_in_does_not_downgrade_https(client_factory):
@@ -113,11 +153,8 @@ def test_plaintext_opt_in_does_not_downgrade_https(client_factory):
         except ssl.SSLCertVerificationError as exc:
             raise httpx.ConnectError("TLS handshake failed", request=request) from exc
 
-    from agent_connector_sdk.http.errors import TlsVerificationError
-
-    client = client_factory(fail_tls, allow_plaintext=True)
     with pytest.raises(TlsVerificationError):
-        client.request("GET", "/health")
+        execute(client_factory(fail_tls, allow_plaintext=True))
     assert len(calls) == 1
     assert calls[0].url.scheme == "https"
 
@@ -135,10 +172,11 @@ def test_tls_cannot_disable_verification():
 
 
 def test_oversized_response_rejected(client_factory, monkeypatch):
-    monkeypatch.setattr(api_client_base, "_MAX_RESPONSE_BYTES", 8)
-    client = client_factory(lambda request: httpx.Response(200, content=b"too large"))
-    with pytest.raises(RuntimeError, match="size limit"):
-        client.request("GET", "/health")
+    monkeypatch.setattr(openapi_runtime, "MAX_BYTES", 8)
+    with pytest.raises(RuntimeError, match="response limit"):
+        execute(
+            client_factory(lambda request: httpx.Response(200, content=b"too large"))
+        )
 
 
 def test_stream_without_length_still_bounded(client_factory, monkeypatch):
@@ -147,18 +185,16 @@ def test_stream_without_length_still_bounded(client_factory, monkeypatch):
             yield b"first"
             yield b"second"
 
-    monkeypatch.setattr(api_client_base, "_MAX_RESPONSE_BYTES", 8)
-    client = client_factory(lambda request: httpx.Response(200, stream=Chunks()))
-    with pytest.raises(RuntimeError, match="size limit"):
-        client.request("GET", "/health")
+    monkeypatch.setattr(openapi_runtime, "MAX_BYTES", 8)
+    with pytest.raises(RuntimeError, match="response limit"):
+        execute(client_factory(lambda request: httpx.Response(200, stream=Chunks())))
 
 
 def test_response_deadline_enforced(client_factory, monkeypatch):
     class SlowChunk(httpx.SyncByteStream):
         def __iter__(self):
-            monkeypatch.setattr(api_client_base.time, "monotonic", lambda: float("inf"))
+            monkeypatch.setattr(openapi_runtime.time, "monotonic", lambda: float("inf"))
             yield b"late"
 
-    client = client_factory(lambda request: httpx.Response(200, stream=SlowChunk()))
-    with pytest.raises(RuntimeError, match="time limit"):
-        client.request("GET", "/health")
+    with pytest.raises(RuntimeError, match="response limit"):
+        execute(client_factory(lambda request: httpx.Response(200, stream=SlowChunk())))

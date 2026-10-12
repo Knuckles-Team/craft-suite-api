@@ -1,7 +1,7 @@
 # Usage and validation boundary
 
 The current backend connector has three tools and eight source-reviewed actions.
-See [README](../README.md#supported-operations) for the exact allowlist and
+See [README](https://github.com/Knuckles-Team/artcraft-api/blob/main/README.md#supported-operations) for the exact allowlist and
 configuration. All operation inputs and outputs are generated from the reviewed
 subset in `api-spec/artcraft.reviewed.openapi.json`.
 
@@ -18,5 +18,10 @@ facet parity and actual deployment compatibility remain unverified. The video
 catalog is withheld after detected schema drift; two optional folder properties
 are explicitly derived from the pinned Rust declarations.
 
-No live service tests or ingestion acceptance receipts are claimed. Existing
-starter ontology/ingestion examples require a separate ArtCraft semantic review.
+No live service tests or ingestion acceptance receipts are claimed. Graph ingestion is unavailable. A tenant/source-scoped mapping and complete receipt contract require a separate ArtCraft semantic review.
+
+Tag/folder list `limit` inputs are optional unsigned 32-bit integers (0 through 4294967295); overflow is rejected locally. The provider still applies its 1000-row page clamp.
+
+Native confirmation is validated with FastMCP legacy negotiation. The tested SDK
+rejects server-initiated elicitation on protocol 2026-07-28, so cache-effectful
+operations fail closed on that protocol. Public catalog reads remain available.

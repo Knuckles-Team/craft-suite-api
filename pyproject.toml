@@ -92,3 +92,6 @@ include = ["artcraft_api*"]
 
 [tool.vulture]
 ignore_names = ["request", "config"]
+
+[tool.pipelines_hooks.stdout_writes]
+served_paths = ["artcraft_api"]

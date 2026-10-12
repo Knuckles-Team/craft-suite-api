@@ -1492,6 +1492,7 @@
               },
               "limit": {
                 "format": "int32",
+                "maximum": 4294967295,
                 "minimum": 0,
                 "type": [
                   "integer",
@@ -1527,6 +1528,7 @@
           "required": false,
           "schema": {
             "format": "int32",
+            "maximum": 4294967295,
             "minimum": 0,
             "type": [
               "integer",
@@ -1672,6 +1674,7 @@
               },
               "limit": {
                 "format": "int32",
+                "maximum": 4294967295,
                 "minimum": 0,
                 "type": [
                   "integer",
@@ -1707,6 +1710,7 @@
           "required": false,
           "schema": {
             "format": "int32",
+            "maximum": 4294967295,
             "minimum": 0,
             "type": [
               "integer",
@@ -2027,6 +2031,7 @@
                   },
                   "limit": {
                     "format": "int32",
+                    "maximum": 4294967295,
                     "minimum": 0,
                     "type": [
                       "integer",
@@ -3659,6 +3664,7 @@
                   },
                   "limit": {
                     "format": "int32",
+                    "maximum": 4294967295,
                     "minimum": 0,
                     "type": [
                       "integer",
@@ -3826,6 +3832,6 @@
       "type": "apiKey"
     }
   },
-  "source_sha256": "9de554175feabf72e544041b997a139e1bff18f50a34de60749fff52be254ea6",
+  "source_sha256": "9a9b1a3698f90753130b5f8992081d5feafdc335001a7c7516bf4c6376da1587",
   "version": 1
 }

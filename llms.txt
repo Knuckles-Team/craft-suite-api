@@ -13,11 +13,11 @@
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns external-system operations and source mappings. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 ## Installation
 
-- [Installation](https://knuckles-team.github.io/artcraft-api/installation/) — artcraft-api is a standard Python package and a prebuilt container image.
+- [Installation](https://knuckles-team.github.io/artcraft-api/installation/) — This private repository currently provides source. No ArtCraft connector PyPI release or prebuilt image has been verified. A passing source test does not establish package availability, image startup, or a live deployment.
 
 ## Deployment
 

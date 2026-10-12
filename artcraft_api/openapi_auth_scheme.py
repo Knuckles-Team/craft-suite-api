@@ -45,6 +45,10 @@ def declared_scheme(
         return ProviderAuthScheme(name, AuthKind.BEARER)
     if definition.get("type") != "apiKey" or definition.get("in") != "header":
         raise ValueError("Unsupported provider authentication scheme")
+    return ProviderAuthScheme(name, AuthKind.HEADER, _credential_header(definition))
+
+
+def _credential_header(definition):
     header = definition.get("name")
     if not isinstance(header, str) or not re.fullmatch(
         r"[!#$%&'*+.^_`|~0-9A-Za-z-]+", header
@@ -60,4 +64,4 @@ def declared_scheme(
         "cookie",
     }:
         raise ValueError("Credential header conflicts with HTTP transport")
-    return ProviderAuthScheme(name, AuthKind.HEADER, header)
+    return header

@@ -5,11 +5,10 @@ typed, action-routed connector.
 
 !!! info "Official documentation"
     This site is the canonical reference for `artcraft-api`, maintained alongside
-    every release.
+    the source. Package and image releases remain unverified.
 
-[![PyPI](https://img.shields.io/pypi/v/artcraft-api)](https://pypi.org/project/artcraft-api/)
 ![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')
-[![License](https://img.shields.io/pypi/l/artcraft-api)](https://github.com/Knuckles-Team/artcraft-api/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Knuckles-Team/artcraft-api/blob/main/LICENSE)
 [![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/Knuckles-Team/artcraft-api)
 
 ## Overview
@@ -23,7 +22,7 @@ profile when invoked. Discovery requires no vendor credentials or live service.
 
 <div class="grid cards" markdown>
 
-- :material-rocket-launch: **[Installation](installation.md)** — pip, source, extras, and the prebuilt Docker image.
+- :material-rocket-launch: **[Installation](installation.md)** — source environment and the unqualified local-source image recipe.
 - :material-server-network: **[Deployment](deployment.md)** — run local transports or connect through an authenticated TLS ingress.
 - :material-console: **[Usage](usage.md)** — the MCP tools, the Python client, and the CLI.
 - :material-database-cog: **[Backing Platform](platform.md)** — deploy the target service with Docker.

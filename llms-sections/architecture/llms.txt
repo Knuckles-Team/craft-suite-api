@@ -5,7 +5,7 @@
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns external-system operations and source mappings. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 ## Standards maturity
 
