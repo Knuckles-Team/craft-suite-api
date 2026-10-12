@@ -1,4 +1,15 @@
 {
+  "evidence_storage": {
+    "bundled": false,
+    "historical_capture_commit": "bf7207daa6c56ff29c82fcc863864d6a34e56cb7",
+    "historical_capture_directory": "api-spec",
+    "note": "Full upstream snapshots are removed from the current working tree. Regeneration verifies externally provided exact bytes against these hashes. Original captures remain in the cited historical commit and local validation evidence.",
+    "public_schema_origin": "https://storyteller-docs.netlify.app/api.json",
+    "required_layout": [
+      "artcraft.public.openapi.json",
+      "source/<upstream path>"
+    ]
+  },
   "operations": [
     {
       "auth": "public",
@@ -95,123 +106,153 @@
   "source_files": {
     "crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs": {
       "git_blob_sha": "d50b855e7aebefc8df1e82ce825f42d75f6eaac8",
-      "sha256": "0ef3f774724aa227b9b6a2cfd92bc47363455a8af6d0cd74ff4411da8cde7088"
+      "sha256": "0ef3f774724aa227b9b6a2cfd92bc47363455a8af6d0cd74ff4411da8cde7088",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs": {
       "git_blob_sha": "25a1d5a27e41fa8346d49f93d46a589adb714742",
-      "sha256": "6beeadd26c052603a8222dba0dd16950a9bce41891a3483faa712c4d5551f09b"
+      "sha256": "6beeadd26c052603a8222dba0dd16950a9bce41891a3483faa712c4d5551f09b",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs": {
       "git_blob_sha": "848081305301c02abfcbf2fddbfd2784ae9df026",
-      "sha256": "4e219337c358cd1371b0bcfcb225c9d007a3b215ed4ccc8e7ba5d399d7cd771b"
+      "sha256": "4e219337c358cd1371b0bcfcb225c9d007a3b215ed4ccc8e7ba5d399d7cd771b",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs": {
       "git_blob_sha": "119d2fb38b26f06ff99b4119910752a374c63312",
-      "sha256": "c1cbda77eb3e329cafa1bf16ccded77af1563af26a122ce71decb6f707a5e03b"
+      "sha256": "c1cbda77eb3e329cafa1bf16ccded77af1563af26a122ce71decb6f707a5e03b",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs": {
       "git_blob_sha": "0707e59de325cb4f1c2cdf80c36b1e3ae2b027fd",
-      "sha256": "9d69caec8131510231179b2bbce8b5fd6f1beff09af983be87787efedbe3a61c"
+      "sha256": "9d69caec8131510231179b2bbce8b5fd6f1beff09af983be87787efedbe3a61c",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs": {
       "git_blob_sha": "ed9212103f35745da77ebb565174e86482f7fdf9",
-      "sha256": "4ec035009abbb6dc2d7c45afc200864d3cab454d0acf235d23d6ddadca9725d0"
+      "sha256": "4ec035009abbb6dc2d7c45afc200864d3cab454d0acf235d23d6ddadca9725d0",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_video_models.rs": {
       "git_blob_sha": "4492859797b99dbbe291de29ad9c2877fb5285e0",
-      "sha256": "59c078dbd942022e14627a68320d0cc4ccf621587dd7e427c7318174de12ec51"
+      "sha256": "59c078dbd942022e14627a68320d0cc4ccf621587dd7e427c7318174de12ec51",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_video_models.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/tags/common.rs": {
       "git_blob_sha": "bff534caddf850e7f1e684f213658b4b1764d190",
-      "sha256": "5506d0722ac3b9654fd1dcacc48755ac31006eb5ad729551549bfbc3c422190e"
+      "sha256": "5506d0722ac3b9654fd1dcacc48755ac31006eb5ad729551549bfbc3c422190e",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/common.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs": {
       "git_blob_sha": "d9d8fdd7d44024553c8f8b7ed75ad2206c120d18",
-      "sha256": "2b6214f68998950164683509357bfdd936e12d5fcebe70d71cad1ab9b6efc6d0"
+      "sha256": "2b6214f68998950164683509357bfdd936e12d5fcebe70d71cad1ab9b6efc6d0",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs"
     },
     "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs": {
       "git_blob_sha": "ec11ad06c9d782f5744550da8974ae8cce27b8a2",
-      "sha256": "427634751f47bd2e9bf13fde9816a787f64b826bdec406e32ded2fcaf1f73b32"
+      "sha256": "427634751f47bd2e9bf13fde9816a787f64b826bdec406e32ded2fcaf1f73b32",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs"
     },
     "crates/lib/actix_artcraft/src/sessions/user_sessions/http_user_session_manager.rs": {
       "git_blob_sha": "090ae176e51c7d6c60971dd7e8bb6e9c0e43e584",
-      "sha256": "db4738285b59f109a4da641eae396d0219531be0f0ab303ea322d3a31a62e1f8"
+      "sha256": "db4738285b59f109a4da641eae396d0219531be0f0ab303ea322d3a31a62e1f8",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/lib/actix_artcraft/src/sessions/user_sessions/http_user_session_manager.rs"
     },
     "crates/lib/caching/redis_caching/src/redis_ttl_cache.rs": {
       "git_blob_sha": "fa9ea963ef0eb6de80b21a0ca7993b55b65b7e7e",
-      "sha256": "7b41a8db87168e6b785d4dcc25cb038adc02b6a546dffb4cf4c72cc56c29d6ff"
+      "sha256": "7b41a8db87168e6b785d4dcc25cb038adc02b6a546dffb4cf4c72cc56c29d6ff",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/lib/caching/redis_caching/src/redis_ttl_cache.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs": {
       "git_blob_sha": "bcca1a4238d0b1bed53c927189f52a3565f4bfe8",
-      "sha256": "4596c7bda824b8060359fbf90cc5f650548bef7995cb96448a4f009776c4257f"
+      "sha256": "4596c7bda824b8060359fbf90cc5f650548bef7995cb96448a4f009776c4257f",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs": {
       "git_blob_sha": "5cdb4a6798c5ea6c6f20a69724a37ef559137122",
-      "sha256": "97c0d36bbba5ed472523821158ef47ff5464427fd59ddda925de1801e47cb877"
+      "sha256": "97c0d36bbba5ed472523821158ef47ff5464427fd59ddda925de1801e47cb877",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/inference_job/get/get_inference_job_status_handler.rs": {
       "git_blob_sha": "62b8eae326a1ecbe4ab3c9b24e9504d70f2c415c",
-      "sha256": "544a4c1da0a24687b12ff02ecbdfd9ab596436cd0816d2dd70a8ec388674bead"
+      "sha256": "544a4c1da0a24687b12ff02ecbdfd9ab596436cd0816d2dd70a8ec388674bead",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/inference_job/get/get_inference_job_status_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_api/job_status/get_job_status_handler.rs": {
       "git_blob_sha": "d0d054ff53d358adc5b64f3b7df5a4ebb66a5ca8",
-      "sha256": "38cd83fc3fe52305823dea0f148402f0ec312e5c389a8a4ece90f22d840782f8"
+      "sha256": "38cd83fc3fe52305823dea0f148402f0ec312e5c389a8a4ece90f22d840782f8",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_api/job_status/get_job_status_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs": {
       "git_blob_sha": "5a03bc5e5e4072fce1a88668610192d7d941e78b",
-      "sha256": "421da294afbe5fb16edffe1137d5b12c48a891aff7e46e33332042c8b084a8d9"
+      "sha256": "421da294afbe5fb16edffe1137d5b12c48a891aff7e46e33332042c8b084a8d9",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs": {
       "git_blob_sha": "2e236aa82688054a943a08f311c7f8de887dccd9",
-      "sha256": "6f84c4641d4911715d6fc500baeedd00e09da207c2c21bd4537a357b2aa72e71"
+      "sha256": "6f84c4641d4911715d6fc500baeedd00e09da207c2c21bd4537a357b2aa72e71",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs": {
       "git_blob_sha": "8117ded4d5ef71666fb40dc1f39a11e95b263192",
-      "sha256": "42a8664776b86a0e38c29bc8ac4bc2334050aee5a0776622227e4c0c5d64ae2a"
+      "sha256": "42a8664776b86a0e38c29bc8ac4bc2334050aee5a0776622227e4c0c5d64ae2a",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs": {
       "git_blob_sha": "4e55c6820078fe9376d1e81c5dbcfa17a8c17a94",
-      "sha256": "a8b5d504178f15783eb37874ec9651d8f501029057bbb29141972e08f5a3fc97"
+      "sha256": "a8b5d504178f15783eb37874ec9651d8f501029057bbb29141972e08f5a3fc97",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/video/omni_gen_video_models_handler.rs": {
       "git_blob_sha": "f0ca81f0a81daff2505831954dfa215351a9768c",
-      "sha256": "522df99df3faaa357528a7897bb404aea8577c71eb3e4c3aba37f182e2bfdaca"
+      "sha256": "522df99df3faaa357528a7897bb404aea8577c71eb3e4c3aba37f182e2bfdaca",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/video/omni_gen_video_models_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs": {
       "git_blob_sha": "d9f937476279bec80d28e47a62272d7b3ffb6f8f",
-      "sha256": "8fef5145d1423d4b8e5e78d75d9a052eb87b13dbc49c3df75ad2ad56c42c0aca"
+      "sha256": "8fef5145d1423d4b8e5e78d75d9a052eb87b13dbc49c3df75ad2ad56c42c0aca",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs": {
       "git_blob_sha": "8e21c867b4d9e519a56d3245b908f70b165942bc",
-      "sha256": "524a99a185933c3c6306a30f40792d72488d354ebb8019c6f9115774863ac197"
+      "sha256": "524a99a185933c3c6306a30f40792d72488d354ebb8019c6f9115774863ac197",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs": {
       "git_blob_sha": "e739fd4b657debf1e04b41b7ee118cf3ee2500a8",
-      "sha256": "5bdcdad8f6b376ee7903697bd1081a65721221da52f5c73761abf9a2bb01ac9a"
+      "sha256": "5bdcdad8f6b376ee7903697bd1081a65721221da52f5c73761abf9a2bb01ac9a",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/application_routes/add_application_routes.rs": {
       "git_blob_sha": "d413f221c11530ac0ac6cff3381a8c36d3d8bba6",
-      "sha256": "5c36df05174a0dfcabc4b12249d284912f0f9abdf301448cd118c3e4d4d238e6"
+      "sha256": "5c36df05174a0dfcabc4b12249d284912f0f9abdf301448cd118c3e4d4d238e6",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/add_application_routes.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs": {
       "git_blob_sha": "f9c339f18e459f4f92dd47e12b54114908734e55",
-      "sha256": "22b1aaa9401aaaf5768c5c6d42fb9eaeade784e769a3d207ff8eb272768332f3"
+      "sha256": "22b1aaa9401aaaf5768c5c6d42fb9eaeade784e769a3d207ff8eb272768332f3",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs": {
       "git_blob_sha": "abd686e1a5ace65aba5a11fa2730f6878b6fed07",
-      "sha256": "0dbe7ac7e1ca96b2e5bb910ccf29cc0ffd6d73d543f7bf27bf86ee58d2ac3c39"
+      "sha256": "0dbe7ac7e1ca96b2e5bb910ccf29cc0ffd6d73d543f7bf27bf86ee58d2ac3c39",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs": {
       "git_blob_sha": "04af800ade04239ef3bcdfe372f229861125e63f",
-      "sha256": "67270431ffada5d2aedfe9895c8e52f4e9b97bc1e9ee1123c84087c16f6f2bb5"
+      "sha256": "67270431ffada5d2aedfe9895c8e52f4e9b97bc1e9ee1123c84087c16f6f2bb5",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/require_user_session.rs": {
       "git_blob_sha": "57c48b3bf94c0e611c5b7971ca49b5fa9189a227",
-      "sha256": "ad22f63082da33221f7d29ab2f683f145312e3abaf522532429acde4b573c909"
+      "sha256": "ad22f63082da33221f7d29ab2f683f145312e3abaf522532429acde4b573c909",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/require_user_session.rs"
     },
     "crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/session_utils/session_checker.rs": {
       "git_blob_sha": "2e0c0fa98d3cdcac73894873ab450f9a13a3d53c",
-      "sha256": "9f11cbe90f601c9817898a265cc189ccb59110d7855c23cf51b0a81bcc371d33"
+      "sha256": "9f11cbe90f601c9817898a265cc189ccb59110d7855c23cf51b0a81bcc371d33",
+      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/session_utils/session_checker.rs"
     }
   },
   "source_schema_addition_evidence": {

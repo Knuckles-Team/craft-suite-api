@@ -4,26 +4,20 @@ Governing specification: [spec.md](spec.md).
 
 ## Existing system and reuse
 
-The connector reuses the SDK server factory, credential resolver, HTTP client, and typed ingest service.
+The connector reuses the SDK server factory, credential resolver, and HTTP client. Ingestion is unavailable in this version.
 The connector owns operation arguments, external-system mappings, and package content.
 
-Component: Connector integration
-References: [Connector SDK](https://github.com/Knuckles-Team/agent-connector-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md)
-Code: ../../artcraft_api/auth.py ../../artcraft_api/openapi_runtime.py ../../artcraft_api/mcp_server.py ../../artcraft_api/mcp/__init__.py ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../scripts/generate_tool_schemas.py
+The governing [specification](spec.md) records component ownership and source bindings.
+The [architecture page](../../docs/architecture.md) shows the active request path.
+No graph-ingestion path is enabled.
 
-## Architecture
+## Implementation units
 
-```mermaid
-flowchart LR
-    Caller[Authorized caller] --> Server[MCP server]
-    Server --> Router[Operation router]
-    Router --> Client[Connector API client]
-    Client --> Vendor[Configured external system]
-    Resolver[Credential references and TLS policy] --> Client
-    Content[Packaged skills prompts ontology manifest] --> Server
-    Source[Authorized source observations] --> Mapper[Connector ingest mapper]
-    Mapper --> SDK[Shared connector ingest service]
-```
+- `artcraft_api/openapi_schema.py`: captured contract and bounded validation.
+- `artcraft_api/openapi_parameters.py`: declared path/query/header serialization.
+- `artcraft_api/openapi_client.py`: origin, permission and HTTP dispatch policy.
+- `artcraft_api/openapi_responses.py`: bounded response reading and decoding.
+- `artcraft_api/openapi_runtime.py`: native MCP routing and confirmation.
 
 ## Interfaces and live integration path
 
@@ -31,7 +25,7 @@ flowchart LR
 `get_mcp_instance` calls `create_mcp_server`, `register_tool_surface`, and the package tool registrars.
 `artcraft_api/mcp/__init__.py` routes selected operations through `get_client` and the API client.
 `artcraft_api/auth.py` resolves references only when a caller requests a client.
-`artcraft_api/openapi_runtime.py` enforces transport and response limits before returning external data.
+`artcraft_api/openapi_client.py` enforces transport and response limits before returning external data.
 Graph ingestion is withheld until a tenant/source-scoped mapping and complete receipt contract have been reviewed.
 The SDK owns engine transport and durable checkpoints.
 

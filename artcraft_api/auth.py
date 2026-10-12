@@ -1,4 +1,4 @@
-"""Resolve provider credentials and delegated caller auth through canonical SDK APIs."""
+"""Resolve provider credentials through canonical SDK APIs and owned resources."""
 
 from contextlib import ExitStack
 
@@ -12,10 +12,59 @@ from agent_connector_sdk.tls.resolve import resolve_tls_profile
 
 from .api import ApiClientSystem
 from .openapi_auth_scheme import AuthKind, declared_scheme
-from .openapi_runtime import CONTRACT
+from .openapi_client import ClientPolicy
+from .openapi_schema import CONTRACT
 
 _client = None
 _resources = ExitStack()
+
+
+def _reference_auth(definition):
+    reference = setting("ARTCRAFT_API_TOKEN_REF", "")
+    if not reference:
+        return httpx.Auth(), None
+    if definition is None:
+        raise ValueError("Unsupported provider authentication scheme")
+    if definition.kind is AuthKind.HEADER:
+        return api_key_auth(reference, header=definition.header), definition.name
+    return bearer_auth(reference), definition.name
+
+
+def _delegated_auth(definition, delegation, resources):
+    if definition is None or definition.kind is not AuthKind.BEARER:
+        raise ValueError("Delegation requires a declared HTTP bearer auth scheme")
+    token_tls = resolve_tls_profile("oidc")
+    resources.callback(token_tls.cleanup)
+    token_client = create_http_client(
+        HttpClientOptions(base_url=delegation.token_endpoint, tls=token_tls)
+    )
+    resources.callback(token_client.close)
+    return DelegatedTokenAuth(delegation, http_client=token_client), definition.name
+
+
+def _build_client(base_url, resources):
+    scheme = setting("ARTCRAFT_API_AUTH_SCHEME", "signed_session")
+    definition = declared_scheme(scheme, CONTRACT["security_schemes"])
+    tls = resolve_tls_profile("artcraft-api")
+    resources.callback(tls.cleanup)
+    delegation = DelegationSettings.from_settings()
+    if delegation.enabled:
+        auth, credential_scheme = _delegated_auth(definition, delegation, resources)
+    else:
+        auth, credential_scheme = _reference_auth(definition)
+    policy = ClientPolicy(
+        allow_writes=setting("ARTCRAFT_API_ALLOW_WRITES", False),
+        allow_plaintext=setting("ARTCRAFT_API_ALLOW_PLAINTEXT", False),
+    )
+    client = ApiClientSystem(
+        base_url=base_url,
+        auth=auth,
+        tls_profile=tls,
+        credential_scheme=credential_scheme,
+        policy=policy,
+    )
+    resources.callback(client.close)
+    return client
 
 
 def get_client():
@@ -27,47 +76,8 @@ def get_client():
     base_url = setting("ARTCRAFT_API_BASE_URL", "")
     if not base_url:
         raise ValueError("Provider base URL is required")
-    scheme = setting("ARTCRAFT_API_AUTH_SCHEME", "signed_session")
-    definition = declared_scheme(scheme, CONTRACT["security_schemes"])
-    is_bearer = definition is not None and definition.kind is AuthKind.BEARER
     with ExitStack() as resources:
-        tls = resolve_tls_profile("artcraft-api")
-        resources.callback(tls.cleanup)
-        delegation = DelegationSettings.from_settings()
-        credential_scheme = None
-        if delegation.enabled:
-            if not is_bearer:
-                raise ValueError(
-                    "Delegation requires a declared HTTP bearer auth scheme"
-                )
-            token_tls = resolve_tls_profile("oidc")
-            resources.callback(token_tls.cleanup)
-            token_client = create_http_client(
-                HttpClientOptions(base_url=delegation.token_endpoint, tls=token_tls)
-            )
-            resources.callback(token_client.close)
-            auth = DelegatedTokenAuth(delegation, http_client=token_client)
-            credential_scheme = scheme
-        else:
-            reference = setting("ARTCRAFT_API_TOKEN_REF", "")
-            auth = httpx.Auth()
-            if reference:
-                if definition is not None and definition.kind is AuthKind.HEADER:
-                    auth = api_key_auth(reference, header=definition.header)
-                elif is_bearer:
-                    auth = bearer_auth(reference)
-                else:
-                    raise ValueError("Unsupported provider authentication scheme")
-                credential_scheme = scheme
-        client = ApiClientSystem(
-            base_url=base_url,
-            auth=auth,
-            tls_profile=tls,
-            credential_scheme=credential_scheme,
-            allow_writes=setting("ARTCRAFT_API_ALLOW_WRITES", False),
-            allow_plaintext=setting("ARTCRAFT_API_ALLOW_PLAINTEXT", False),
-        )
-        resources.callback(client.close)
+        client = _build_client(base_url, resources)
         _resources = resources.pop_all()
         _client = client
     return client

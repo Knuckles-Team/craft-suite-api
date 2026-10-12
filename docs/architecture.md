@@ -19,7 +19,7 @@ flowchart LR
 |---|---|---|
 | MCP entry and routing | `artcraft_api/mcp_server.py`, `artcraft_api/mcp/__init__.py` | `tests/test_artcraft_mcp_validation.py` |
 | Credentials and TLS | `artcraft_api/auth.py` | `tests/test_auth.py` |
-| External requests | `artcraft_api/api/api_client_system.py`, `artcraft_api/openapi_runtime.py` | `tests/test_api_wrapper.py` |
+| External requests | `artcraft_api/api/api_client_system.py`, `artcraft_api/openapi_client.py` | `tests/test_api_wrapper.py` |
 | Native content and tool schemas | Package content and `scripts/generate_tool_schemas.py` | Live schema check; native content verification remains pending |
 | Withheld ingestion | No callable ingestion module | `tests/test_source_contract.py` verifies the starter cannot be imported |
 

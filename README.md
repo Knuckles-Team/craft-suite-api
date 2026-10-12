@@ -51,8 +51,8 @@ Graph ingestion is unavailable: no tenant-scoped ArtCraft mapping or complete re
 ## Provenance and regeneration
 
 The [official API reference](https://storyteller-docs.netlify.app/) supplies the
-captured OpenAPI document in `api-spec/artcraft.public.openapi.json` (268
-operations). Its SHA-256 and the exact pinned public GitHub source are recorded
+captured OpenAPI document (268 operations). Full upstream snapshots are not
+bundled in the current tree. Its SHA-256 and the exact pinned public GitHub source are recorded
 in `api-spec/source-review.json`. The docs host does not attest a source commit.
 
 `api-spec/source-provenance.json` records source-line links for each admitted
@@ -66,7 +66,7 @@ Use the installed, self-contained `mcp-builder` skill; no GitHub template reposi
 or template-generation API is required:
 
 ```bash
-python scripts/generate_source_contract.py --skill-dir /path/to/mcp-builder
+python scripts/generate_source_contract.py --skill-dir /path/to/mcp-builder --evidence-dir /path/to/verified-artcraft-evidence
 python scripts/generate_tool_schemas.py
 python scripts/generate_tool_schemas.py --check
 python -m pytest tests -q
@@ -76,7 +76,11 @@ pre-commit run --all-files
 The reviewed SDK factory/delegation and typed-header generator changes must be
 present in that skill. Generator file hashes are recorded with this validation
 receipt; an unreviewed generator is not a substitute. Regeneration verifies the
-captured schema/source hashes and fails on selected response-field drift.
+externally supplied schema/source hashes and fails on selected response-field drift.
+`api-spec/source-review.json` records exact source commit/blob hashes/URLs and the
+historical capture commit. Preserve original bytes in a separate evidence
+directory with `artcraft.public.openapi.json` and `source/<upstream path>`;
+no upstream code is reformatted or claimed as an identical bundled snapshot.
 
 ## Validation boundary
 

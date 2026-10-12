@@ -76,16 +76,16 @@ def verify_request(item, operation, sources, handler, evidence):
     ]
 
 
-def generate(root: Path, skill: Path):
+def generate(root: Path, skill: Path, evidence_dir: Path):
     spec_dir = root / "api-spec"
     review = json.loads((spec_dir / "source-review.json").read_text())
-    raw = (spec_dir / "artcraft.public.openapi.json").read_bytes()
+    raw = (evidence_dir / "artcraft.public.openapi.json").read_bytes()
     if hashlib.sha256(raw).hexdigest() != review["public_schema_sha256"]:
         raise ValueError("Captured public schema changed; a new review is required")
     public = json.loads(raw)
     sources = {}
     for path, expected in review["source_files"].items():
-        content = (spec_dir / "source" / path).read_bytes()
+        content = (evidence_dir / "source" / path).read_bytes()
         blob = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content)
         if (
             hashlib.sha256(content).hexdigest() != expected["sha256"]
@@ -259,10 +259,20 @@ def generate(root: Path, skill: Path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--skill-dir", type=Path, required=True)
+    parser.add_argument(
+        "--evidence-dir",
+        type=Path,
+        required=True,
+        help="External exact upstream capture directory; see source-review.json",
+    )
     args = parser.parse_args()
     print(
         json.dumps(
-            generate(Path(__file__).resolve().parents[1], args.skill_dir.resolve()),
+            generate(
+                Path(__file__).resolve().parents[1],
+                args.skill_dir.resolve(),
+                args.evidence_dir.resolve(),
+            ),
             sort_keys=True,
         )
     )

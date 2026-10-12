@@ -35,7 +35,7 @@ def test_client_resolves_reference_and_cleans_up():
         assert authorized.headers["session"] == "test-token"
         assert "test-token" not in repr(kwargs["auth"])
         assert "token" not in kwargs
-        assert kwargs["allow_plaintext"] is False
+        assert kwargs["policy"].allow_plaintext is False
         auth_module.close_client()
         client.close.assert_called_once()
         tls.cleanup.assert_called_once()
@@ -49,7 +49,7 @@ def test_plaintext_setting_is_explicit(monkeypatch, value, expected):
         patch.object(auth_module, "ApiClientSystem") as client_cls,
     ):
         auth_module.get_client()
-        assert client_cls.call_args.kwargs["allow_plaintext"] is expected
+        assert client_cls.call_args.kwargs["policy"].allow_plaintext is expected
         assert client_cls.call_args.kwargs["tls_profile"] is profile.return_value
 
 

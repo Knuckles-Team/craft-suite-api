@@ -13,7 +13,7 @@ The shared pipelines repository owns quality gates and delivery rendering.
 
 Component: Connector integration
 References: [Connector SDK](https://github.com/Knuckles-Team/agent-connector-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md)
-Code: ../../artcraft_api/auth.py ../../artcraft_api/openapi_runtime.py ../../artcraft_api/mcp_server.py ../../artcraft_api/mcp/__init__.py ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../scripts/generate_tool_schemas.py
+Code: ../../artcraft_api/auth.py ../../artcraft_api/openapi_client.py ../../artcraft_api/openapi_runtime.py ../../artcraft_api/mcp_server.py ../../artcraft_api/mcp/__init__.py ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../scripts/generate_tool_schemas.py
 
 ## Non-goals
 

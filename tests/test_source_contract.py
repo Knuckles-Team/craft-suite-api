@@ -10,6 +10,7 @@ import pytest
 from agent_connector_sdk.auth.static import api_key_auth
 
 from artcraft_api.api import ApiClientSystem
+from artcraft_api.openapi_client import ClientPolicy
 from artcraft_api.openapi_runtime import CONTRACT
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -121,7 +122,7 @@ def test_every_reviewed_operation_dispatches_exact_route(action, monkeypatch):
         if requires
         else httpx.Auth(),
         credential_scheme="signed_session" if requires else None,
-        allow_writes=not operation["read_only"],
+        policy=ClientPolicy(allow_writes=not operation["read_only"]),
         transport=httpx.MockTransport(respond),
     )
     try:
@@ -198,7 +199,7 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
     from agent_connector_sdk.http.client import create_http_client
     from fastmcp import Client
 
-    from artcraft_api import auth, openapi_runtime
+    from artcraft_api import auth, openapi_client
     from artcraft_api.mcp_server import build_server
 
     auth.close_client()
@@ -215,7 +216,7 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
         return httpx.Response(200, json=response_for("omni_gen_audio_models_handler"))
 
     monkeypatch.setattr(
-        openapi_runtime,
+        openapi_client,
         "create_http_client",
         lambda options, **kwargs: create_http_client(
             options, transport=httpx.MockTransport(respond)
@@ -262,7 +263,7 @@ def test_unsigned_request_bounds_reject_overflow_before_network(action, limit):
     client = ApiClientSystem(
         "https://artcraft.example.invalid",
         httpx.Auth(),
-        allow_writes=True,
+        policy=ClientPolicy(allow_writes=True),
         transport=httpx.MockTransport(lambda r: calls.append(r)),
     )
     try:
@@ -276,7 +277,7 @@ def test_unsigned_request_bounds_reject_overflow_before_network(action, limit):
 
 
 def test_request_struct_parity_and_u32_bounds():
-    import re
+    from scripts.generate_source_contract import _request_fields
 
     provenance = json.loads((ROOT / "api-spec/source-provenance.json").read_text())
     checked = [op for op in provenance["operations"] if op["request_checks"]]
@@ -286,8 +287,8 @@ def test_request_struct_parity_and_u32_bounds():
     }
     for operation in checked:
         check = operation["request_checks"][0]
-        source = (ROOT / "api-spec/source" / check["evidence"]["path"]).read_text()
-        assert re.search(r"pub limit:\s*Option<u32>", source)
+        source = (ROOT / "tests/fixtures/request_structs.rs").read_text()
+        assert _request_fields(source, check["struct"]) == check["fields"]
         assert check["fields"]["limit"] == "Option<u32>"
         parameter = next(
             p
@@ -310,7 +311,7 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
     from fastmcp.client.elicitation import ElicitResult
     from mcp.shared.exceptions import MCPError
 
-    from artcraft_api import auth, openapi_runtime
+    from artcraft_api import auth, openapi_client
     from artcraft_api.mcp_server import build_server
 
     auth.close_client()
@@ -334,7 +335,7 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
         return httpx.Response(200, json=response_for(action))
 
     monkeypatch.setattr(
-        openapi_runtime,
+        openapi_client,
         "create_http_client",
         lambda options, **kwargs: create_http_client(
             options, transport=httpx.MockTransport(respond)
@@ -389,7 +390,7 @@ def test_optional_session_media_tags_supports_anonymous_access():
     client = ApiClientSystem(
         "https://artcraft.example.invalid",
         httpx.Auth(),
-        allow_writes=True,
+        policy=ClientPolicy(allow_writes=True),
         transport=httpx.MockTransport(respond),
     )
     try:
@@ -415,3 +416,11 @@ def test_served_prompts_match_admitted_capabilities():
             "graph ingestion are unavailable"
             in prompt["instructions"]["core_directive"]
         )
+
+
+def test_bounded_pattern_callback_preserves_json_schema_validation():
+    from artcraft_api.openapi_schema import validate
+
+    validate("aaa", {"type": "string", "pattern": "^a+$"})
+    with pytest.raises(ValueError, match="declared OpenAPI schema"):
+        validate("private-invalid-fixture", {"type": "string", "pattern": "^a+$"})

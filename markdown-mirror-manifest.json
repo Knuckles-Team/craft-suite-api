@@ -18,10 +18,10 @@
       "url": "https://knuckles-team.github.io/artcraft-api/overview/"
     },
     {
-      "bytes": 1945,
+      "bytes": 1944,
       "canonical_url": "https://knuckles-team.github.io/artcraft-api/architecture/",
       "markdown_url": "https://knuckles-team.github.io/artcraft-api/architecture/index.md",
-      "sha256": "5fe9373c0e91caaf2e9947c940ebd7607a7c35ee431c9f5302235f12bab42baf",
+      "sha256": "e964ff13790f2eefe475ae74f2116460866e541f3f9fdc08cfd73153629b2106",
       "source": "docs/architecture.md",
       "url": "https://knuckles-team.github.io/artcraft-api/architecture/"
     },

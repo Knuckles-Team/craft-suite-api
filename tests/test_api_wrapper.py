@@ -9,8 +9,9 @@ from agent_connector_sdk.http.errors import TlsVerificationError
 from agent_connector_sdk.tls.errors import TransportSecurityError
 from agent_connector_sdk.tls.resolve import resolve_tls_profile
 
-from artcraft_api import openapi_runtime
+from artcraft_api import openapi_client
 from artcraft_api.api import ApiClientSystem
+from artcraft_api.openapi_client import ClientPolicy
 
 ACTION = "omni_gen_audio_models_handler"
 PAYLOAD = {"success": True, "models": [{"model": "suno_music"}], "providers": []}
@@ -29,7 +30,7 @@ def client_factory(monkeypatch):
             api_key_auth("env://ARTCRAFT_FIXTURE_SESSION", header="session"),
             credential_scheme="signed_session",
             transport=httpx.MockTransport(handler),
-            allow_plaintext=allow_plaintext,
+            policy=ClientPolicy(allow_plaintext=allow_plaintext),
         )
         clients.append(client)
         return client
@@ -71,7 +72,7 @@ def test_request_returns_json_and_uses_sdk_auth(client_factory):
 def test_catalogued_path_cannot_escape_origin(client_factory, monkeypatch, path):
     calls = []
     client = client_factory(lambda request: calls.append(request))
-    monkeypatch.setitem(openapi_runtime.CONTRACT["operations"][ACTION], "path", path)
+    monkeypatch.setitem(openapi_client.CONTRACT["operations"][ACTION], "path", path)
     with pytest.raises(ValueError, match="configured provider origin"):
         execute(client)
     assert not calls
@@ -134,7 +135,7 @@ def test_plaintext_opt_in_stays_on_configured_origin(client_factory, monkeypatch
     assert execute(client)["data"] == PAYLOAD
     assert calls[0].url.scheme == "http"
     monkeypatch.setitem(
-        openapi_runtime.CONTRACT["operations"][ACTION],
+        openapi_client.CONTRACT["operations"][ACTION],
         "path",
         "https://service.example.invalid/catalog",
     )
@@ -172,7 +173,7 @@ def test_tls_cannot_disable_verification():
 
 
 def test_oversized_response_rejected(client_factory, monkeypatch):
-    monkeypatch.setattr(openapi_runtime, "MAX_BYTES", 8)
+    monkeypatch.setattr(openapi_client, "MAX_BYTES", 8)
     with pytest.raises(RuntimeError, match="response limit"):
         execute(
             client_factory(lambda request: httpx.Response(200, content=b"too large"))
@@ -185,7 +186,7 @@ def test_stream_without_length_still_bounded(client_factory, monkeypatch):
             yield b"first"
             yield b"second"
 
-    monkeypatch.setattr(openapi_runtime, "MAX_BYTES", 8)
+    monkeypatch.setattr(openapi_client, "MAX_BYTES", 8)
     with pytest.raises(RuntimeError, match="response limit"):
         execute(client_factory(lambda request: httpx.Response(200, stream=Chunks())))
 
@@ -193,7 +194,7 @@ def test_stream_without_length_still_bounded(client_factory, monkeypatch):
 def test_response_deadline_enforced(client_factory, monkeypatch):
     class SlowChunk(httpx.SyncByteStream):
         def __iter__(self):
-            monkeypatch.setattr(openapi_runtime.time, "monotonic", lambda: float("inf"))
+            monkeypatch.setattr(openapi_client.time, "monotonic", lambda: float("inf"))
             yield b"late"
 
     with pytest.raises(RuntimeError, match="response limit"):

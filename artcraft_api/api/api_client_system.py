@@ -1,6 +1,6 @@
 """Provider client with operation-bound OpenAPI dispatch."""
 
-from ..openapi_runtime import OpenApiClient
+from ..openapi_client import OpenApiClient
 
 
 class ApiClientSystem(OpenApiClient):
