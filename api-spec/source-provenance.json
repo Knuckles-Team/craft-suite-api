@@ -1,0 +1,649 @@
+{
+  "operations": [
+    {
+      "action": "get_folder_handler",
+      "auth": "required_session",
+      "effects": [
+        "session_cache_fill_possible"
+      ],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs",
+      "handler_evidence": {
+        "line": 26,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs#L26"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Owner-only lookup; absent/not-owned folders return 404.",
+      "path": "/v1/folders/folder/{folder_token}",
+      "registration_evidence": {
+        "line": 51,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs#L51"
+      },
+      "response_evidence": {
+        "line": 47,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs#L47"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
+      "runtime_read_only": false,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs"
+    },
+    {
+      "action": "list_folders_handler",
+      "auth": "required_session",
+      "effects": [
+        "session_cache_fill_possible"
+      ],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs",
+      "handler_evidence": {
+        "line": 32,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs#L32"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Owner-only; default limit 100, clamped to 1000. Pass maybe_cursor unchanged; does not auto-paginate.",
+      "path": "/v1/folders/list_all",
+      "registration_evidence": {
+        "line": 44,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs#L44"
+      },
+      "response_evidence": {
+        "line": 33,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs#L33"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
+      "runtime_read_only": false,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs"
+    },
+    {
+      "action": "omni_gen_audio_models_handler",
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs",
+      "handler_evidence": {
+        "line": 15,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs#L15"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Returns cloned static model/provider configuration.",
+      "path": "/v1/omni_gen/models/audio",
+      "registration_evidence": {
+        "line": 88,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L88"
+      },
+      "response_evidence": {
+        "line": 12,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs#L12"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+      "runtime_read_only": true,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs"
+    },
+    {
+      "action": "omni_gen_image_models_handler",
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs",
+      "handler_evidence": {
+        "line": 17,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs#L17"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Provider query is accepted but ignored by the pinned handler.",
+      "path": "/v1/omni_gen/models/image",
+      "registration_evidence": {
+        "line": 84,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L84"
+      },
+      "response_evidence": {
+        "line": 36,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs#L36"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+      "runtime_read_only": true,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs"
+    },
+    {
+      "action": "omni_gen_mesh_models_handler",
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs",
+      "handler_evidence": {
+        "line": 15,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs#L15"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Returns cloned static model/provider configuration.",
+      "path": "/v1/omni_gen/models/mesh",
+      "registration_evidence": {
+        "line": 92,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L92"
+      },
+      "response_evidence": {
+        "line": 14,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs#L14"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+      "runtime_read_only": true,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs"
+    },
+    {
+      "action": "omni_gen_splat_models_handler",
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs",
+      "handler_evidence": {
+        "line": 15,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs#L15"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Returns cloned static model/provider configuration.",
+      "path": "/v1/omni_gen/models/splat",
+      "registration_evidence": {
+        "line": 96,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L96"
+      },
+      "response_evidence": {
+        "line": 12,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs#L12"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
+      "runtime_read_only": true,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs"
+    },
+    {
+      "action": "list_tags_handler",
+      "auth": "required_session",
+      "effects": [
+        "session_cache_fill_possible"
+      ],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs",
+      "handler_evidence": {
+        "line": 24,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs#L24"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Newest first. Default limit 100, clamped to 1000; pass maybe_cursor unchanged for next page. Does not auto-paginate.",
+      "path": "/v1/tags/list",
+      "registration_evidence": {
+        "line": 36,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs#L36"
+      },
+      "response_evidence": {
+        "line": 15,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs#L15"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
+      "runtime_read_only": false,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs"
+    },
+    {
+      "action": "list_media_file_tags_handler",
+      "auth": "optional_session",
+      "effects": [
+        "session_cache_fill_possible"
+      ],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs",
+      "handler_evidence": {
+        "line": 31,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs#L31"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Public/hidden media are session-free; private media require their creator session or return 404.",
+      "path": "/v1/tags/media_file/list/{media_file_token}",
+      "registration_evidence": {
+        "line": 60,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs#L60"
+      },
+      "response_evidence": {
+        "line": 16,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs#L16"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
+      "runtime_read_only": false,
+      "types": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs"
+    }
+  ],
+  "public_schema_sha256": "ebff0b4edbcdd1d37cf4a8f2192e287e29e9a5036cf73cb14310a68f5a6d2515",
+  "source_schema_additions": {
+    "FolderThumbnailVideoPreviews": {
+      "maybe_catalina_fallback_animated_gif": {
+        "format": "uri",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "maybe_catalina_fallback_animated_gif_thumbnail_template": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    }
+  },
+  "struct_checks": [
+    {
+      "evidence": {
+        "line": 20,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs#L20"
+      },
+      "fields": {
+        "created_at": "DateTime<Utc>",
+        "has_star": "bool",
+        "is_orphaned": "bool",
+        "last_media_thumbnails": "Vec<FolderThumbnail>",
+        "maybe_color_code": "Option<String>",
+        "maybe_custom_cover_thumbnail": "Option<FolderThumbnail>",
+        "maybe_parent_folder_token": "Option<FolderToken>",
+        "name": "String",
+        "owner_user_token": "UserToken",
+        "token": "FolderToken",
+        "updated_at": "DateTime<Utc>"
+      },
+      "schema": "FolderInfo"
+    },
+    {
+      "evidence": {
+        "line": 57,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs#L57"
+      },
+      "fields": {
+        "cdn_url": "Url",
+        "maybe_thumbnail_template": "Option<String>",
+        "maybe_video_previews": "Option<FolderThumbnailVideoPreviews>",
+        "media_class": "MediaFileClass",
+        "media_type": "MediaFileType",
+        "token": "MediaFileToken"
+      },
+      "schema": "FolderThumbnail"
+    },
+    {
+      "evidence": {
+        "line": 81,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/common.rs#L81"
+      },
+      "fields": {
+        "animated": "Url",
+        "animated_thumbnail_template": "String",
+        "maybe_catalina_fallback_animated_gif": "Option<Url>",
+        "maybe_catalina_fallback_animated_gif_thumbnail_template": "Option<String>",
+        "still": "Url",
+        "still_thumbnail_template": "String"
+      },
+      "schema": "FolderThumbnailVideoPreviews"
+    },
+    {
+      "evidence": {
+        "line": 47,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs#L47"
+      },
+      "fields": {
+        "folder": "FolderInfo",
+        "success": "bool"
+      },
+      "schema": "GetFolderSuccessResponse"
+    },
+    {
+      "evidence": {
+        "line": 33,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs#L33"
+      },
+      "fields": {
+        "folders": "Vec<FolderInfo>",
+        "maybe_cursor": "Option<String>",
+        "success": "bool"
+      },
+      "schema": "ListFoldersSuccessResponse"
+    },
+    {
+      "evidence": {
+        "line": 16,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs#L16"
+      },
+      "fields": {
+        "success": "bool",
+        "tags": "Vec<TagDetails>"
+      },
+      "schema": "ListMediaFileTagsSuccessResponse"
+    },
+    {
+      "evidence": {
+        "line": 15,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs#L15"
+      },
+      "fields": {
+        "maybe_cursor": "Option<String>",
+        "success": "bool",
+        "tags": "Vec<TagDetails>"
+      },
+      "schema": "ListTagsSuccessResponse"
+    },
+    {
+      "evidence": {
+        "line": 38,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs#L38"
+      },
+      "fields": {
+        "audio_references_max": "Option<u16>",
+        "audio_references_supported": "Option<bool>",
+        "bpm_supported": "Option<bool>",
+        "extra_info": "Option<String>",
+        "extra_info_short": "Option<String>",
+        "full_name": "Option<String>",
+        "image_references_max": "Option<u16>",
+        "image_references_supported": "Option<bool>",
+        "instrumental_toggle_supported": "Option<bool>",
+        "is_disabled": "Option<bool>",
+        "keep_lyrics_supported": "Option<bool>",
+        "loopable_toggle_supported": "Option<bool>",
+        "model": "CommonAudioModel",
+        "model_creator": "Option<ModelCreator>",
+        "musical_key_supported": "Option<bool>",
+        "pitch_supported": "Option<bool>",
+        "sample_rate_hz_default": "Option<u32>",
+        "sample_rate_hz_options": "Option<Vec<u32>>",
+        "speed_supported": "Option<bool>",
+        "style_prompt_supported": "Option<bool>",
+        "text_prompt_supported": "Option<bool>",
+        "volume_supported": "Option<bool>"
+      },
+      "schema": "OmniGenAudioModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 24,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs#L24"
+      },
+      "fields": {
+        "models": "Vec<OmniGenAudioProviderModelDetails>",
+        "provider": "GenerationProvider"
+      },
+      "schema": "OmniGenAudioModelProviderDetails"
+    },
+    {
+      "evidence": {
+        "line": 12,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs#L12"
+      },
+      "fields": {
+        "models": "Vec<OmniGenAudioModelDetails>",
+        "providers": "Vec<OmniGenAudioModelProviderDetails>",
+        "success": "bool"
+      },
+      "schema": "OmniGenAudioModelsResponse"
+    },
+    {
+      "evidence": {
+        "line": 30,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs#L30"
+      },
+      "fields": {
+        "model": "CommonAudioModel",
+        "overrides": "Option<OmniGenAudioModelDetails>"
+      },
+      "schema": "OmniGenAudioProviderModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 57,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs#L57"
+      },
+      "fields": {
+        "aspect_ratio_default": "Option<CommonAspectRatio>",
+        "aspect_ratio_default_when_editing": "Option<CommonAspectRatio>",
+        "aspect_ratio_options": "Option<Vec<CommonAspectRatio>>",
+        "batch_size_default": "Option<u16>",
+        "batch_size_max": "Option<u16>",
+        "batch_size_min": "Option<u16>",
+        "batch_size_options": "Option<Vec<u16>>",
+        "default_quality": "Option<CommonQuality>",
+        "full_name": "Option<String>",
+        "has_fixed_editing_aspect_ratio": "Option<bool>",
+        "image_refs_max": "Option<u16>",
+        "image_refs_supported": "Option<bool>",
+        "is_disabled": "Option<bool>",
+        "model": "CommonImageModel",
+        "model_creator": "Option<ModelCreator>",
+        "negative_text_prompt_max_length": "Option<u16>",
+        "negative_text_prompt_supported": "Option<bool>",
+        "quality_options": "Option<Vec<CommonQuality>>",
+        "resolution_default": "Option<CommonResolution>",
+        "resolution_options": "Option<Vec<CommonResolution>>",
+        "text_prompt_max_length": "Option<u16>",
+        "text_prompt_supported": "Option<bool>"
+      },
+      "schema": "OmniGenImageModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 43,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs#L43"
+      },
+      "fields": {
+        "models": "Vec<OmniGenImageProviderModelDetails>",
+        "provider": "GenerationProvider"
+      },
+      "schema": "OmniGenImageModelProviderDetails"
+    },
+    {
+      "evidence": {
+        "line": 36,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs#L36"
+      },
+      "fields": {
+        "models": "Vec<OmniGenImageModelDetails>",
+        "providers": "Vec<OmniGenImageModelProviderDetails>",
+        "success": "bool"
+      },
+      "schema": "OmniGenImageModelsResponse"
+    },
+    {
+      "evidence": {
+        "line": 49,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs#L49"
+      },
+      "fields": {
+        "model": "CommonImageModel",
+        "overrides": "Option<OmniGenImageModelDetails>"
+      },
+      "schema": "OmniGenImageProviderModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 40,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs#L40"
+      },
+      "fields": {
+        "extra_info": "Option<String>",
+        "extra_info_short": "Option<String>",
+        "face_count_supported": "Option<bool>",
+        "full_name": "Option<String>",
+        "geometry_quality_supported": "Option<bool>",
+        "image_input_supported": "Option<bool>",
+        "is_disabled": "Option<bool>",
+        "mesh_input_supported": "Option<bool>",
+        "mesh_output_types": "Option<Vec<CommonMeshOutputType>>",
+        "model": "CommonMeshModel",
+        "model_creator": "Option<ModelCreator>",
+        "multi_view_supported": "Option<bool>",
+        "pbr_supported": "Option<bool>",
+        "polygon_types": "Option<Vec<CommonPolygonType>>",
+        "sketch_input_supported": "Option<bool>",
+        "text_prompt_supported": "Option<bool>",
+        "texture_quality_supported": "Option<bool>",
+        "texture_toggle_supported": "Option<bool>"
+      },
+      "schema": "OmniGenMeshModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 26,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs#L26"
+      },
+      "fields": {
+        "models": "Vec<OmniGenMeshProviderModelDetails>",
+        "provider": "GenerationProvider"
+      },
+      "schema": "OmniGenMeshModelProviderDetails"
+    },
+    {
+      "evidence": {
+        "line": 14,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs#L14"
+      },
+      "fields": {
+        "models": "Vec<OmniGenMeshModelDetails>",
+        "providers": "Vec<OmniGenMeshModelProviderDetails>",
+        "success": "bool"
+      },
+      "schema": "OmniGenMeshModelsResponse"
+    },
+    {
+      "evidence": {
+        "line": 32,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs#L32"
+      },
+      "fields": {
+        "model": "CommonMeshModel",
+        "overrides": "Option<OmniGenMeshModelDetails>"
+      },
+      "schema": "OmniGenMeshProviderModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 38,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs#L38"
+      },
+      "fields": {
+        "disable_recaption_supported": "Option<bool>",
+        "extra_info": "Option<String>",
+        "extra_info_short": "Option<String>",
+        "full_name": "Option<String>",
+        "image_references_max": "Option<u16>",
+        "image_references_supported": "Option<bool>",
+        "is_disabled": "Option<bool>",
+        "model": "CommonSplatModel",
+        "model_creator": "Option<ModelCreator>",
+        "panorama_supported": "Option<bool>",
+        "text_prompt_supported": "Option<bool>",
+        "video_reference_supported": "Option<bool>"
+      },
+      "schema": "OmniGenSplatModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 24,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs#L24"
+      },
+      "fields": {
+        "models": "Vec<OmniGenSplatProviderModelDetails>",
+        "provider": "GenerationProvider"
+      },
+      "schema": "OmniGenSplatModelProviderDetails"
+    },
+    {
+      "evidence": {
+        "line": 12,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs#L12"
+      },
+      "fields": {
+        "models": "Vec<OmniGenSplatModelDetails>",
+        "providers": "Vec<OmniGenSplatModelProviderDetails>",
+        "success": "bool"
+      },
+      "schema": "OmniGenSplatModelsResponse"
+    },
+    {
+      "evidence": {
+        "line": 30,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs#L30"
+      },
+      "fields": {
+        "model": "CommonSplatModel",
+        "overrides": "Option<OmniGenSplatModelDetails>"
+      },
+      "schema": "OmniGenSplatProviderModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 8,
+        "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/common.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/common.rs#L8"
+      },
+      "fields": {
+        "tag_token": "TagToken",
+        "tag_value": "String",
+        "tag_value_lowercase": "String",
+        "use_count": "u32"
+      },
+      "schema": "TagDetails"
+    }
+  ],
+  "unknowns": [
+    "Actual deployed backend commit, health and permissions are unverified.",
+    "Model availability is deployment/configuration dependent.",
+    "Full enum-value and serializer-facet parity with pinned source has not been proved.",
+    "Error payload schemas are not exposed; SDK returns sanitized HTTP status errors.",
+    "Cache-effectful GETs require ALLOW_WRITES and MCP confirmation conservatively; this is not a claim of destructive domain writes."
+  ],
+  "upstream_commit": "bcff742052ef54c7adc2d19161faf4b8d4a73963",
+  "withheld": [
+    "All routes outside the explicit allowlist, including writes and administrative endpoints.",
+    "Job-status GETs write Redis keepalives; omitted rather than labeled read-only.",
+    "No public-production API calls or credentials are used in validation.",
+    "Video model catalog: public schema lacks output_format_options/output_format_default present in pinned Rust; withheld pending full CommonVideoOutputFormat mapping."
+  ]
+}

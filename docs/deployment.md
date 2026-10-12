@@ -1,13 +1,13 @@
 # Deployment
 
-This page covers running `templateconnector-api` as long-lived servers.
+This page covers running `artcraft-api` as long-lived servers.
 
-> `templateconnector-api` ships an **MCP server** (console script `templateconnector-mcp`).
+> `artcraft-api` ships an **MCP server** (console script `artcraft-mcp`).
 
 <!-- BEGIN GENERATED: deployment-options -->
 ## Deployment Options
 
-`templateconnector-api` exposes its MCP server (console script `templateconnector-mcp`) four ways. Pick the
+`artcraft-api` exposes its MCP server (console script `artcraft-mcp`) four ways. Pick the
 row that matches where the server runs relative to your MCP client, then copy the
 matching `mcp_config.json` below.
 
@@ -23,8 +23,8 @@ matching `mcp_config.json` below.
 ```json
 {
   "mcpServers": {
-    "templateconnector-mcp": {
-      "command": "templateconnector-mcp",
+    "artcraft-mcp": {
+      "command": "artcraft-mcp",
       "args": [],
       "env": {
         "SYSTEMTOOL": "true"
@@ -37,7 +37,7 @@ matching `mcp_config.json` below.
 ### 2. Streamable-HTTP (local process)
 
 ```bash
-templateconnector-mcp --transport streamable-http --host 127.0.0.1 --port 8000
+artcraft-mcp --transport streamable-http --host 127.0.0.1 --port 8000
 curl -s http://loopback.invalid:8000/health        # {"status":"OK"}
 ```
 
@@ -46,7 +46,7 @@ Connect to the running process by URL:
 ```json
 {
   "mcpServers": {
-    "templateconnector-mcp": { "url": "http://loopback.invalid:8000/mcp" }
+    "artcraft-mcp": { "url": "http://loopback.invalid:8000/mcp" }
   }
 }
 ```
@@ -59,14 +59,14 @@ daemonless runtime):
 ```json
 {
   "mcpServers": {
-    "templateconnector-mcp": {
+    "artcraft-mcp": {
       "command": "docker",
       "args": [
         "run", "-i", "--rm", "--read-only", "--cap-drop=ALL",
         "--security-opt=no-new-privileges", "--pids-limit=256",
         "--tmpfs", "/tmp:rw,noexec,nosuid,nodev,size=64m",
         "-e", "TRANSPORT=stdio",
-        "<registry>/templateconnector-api@sha256:<digest>"
+        "<registry>/artcraft-api@sha256:<digest>"
       ]
     }
   }
@@ -84,7 +84,7 @@ authenticated HTTPS ingress; no local process or image is required:
 ```json
 {
   "mcpServers": {
-    "templateconnector-mcp": { "url": "https://service.example.invalid/mcp" }
+    "artcraft-mcp": { "url": "https://service.example.invalid/mcp" }
   }
 }
 ```

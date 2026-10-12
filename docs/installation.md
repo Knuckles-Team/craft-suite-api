@@ -1,6 +1,6 @@
 # Installation
 
-`templateconnector-api` is a standard Python package and a prebuilt container image.
+`artcraft-api` is a standard Python package and a prebuilt container image.
 
 ## Requirements
 
@@ -10,27 +10,27 @@
 ## From PyPI (recommended)
 
 ```bash
-pip install templateconnector-api
+pip install artcraft-api
 ```
 
 ### Optional extras
 
 | Extra | Install | Pulls in |
 |---|---|---|
-| `mcp` | `pip install "templateconnector-api[mcp]"` | MCP runtime + SDK graph client |
-| `all` | `pip install "templateconnector-api[all]"` | Everything above |
+| `mcp` | `pip install "artcraft-api[mcp]"` | MCP runtime + SDK graph client |
+| `all` | `pip install "artcraft-api[all]"` | Everything above |
 
 ## From source
 
 ```bash
-git clone https://github.com/Knuckles-Team/templateconnector-api.git
-cd templateconnector-api
+git clone https://github.com/Knuckles-Team/artcraft-api.git
+cd artcraft-api
 pip install -e ".[mcp]"
 ```
 
 ## Docker
 
 ```bash
-IMAGE_REF='<registry>/templateconnector-api@sha256:<digest>'
+IMAGE_REF='<registry>/artcraft-api@sha256:<digest>'
 docker pull "$IMAGE_REF"
 ```

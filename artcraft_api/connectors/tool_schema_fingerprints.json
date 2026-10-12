@@ -1,0 +1,5 @@
+{
+  "algorithm": "agent-connector-sdk:mcp-tool-contract-compat:v2",
+  "connector": "artcraft-api",
+  "tools": {}
+}

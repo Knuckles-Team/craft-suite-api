@@ -18,6 +18,9 @@ eggs/
 .eggs/
 lib/
 lib64/
+# Pinned public Rust evidence is source, not Python build output.
+!/api-spec/source/crates/lib/
+!/api-spec/source/crates/lib/**
 parts/
 sdist/
 var/

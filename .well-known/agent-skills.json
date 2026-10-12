@@ -3,8 +3,8 @@
   "skills": [
     {
       "description": ">-",
-      "name": "templateconnector-starter",
-      "path": "templateconnector_api/skills/templateconnector-starter/SKILL.md"
+      "name": "artcraft-starter",
+      "path": "artcraft_api/skills/artcraft-starter/SKILL.md"
     }
   ]
 }
