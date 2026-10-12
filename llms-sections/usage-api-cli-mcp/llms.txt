@@ -5,7 +5,7 @@
 
 ## Usage (API / CLI / MCP)
 
-- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/artcraft-api/usage/) — artcraft-api exposes the same capability three ways: as MCP tools an agent calls, as a Python API you import, and as a CLI.
+- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/artcraft-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
 
 ## Standards maturity
 

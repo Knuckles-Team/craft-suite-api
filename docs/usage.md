@@ -1,35 +1,22 @@
-# Usage — API / CLI / MCP
+# Usage and validation boundary
 
-`artcraft-api` exposes the same capability three ways: as **MCP tools** an agent
-calls, as a **Python API** you import, and as a **CLI**.
+The current backend connector has three tools and eight source-reviewed actions.
+See [README](../README.md#supported-operations) for the exact allowlist and
+configuration. All operation inputs and outputs are generated from the reviewed
+subset in `api-spec/artcraft.reviewed.openapi.json`.
 
-## As an MCP server
+Four anonymous model-catalog GETs are the initial read-only surface. Tag and folder
+GETs can populate Redis session caches and therefore require explicit write
+enablement plus native MCP confirmation. This is a conservative effect gate,
+not a claim that they alter user-owned tags or folders. Owner checks remain at
+the provider. Job keepalive polling and every generation/upload/admin route are
+withheld. Do not use production credentials or guess unsupported operation IDs.
 
-Once [deployed](deployment.md), the server registers consolidated, action-routed
-tool modules. Each module is independently togglable with a `*TOOL` environment
-flag.
+The public documentation export is not commit-attested. Exact route, handler,
+response-type and 24 struct-field checks use the pinned source; enum/serializer
+facet parity and actual deployment compatibility remain unverified. The video
+catalog is withheld after detected schema drift; two optional folder properties
+are explicitly derived from the pinned Rust declarations.
 
-## As a Python API
-
-```python
-from artcraft_api.auth import get_client
-
-api = get_client()        # resolves SDK settings and credential references
-status = api.get_system_status()
-```
-
-## As a CLI
-
-Configure `ARTCRAFT_API_BASE_URL`, `ARTCRAFT_API_TOKEN_REF`, and one SDK TLS profile
-selector through operator-provided settings, then run `artcraft-mcp --transport stdio`.
-
-### Explicit HTTP endpoint
-
-HTTPS remains the default. For an existing HTTP-only endpoint you are authorized
-to use, set `ARTCRAFT_API_BASE_URL=http://service.example.invalid` and explicitly
-set `ARTCRAFT_API_ALLOW_PLAINTEXT=true`. This forwards the SDK's
-`HttpClientOptions.allow_plaintext` choice only to that vendor client. Requests
-remain bound to its exact scheme, host and port; redirects stay disabled.
-HTTP carries requests without TLS encryption. The flag never retries HTTPS over
-HTTP, changes certificate verification, or authorizes another endpoint. OIDC
-token exchanges retain their separate TLS policy. Leave the flag false for HTTPS.
+No live service tests or ingestion acceptance receipts are claimed. Existing
+starter ontology/ingestion examples require a separate ArtCraft semantic review.

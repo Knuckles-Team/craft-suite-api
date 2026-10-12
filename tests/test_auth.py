@@ -1,9 +1,7 @@
-
 from unittest.mock import MagicMock, patch
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.delegation import DelegatedTokenAuth
 from agent_connector_sdk.credentials.references import SecretReferenceError
 
 import artcraft_api.auth as auth_module
@@ -22,7 +20,7 @@ def configured_client(monkeypatch):
     auth_module.close_client()
 
 
-@pytest.mark.concept("CRAFT-001")
+@pytest.mark.concept("ARTCRAFT-API-001")
 def test_client_resolves_reference_and_cleans_up():
     tls = MagicMock()
     with (
@@ -34,7 +32,7 @@ def test_client_resolves_reference_and_cleans_up():
         kwargs = client_cls.call_args.kwargs
         request = httpx.Request("GET", "https://service.example.invalid")
         authorized = next(kwargs["auth"].auth_flow(request))
-        assert authorized.headers["Authorization"] == "Bearer test-token"
+        assert authorized.headers["session"] == "test-token"
         assert "test-token" not in repr(kwargs["auth"])
         assert "token" not in kwargs
         assert kwargs["allow_plaintext"] is False
@@ -77,22 +75,13 @@ def test_failed_client_creation_cleans_tls():
     assert auth_module._client is None
 
 
-def test_delegation_uses_per_request_auth(monkeypatch):
+def test_bearer_delegation_cannot_replace_signed_session(monkeypatch):
     monkeypatch.setenv("ENABLE_DELEGATION", "true")
     monkeypatch.setenv("OIDC_TOKEN_URL", "https://identity.example.invalid/token")
     monkeypatch.setenv("OIDC_CLIENT_ID", "test-client")
     monkeypatch.setenv("OIDC_CLIENT_SECRET_REF", "env://SCAFFOLD_TEST_TOKEN")
     monkeypatch.setenv("AUDIENCE", "test-service")
-    token_client = MagicMock()
-    tls = MagicMock()
-    with (
-        patch.object(auth_module, "resolve_tls_profile", return_value=tls),
-        patch.object(auth_module, "create_http_client", return_value=token_client),
-        patch.object(auth_module, "ApiClientSystem") as client_cls,
-        patch.object(auth_module, "bearer_auth") as fixed_auth,
-    ):
-        auth_module.get_client()
-        assert isinstance(client_cls.call_args.kwargs["auth"], DelegatedTokenAuth)
-        fixed_auth.assert_not_called()
-        auth_module.close_client()
-        token_client.close.assert_called_once()
+    with patch.object(auth_module, "create_http_client") as token_client:
+        with pytest.raises(ValueError, match="declared HTTP bearer"):
+            auth_module.get_client()
+        token_client.assert_not_called()
