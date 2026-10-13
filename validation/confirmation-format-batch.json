@@ -1,0 +1,54 @@
+{
+  "base": "9cb9efbab07dc737c94aa46e2c5cdce1cb020506",
+  "builder": "f6881bf5598f1d6a6a1f548ae4caa1a713a6d9d7",
+  "candidate_contract_parity": "268 operations / 258 paths / 51 actual native tool schemas; no provider execution.",
+  "candidate_deterministic_rerun": true,
+  "candidate_generated_files": 27,
+  "candidate_native_listing_bytes": 914655,
+  "candidate_native_tools": 51,
+  "candidate_rerun_seconds": 0.495,
+  "focused_confirmation_format_tests_passed": 67,
+  "format_cases": [
+    "valid URI/date-time",
+    "malformed URI/date-time",
+    "missing checker",
+    "unknown format",
+    "OpenAPI representation annotations"
+  ],
+  "http_operations_generated": 268,
+  "modern_confirmation_cases": [
+    "pending with zero dispatch",
+    "accept with one dispatch",
+    "false",
+    "non-boolean",
+    "missing answer",
+    "decline",
+    "cancel",
+    "changed arguments",
+    "changed request state",
+    "missing request state",
+    "missing responses",
+    "operator disabled",
+    "no context"
+  ],
+  "native_tools_admitted": 4,
+  "negative_parity_cases": [
+    "stale inventory",
+    "altered HTTP method",
+    "missing domain",
+    "altered action schema",
+    "unknown authorization"
+  ],
+  "operations_admitted": 9,
+  "operations_unadmitted": 259,
+  "remaining_blockers": [
+    "Canonical admission of Rust extractor/multipart/route source corrections.",
+    "Reviewed per-operation authorization/effects and provider-shaped transport fixtures.",
+    "NaiveDateTime serialization proof for affected provider responses.",
+    "Two documented operations lack confirmed active registrations; 89 additional source binding IDs lack documented contracts.",
+    "Complete native catalogs, bridge implementations and supported-suite denominator remain unverified.",
+    "No production client schema-disclosure budget or live endpoint acceptance."
+  ],
+  "scope": "Shared format and confirmation prerequisite integration; no added operations or live calls.",
+  "sdk": "b9ee9ed0a82f6ecd5ed23d6226ca5ab503f74f9c"
+}
