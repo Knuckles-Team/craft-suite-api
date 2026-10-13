@@ -7,12 +7,4 @@
 
 - [Installation](https://knuckles-team.github.io/craft-suite-api/installation/) — This private repository currently provides source. No ArtCraft connector PyPI release or prebuilt image has been verified. A passing source test does not establish package availability, image startup, or a live deployment.
 
-## Standards maturity
-
-- RFC 3986: rfc (normative)
-- RFC 9264: rfc (normative)
-- RFC 9727: rfc (normative)
-- RFC 8414: rfc (normative)
-- RFC 9728: rfc (normative)
-- Agent Documentation Standard vNext: draft (draft)
-- Concept IDs and AGENTS: convention (advisory)
+Standards maturity and scope: [root documentation index](../../llms.txt).

@@ -972,8 +972,30 @@ def _page_records(
     return tuple(pages), tuple(sections)
 
 
+def _standards_lines(
+    readiness: dict[str, Any], standards_reference: str | None
+) -> list[str]:
+    if standards_reference is not None:
+        return [
+            "Standards maturity and scope: "
+            f"[root documentation index]({standards_reference})."
+        ]
+    return [
+        "## Standards maturity",
+        "",
+        *(
+            f"- {standard['id']}: {standard['kind']} ({standard['level']})"
+            for standard in readiness["standards"]
+        ),
+    ]
+
+
 def _render_curated(
-    config: dict[str, Any], readiness: dict[str, Any], sections: tuple[Section, ...]
+    config: dict[str, Any],
+    readiness: dict[str, Any],
+    sections: tuple[Section, ...],
+    *,
+    standards_reference: str | None = None,
 ) -> str:
     lines = [
         f"# {config.get('site_name', readiness['project']['name'])}",
@@ -988,9 +1010,7 @@ def _render_curated(
             suffix = f" — {page.summary}" if page.summary else ""
             lines.append(f"- [{page.title}]({page.url}){suffix}")
         lines.append("")
-    lines.extend(["## Standards maturity", ""])
-    for standard in readiness["standards"]:
-        lines.append(f"- {standard['id']}: {standard['kind']} ({standard['level']})")
+    lines.extend(_standards_lines(readiness, standards_reference))
     lines.append("")
     output = "\n".join(lines).rstrip() + "\n"
     _scan_safe_text(output, "llms")
@@ -1269,6 +1289,7 @@ def generate(
             },
             readiness,
             (section,),
+            standards_reference="../../llms.txt",
         )
         section_payloads[f"llms-sections/{section.slug}/llms.txt"] = section_text
 
