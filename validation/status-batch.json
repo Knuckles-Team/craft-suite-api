@@ -12,6 +12,12 @@
     "seconds_rerun": 0.668
   },
   "cache_effectful_reads": 4,
+  "compiler_upgrade_verification": {
+    "baseline": "e08e78671c7e48fcad20cce9b805b6149b7fcb42",
+    "head": "32df4821d1272d804e22ace5880bb1b43d4a2f24",
+    "selection": "Per-tree full commit ID under MCP_BUILDER_SNAPSHOT_ROOT; compiler hashes and exact-tree regeneration remain mandatory.",
+    "tests": 8
+  },
   "confirmation_scope": "Existing four cache-effectful GETs: real legacy acceptance/refusal and modern fail-closed. No new modern write support claimed.",
   "documented_operations": 268,
   "full_supported_backend_denominator": null,
@@ -27,9 +33,9 @@
   "pytest": {
     "http_boundary": "httpx.MockTransport",
     "mcp": "actual FastMCP 4.0.10 native registration",
-    "passed": 118,
+    "passed": 126,
     "sdk_commit": "5babc4cc48ad73928468b243842f219f51e2cca1",
-    "seconds": 5.0
+    "seconds": 5.1
   },
   "remaining_blockers": [
     "Published SDK confirmation path rejects modern-protocol effectful dispatch.",

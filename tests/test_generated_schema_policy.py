@@ -21,6 +21,60 @@ def policy_root(tmp_path):
     return tmp_path
 
 
+@pytest.fixture(autouse=True)
+def isolated_snapshot_environment(monkeypatch):
+    monkeypatch.delenv("MCP_BUILDER_SNAPSHOT_ROOT", raising=False)
+
+
+@pytest.mark.parametrize("commit", ["1" * 40, "2" * 40])
+def test_each_tree_selects_its_pinned_compiler(
+    policy_root, monkeypatch, tmp_path, commit
+):
+    captures = tmp_path / "compilers"
+    capture = captures / commit
+    capture.mkdir(parents=True)
+    monkeypatch.setenv("MCP_BUILDER_SNAPSHOT_ROOT", str(captures))
+    rewrite_policy(policy_root, lambda policy: policy["builder"].update(commit=commit))
+    policy = verification.load_policy(policy_root)
+
+    def execute(arguments, **kwargs):
+        assert kwargs["env"]["MCP_BUILDER_SKILL_DIR"] == str(capture)
+        return clones.subprocess.CompletedProcess(
+            arguments,
+            0,
+            stdout=json.dumps(
+                {"version": 1, "verified_artifacts": policy["artifacts"]}
+            ),
+        )
+
+    monkeypatch.setattr(clones.subprocess, "run", execute)
+    assert clones.verified_artifacts(policy_root, ROOT) == policy["artifacts"]
+
+
+@pytest.mark.parametrize("commit", ["../outside", "main", "A" * 40, None])
+def test_invalid_compiler_capture_identity_fails_closed(monkeypatch, tmp_path, commit):
+    monkeypatch.setenv("MCP_BUILDER_SNAPSHOT_ROOT", str(tmp_path))
+    with pytest.raises(ValueError, match="full lowercase commit"):
+        clones.verification_environment({"builder": {"commit": commit}})
+
+
+def test_missing_pinned_compiler_capture_fails_closed(monkeypatch, tmp_path):
+    monkeypatch.setenv("MCP_BUILDER_SNAPSHOT_ROOT", str(tmp_path))
+    with pytest.raises(ValueError, match="Missing compiler snapshot"):
+        clones.verification_environment({"builder": {"commit": "1" * 40}})
+
+
+def test_relative_compiler_capture_survives_verifier_directory_change(
+    monkeypatch, tmp_path
+):
+    capture = tmp_path / "compilers" / ("1" * 40)
+    capture.mkdir(parents=True)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("MCP_BUILDER_SNAPSHOT_ROOT", "compilers")
+    environment = clones.verification_environment({"builder": {"commit": "1" * 40}})
+    assert environment["MCP_BUILDER_SKILL_DIR"] == str(capture)
+
+
 def rewrite_policy(root, edit):
     path = root / verification.MANIFEST
     policy = json.loads(path.read_text())

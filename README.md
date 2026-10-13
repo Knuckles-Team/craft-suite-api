@@ -107,7 +107,12 @@ For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.7 skill source
 `GENERATED_SCHEMA_PYTHON` to the approved project environment's Python executable
 (default: `.venv/bin/python`). Run `python scripts/verify_generated_schemas.py`
 and both configured pre-commit stages. No verification receipt alone replaces a
-successful regeneration. The three shared Pipelines references follow `main`
+successful regeneration. When a diff upgrades the compiler, also set
+`MCP_BUILDER_SNAPSHOT_ROOT` to a directory containing each compared commit's
+compiler capture under its full builder commit ID. The clone gate selects the
+capture from each tree's manifest and still requires its compiler hashes and
+regeneration checks; a missing capture fails closed.
+The three shared Pipelines references follow `main`
 with explicit user approval; record its resolved commit with each validation run.
 
 ## Validation boundary

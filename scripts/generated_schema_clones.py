@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import stat
 import subprocess
 import sys
@@ -19,6 +20,25 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_generated_schemas import MANIFEST, load_policy
+
+
+def verification_environment(policy: dict) -> dict:
+    """Select each tree's compiler capture; its verifier still checks every hash."""
+    environment = {
+        **os.environ,
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "MCP_FLEET_REGISTRATION": "false",
+    }
+    snapshots = environment.get("MCP_BUILDER_SNAPSHOT_ROOT")
+    if snapshots:
+        commit = policy["builder"]["commit"]
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+            raise ValueError("Compiler snapshot requires a full lowercase commit ID")
+        capture = (Path(snapshots) / commit).resolve()
+        if not capture.is_dir():
+            raise ValueError(f"Missing compiler snapshot: {commit}")
+        environment["MCP_BUILDER_SKILL_DIR"] = str(capture)
+    return environment
 
 
 def tree_state(root: Path) -> dict:
@@ -57,11 +77,7 @@ def verified_artifacts(snapshot: Path, project: Path) -> dict:
         capture_output=True,
         text=True,
         timeout=60,
-        env={
-            **os.environ,
-            "PYTHONDONTWRITEBYTECODE": "1",
-            "MCP_FLEET_REGISTRATION": "false",
-        },
+        env=verification_environment(policy),
     )
     if result.returncode:
         raise ValueError(
