@@ -13,7 +13,7 @@
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the nine reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 ## Installation
 
@@ -25,7 +25,7 @@
 
 ## Usage (API / CLI / MCP)
 
-- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/craft-suite-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
+- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/craft-suite-api/usage/) — The current backend connector has four tools and nine source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
 
 ## Backing Platform (ArtCraft)
 

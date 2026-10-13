@@ -2,7 +2,7 @@
   "algorithm": "agent-connector-sdk:mcp-tool-contract-compat:v2",
   "tools": {
     "folders_operations": {
-      "compatibility_sha256": "fc7e3ccc470d652f86094f6abc8b73c1d7424555e14861e220ac7d8b6327877a",
+      "compatibility_sha256": "28e05e5d8a0c138f6207ed1c7db78a0959b001db14dd9b19fdde0fa351a64259",
       "inputSchema": {
         "oneOf": [
           {
@@ -126,47 +126,52 @@
                                   "type": "null"
                                 },
                                 {
-                                  "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files.",
-                                  "properties": {
-                                    "animated": {
-                                      "description": "An animated gif preview of the video.",
-                                      "format": "uri",
-                                      "type": "string"
-                                    },
-                                    "animated_thumbnail_template": {
-                                      "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                      "type": "string"
-                                    },
-                                    "maybe_catalina_fallback_animated_gif": {
-                                      "format": "uri",
-                                      "type": [
-                                        "null",
-                                        "string"
-                                      ]
-                                    },
-                                    "maybe_catalina_fallback_animated_gif_thumbnail_template": {
-                                      "type": [
-                                        "null",
-                                        "string"
-                                      ]
-                                    },
-                                    "still": {
-                                      "description": "A static single frame preview image of the video.",
-                                      "format": "uri",
-                                      "type": "string"
-                                    },
-                                    "still_thumbnail_template": {
-                                      "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                      "type": "string"
+                                  "allOf": [
+                                    {
+                                      "description": "Video preview images for a video media file referenced by a folder.\nMirrors the shape of `MediaLinks`' video previews, but is its own type\nso the folder wire shape can evolve independently.",
+                                      "properties": {
+                                        "animated": {
+                                          "description": "An animated gif preview of the video.",
+                                          "format": "uri",
+                                          "type": "string"
+                                        },
+                                        "animated_thumbnail_template": {
+                                          "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                          "type": "string"
+                                        },
+                                        "maybe_catalina_fallback_animated_gif": {
+                                          "format": "uri",
+                                          "type": [
+                                            "null",
+                                            "string"
+                                          ]
+                                        },
+                                        "maybe_catalina_fallback_animated_gif_thumbnail_template": {
+                                          "type": [
+                                            "null",
+                                            "string"
+                                          ]
+                                        },
+                                        "still": {
+                                          "description": "A static single frame preview image of the video.",
+                                          "format": "uri",
+                                          "type": "string"
+                                        },
+                                        "still_thumbnail_template": {
+                                          "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "animated",
+                                        "animated_thumbnail_template",
+                                        "still",
+                                        "still_thumbnail_template"
+                                      ],
+                                      "type": "object"
                                     }
-                                  },
-                                  "required": [
-                                    "animated",
-                                    "animated_thumbnail_template",
-                                    "still",
-                                    "still_thumbnail_template"
                                   ],
-                                  "type": "object"
+                                  "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
                                 }
                               ]
                             },
@@ -251,136 +256,146 @@
                             "type": "null"
                           },
                           {
-                            "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid.",
-                            "properties": {
-                              "cdn_url": {
-                                "description": "Direct CDN URL to the underlying media asset.",
-                                "format": "uri",
-                                "type": "string"
-                              },
-                              "maybe_thumbnail_template": {
-                                "description": "Resizing template URL (with `{{width}}` / `{{height}}` placeholders)\nwhen the media class supports it. `None` for media classes without\na thumbnail variant. (Video media files instead have video previews,\nwhich, in turn, have their own thumbnail templates.)",
-                                "type": [
-                                  "null",
-                                  "string"
-                                ]
-                              },
-                              "maybe_video_previews": {
-                                "oneOf": [
-                                  {
-                                    "type": "null"
+                            "allOf": [
+                              {
+                                "description": "A compact thumbnail descriptor for a media file referenced by a\nfolder (either one of the `last_media_*` slots or the custom cover).\n\nIntentionally narrower than `MediaLinks` / `CoverImageLinks` \u2014 folders\nonly need the bare minimum to render a thumbnail card. The CDN URL is\nthe direct asset link; `maybe_thumbnail_template` carries the resizing\ntemplate URL (with `{{width}}` / `{{height}}` placeholders) when the\nmedia class supports it.",
+                                "properties": {
+                                  "cdn_url": {
+                                    "description": "Direct CDN URL to the underlying media asset.",
+                                    "format": "uri",
+                                    "type": "string"
                                   },
-                                  {
-                                    "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files.",
-                                    "properties": {
-                                      "animated": {
-                                        "description": "An animated gif preview of the video.",
-                                        "format": "uri",
-                                        "type": "string"
+                                  "maybe_thumbnail_template": {
+                                    "description": "Resizing template URL (with `{{width}}` / `{{height}}` placeholders)\nwhen the media class supports it. `None` for media classes without\na thumbnail variant. (Video media files instead have video previews,\nwhich, in turn, have their own thumbnail templates.)",
+                                    "type": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  },
+                                  "maybe_video_previews": {
+                                    "oneOf": [
+                                      {
+                                        "type": "null"
                                       },
-                                      "animated_thumbnail_template": {
-                                        "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                        "type": "string"
-                                      },
-                                      "maybe_catalina_fallback_animated_gif": {
-                                        "format": "uri",
-                                        "type": [
-                                          "null",
-                                          "string"
-                                        ]
-                                      },
-                                      "maybe_catalina_fallback_animated_gif_thumbnail_template": {
-                                        "type": [
-                                          "null",
-                                          "string"
-                                        ]
-                                      },
-                                      "still": {
-                                        "description": "A static single frame preview image of the video.",
-                                        "format": "uri",
-                                        "type": "string"
-                                      },
-                                      "still_thumbnail_template": {
-                                        "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                        "type": "string"
+                                      {
+                                        "allOf": [
+                                          {
+                                            "description": "Video preview images for a video media file referenced by a folder.\nMirrors the shape of `MediaLinks`' video previews, but is its own type\nso the folder wire shape can evolve independently.",
+                                            "properties": {
+                                              "animated": {
+                                                "description": "An animated gif preview of the video.",
+                                                "format": "uri",
+                                                "type": "string"
+                                              },
+                                              "animated_thumbnail_template": {
+                                                "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                                "type": "string"
+                                              },
+                                              "maybe_catalina_fallback_animated_gif": {
+                                                "format": "uri",
+                                                "type": [
+                                                  "null",
+                                                  "string"
+                                                ]
+                                              },
+                                              "maybe_catalina_fallback_animated_gif_thumbnail_template": {
+                                                "type": [
+                                                  "null",
+                                                  "string"
+                                                ]
+                                              },
+                                              "still": {
+                                                "description": "A static single frame preview image of the video.",
+                                                "format": "uri",
+                                                "type": "string"
+                                              },
+                                              "still_thumbnail_template": {
+                                                "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "animated",
+                                              "animated_thumbnail_template",
+                                              "still",
+                                              "still_thumbnail_template"
+                                            ],
+                                            "type": "object"
+                                          }
+                                        ],
+                                        "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
                                       }
-                                    },
-                                    "required": [
-                                      "animated",
-                                      "animated_thumbnail_template",
-                                      "still",
-                                      "still_thumbnail_template"
+                                    ]
+                                  },
+                                  "media_class": {
+                                    "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
+                                    "enum": [
+                                      "audio",
+                                      "dimensional",
+                                      "image",
+                                      "mesh",
+                                      "project",
+                                      "splat",
+                                      "unknown",
+                                      "video"
                                     ],
-                                    "type": "object"
+                                    "type": "string"
+                                  },
+                                  "media_type": {
+                                    "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
+                                    "enum": [
+                                      "aac",
+                                      "audio",
+                                      "bvh",
+                                      "csv",
+                                      "editor_json",
+                                      "fbx",
+                                      "flac",
+                                      "gif",
+                                      "glb",
+                                      "gltf",
+                                      "image",
+                                      "jpg",
+                                      "json",
+                                      "m4a",
+                                      "mood_json",
+                                      "mov",
+                                      "mp3",
+                                      "mp4",
+                                      "obj",
+                                      "ogg",
+                                      "opus",
+                                      "ply",
+                                      "pmd",
+                                      "pmx",
+                                      "png",
+                                      "scene_json",
+                                      "scene_ron",
+                                      "spz",
+                                      "timeline_json",
+                                      "video",
+                                      "vmd",
+                                      "wav",
+                                      "webm",
+                                      "webp"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "token": {
+                                    "description": "The primary key for Media Files",
+                                    "type": "string"
                                   }
-                                ]
-                              },
-                              "media_class": {
-                                "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
-                                "enum": [
-                                  "audio",
-                                  "dimensional",
-                                  "image",
-                                  "mesh",
-                                  "project",
-                                  "splat",
-                                  "unknown",
-                                  "video"
+                                },
+                                "required": [
+                                  "cdn_url",
+                                  "media_class",
+                                  "media_type",
+                                  "token"
                                 ],
-                                "type": "string"
-                              },
-                              "media_type": {
-                                "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
-                                "enum": [
-                                  "aac",
-                                  "audio",
-                                  "bvh",
-                                  "csv",
-                                  "editor_json",
-                                  "fbx",
-                                  "flac",
-                                  "gif",
-                                  "glb",
-                                  "gltf",
-                                  "image",
-                                  "jpg",
-                                  "json",
-                                  "m4a",
-                                  "mood_json",
-                                  "mov",
-                                  "mp3",
-                                  "mp4",
-                                  "obj",
-                                  "ogg",
-                                  "opus",
-                                  "ply",
-                                  "pmd",
-                                  "pmx",
-                                  "png",
-                                  "scene_json",
-                                  "scene_ron",
-                                  "spz",
-                                  "timeline_json",
-                                  "video",
-                                  "vmd",
-                                  "wav",
-                                  "webm",
-                                  "webp"
-                                ],
-                                "type": "string"
-                              },
-                              "token": {
-                                "description": "The primary key for Media Files",
-                                "type": "string"
+                                "type": "object"
                               }
-                            },
-                            "required": [
-                              "cdn_url",
-                              "media_class",
-                              "media_type",
-                              "token"
                             ],
-                            "type": "object"
+                            "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid."
                           }
                         ]
                       },
@@ -497,47 +512,52 @@
                                     "type": "null"
                                   },
                                   {
-                                    "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files.",
-                                    "properties": {
-                                      "animated": {
-                                        "description": "An animated gif preview of the video.",
-                                        "format": "uri",
-                                        "type": "string"
-                                      },
-                                      "animated_thumbnail_template": {
-                                        "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                        "type": "string"
-                                      },
-                                      "maybe_catalina_fallback_animated_gif": {
-                                        "format": "uri",
-                                        "type": [
-                                          "null",
-                                          "string"
-                                        ]
-                                      },
-                                      "maybe_catalina_fallback_animated_gif_thumbnail_template": {
-                                        "type": [
-                                          "null",
-                                          "string"
-                                        ]
-                                      },
-                                      "still": {
-                                        "description": "A static single frame preview image of the video.",
-                                        "format": "uri",
-                                        "type": "string"
-                                      },
-                                      "still_thumbnail_template": {
-                                        "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                        "type": "string"
+                                    "allOf": [
+                                      {
+                                        "description": "Video preview images for a video media file referenced by a folder.\nMirrors the shape of `MediaLinks`' video previews, but is its own type\nso the folder wire shape can evolve independently.",
+                                        "properties": {
+                                          "animated": {
+                                            "description": "An animated gif preview of the video.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "animated_thumbnail_template": {
+                                            "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                            "type": "string"
+                                          },
+                                          "maybe_catalina_fallback_animated_gif": {
+                                            "format": "uri",
+                                            "type": [
+                                              "null",
+                                              "string"
+                                            ]
+                                          },
+                                          "maybe_catalina_fallback_animated_gif_thumbnail_template": {
+                                            "type": [
+                                              "null",
+                                              "string"
+                                            ]
+                                          },
+                                          "still": {
+                                            "description": "A static single frame preview image of the video.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "still_thumbnail_template": {
+                                            "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "animated",
+                                          "animated_thumbnail_template",
+                                          "still",
+                                          "still_thumbnail_template"
+                                        ],
+                                        "type": "object"
                                       }
-                                    },
-                                    "required": [
-                                      "animated",
-                                      "animated_thumbnail_template",
-                                      "still",
-                                      "still_thumbnail_template"
                                     ],
-                                    "type": "object"
+                                    "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
                                   }
                                 ]
                               },
@@ -622,136 +642,146 @@
                               "type": "null"
                             },
                             {
-                              "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid.",
-                              "properties": {
-                                "cdn_url": {
-                                  "description": "Direct CDN URL to the underlying media asset.",
-                                  "format": "uri",
-                                  "type": "string"
-                                },
-                                "maybe_thumbnail_template": {
-                                  "description": "Resizing template URL (with `{{width}}` / `{{height}}` placeholders)\nwhen the media class supports it. `None` for media classes without\na thumbnail variant. (Video media files instead have video previews,\nwhich, in turn, have their own thumbnail templates.)",
-                                  "type": [
-                                    "null",
-                                    "string"
-                                  ]
-                                },
-                                "maybe_video_previews": {
-                                  "oneOf": [
-                                    {
-                                      "type": "null"
+                              "allOf": [
+                                {
+                                  "description": "A compact thumbnail descriptor for a media file referenced by a\nfolder (either one of the `last_media_*` slots or the custom cover).\n\nIntentionally narrower than `MediaLinks` / `CoverImageLinks` \u2014 folders\nonly need the bare minimum to render a thumbnail card. The CDN URL is\nthe direct asset link; `maybe_thumbnail_template` carries the resizing\ntemplate URL (with `{{width}}` / `{{height}}` placeholders) when the\nmedia class supports it.",
+                                  "properties": {
+                                    "cdn_url": {
+                                      "description": "Direct CDN URL to the underlying media asset.",
+                                      "format": "uri",
+                                      "type": "string"
                                     },
-                                    {
-                                      "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files.",
-                                      "properties": {
-                                        "animated": {
-                                          "description": "An animated gif preview of the video.",
-                                          "format": "uri",
-                                          "type": "string"
+                                    "maybe_thumbnail_template": {
+                                      "description": "Resizing template URL (with `{{width}}` / `{{height}}` placeholders)\nwhen the media class supports it. `None` for media classes without\na thumbnail variant. (Video media files instead have video previews,\nwhich, in turn, have their own thumbnail templates.)",
+                                      "type": [
+                                        "null",
+                                        "string"
+                                      ]
+                                    },
+                                    "maybe_video_previews": {
+                                      "oneOf": [
+                                        {
+                                          "type": "null"
                                         },
-                                        "animated_thumbnail_template": {
-                                          "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                          "type": "string"
-                                        },
-                                        "maybe_catalina_fallback_animated_gif": {
-                                          "format": "uri",
-                                          "type": [
-                                            "null",
-                                            "string"
-                                          ]
-                                        },
-                                        "maybe_catalina_fallback_animated_gif_thumbnail_template": {
-                                          "type": [
-                                            "null",
-                                            "string"
-                                          ]
-                                        },
-                                        "still": {
-                                          "description": "A static single frame preview image of the video.",
-                                          "format": "uri",
-                                          "type": "string"
-                                        },
-                                        "still_thumbnail_template": {
-                                          "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
-                                          "type": "string"
+                                        {
+                                          "allOf": [
+                                            {
+                                              "description": "Video preview images for a video media file referenced by a folder.\nMirrors the shape of `MediaLinks`' video previews, but is its own type\nso the folder wire shape can evolve independently.",
+                                              "properties": {
+                                                "animated": {
+                                                  "description": "An animated gif preview of the video.",
+                                                  "format": "uri",
+                                                  "type": "string"
+                                                },
+                                                "animated_thumbnail_template": {
+                                                  "description": "A template used to construct the animated thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                                  "type": "string"
+                                                },
+                                                "maybe_catalina_fallback_animated_gif": {
+                                                  "format": "uri",
+                                                  "type": [
+                                                    "null",
+                                                    "string"
+                                                  ]
+                                                },
+                                                "maybe_catalina_fallback_animated_gif_thumbnail_template": {
+                                                  "type": [
+                                                    "null",
+                                                    "string"
+                                                  ]
+                                                },
+                                                "still": {
+                                                  "description": "A static single frame preview image of the video.",
+                                                  "format": "uri",
+                                                  "type": "string"
+                                                },
+                                                "still_thumbnail_template": {
+                                                  "description": "A template used to construct the still thumbnail URL.\nReplace the string `{WIDTH}` with the desired width.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "animated",
+                                                "animated_thumbnail_template",
+                                                "still",
+                                                "still_thumbnail_template"
+                                              ],
+                                              "type": "object"
+                                            }
+                                          ],
+                                          "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
                                         }
-                                      },
-                                      "required": [
-                                        "animated",
-                                        "animated_thumbnail_template",
-                                        "still",
-                                        "still_thumbnail_template"
+                                      ]
+                                    },
+                                    "media_class": {
+                                      "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
+                                      "enum": [
+                                        "audio",
+                                        "dimensional",
+                                        "image",
+                                        "mesh",
+                                        "project",
+                                        "splat",
+                                        "unknown",
+                                        "video"
                                       ],
-                                      "type": "object"
+                                      "type": "string"
+                                    },
+                                    "media_type": {
+                                      "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
+                                      "enum": [
+                                        "aac",
+                                        "audio",
+                                        "bvh",
+                                        "csv",
+                                        "editor_json",
+                                        "fbx",
+                                        "flac",
+                                        "gif",
+                                        "glb",
+                                        "gltf",
+                                        "image",
+                                        "jpg",
+                                        "json",
+                                        "m4a",
+                                        "mood_json",
+                                        "mov",
+                                        "mp3",
+                                        "mp4",
+                                        "obj",
+                                        "ogg",
+                                        "opus",
+                                        "ply",
+                                        "pmd",
+                                        "pmx",
+                                        "png",
+                                        "scene_json",
+                                        "scene_ron",
+                                        "spz",
+                                        "timeline_json",
+                                        "video",
+                                        "vmd",
+                                        "wav",
+                                        "webm",
+                                        "webp"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "token": {
+                                      "description": "The primary key for Media Files",
+                                      "type": "string"
                                     }
-                                  ]
-                                },
-                                "media_class": {
-                                  "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
-                                  "enum": [
-                                    "audio",
-                                    "dimensional",
-                                    "image",
-                                    "mesh",
-                                    "project",
-                                    "splat",
-                                    "unknown",
-                                    "video"
+                                  },
+                                  "required": [
+                                    "cdn_url",
+                                    "media_class",
+                                    "media_type",
+                                    "token"
                                   ],
-                                  "type": "string"
-                                },
-                                "media_type": {
-                                  "description": "Used in the `media_files` table in a `VARCHAR(16)` field.\n\nDO NOT CHANGE VALUES WITHOUT A MIGRATION STRATEGY.",
-                                  "enum": [
-                                    "aac",
-                                    "audio",
-                                    "bvh",
-                                    "csv",
-                                    "editor_json",
-                                    "fbx",
-                                    "flac",
-                                    "gif",
-                                    "glb",
-                                    "gltf",
-                                    "image",
-                                    "jpg",
-                                    "json",
-                                    "m4a",
-                                    "mood_json",
-                                    "mov",
-                                    "mp3",
-                                    "mp4",
-                                    "obj",
-                                    "ogg",
-                                    "opus",
-                                    "ply",
-                                    "pmd",
-                                    "pmx",
-                                    "png",
-                                    "scene_json",
-                                    "scene_ron",
-                                    "spz",
-                                    "timeline_json",
-                                    "video",
-                                    "vmd",
-                                    "wav",
-                                    "webm",
-                                    "webp"
-                                  ],
-                                  "type": "string"
-                                },
-                                "token": {
-                                  "description": "The primary key for Media Files",
-                                  "type": "string"
+                                  "type": "object"
                                 }
-                              },
-                              "required": [
-                                "cdn_url",
-                                "media_class",
-                                "media_type",
-                                "token"
                               ],
-                              "type": "object"
+                              "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid."
                             }
                           ]
                         },
@@ -808,6 +838,117 @@
                 },
                 "required": [
                   "folders",
+                  "success"
+                ],
+                "type": "object"
+              },
+              "status": {
+                "const": 200,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "action",
+              "content_type",
+              "data",
+              "status"
+            ],
+            "type": "object"
+          }
+        ],
+        "type": "object"
+      }
+    },
+    "misc_operations": {
+      "compatibility_sha256": "70c290f12b354145f73b42c3ae9b551f52a6c08cfa87be3fc10ba2ef201f9605",
+      "inputSchema": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "action": {
+                "enum": [
+                  "status_alert_handler"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "action"
+            ],
+            "type": "object"
+          }
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "action": {
+                "const": "status_alert_handler",
+                "type": "string"
+              },
+              "content_type": {
+                "const": "application/json",
+                "type": "string"
+              },
+              "data": {
+                "properties": {
+                  "maybe_alert": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "allOf": [
+                          {
+                            "properties": {
+                              "maybe_category": {
+                                "oneOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "allOf": [
+                                      {
+                                        "enum": [
+                                          "down_for_maintenance"
+                                        ],
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "description": "If an alert is set, this might be a key for a common i18n message to show."
+                                  }
+                                ]
+                              },
+                              "maybe_message": {
+                                "description": "We can set an optional message to show to the frontend.\n\nThis field may or may not be set. If it's set, this is custom text that should\nbe displayed to the user. For example, we might tell the user when we'll be\nback online, etc. Both this field and `maybe_category` are optional.\n\nIf `maybe_category` is present, it should be a key for a predefined and\ninternationalized (i18n) message stored on the frontend.\n\nEither or both of these fields may be set.",
+                                "type": [
+                                  "null",
+                                  "string"
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          }
+                        ],
+                        "description": "If there's an alert, this will be set.\nThe sub keys are optional, but at least one of them will be set.\ni.e. we can have an alert with no message or no predefined category."
+                      }
+                    ]
+                  },
+                  "refresh_interval_millis": {
+                    "description": "Tell the frontend client how fast to refresh their view of this list.\nDuring an attack, we may want this to go extremely slow.",
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "success": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "refresh_interval_millis",
                   "success"
                 ],
                 "type": "object"

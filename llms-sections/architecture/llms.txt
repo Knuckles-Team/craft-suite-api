@@ -5,6 +5,6 @@
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the nine reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 Standards maturity and scope: [root documentation index](../../llms.txt).

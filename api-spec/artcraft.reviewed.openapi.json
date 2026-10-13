@@ -1335,6 +1335,63 @@
         ],
         "type": "object"
       },
+      "StatusAlertCategory": {
+        "enum": [
+          "down_for_maintenance"
+        ],
+        "type": "string"
+      },
+      "StatusAlertInfo": {
+        "properties": {
+          "maybe_category": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StatusAlertCategory",
+                "description": "If an alert is set, this might be a key for a common i18n message to show."
+              }
+            ]
+          },
+          "maybe_message": {
+            "description": "We can set an optional message to show to the frontend.\n\nThis field may or may not be set. If it's set, this is custom text that should\nbe displayed to the user. For example, we might tell the user when we'll be\nback online, etc. Both this field and `maybe_category` are optional.\n\nIf `maybe_category` is present, it should be a key for a predefined and\ninternationalized (i18n) message stored on the frontend.\n\nEither or both of these fields may be set.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "StatusAlertResponse": {
+        "properties": {
+          "maybe_alert": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/StatusAlertInfo",
+                "description": "If there's an alert, this will be set.\nThe sub keys are optional, but at least one of them will be set.\ni.e. we can have an alert with no message or no predefined category."
+              }
+            ]
+          },
+          "refresh_interval_millis": {
+            "description": "Tell the frontend client how fast to refresh their view of this list.\nDuring an attack, we may want this to go extremely slow.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "success",
+          "refresh_interval_millis"
+        ],
+        "type": "object"
+      },
       "TagDetails": {
         "description": "One tag as returned by every tags endpoint.",
         "properties": {
@@ -1616,6 +1673,31 @@
         "summary": "List available splat (3D world) models.",
         "tags": [
           "Omni Gen"
+        ]
+      }
+    },
+    "/v1/status_alert_check": {
+      "get": {
+        "description": "Returns service alert configuration without session lookup or domain writes. maybe_alert is null when no category or message is configured; refresh_interval_millis is 60000. Common deployment endpoint, IP and pushback controls still apply.",
+        "operationId": "status_alert_handler",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusAlertResponse"
+                }
+              }
+            },
+            "description": "Check service status for frontend alert messages"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        },
+        "security": [],
+        "tags": [
+          "Misc"
         ]
       }
     },

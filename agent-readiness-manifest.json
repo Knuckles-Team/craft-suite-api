@@ -45,7 +45,7 @@
       "artifact_sha256": "59b69699f3a05c3a099701fd2c9e1450f84cb1fbd35e65c2a0d382a531b6bced",
       "http_transport": "true",
       "source": "craft_suite_api/mcp_server.py",
-      "source_sha256": "7e2bb3d77ff63114457e12ce10b22745e1c06b4f2c348bf0ca82c2cf92e3bba1"
+      "source_sha256": "a1e1731b9b7cd8e0da6fef32fa04cb82930e92668a4b4ed7f7d1e41fbc503146"
     }
   },
   "content_signals": {
@@ -88,8 +88,8 @@
         "source": "docs/overview.md"
       },
       {
-        "bytes": 1971,
-        "sha256": "4450591d123ed52f4a7e207cca6f13dee84b5aac22e192f7589e058d57640eda",
+        "bytes": 1970,
+        "sha256": "511fca14df6a56e008162b19c307f2e5813330ec798afdb730f42c09ab1a99f3",
         "source": "docs/architecture.md"
       },
       {
@@ -103,8 +103,8 @@
         "source": "docs/deployment.md"
       },
       {
-        "bytes": 1856,
-        "sha256": "3a298a497c192f5b360d2f4ac7144e0cdaff1b0298479edf8cd14221a7e30178",
+        "bytes": 2053,
+        "sha256": "4abfaf39bb0a49efe1c0ba6da6b732df376314b400386c9da31e91e10773b28d",
         "source": "docs/usage.md"
       },
       {

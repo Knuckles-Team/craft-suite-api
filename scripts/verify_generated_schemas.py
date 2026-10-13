@@ -26,6 +26,33 @@ ARTIFACTS = (
     "schemas/mcp_tools.json",
 )
 MANIFEST = "validation/generated-schemas.json"
+COMPILER_FILES = frozenset(
+    (
+        "scripts/check_openapi_parity.py",
+        "scripts/openapi_converter.py",
+        "scripts/openapi_discovery.py",
+        "scripts/openapi_parity.py",
+        "scripts/openapi_provider_evidence.py",
+        "scripts/openapi_provider_overlay.py",
+        "scripts/openapi_schema.py",
+        "scripts/openapi_schema_budget.py",
+        "scripts/openapi_schema_inputs.py",
+        "scripts/openapi_schema_types.py",
+        "scripts/openapi_security.py",
+        "scripts/openapi_source_parity.py",
+        "scripts/openapi_transport_parity.py",
+        "scripts/templates/openapi_auth.py",
+        "scripts/templates/openapi_auth_scheme.py",
+        "scripts/templates/openapi_client_system.py",
+        "scripts/templates/openapi_execution.py",
+        "scripts/templates/openapi_registrars.py",
+        "scripts/templates/openapi_request.py",
+        "scripts/templates/openapi_response.py",
+        "scripts/templates/openapi_runtime.py",
+        "scripts/unicode_patterns.py",
+        "scripts/unicode_properties.json",
+    )
+)
 
 
 def digest(path: Path) -> str:
@@ -62,15 +89,12 @@ def generation_inputs(policy: dict) -> tuple[Path, Path]:
         )
     skill, evidence = Path(skill_value), Path(evidence_value)
     for name, expected in policy["builder"]["compiler_sha256"].items():
-        if name not in {"scripts/openapi_converter.py", "scripts/openapi_schema.py"}:
+        if name not in COMPILER_FILES:
             raise ValueError("Unapproved compiler input")
         if digest(skill / name) != expected:
             raise ValueError(f"Published compiler input differs: {name}")
-    if set(policy["builder"]["compiler_sha256"]) != {
-        "scripts/openapi_converter.py",
-        "scripts/openapi_schema.py",
-    }:
-        raise ValueError("Both compiler inputs must be verified")
+    if set(policy["builder"]["compiler_sha256"]) != COMPILER_FILES:
+        raise ValueError("All canonical compiler inputs must be verified")
     return skill, evidence
 
 

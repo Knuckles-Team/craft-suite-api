@@ -1,6 +1,6 @@
 # Connector architecture
 
-The `craft-suite-api` package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented.
+The `craft-suite-api` package owns the nine reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented.
 The [shared connector SDK](https://github.com/Knuckles-Team/agent-connector-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md) owns reusable runtime contracts.
 
 ```mermaid
