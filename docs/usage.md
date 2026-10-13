@@ -22,6 +22,12 @@ No live service tests or ingestion acceptance receipts are claimed. Graph ingest
 
 Tag/folder list `limit` inputs are optional unsigned 32-bit integers (0 through 4294967295); overflow is rejected locally. The provider still applies its 1000-row page clamp.
 
-Native confirmation is validated with FastMCP legacy negotiation. The tested SDK
-rejects server-initiated elicitation on protocol 2026-07-28, so cache-effectful
-operations fail closed on that protocol. Public catalog reads remain available.
+Native confirmation is validated with legacy negotiation and protocol 2026-07-28.
+Modern requests remain pending without provider dispatch until an explicit true
+acceptance returns with the same action, arguments and request state. Declines,
+cancellations, missing responses and changed arguments/state are denied. Operator
+write enablement remains necessary. Public catalog reads do not request confirmation.
+
+URI and date-time formats are validated on API and MCP paths. Malformed values
+are rejected without echoing the input; a missing required format checker fails
+explicitly instead of silently accepting data.

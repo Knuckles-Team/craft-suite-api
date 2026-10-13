@@ -3,12 +3,11 @@
 from typing import Any
 
 from agent_connector_sdk.mcp.concurrency import run_blocking
-from agent_connector_sdk.mcp.context import ctx_confirm_destructive
-from fastmcp.server.dependencies import get_context
 from fastmcp.tools import Tool, ToolResult
-from mcp.types import ToolAnnotations
+from mcp.types import InputRequiredResult, ToolAnnotations
 from pydantic import Field
 
+from .openapi_execution import confirm_write
 from .openapi_schema import CONTRACT, validate
 
 
@@ -22,11 +21,9 @@ class OpenApiTool(Tool):
         validate(arguments, self.parameters)
         operation = CONTRACT["operations"][arguments["action"]]
         client = self.client_factory()
-        if not operation["read_only"]:
-            if not client.allow_writes:
-                raise PermissionError("Writes require explicit operator enablement")
-            if not await ctx_confirm_destructive(get_context(), operation["action"]):
-                raise PermissionError("Write was not confirmed")
+        confirmation = await confirm_write(operation, arguments, client)
+        if isinstance(confirmation, InputRequiredResult):
+            return confirmation
         result = await run_blocking(client.execute, self.domain, arguments)
         return ToolResult(structured_content=result)
 

@@ -34,6 +34,7 @@ COMPILER_FILES = frozenset(
         "scripts/openapi_parity.py",
         "scripts/openapi_provider_evidence.py",
         "scripts/openapi_provider_overlay.py",
+        "scripts/openapi_provider_responses.py",
         "scripts/openapi_schema.py",
         "scripts/openapi_schema_budget.py",
         "scripts/openapi_schema_inputs.py",

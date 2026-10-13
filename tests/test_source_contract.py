@@ -366,7 +366,7 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
     async def elicit(message, response_type, params, context):
         confirmations.append(message)
         return (
-            ElicitResult(action="accept", content=True)
+            ElicitResult(action="accept", content={"confirmed": True})
             if accepted
             else ElicitResult(action="decline")
         )
@@ -377,7 +377,7 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
             elicitation_handler=elicit,
             mode=mode,
         ) as client:
-            if accepted and mode == "legacy":
+            if accepted:
                 result = await client.call_tool(
                     operation["domain"] + "_operations", arguments
                 )
@@ -390,10 +390,10 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
 
     try:
         asyncio.run(call())
-        assert len(confirmations) == int(mode == "legacy")
+        assert len(confirmations) == 1
         if confirmations:
             assert action in confirmations[0]
-        assert len(calls) == int(accepted and mode == "legacy")
+        assert len(calls) == int(accepted)
     finally:
         auth.close_client()
 

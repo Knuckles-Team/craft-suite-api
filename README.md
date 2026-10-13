@@ -43,10 +43,11 @@ are refused, and credentials cannot cross the configured origin.
 
 `CRAFT_SUITE_API_ALLOW_WRITES` defaults to false. The conservative gate also covers
 GET handlers that can populate the session cache; MCP additionally asks for
-confirmation from an elicitation-capable MCP client. Clients negotiating a protocol
-without server-initiated elicitation fail closed; this validation covers legacy
-MCP confirmation and does not claim modern-protocol write support. The four public catalog actions and service-status action work without that enablement or a
-credential. `CRAFT_SUITE_API_ALLOW_PLAINTEXT` defaults to false.
+confirmation from an elicitation-capable MCP client. Legacy clients use an
+elicitation request. Modern clients receive a pending input request and must return
+an explicit acceptance bound to the same action and arguments. Declined, missing,
+or changed confirmation state is rejected before dispatch. The four public catalog
+actions and service-status action work without that enablement or a credential. `CRAFT_SUITE_API_ALLOW_PLAINTEXT` defaults to false.
 
 After installing the declared SDK and package dependencies in an approved source
 environment, run `craft-suite-mcp` (stdio by default). For example, call:
@@ -102,7 +103,7 @@ Handwritten pairs, including handwritten-to-schema pairs, remain enforced.
 Missing inputs, stale artifacts, extra paths and invalid receipts fail the gate.
 The scanner versions, thresholds and existing exclusions are unchanged.
 
-For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.7 skill source,
+For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.9 skill source,
 `ARTCRAFT_SOURCE_EVIDENCE_DIR` to the exact preserved capture directory, and
 `GENERATED_SCHEMA_PYTHON` to the approved project environment's Python executable
 (default: `.venv/bin/python`). Run `python scripts/verify_generated_schemas.py`
@@ -121,6 +122,10 @@ fetches pinned public Rust/compiler evidence. SHA-256 and Git blob checks preced
 the existing exact-tree regeneration proof. No scanner or native dependency is
 built by this workflow. Bootstrap authority is recorded in
 `validation/ci-bootstrap.json`.
+
+URI and date-time schema formats are enforced with the declared validators.
+Missing required format support fails explicitly; provider date representation
+still requires source review before additional operations can be admitted.
 
 ## Validation boundary
 
