@@ -1,0 +1,11 @@
+{
+  "builder": "f6881bf5598f1d6a6a1f548ae4caa1a713a6d9d7",
+  "canonical_files": {
+    "scripts/bootstrap_environment.py": "7bf45a335f6cdca1fd2be8e7bdb9dde150492d5ebd2dd255e54e33cd8cab6c1b",
+    "scripts/bootstrap_sources.py": "03652f931cf17d315db18b11c330bcb0426f5f27f1fa374c7862ee722cc8bed8",
+    "scripts/select_python.py": "2a489eab98ede8f1cd03e1ac0c61f39b712fb450cdef4182e6baae57f940a313"
+  },
+  "provider_capture": "Original public schema from historical consumer Git commit; Rust sources from pinned public upstream; all bytes verified against source-review.json.",
+  "scope": "Source-contract bootstrap only; no native builds or complete wheel installation certification.",
+  "workflow": "Canonical quality template plus Craft immutable source-evidence preparation."
+}

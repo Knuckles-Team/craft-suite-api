@@ -115,6 +115,13 @@ regeneration checks; a missing capture fails closed.
 The three shared Pipelines references follow `main`
 with explicit user approval; record its resolved commit with each validation run.
 
+CI prepares locked project dependencies with the canonical builder bootstrap,
+then restores the original OpenAPI capture from its recorded Git commit and
+fetches pinned public Rust/compiler evidence. SHA-256 and Git blob checks precede
+the existing exact-tree regeneration proof. No scanner or native dependency is
+built by this workflow. Bootstrap authority is recorded in
+`validation/ci-bootstrap.json`.
+
 ## Validation boundary
 
 Tests use actual SDK HTTP/auth/MCP components with synthetic responses at the
