@@ -1,11 +1,11 @@
-# artcraft-api — Spec delivery
+# craft-suite-api — Spec delivery
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Spec delivery
 
-- [Spec delivery](https://knuckles-team.github.io/artcraft-api/spec-delivery/) — Open the published delivery dashboard.
+- [Spec delivery](https://knuckles-team.github.io/craft-suite-api/spec-delivery/) — Open the published delivery dashboard.
 
 ## Standards maturity
 

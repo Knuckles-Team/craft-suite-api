@@ -234,7 +234,7 @@ def generate(root: Path, skill: Path, evidence_dir: Path):
     scripts = skill / "scripts"
     sys.path.insert(0, str(scripts))
     converter = importlib.import_module("openapi_converter")
-    package = root / "artcraft_api"
+    package = root / "craft_suite_api"
     converter.generate(
         spec_dir / "artcraft.reviewed.openapi.json", package, "signed_session"
     )

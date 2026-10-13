@@ -1,11 +1,11 @@
-# artcraft-api — Deployment
+# craft-suite-api — Deployment
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Deployment
 
-- [Deployment](https://knuckles-team.github.io/artcraft-api/deployment/) — This page covers running artcraft-api as long-lived servers.
+- [Deployment](https://knuckles-team.github.io/craft-suite-api/deployment/) — This page covers running craft-suite-api as long-lived servers.
 
 ## Standards maturity
 

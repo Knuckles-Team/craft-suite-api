@@ -1,4 +1,4 @@
-# CONN-ARTCRAFT-API — Design and implementation plan
+# CONN-CRAFT-SUITE-API — Design and implementation plan
 
 Governing specification: [spec.md](spec.md).
 
@@ -13,19 +13,19 @@ No graph-ingestion path is enabled.
 
 ## Implementation units
 
-- `artcraft_api/openapi_schema.py`: captured contract and bounded validation.
-- `artcraft_api/openapi_parameters.py`: declared path/query/header serialization.
-- `artcraft_api/openapi_client.py`: origin, permission and HTTP dispatch policy.
-- `artcraft_api/openapi_responses.py`: bounded response reading and decoding.
-- `artcraft_api/openapi_runtime.py`: native MCP routing and confirmation.
+- `craft_suite_api/openapi_schema.py`: captured contract and bounded validation.
+- `craft_suite_api/openapi_parameters.py`: declared path/query/header serialization.
+- `craft_suite_api/openapi_client.py`: origin, permission and HTTP dispatch policy.
+- `craft_suite_api/openapi_responses.py`: bounded response reading and decoding.
+- `craft_suite_api/openapi_runtime.py`: native MCP routing and confirmation.
 
 ## Interfaces and live integration path
 
-`artcraft_api/mcp_server.py` exposes `build_server` and the console entry point.
+`craft_suite_api/mcp_server.py` exposes `build_server` and the console entry point.
 `get_mcp_instance` calls `create_mcp_server`, `register_tool_surface`, and the package tool registrars.
-`artcraft_api/mcp/__init__.py` routes selected operations through `get_client` and the API client.
-`artcraft_api/auth.py` resolves references only when a caller requests a client.
-`artcraft_api/openapi_client.py` enforces transport and response limits before returning external data.
+`craft_suite_api/mcp/__init__.py` routes selected operations through `get_client` and the API client.
+`craft_suite_api/auth.py` resolves references only when a caller requests a client.
+`craft_suite_api/openapi_client.py` enforces transport and response limits before returning external data.
 Graph ingestion is withheld until a tenant/source-scoped mapping and complete receipt contract have been reviewed.
 The SDK owns engine transport and durable checkpoints.
 
@@ -45,7 +45,7 @@ Each source mapping must match the connector's actual external data before inges
 
 ## Quality and release gates
 
-Run `python scripts/check_connector_contract.py . --package artcraft_api`.
+Run `python scripts/check_connector_contract.py . --package craft_suite_api`.
 Run `python scripts/generate_tool_schemas.py --check` and `python -m pytest tests -q`.
 Run the pinned pre-commit and pre-push gates with the approved scanner toolchain.
 The published site must pass the shared readiness checks and render canonical spec records.

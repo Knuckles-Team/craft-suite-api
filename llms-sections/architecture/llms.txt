@@ -1,11 +1,11 @@
-# artcraft-api — Architecture
+# craft-suite-api — Architecture
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 ## Standards maturity
 

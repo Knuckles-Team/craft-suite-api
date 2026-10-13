@@ -1,47 +1,47 @@
-# artcraft-api
+# craft-suite-api
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Home
 
-- [Home](https://knuckles-team.github.io/artcraft-api/) — ArtCraft API + MCP Server using the connector SDK — a typed, action-routed connector.
+- [Home](https://knuckles-team.github.io/craft-suite-api/) — ArtCraft API + MCP Server using the connector SDK — a typed, action-routed connector.
 
 ## Overview
 
-- [Overview](https://knuckles-team.github.io/artcraft-api/overview/) — > Category: Integration | Ecosystem Role: MCP Server > Built on agent-connector-sdk.
+- [Overview](https://knuckles-team.github.io/craft-suite-api/overview/) — > Category: Integration | Ecosystem Role: MCP Server > Built on agent-connector-sdk.
 
 ## Architecture
 
-- [Architecture](https://knuckles-team.github.io/artcraft-api/architecture/) — The artcraft-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
+- [Architecture](https://knuckles-team.github.io/craft-suite-api/architecture/) — The craft-suite-api package owns the eight reviewed external-system operations. Graph ingestion is unavailable until a scoped source mapping is implemented. The shared connector SDK owns reusable runtime contracts.
 
 ## Installation
 
-- [Installation](https://knuckles-team.github.io/artcraft-api/installation/) — This private repository currently provides source. No ArtCraft connector PyPI release or prebuilt image has been verified. A passing source test does not establish package availability, image startup, or a live deployment.
+- [Installation](https://knuckles-team.github.io/craft-suite-api/installation/) — This private repository currently provides source. No ArtCraft connector PyPI release or prebuilt image has been verified. A passing source test does not establish package availability, image startup, or a live deployment.
 
 ## Deployment
 
-- [Deployment](https://knuckles-team.github.io/artcraft-api/deployment/) — This page covers running artcraft-api as long-lived servers.
+- [Deployment](https://knuckles-team.github.io/craft-suite-api/deployment/) — This page covers running craft-suite-api as long-lived servers.
 
 ## Usage (API / CLI / MCP)
 
-- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/artcraft-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
+- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/craft-suite-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
 
 ## Backing Platform (ArtCraft)
 
-- [Backing Platform (ArtCraft)](https://knuckles-team.github.io/artcraft-api/platform/) — artcraft-api is a client of a backing service instance. This page provides a Docker recipe for deploying one locally as an operator-selected provider endpoint.
+- [Backing Platform (ArtCraft)](https://knuckles-team.github.io/craft-suite-api/platform/) — craft-suite-api is a client of a backing service instance. This page provides a Docker recipe for deploying one locally as an operator-selected provider endpoint.
 
 ## Concepts
 
-- [Concepts](https://knuckles-team.github.io/artcraft-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
+- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
 
 ## Glossary
 
-- [Glossary](https://knuckles-team.github.io/artcraft-api/glossary/) — The browser operator experience for working with agents and their runtime. Graph OS hosts it as a composed service.
+- [Glossary](https://knuckles-team.github.io/craft-suite-api/glossary/) — The browser operator experience for working with agents and their runtime. Graph OS hosts it as a composed service.
 
 ## Spec delivery
 
-- [Spec delivery](https://knuckles-team.github.io/artcraft-api/spec-delivery/) — Open the published delivery dashboard.
+- [Spec delivery](https://knuckles-team.github.io/craft-suite-api/spec-delivery/) — Open the published delivery dashboard.
 
 ## Standards maturity
 

@@ -9,9 +9,9 @@ import httpx
 import pytest
 from agent_connector_sdk.auth.static import api_key_auth
 
-from artcraft_api.api import ApiClientSystem
-from artcraft_api.openapi_client import ClientPolicy
-from artcraft_api.openapi_runtime import CONTRACT
+from craft_suite_api.api import ApiClientSystem
+from craft_suite_api.openapi_client import ClientPolicy
+from craft_suite_api.openapi_runtime import CONTRACT
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -101,7 +101,7 @@ def test_every_reviewed_operation_dispatches_exact_route(action, monkeypatch):
             expected_path = expected_path.replace(
                 "{" + parameter["name"] + "}", "fixture_token"
             )
-    monkeypatch.setenv("ARTCRAFT_FIXTURE_SESSION", "fixture-signed-session")
+    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "fixture-signed-session")
     requires = bool(operation["security"])
     seen = []
 
@@ -118,7 +118,7 @@ def test_every_reviewed_operation_dispatches_exact_route(action, monkeypatch):
 
     client = ApiClientSystem(
         "https://artcraft.example.invalid",
-        api_key_auth("env://ARTCRAFT_FIXTURE_SESSION", header="session")
+        api_key_auth("env://CRAFT_SUITE_FIXTURE_SESSION", header="session")
         if requires
         else httpx.Auth(),
         credential_scheme="signed_session" if requires else None,
@@ -199,14 +199,14 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
     from agent_connector_sdk.http.client import create_http_client
     from fastmcp import Client
 
-    from artcraft_api import auth, openapi_client
-    from artcraft_api.mcp_server import build_server
+    from craft_suite_api import auth, openapi_client
+    from craft_suite_api.mcp_server import build_server
 
     auth.close_client()
     monkeypatch.setattr(auth, "load_config", lambda: None)
-    monkeypatch.setenv("ARTCRAFT_API_BASE_URL", "https://artcraft.example.invalid")
-    monkeypatch.setenv("ARTCRAFT_API_TOKEN_REF", "")
-    monkeypatch.setenv("ARTCRAFT_API_ALLOW_WRITES", "false")
+    monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", "https://artcraft.example.invalid")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "")
+    monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_WRITES", "false")
     monkeypatch.setenv("ENABLE_DELEGATION", "false")
     calls = []
 
@@ -251,8 +251,8 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
 def test_unscoped_ingestion_is_unavailable():
     import importlib.util
 
-    assert importlib.util.find_spec("artcraft_api.kg_ingest") is None
-    assert importlib.util.find_spec("artcraft_api.api.api_client_base") is None
+    assert importlib.util.find_spec("craft_suite_api.kg_ingest") is None
+    assert importlib.util.find_spec("craft_suite_api.api.api_client_base") is None
 
 
 @pytest.mark.parametrize("action", ["list_tags_handler", "list_folders_handler"])
@@ -311,15 +311,15 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
     from fastmcp.client.elicitation import ElicitResult
     from mcp.shared.exceptions import MCPError
 
-    from artcraft_api import auth, openapi_client
-    from artcraft_api.mcp_server import build_server
+    from craft_suite_api import auth, openapi_client
+    from craft_suite_api.mcp_server import build_server
 
     auth.close_client()
     monkeypatch.setattr(auth, "load_config", lambda: None)
-    monkeypatch.setenv("ARTCRAFT_API_BASE_URL", "https://artcraft.example.invalid")
-    monkeypatch.setenv("ARTCRAFT_API_TOKEN_REF", "env://ARTCRAFT_FIXTURE_SESSION")
-    monkeypatch.setenv("ARTCRAFT_FIXTURE_SESSION", "synthetic-session")
-    monkeypatch.setenv("ARTCRAFT_API_ALLOW_WRITES", "true")
+    monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", "https://artcraft.example.invalid")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "env://CRAFT_SUITE_FIXTURE_SESSION")
+    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "synthetic-session")
+    monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_WRITES", "true")
     monkeypatch.setenv("ENABLE_DELEGATION", "false")
     calls, confirmations = [], []
     operation = CONTRACT["operations"][action]
@@ -404,7 +404,7 @@ def test_optional_session_media_tags_supports_anonymous_access():
 
 
 def test_served_prompts_match_admitted_capabilities():
-    for path in (ROOT / "artcraft_api/prompts").glob("*.json"):
+    for path in (ROOT / "craft_suite_api/prompts").glob("*.json"):
         prompt = json.loads(path.read_text())
         assert set(prompt["tools"]) == {
             "folders_operations",
@@ -419,7 +419,7 @@ def test_served_prompts_match_admitted_capabilities():
 
 
 def test_bounded_pattern_callback_preserves_json_schema_validation():
-    from artcraft_api.openapi_schema import validate
+    from craft_suite_api.openapi_schema import validate
 
     validate("aaa", {"type": "string", "pattern": "^a+$"})
     with pytest.raises(ValueError, match="declared OpenAPI schema"):

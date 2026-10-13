@@ -1,11 +1,11 @@
-# artcraft-api — Backing Platform (ArtCraft)
+# craft-suite-api — Backing Platform (ArtCraft)
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Backing Platform (ArtCraft)
 
-- [Backing Platform (ArtCraft)](https://knuckles-team.github.io/artcraft-api/platform/) — artcraft-api is a client of a backing service instance. This page provides a Docker recipe for deploying one locally as an operator-selected provider endpoint.
+- [Backing Platform (ArtCraft)](https://knuckles-team.github.io/craft-suite-api/platform/) — craft-suite-api is a client of a backing service instance. This page provides a Docker recipe for deploying one locally as an operator-selected provider endpoint.
 
 ## Standards maturity
 

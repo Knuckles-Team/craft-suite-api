@@ -1,6 +1,6 @@
 # Backing Platform — ArtCraft
 
-`artcraft-api` is a **client** of a backing service instance. This page provides a
+`craft-suite-api` is a **client** of a backing service instance. This page provides a
 Docker recipe for deploying one locally as an operator-selected provider endpoint.
 
 !!! note "Backing-system recipe"

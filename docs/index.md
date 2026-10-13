@@ -1,21 +1,21 @@
-# artcraft-api
+# craft-suite-api
 
 ArtCraft **API + MCP Server** using the connector SDK — a
 typed, action-routed connector.
 
 !!! info "Official documentation"
-    This site is the canonical reference for `artcraft-api`, maintained alongside
+    This site is the canonical reference for `craft-suite-api`, maintained alongside
     the source. Package and image releases remain unverified.
 
 ![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')
-[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Knuckles-Team/artcraft-api/blob/main/LICENSE)
-[![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/Knuckles-Team/artcraft-api)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Knuckles-Team/craft-suite-api/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/badge/source-GitHub-181717?logo=github)](https://github.com/Knuckles-Team/craft-suite-api)
 
 ## Overview
 
-`artcraft-api` wraps the target service with typed, deterministic MCP tools.
+`craft-suite-api` wraps the target service with typed, deterministic MCP tools.
 
-Tools resolve `ARTCRAFT_API_BASE_URL`, `ARTCRAFT_API_TOKEN_REF`, and the SDK TLS
+Tools resolve `CRAFT_SUITE_API_BASE_URL`, `CRAFT_SUITE_API_TOKEN_REF`, and the SDK TLS
 profile when invoked. Discovery requires no vendor credentials or live service.
 
 ## Explore the documentation

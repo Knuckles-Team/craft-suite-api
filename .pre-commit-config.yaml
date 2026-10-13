@@ -5,9 +5,9 @@ default_stages: [pre-commit]
 
 repos:
 - repo: https://github.com/Knuckles-Team/pipelines
-  rev: 7b3d18d72b5622d455ece3bbe45a9482bc6e8b5e
+  rev: main
   hooks:
-  # Native scanner versions and policy belong to this pinned source.
+  # Native scanner versions and policy follow the approved shared main source.
   # Use the reviewed, already-provisioned toolchain; hooks never install it.
   - id: scanner-versions
   - id: complexity-staged
@@ -18,8 +18,10 @@ repos:
   - id: kiss-census
     stages: [pre-push]
   - id: jscpd-differential
+    entry: python scripts/generated_schema_clones.py differential
     stages: [pre-push]
   - id: jscpd-census
+    entry: python scripts/generated_schema_clones.py census
     stages: [pre-push]
   - id: public-surface
   - id: security-sanitizer
@@ -60,13 +62,19 @@ repos:
   hooks:
   - id: connector-sdk-contract
     name: SDK connector dependency and import contract
-    entry: python scripts/check_connector_contract.py . --package artcraft_api
+    entry: python scripts/check_connector_contract.py . --package craft_suite_api
     language: system
     pass_filenames: false
     always_run: true
   - id: connector-tool-schemas
     name: Live SDK input and output schema contracts
     entry: python scripts/generate_tool_schemas.py --check
+    language: system
+    pass_filenames: false
+    always_run: true
+  - id: generated-schema-proof
+    name: Exact generated schema provenance and regeneration
+    entry: python scripts/verify_generated_schemas.py
     language: system
     pass_filenames: false
     always_run: true

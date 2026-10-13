@@ -30,13 +30,13 @@ try:
     )
     from fastmcp import Client
 
-    from artcraft_api.mcp_server import build_server
+    from craft_suite_api.mcp_server import build_server
 except ImportError as exc:
     raise SystemExit(
         "Install this project's declared dependencies before generating schemas"
     ) from exc
 
-PACKAGE = ROOT / "artcraft_api"
+PACKAGE = ROOT / "craft_suite_api"
 
 
 def _write_or_check(path: Path, value: dict, check: bool) -> None:
@@ -76,7 +76,7 @@ async def generate(check: bool) -> None:
     _write_or_check(
         PACKAGE / "connectors/tool_schema_fingerprints.json",
         {
-            "connector": "artcraft-api",
+            "connector": "craft-suite-api",
             "algorithm": COMPATIBILITY_FINGERPRINT_ALGORITHM,
             "tools": pinned,
         },

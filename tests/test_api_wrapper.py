@@ -9,9 +9,9 @@ from agent_connector_sdk.http.errors import TlsVerificationError
 from agent_connector_sdk.tls.errors import TransportSecurityError
 from agent_connector_sdk.tls.resolve import resolve_tls_profile
 
-from artcraft_api import openapi_client
-from artcraft_api.api import ApiClientSystem
-from artcraft_api.openapi_client import ClientPolicy
+from craft_suite_api import openapi_client
+from craft_suite_api.api import ApiClientSystem
+from craft_suite_api.openapi_client import ClientPolicy
 
 ACTION = "omni_gen_audio_models_handler"
 PAYLOAD = {"success": True, "models": [{"model": "suno_music"}], "providers": []}
@@ -19,7 +19,7 @@ PAYLOAD = {"success": True, "models": [{"model": "suno_music"}], "providers": []
 
 @pytest.fixture
 def client_factory(monkeypatch):
-    monkeypatch.setenv("ARTCRAFT_FIXTURE_SESSION", "fixture-session")
+    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "fixture-session")
     clients = []
 
     def create(
@@ -27,7 +27,7 @@ def client_factory(monkeypatch):
     ):
         client = ApiClientSystem(
             base_url,
-            api_key_auth("env://ARTCRAFT_FIXTURE_SESSION", header="session"),
+            api_key_auth("env://CRAFT_SUITE_FIXTURE_SESSION", header="session"),
             credential_scheme="signed_session",
             transport=httpx.MockTransport(handler),
             policy=ClientPolicy(allow_plaintext=allow_plaintext),

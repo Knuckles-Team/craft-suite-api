@@ -1,7 +1,7 @@
 # Usage and validation boundary
 
 The current backend connector has three tools and eight source-reviewed actions.
-See [README](https://github.com/Knuckles-Team/artcraft-api/blob/main/README.md#supported-operations) for the exact allowlist and
+See [README](https://github.com/Knuckles-Team/craft-suite-api/blob/main/README.md#supported-operations) for the exact allowlist and
 configuration. All operation inputs and outputs are generated from the reviewed
 subset in `api-spec/artcraft.reviewed.openapi.json`.
 

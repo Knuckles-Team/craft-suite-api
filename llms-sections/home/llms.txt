@@ -1,11 +1,11 @@
-# artcraft-api — Home
+# craft-suite-api — Home
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Home
 
-- [Home](https://knuckles-team.github.io/artcraft-api/) — ArtCraft API + MCP Server using the connector SDK — a typed, action-routed connector.
+- [Home](https://knuckles-team.github.io/craft-suite-api/) — ArtCraft API + MCP Server using the connector SDK — a typed, action-routed connector.
 
 ## Standards maturity
 

@@ -1,1 +1,1 @@
-{"applicable": true, "surface": "mcp", "version": "capability/v1", "http_transport": true, "source": "artcraft_api/mcp_server.py"}
+{"applicable": true, "surface": "mcp", "version": "capability/v1", "http_transport": true, "source": "craft_suite_api/mcp_server.py"}

@@ -15,7 +15,7 @@ RUN apt-get update \
 # Build from this checkout, including generated runtime data.
 WORKDIR /src
 COPY pyproject.toml README.md LICENSE ./
-COPY artcraft_api/ ./artcraft_api/
+COPY craft_suite_api/ ./craft_suite_api/
 
 # MCP serving dependency closure (including SDK graph client).
 FROM builder-base AS builder-mcp
@@ -41,6 +41,6 @@ ENV HOST=${HOST} \
 # MCP serving image.
 FROM runtime-base AS mcp
 COPY --from=builder-mcp /usr/local /usr/local
-CMD ["artcraft-mcp"]
+CMD ["craft-suite-mcp"]
 
 FROM mcp AS default

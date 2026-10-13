@@ -11,8 +11,8 @@ dependencies available. The recorded validation used pinned SDK source; registry
 resolution of the declared dependency closure remains unverified.
 
 ```bash
-git clone https://github.com/Knuckles-Team/artcraft-api.git
-cd artcraft-api
+git clone https://github.com/Knuckles-Team/craft-suite-api.git
+cd craft-suite-api
 python -m pip install -e ".[mcp,test]"
 ```
 
@@ -24,11 +24,11 @@ described in [Usage](usage.md). Public model catalogs need no session credential
 ## Local-source container recipe
 
 The Dockerfile installs this checkout, including the generated OpenAPI contract,
-through the local `.[mcp]` package target. It does not fetch an `artcraft-api`
+through the local `.[mcp]` package target. It does not fetch an `craft-suite-api`
 release from an index. From the repository root on an approved image-build host:
 
 ```bash
-docker build --file docker/Dockerfile --target mcp -t artcraft-api:mcp-local .
+docker build --file docker/Dockerfile --target mcp -t craft-suite-api:mcp-local .
 ```
 
 This recipe remains unbuilt and untested. It still resolves dependencies from the

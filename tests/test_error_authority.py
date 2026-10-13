@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from artcraft_api.error_authority import (
+from craft_suite_api.error_authority import (
     BROWSER_HTML_MEDIA_TYPE,
     MAX_DETAIL_CHARS,
     PROBLEM_JSON_MEDIA_TYPE,

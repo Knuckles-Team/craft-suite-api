@@ -16,18 +16,18 @@ def get_mcp_instance(*, command_args=None):
     load_config()
     package_root = Path(__file__).resolve().parent
     args, mcp, middlewares = create_mcp_server(
-        name="ArtCraft",
+        name="Craft Suite",
         version=__version__,
-        instructions="ArtCraft backend API connector and MCP server",
+        instructions="Craft Suite connector; eight reviewed ArtCraft backend reads",
         command_args=command_args,
         content=ConnectorContent(
-            connector="artcraft-api",
+            connector="craft-suite-api",
             package_root=package_root,
             package_version=__version__,
             manifest_path=package_root / "connector_manifest.yml",
         ),
     )
-    register_tool_surface(mcp, service="artcraft-api", tools_module=tool_modules)
+    register_tool_surface(mcp, service="craft-suite-api", tools_module=tool_modules)
     for middleware in middlewares:
         mcp.add_middleware(middleware)
     return mcp, args, middlewares
@@ -39,7 +39,7 @@ def build_server(*, command_args=None):
 
 def mcp_server():
     mcp, args, _ = get_mcp_instance()
-    print("Starting ArtCraft MCP", file=sys.stderr)
+    print("Starting Craft Suite MCP", file=sys.stderr)
     options = (
         {} if args.transport == "stdio" else {"host": args.host, "port": args.port}
     )

@@ -1,4 +1,4 @@
-# Concept Registry — artcraft-api
+# Concept Registry — craft-suite-api
 
 > **Prefix**: `CONCEPT:CRAFT-*`
 > **Version**: 0.1.0

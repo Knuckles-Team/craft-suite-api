@@ -30,22 +30,22 @@
     },
     "skills": {
       "applicable": true,
-      "path": "artcraft_api/skills"
+      "path": "craft_suite_api/skills"
     }
   },
   "capability_evidence": {
     "api": {
       "artifact": "docs/capabilities/api.json",
-      "artifact_sha256": "b88b22412a8bf5439727d8d3d5605846b08d820cd76333c70d3412217ec72db3",
-      "source": "artcraft_api/api/__init__.py",
+      "artifact_sha256": "544ee445b15deb3a165dc8bfaa311067e684111f3e21507354597be9811d84f2",
+      "source": "craft_suite_api/api/__init__.py",
       "source_sha256": "60c4220046512ee8606075ae97b3393bc301fb562f3c5cb9d19c3b51ec117544"
     },
     "mcp": {
       "artifact": "docs/capabilities/mcp.json",
-      "artifact_sha256": "cb6b548b671d753bbc45ecc46fcc622ad746e50242f5951f2f095e8b86af8137",
+      "artifact_sha256": "59b69699f3a05c3a099701fd2c9e1450f84cb1fbd35e65c2a0d382a531b6bced",
       "http_transport": "true",
-      "source": "artcraft_api/mcp_server.py",
-      "source_sha256": "1134cd43d0296f75a11704f49c01a05b9f114ebcaafe396ef6884f26b40ebdf9"
+      "source": "craft_suite_api/mcp_server.py",
+      "source_sha256": "7e2bb3d77ff63114457e12ce10b22745e1c06b4f2c348bf0ca82c2cf92e3bba1"
     }
   },
   "content_signals": {
@@ -71,50 +71,50 @@
   "generator_version": "1.0.0",
   "project": {
     "kind": "package",
-    "name": "artcraft-api"
+    "name": "craft-suite-api"
   },
   "provenance": {
-    "applicability_sha256": "caffc078d57256e0275da8f832cc9fff443d9c9eb868af4080281782a2f99f6e",
-    "mkdocs_sha256": "4a4ab1e44be80244e5b48f2a11bb432834a58f024b1f5531528d276b4ec969bc",
+    "applicability_sha256": "a5ba548377e6cf1e1b73a3288bab368ad5330646256d9542aa3a2cb3b53b5c30",
+    "mkdocs_sha256": "dd49423f04aa8f31b335db3664e120986dee79e72b480abadc778e0937acc9d9",
     "pages": [
       {
-        "bytes": 1569,
-        "sha256": "455724ae53a55af9114a9bbb701f1892176d7788d9eac5574be2dcc49427d358",
+        "bytes": 1590,
+        "sha256": "ca75a1059247701574a2b045905c9efd0251262b054e1c4d61eaf6e45682cba2",
         "source": "docs/index.md"
       },
       {
-        "bytes": 1015,
-        "sha256": "de65cf7a19af1a6b7d30c2ce9ae29fe184b1d44efaf5d285fc269abed5285837",
+        "bytes": 1018,
+        "sha256": "9e78602b5329caae7269311a0094fc46c8b255b545a5df2b410b6764c78a4133",
         "source": "docs/overview.md"
       },
       {
-        "bytes": 1944,
-        "sha256": "e964ff13790f2eefe475ae74f2116460866e541f3f9fdc08cfd73153629b2106",
+        "bytes": 1971,
+        "sha256": "4450591d123ed52f4a7e207cca6f13dee84b5aac22e192f7589e058d57640eda",
         "source": "docs/architecture.md"
       },
       {
-        "bytes": 1636,
-        "sha256": "b83c73fb3cd5273a81bde7990e5e9f0a95b0de97cf48af2fdb471bcc4d25ee89",
+        "bytes": 1648,
+        "sha256": "2d139126f73924ca264fb5fdd3872aefecb012c75bab8763825b2027dd91c5af",
         "source": "docs/installation.md"
       },
       {
-        "bytes": 3823,
-        "sha256": "8c87a361fd49d4ea06a0dd2a8d5f267aae5d0ad0ee3d016235b47b28658aa3ce",
+        "bytes": 3862,
+        "sha256": "df4606c2bcbd8bed7a6c895d6e75f78aab198b7ec36653ac93a8859d8f4e0aaa",
         "source": "docs/deployment.md"
       },
       {
-        "bytes": 1853,
-        "sha256": "ba25beb6314ebdb6ae6d301bdb130edbb49f3e0e4cde0859f743cf6c37713584",
+        "bytes": 1856,
+        "sha256": "3a298a497c192f5b360d2f4ac7144e0cdaff1b0298479edf8cd14221a7e30178",
         "source": "docs/usage.md"
       },
       {
-        "bytes": 711,
-        "sha256": "ccd169f4a71887779cf07dd42dfdec620004f67173a4e11dd501e02254a471ed",
+        "bytes": 714,
+        "sha256": "f17de2e1ae5db86643ddb61bc1cb0749b419fa03731ff0147734830ba4bfaecb",
         "source": "docs/platform.md"
       },
       {
-        "bytes": 768,
-        "sha256": "bbde2db0c220c2120f3815fca1a0a6cf869df44dfd68f24fa2712df61e9d968f",
+        "bytes": 771,
+        "sha256": "7dda75716e83232b7c89db81d767da297d018e4c0ca79a3d193c5e5583558eca",
         "source": "docs/concepts.md"
       },
       {
@@ -123,8 +123,8 @@
         "source": "docs/glossary.md"
       },
       {
-        "bytes": 1128,
-        "sha256": "1b7ccbff567d8ababf546c1e639f2828f2489bc41b5216548832bc35821b8f43",
+        "bytes": 1134,
+        "sha256": "e4342874389c696878a8d053969bfaaa0a52d61cd6c70ee4ce28ef700f241cda",
         "source": "docs/spec-delivery.md"
       }
     ],

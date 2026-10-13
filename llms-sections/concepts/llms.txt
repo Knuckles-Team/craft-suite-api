@@ -1,11 +1,11 @@
-# artcraft-api — Concepts
+# craft-suite-api — Concepts
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Concepts
 
-- [Concepts](https://knuckles-team.github.io/artcraft-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
+- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
 
 ## Standards maturity
 

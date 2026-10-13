@@ -11,9 +11,9 @@ def test_source_image_installs_this_checkout_and_runtime_contract():
     docker = (ROOT / "docker/Dockerfile").read_text()
     assert "WORKDIR /src" in docker
     assert "COPY pyproject.toml README.md LICENSE ./" in docker
-    assert "COPY artcraft_api/ ./artcraft_api/" in docker
+    assert "COPY craft_suite_api/ ./craft_suite_api/" in docker
     assert '--prerelease=allow ".[mcp]"' in docker
-    assert '"artcraft-api[mcp]' not in docker
+    assert '"craft-suite-api[mcp]' not in docker
     assert "COPY --from=builder-mcp /usr/local /usr/local" in docker
     assert "FROM mcp AS default" in docker
     assert "COPY . " not in docker
@@ -22,14 +22,14 @@ def test_source_image_installs_this_checkout_and_runtime_contract():
         "pyproject.toml",
         "README.md",
         "LICENSE",
-        "artcraft_api/openapi_contract.json",
-        "artcraft_api/connector_manifest.yml",
+        "craft_suite_api/openapi_contract.json",
+        "craft_suite_api/connector_manifest.yml",
     ]:
         assert (ROOT / name).is_file()
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text())
     assert (
         "openapi_contract.json"
-        in metadata["tool"]["setuptools"]["package-data"]["artcraft_api"]
+        in metadata["tool"]["setuptools"]["package-data"]["craft_suite_api"]
     )
     config = configparser.ConfigParser(interpolation=None)
     config.read(ROOT / ".bumpversion.cfg")

@@ -9,12 +9,12 @@ warnings.filterwarnings("ignore", message=".*urllib3.*or chardet.*")
 __all__: list[str] = []
 
 CORE_MODULES = [
-    "artcraft_api.api",
-    "artcraft_api.error_authority",
+    "craft_suite_api.api",
+    "craft_suite_api.error_authority",
 ]
 
 OPTIONAL_MODULES = {
-    "artcraft_api.mcp_server": "mcp",
+    "craft_suite_api.mcp_server": "mcp",
 }
 
 
@@ -37,11 +37,8 @@ def _expose_members(module):
 
 
 for module_name in CORE_MODULES:
-    try:
-        module = importlib.import_module(module_name)
-        _expose_members(module)
-    except ImportError:
-        pass
+    module = importlib.import_module(module_name)
+    _expose_members(module)
 
 for module_name, extra_name in OPTIONAL_MODULES.items():
     module = _import_module_safely(module_name)

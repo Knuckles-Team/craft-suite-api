@@ -1,0 +1,18 @@
+{
+  "artifacts": {
+    "api-spec/artcraft.reviewed.openapi.json": "9a9b1a3698f90753130b5f8992081d5feafdc335001a7c7516bf4c6376da1587",
+    "craft_suite_api/openapi_contract.json": "ff0e6810a88d686521b3e4727c92848e586585c89ec9a1514bb22bcd937f9299",
+    "schemas/mcp_tools.json": "59444978390e53d1c3c5d29d6911e80dd5457f1eeff02a4e412c680806d5043d"
+  },
+  "builder": {
+    "commit": "e08e78671c7e48fcad20cce9b805b6149b7fcb42",
+    "compiler_sha256": {
+      "scripts/openapi_converter.py": "834149b14d573caef6ca4bbdcdcf4f039b138cc1bb7a691cae51c653e3e1cbb9",
+      "scripts/openapi_schema.py": "a5dbb2da00f399cc826e83a7fdfb65a6da32dbd2607212a380de149c088ee4a8"
+    },
+    "release": "1.3.5",
+    "wheel_sha256": "a0fa540c0f605ecbe9c0510575e99f5bc2e5865e03042305d2eaad076f77eb84"
+  },
+  "scope": "Only the three exact reproducibly generated schema artifacts; all handwritten code remains scanned. Hashes alone do not admit exclusion: source regeneration and native schema check must pass.",
+  "version": 1
+}

@@ -1,9 +1,9 @@
 INHERIT: .pipeline-theme/templates/mkdocs-theme/base.mkdocs.yml
-site_name: "artcraft-api"
-site_description: "ArtCraft backend API connector and MCP server"
-site_url: "https://knuckles-team.github.io/artcraft-api/"
-repo_name: "Knuckles-Team/artcraft-api"
-repo_url: "https://github.com/Knuckles-Team/artcraft-api"
+site_name: "craft-suite-api"
+site_description: "Craft Suite connector; current ArtCraft backend subset"
+site_url: "https://knuckles-team.github.io/craft-suite-api/"
+repo_name: "Knuckles-Team/craft-suite-api"
+repo_url: "https://github.com/Knuckles-Team/craft-suite-api"
 edit_uri: "edit/main/docs/"
 copyright: "Copyright &copy; Knuckles-Team — MIT licensed"
 
@@ -12,7 +12,7 @@ plugins:
 
 extra:
   ecosystem:
-    current: "artcraft-api"
+    current: "craft-suite-api"
 
 nav:
   - Home: index.md

@@ -4,23 +4,23 @@ import httpx
 import pytest
 from agent_connector_sdk.credentials.references import SecretReferenceError
 
-import artcraft_api.auth as auth_module
+import craft_suite_api.auth as auth_module
 
 
 @pytest.fixture(autouse=True)
 def configured_client(monkeypatch):
     auth_module.close_client()
     monkeypatch.setattr(auth_module, "load_config", lambda: None)
-    monkeypatch.setenv("ARTCRAFT_API_BASE_URL", "https://service.example.invalid")
-    monkeypatch.setenv("ARTCRAFT_API_TOKEN_REF", "env://SCAFFOLD_TEST_TOKEN")
+    monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", "https://service.example.invalid")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "env://SCAFFOLD_TEST_TOKEN")
     monkeypatch.setenv("SCAFFOLD_TEST_TOKEN", "test-token")
     monkeypatch.setenv("ENABLE_DELEGATION", "false")
-    monkeypatch.delenv("ARTCRAFT_API_ALLOW_PLAINTEXT", raising=False)
+    monkeypatch.delenv("CRAFT_SUITE_API_ALLOW_PLAINTEXT", raising=False)
     yield
     auth_module.close_client()
 
 
-@pytest.mark.concept("ARTCRAFT-API-001")
+@pytest.mark.concept("CRAFT-SUITE-API-001")
 def test_client_resolves_reference_and_cleans_up():
     tls = MagicMock()
     with (
@@ -43,7 +43,7 @@ def test_client_resolves_reference_and_cleans_up():
 
 @pytest.mark.parametrize("value, expected", [("true", True), ("false", False)])
 def test_plaintext_setting_is_explicit(monkeypatch, value, expected):
-    monkeypatch.setenv("ARTCRAFT_API_ALLOW_PLAINTEXT", value)
+    monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_PLAINTEXT", value)
     with (
         patch.object(auth_module, "resolve_tls_profile") as profile,
         patch.object(auth_module, "ApiClientSystem") as client_cls,
@@ -54,7 +54,7 @@ def test_plaintext_setting_is_explicit(monkeypatch, value, expected):
 
 
 def test_literal_credential_rejected_and_tls_cleaned(monkeypatch):
-    monkeypatch.setenv("ARTCRAFT_API_TOKEN_REF", "not-a-reference")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "not-a-reference")
     tls = MagicMock()
     with patch.object(auth_module, "resolve_tls_profile", return_value=tls):
         with pytest.raises(SecretReferenceError):

@@ -20,7 +20,7 @@ _resources = ExitStack()
 
 
 def _reference_auth(definition):
-    reference = setting("ARTCRAFT_API_TOKEN_REF", "")
+    reference = setting("CRAFT_SUITE_API_TOKEN_REF", "")
     if not reference:
         return httpx.Auth(), None
     if definition is None:
@@ -43,9 +43,9 @@ def _delegated_auth(definition, delegation, resources):
 
 
 def _build_client(base_url, resources):
-    scheme = setting("ARTCRAFT_API_AUTH_SCHEME", "signed_session")
+    scheme = setting("CRAFT_SUITE_API_AUTH_SCHEME", "signed_session")
     definition = declared_scheme(scheme, CONTRACT["security_schemes"])
-    tls = resolve_tls_profile("artcraft-api")
+    tls = resolve_tls_profile("craft-suite-api")
     resources.callback(tls.cleanup)
     delegation = DelegationSettings.from_settings()
     if delegation.enabled:
@@ -53,8 +53,8 @@ def _build_client(base_url, resources):
     else:
         auth, credential_scheme = _reference_auth(definition)
     policy = ClientPolicy(
-        allow_writes=setting("ARTCRAFT_API_ALLOW_WRITES", False),
-        allow_plaintext=setting("ARTCRAFT_API_ALLOW_PLAINTEXT", False),
+        allow_writes=setting("CRAFT_SUITE_API_ALLOW_WRITES", False),
+        allow_plaintext=setting("CRAFT_SUITE_API_ALLOW_PLAINTEXT", False),
     )
     client = ApiClientSystem(
         base_url=base_url,
@@ -73,7 +73,7 @@ def get_client():
     if _client is not None:
         return _client
     load_config()
-    base_url = setting("ARTCRAFT_API_BASE_URL", "")
+    base_url = setting("CRAFT_SUITE_API_BASE_URL", "")
     if not base_url:
         raise ValueError("Provider base URL is required")
     with ExitStack() as resources:
