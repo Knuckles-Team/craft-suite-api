@@ -1,0 +1,48 @@
+{
+  "api_mocked_dispatch_operations": 9,
+  "base": "49b2a6a24992e95d13e7ba34120b37ca393a44bb",
+  "broader_deterministic_batch": {
+    "candidate_sha256": "a3ed4956750e3da174a0dfd7f4e604370bcb8f4b4def589e1624e634befa7c2d",
+    "compiled_operations": 268,
+    "domains": 51,
+    "generated_files": 26,
+    "reason": "Repaired source needs canonical correction/auth/effect admission, format enforcement and per-operation transport fixtures.",
+    "rerun_identical": true,
+    "runtime_admitted": false,
+    "seconds_rerun": 0.668
+  },
+  "cache_effectful_reads": 4,
+  "confirmation_scope": "Existing four cache-effectful GETs: real legacy acceptance/refusal and modern fail-closed. No new modern write support claimed.",
+  "documented_operations": 268,
+  "full_supported_backend_denominator": null,
+  "http_method": "GET",
+  "http_path": "/v1/status_alert_check",
+  "implemented_operations": 9,
+  "mcp_mocked_dispatch_operations": 9,
+  "native_apps": 12,
+  "native_bridges": 0,
+  "native_mcp_tools": 4,
+  "new_operation": "status_alert_handler",
+  "public_reads": 5,
+  "pytest": {
+    "http_boundary": "httpx.MockTransport",
+    "mcp": "actual FastMCP 4.0.10 native registration",
+    "passed": 118,
+    "sdk_commit": "5babc4cc48ad73928468b243842f219f51e2cca1",
+    "seconds": 5.0
+  },
+  "remaining_blockers": [
+    "Published SDK confirmation path rejects modern-protocol effectful dispatch.",
+    "Date-time format checker is absent; date-bearing expansions remain blocked.",
+    "Featured item and character reads need enum, serializer, query-helper and middleware source proof.",
+    "Public OpenAPI and native catalogs do not establish the complete supported-suite denominator."
+  ],
+  "remaining_documented_operations": 259,
+  "scope": "Source-only status-alert coverage increment; no live service or full-suite acceptance.",
+  "source_checks": {
+    "compiler_commit": "32df4821d1272d804e22ace5880bb1b43d4a2f24",
+    "compiler_input_files": 23,
+    "rust_struct_field_checks": 26,
+    "upstream_commit": "bcff742052ef54c7adc2d19161faf4b8d4a73963"
+  }
+}

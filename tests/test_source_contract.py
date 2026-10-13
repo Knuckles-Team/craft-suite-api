@@ -17,6 +17,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 RESPONSE_FIXTURES = {
+    "status_alert_handler": {
+        "success": True,
+        "maybe_alert": None,
+        "refresh_interval_millis": 60000,
+    },
     "get_folder_handler": {
         "folder": {
             "created_at": "2026-10-12T00:00:00Z",
@@ -158,7 +163,7 @@ def test_cache_effects_are_blocked_by_default(action):
 
 
 def test_unknown_actions_and_mutating_gets_are_not_admitted():
-    assert len(CONTRACT["operations"]) == 8
+    assert len(CONTRACT["operations"]) == 9
     assert all("job_status" not in op["path"] for op in CONTRACT["operations"].values())
     assert "omni_gen_video_models_handler" not in CONTRACT["operations"]
     assert {op["method"] for op in CONTRACT["operations"].values()} == {"GET"}
@@ -172,7 +177,7 @@ def test_unknown_actions_and_mutating_gets_are_not_admitted():
 
 def test_public_schema_is_not_misrepresented_as_pinned_or_live():
     provenance = json.loads((ROOT / "api-spec/source-provenance.json").read_text())
-    assert len(provenance["struct_checks"]) == 24
+    assert len(provenance["struct_checks"]) == 26
     assert all(not op["live_verified"] for op in provenance["operations"])
     assert (
         len(provenance["source_schema_additions"]["FolderThumbnailVideoPreviews"]) == 2
@@ -195,7 +200,10 @@ def test_provider_filter_is_a_closed_enum():
         client.close()
 
 
-def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
+@pytest.mark.parametrize(
+    "action", [a for a, op in CONTRACT["operations"].items() if op["read_only"]]
+)
+def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch, action):
     from agent_connector_sdk.http.client import create_http_client
     from fastmcp import Client
 
@@ -213,7 +221,9 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
     def respond(request):
         calls.append(request)
         assert "session" not in request.headers
-        return httpx.Response(200, json=response_for("omni_gen_audio_models_handler"))
+        assert request.method == "GET"
+        assert request.url.path == CONTRACT["operations"][action]["path"]
+        return httpx.Response(200, json=response_for(action))
 
     monkeypatch.setattr(
         openapi_client,
@@ -230,16 +240,24 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch):
             tools = {tool.name: tool for tool in await client.list_tools()}
             assert set(tools) == {
                 "folders_operations",
+                "misc_operations",
                 "omni_gen_operations",
                 "tags_operations",
             }
             assert tools["omni_gen_operations"].annotations.read_only_hint
+            assert tools["misc_operations"].annotations.read_only_hint
             assert not tools["folders_operations"].annotations.read_only_hint
             assert not tools["tags_operations"].annotations.read_only_hint
             result = await client.call_tool(
-                "omni_gen_operations", {"action": "omni_gen_audio_models_handler"}
+                CONTRACT["operations"][action]["domain"] + "_operations",
+                {"action": action},
             )
-            assert result.structured_content["data"]["success"] is True
+            assert result.structured_content == {
+                "action": action,
+                "status": 200,
+                "content_type": "application/json",
+                "data": response_for(action),
+            }
 
     try:
         asyncio.run(call())
@@ -332,6 +350,9 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
         calls.append(request)
         assert request.method == "GET"
         assert request.headers["session"] == "synthetic-session"
+        assert request.url.path == operation["path"].format_map(
+            arguments.get("path", {})
+        )
         return httpx.Response(200, json=response_for(action))
 
     monkeypatch.setattr(
@@ -408,6 +429,7 @@ def test_served_prompts_match_admitted_capabilities():
         prompt = json.loads(path.read_text())
         assert set(prompt["tools"]) == {
             "folders_operations",
+            "misc_operations",
             "tags_operations",
             "omni_gen_operations",
         }

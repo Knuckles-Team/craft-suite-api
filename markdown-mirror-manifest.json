@@ -18,10 +18,10 @@
       "url": "https://knuckles-team.github.io/craft-suite-api/overview/"
     },
     {
-      "bytes": 1971,
+      "bytes": 1970,
       "canonical_url": "https://knuckles-team.github.io/craft-suite-api/architecture/",
       "markdown_url": "https://knuckles-team.github.io/craft-suite-api/architecture/index.md",
-      "sha256": "4450591d123ed52f4a7e207cca6f13dee84b5aac22e192f7589e058d57640eda",
+      "sha256": "511fca14df6a56e008162b19c307f2e5813330ec798afdb730f42c09ab1a99f3",
       "source": "docs/architecture.md",
       "url": "https://knuckles-team.github.io/craft-suite-api/architecture/"
     },
@@ -42,10 +42,10 @@
       "url": "https://knuckles-team.github.io/craft-suite-api/deployment/"
     },
     {
-      "bytes": 1856,
+      "bytes": 2053,
       "canonical_url": "https://knuckles-team.github.io/craft-suite-api/usage/",
       "markdown_url": "https://knuckles-team.github.io/craft-suite-api/usage/index.md",
-      "sha256": "3a298a497c192f5b360d2f4ac7144e0cdaff1b0298479edf8cd14221a7e30178",
+      "sha256": "4abfaf39bb0a49efe1c0ba6da6b732df376314b400386c9da31e91e10773b28d",
       "source": "docs/usage.md",
       "url": "https://knuckles-team.github.io/craft-suite-api/usage/"
     },

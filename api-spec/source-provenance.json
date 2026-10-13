@@ -196,6 +196,40 @@
       "types": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs"
     },
     {
+      "action": "status_alert_handler",
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+      "handler_evidence": {
+        "line": 59,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L59"
+      },
+      "live_verified": false,
+      "method": "GET",
+      "notes": "Returns service alert configuration without session lookup or domain writes. maybe_alert is null when no category or message is configured; refresh_interval_millis is 60000. Common deployment endpoint, IP and pushback controls still apply.",
+      "path": "/v1/status_alert_check",
+      "registration_evidence": {
+        "line": 43,
+        "path": "crates/service/web/storyteller_web/src/http_server/routes/service_routes.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/service_routes.rs#L43"
+      },
+      "request_checks": [],
+      "response_evidence": {
+        "line": 18,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L18"
+      },
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/service_routes.rs",
+      "runtime_read_only": true,
+      "source_control_flow": {
+        "helper": "crates/service/web/storyteller_web/src/http_server/endpoints/app_state/components/get_status_alert.rs",
+        "root": "crates/service/web/storyteller_web/src/main.rs",
+        "route_chain": "crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs"
+      },
+      "types": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs"
+    },
+    {
       "action": "list_tags_handler",
       "auth": "required_session",
       "effects": [
@@ -658,6 +692,31 @@
         "overrides": "Option<OmniGenSplatModelDetails>"
       },
       "schema": "OmniGenSplatProviderModelDetails"
+    },
+    {
+      "evidence": {
+        "line": 32,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L32"
+      },
+      "fields": {
+        "maybe_category": "Option<StatusAlertCategory>",
+        "maybe_message": "Option<String>"
+      },
+      "schema": "StatusAlertInfo"
+    },
+    {
+      "evidence": {
+        "line": 18,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L18"
+      },
+      "fields": {
+        "maybe_alert": "Option<StatusAlertInfo>",
+        "refresh_interval_millis": "u128",
+        "success": "bool"
+      },
+      "schema": "StatusAlertResponse"
     },
     {
       "evidence": {

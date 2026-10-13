@@ -168,7 +168,11 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/FolderThumbnail",
+              "allOf": [
+                {
+                  "$ref": "#/$defs/FolderThumbnail"
+                }
+              ],
               "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid."
             }
           ]
@@ -230,7 +234,11 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/FolderThumbnailVideoPreviews",
+              "allOf": [
+                {
+                  "$ref": "#/$defs/FolderThumbnailVideoPreviews"
+                }
+              ],
               "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
             }
           ]
@@ -1334,6 +1342,71 @@
       ],
       "type": "object"
     },
+    "StatusAlertCategory": {
+      "enum": [
+        "down_for_maintenance"
+      ],
+      "type": "string"
+    },
+    "StatusAlertInfo": {
+      "properties": {
+        "maybe_category": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/StatusAlertCategory"
+                }
+              ],
+              "description": "If an alert is set, this might be a key for a common i18n message to show."
+            }
+          ]
+        },
+        "maybe_message": {
+          "description": "We can set an optional message to show to the frontend.\n\nThis field may or may not be set. If it's set, this is custom text that should\nbe displayed to the user. For example, we might tell the user when we'll be\nback online, etc. Both this field and `maybe_category` are optional.\n\nIf `maybe_category` is present, it should be a key for a predefined and\ninternationalized (i18n) message stored on the frontend.\n\nEither or both of these fields may be set.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "StatusAlertResponse": {
+      "properties": {
+        "maybe_alert": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/StatusAlertInfo"
+                }
+              ],
+              "description": "If there's an alert, this will be set.\nThe sub keys are optional, but at least one of them will be set.\ni.e. we can have an alert with no message or no predefined category."
+            }
+          ]
+        },
+        "refresh_interval_millis": {
+          "description": "Tell the frontend client how fast to refresh their view of this list.\nDuring an attack, we may want this to go extremely slow.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success",
+        "refresh_interval_millis"
+      ],
+      "type": "object"
+    },
     "TagDetails": {
       "description": "One tag as returned by every tags endpoint.",
       "properties": {
@@ -1376,6 +1449,9 @@
     "folders": [
       "get_folder_handler",
       "list_folders_handler"
+    ],
+    "misc": [
+      "status_alert_handler"
     ],
     "omni_gen": [
       "omni_gen_audio_models_handler",
@@ -1971,6 +2047,52 @@
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs#L15"
       },
       "summary": "List available splat (3D world) models."
+    },
+    "status_alert_handler": {
+      "action": "status_alert_handler",
+      "content_type": null,
+      "domain": "misc",
+      "input": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "status_alert_handler"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "action"
+        ],
+        "type": "object"
+      },
+      "method": "GET",
+      "parameters": [],
+      "path": "/v1/status_alert_check",
+      "read_only": true,
+      "response_modes": {
+        "200": {
+          "application/json": "json"
+        },
+        "500": {}
+      },
+      "responses": {
+        "200": {
+          "application/json": {
+            "$ref": "#/$defs/StatusAlertResponse"
+          }
+        },
+        "500": {}
+      },
+      "security": [],
+      "source_effects": [],
+      "source_evidence": {
+        "line": 59,
+        "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+        "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L59"
+      },
+      "summary": "status_alert_handler"
     }
   },
   "schemas": {
@@ -2086,7 +2208,11 @@
                     "type": "null"
                   },
                   {
-                    "$ref": "#/$defs/FolderThumbnail",
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/FolderThumbnail"
+                      }
+                    ],
                     "description": "User-chosen cover image. When present, the frontend should use this\nas the folder's primary thumbnail instead of the\n`last_media_thumbnails` grid."
                   }
                 ]
@@ -2148,7 +2274,11 @@
                     "type": "null"
                   },
                   {
-                    "$ref": "#/$defs/FolderThumbnailVideoPreviews",
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/FolderThumbnailVideoPreviews"
+                      }
+                    ],
                     "description": "Video preview images (still and animated gif) for mp4 video files.\nThese are only set for video media files."
                   }
                 ]
@@ -2361,6 +2491,128 @@
               },
               "data": {
                 "$ref": "#/$defs/ListFoldersSuccessResponse"
+              },
+              "status": {
+                "const": 200,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "action",
+              "content_type",
+              "data",
+              "status"
+            ],
+            "type": "object"
+          }
+        ],
+        "type": "object"
+      }
+    ],
+    "misc": [
+      {
+        "$defs": {},
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "action": {
+                "enum": [
+                  "status_alert_handler"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "action"
+            ],
+            "type": "object"
+          }
+        ],
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "StatusAlertCategory": {
+            "enum": [
+              "down_for_maintenance"
+            ],
+            "type": "string"
+          },
+          "StatusAlertInfo": {
+            "properties": {
+              "maybe_category": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/StatusAlertCategory"
+                      }
+                    ],
+                    "description": "If an alert is set, this might be a key for a common i18n message to show."
+                  }
+                ]
+              },
+              "maybe_message": {
+                "description": "We can set an optional message to show to the frontend.\n\nThis field may or may not be set. If it's set, this is custom text that should\nbe displayed to the user. For example, we might tell the user when we'll be\nback online, etc. Both this field and `maybe_category` are optional.\n\nIf `maybe_category` is present, it should be a key for a predefined and\ninternationalized (i18n) message stored on the frontend.\n\nEither or both of these fields may be set.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "type": "object"
+          },
+          "StatusAlertResponse": {
+            "properties": {
+              "maybe_alert": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/StatusAlertInfo"
+                      }
+                    ],
+                    "description": "If there's an alert, this will be set.\nThe sub keys are optional, but at least one of them will be set.\ni.e. we can have an alert with no message or no predefined category."
+                  }
+                ]
+              },
+              "refresh_interval_millis": {
+                "description": "Tell the frontend client how fast to refresh their view of this list.\nDuring an attack, we may want this to go extremely slow.",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "success": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "success",
+              "refresh_interval_millis"
+            ],
+            "type": "object"
+          }
+        },
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "action": {
+                "const": "status_alert_handler",
+                "type": "string"
+              },
+              "content_type": {
+                "const": "application/json",
+                "type": "string"
+              },
+              "data": {
+                "$ref": "#/$defs/StatusAlertResponse"
               },
               "status": {
                 "const": 200,
@@ -3832,6 +4084,6 @@
       "type": "apiKey"
     }
   },
-  "source_sha256": "9a9b1a3698f90753130b5f8992081d5feafdc335001a7c7516bf4c6376da1587",
+  "source_sha256": "8442e659a8f26555792be7c013c97978a90b6a3d77ba0c94fd8dc8db0c5daa22",
   "version": 1
 }

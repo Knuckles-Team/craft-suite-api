@@ -1,17 +1,37 @@
 {
   "artifacts": {
-    "api-spec/artcraft.reviewed.openapi.json": "9a9b1a3698f90753130b5f8992081d5feafdc335001a7c7516bf4c6376da1587",
-    "craft_suite_api/openapi_contract.json": "ff0e6810a88d686521b3e4727c92848e586585c89ec9a1514bb22bcd937f9299",
-    "schemas/mcp_tools.json": "59444978390e53d1c3c5d29d6911e80dd5457f1eeff02a4e412c680806d5043d"
+    "api-spec/artcraft.reviewed.openapi.json": "8442e659a8f26555792be7c013c97978a90b6a3d77ba0c94fd8dc8db0c5daa22",
+    "craft_suite_api/openapi_contract.json": "e0f9a9a22555b99c26336050b27577f3bf904b0bcefefc4d6b3b09a0833c3015",
+    "schemas/mcp_tools.json": "52fec46da232a739357f538141b7772c35b9a27c6d8f122057c977b046d4bf20"
   },
   "builder": {
-    "commit": "e08e78671c7e48fcad20cce9b805b6149b7fcb42",
+    "commit": "32df4821d1272d804e22ace5880bb1b43d4a2f24",
     "compiler_sha256": {
-      "scripts/openapi_converter.py": "834149b14d573caef6ca4bbdcdcf4f039b138cc1bb7a691cae51c653e3e1cbb9",
-      "scripts/openapi_schema.py": "a5dbb2da00f399cc826e83a7fdfb65a6da32dbd2607212a380de149c088ee4a8"
+      "scripts/check_openapi_parity.py": "230213bca8519bc9a622d104080e37e3e07e0c06c31728465e4aea21f79bc46c",
+      "scripts/openapi_converter.py": "edcce0281a8a1cf7934cea18a4af28004431f8bb6df497d6914be028859b916b",
+      "scripts/openapi_discovery.py": "6c94f5df86c946d43dc0f4c31642a8b3af5f8cc76501264a9e102d91b7abe444",
+      "scripts/openapi_parity.py": "7ad16d0bb5404cb2e9893d52c9b8a6303bcc0714be3a93f24d6925860def83b8",
+      "scripts/openapi_provider_evidence.py": "8dea567ffe3027c15fca7272cf223e8d0958771fad024a15b98d200096f14321",
+      "scripts/openapi_provider_overlay.py": "001cdcda06f1196069558839e376fdea289bc07a84080f930afa6f086376c52d",
+      "scripts/openapi_schema.py": "45d7be9a51cb442faa37d0d2593cd2bbd4d13add610216630d415c94eea5b2f7",
+      "scripts/openapi_schema_budget.py": "0157fd17d2aa55602f595b4d02b2976cfa285dfdca2cca3941e6da66fa2b00ce",
+      "scripts/openapi_schema_inputs.py": "6da8e33c6ce591110f8ce44de1422ee6a764bbff16ff9d434bd59ccbf89913b5",
+      "scripts/openapi_schema_types.py": "9e7ee4cd460841515bed8e9ce17ab0d6817279566ec225185d4fc33622f9cac6",
+      "scripts/openapi_security.py": "526be16b99e4f17c82644d22b30aaa6c3506a13d8cf6ecc5d7500748737977a6",
+      "scripts/openapi_source_parity.py": "3ce47d3145558a34b3e6f93c12b0269825ec36158e7a28dc611bc835c769135d",
+      "scripts/openapi_transport_parity.py": "53aa634ed3116e7fae40394112839980adc53261156c4cd25e496d9b69aff00e",
+      "scripts/templates/openapi_auth.py": "ce06579486b24934ee9c1c245a359ad9fd6f6e06b83246540b3468aaa921cc6f",
+      "scripts/templates/openapi_auth_scheme.py": "49234563d59cc77ab56fda8bf6e9dfd903e9924b288b88a593cee43a8027b64f",
+      "scripts/templates/openapi_client_system.py": "66bd8a148df7a642372d3d87b3027ad9a8bdc8370b68be50ab4f353a5d679f94",
+      "scripts/templates/openapi_execution.py": "b36d3ca90d6ad8fde75ed2347378bea62a24f8327dca77c51071a0c4f70c3609",
+      "scripts/templates/openapi_registrars.py": "fe83c703c11ea78ccbb5fa64703d59e09e37eae8ef692309af63f482bca7beb6",
+      "scripts/templates/openapi_request.py": "6147c2284ddb82b71a5a98c7b206dbb5c4257f6bb32f9f1a95fa8b9db4aaa9df",
+      "scripts/templates/openapi_response.py": "0f459fb87c65787c02faf0334ef7b493195b0f75ba3d77f74b01801b7b025eb0",
+      "scripts/templates/openapi_runtime.py": "b796d00dac74c3f562c03d6f36e5a245c8810948eb675ddea1261b740d1e333c",
+      "scripts/unicode_patterns.py": "4b4b5d5ff591c619a9cc089ce72968d9e4ad2f2ee403ce8185b51ea607b5b526",
+      "scripts/unicode_properties.json": "94085770ddb2cd6363e7030712be3d0b7a1f4f8cb54a2a6996dac4d03e3e17a4"
     },
-    "release": "1.3.5",
-    "wheel_sha256": "a0fa540c0f605ecbe9c0510575e99f5bc2e5865e03042305d2eaad076f77eb84"
+    "release": "1.3.7 source snapshot"
   },
   "scope": "Only the three exact reproducibly generated schema artifacts; all handwritten code remains scanned. Hashes alone do not admit exclusion: source regeneration and native schema check must pass.",
   "version": 1

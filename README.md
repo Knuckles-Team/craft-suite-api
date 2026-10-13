@@ -1,15 +1,16 @@
 # Craft Suite API connector
 
-A bounded connector for the ArtCraft Services backend. This version exposes eight
-source-reviewed GET operations through three SDK-backed MCP tools. It is not a
+A bounded connector for the ArtCraft Services backend. This version exposes nine
+source-reviewed GET operations through four SDK-backed MCP tools. It is not a
 connector to Craft documents or the native ArtCraft desktop editor.
 This partial surface does not meet the required full Craft-suite API/MCP parity;
-the other backend operations and native Craft applications remain unimplemented.
+259 documented backend operations and all native Craft applications remain unimplemented.
 
 ## Supported operations
 
 | MCP tool | Actions | Authentication | Effect policy |
 | --- | --- | --- | --- |
+| `misc_operations` | `status_alert_handler` | Public | Service alert configuration read |
 | `omni_gen_operations` | `omni_gen_audio_models_handler`, `omni_gen_image_models_handler`, `omni_gen_mesh_models_handler`, `omni_gen_splat_models_handler` | Public | Static catalog reads |
 | `tags_operations` | `list_tags_handler`, `list_media_file_tags_handler` | Signed session; optional for public/hidden media tags | Session-cache effects require explicit enablement and MCP confirmation |
 | `folders_operations` | `list_folders_handler`, `get_folder_handler` | Owner's signed session | Session-cache effects require explicit enablement and MCP confirmation |
@@ -29,7 +30,7 @@ The connector is `craft-suite-api`, imported as `craft_suite_api`, with the
 `craft-suite-mcp` command and `CRAFT_SUITE_API_` configuration prefix. Update
 existing installations and integration configuration to these names; legacy
 package, command and environment aliases are not provided. This identity change
-does not expand the eight-operation backend surface described above.
+preserves the prior eight operations; this batch adds the source-reviewed status alert.
 
 ## Usage
 
@@ -44,7 +45,7 @@ are refused, and credentials cannot cross the configured origin.
 GET handlers that can populate the session cache; MCP additionally asks for
 confirmation from an elicitation-capable MCP client. Clients negotiating a protocol
 without server-initiated elicitation fail closed; this validation covers legacy
-MCP confirmation and does not claim modern-protocol write support. The four public catalog actions work without that enablement or a
+MCP confirmation and does not claim modern-protocol write support. The four public catalog actions and service-status action work without that enablement or a
 credential. `CRAFT_SUITE_API_ALLOW_PLAINTEXT` defaults to false.
 
 After installing the declared SDK and package dependencies in an approved source
@@ -66,7 +67,7 @@ bundled in the current tree. Its SHA-256 and the exact pinned public GitHub sour
 in `api-spec/source-review.json`. The docs host does not attest a source commit.
 
 `api-spec/source-provenance.json` records source-line links for each admitted
-route/handler/response, 24 Rust struct field/required-field checks, source-derived
+route/handler/response, 26 Rust struct field/required-field checks, source-derived
 additions and explicit unknowns. Enum values and other serializer facets come
 from the captured public schema; complete parity with the pinned backend is not
 claimed. Two missing optional folder fields are mapped from explicit
@@ -101,7 +102,7 @@ Handwritten pairs, including handwritten-to-schema pairs, remain enforced.
 Missing inputs, stale artifacts, extra paths and invalid receipts fail the gate.
 The scanner versions, thresholds and existing exclusions are unchanged.
 
-For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.5 skill source,
+For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.7 skill source,
 `ARTCRAFT_SOURCE_EVIDENCE_DIR` to the exact preserved capture directory, and
 `GENERATED_SCHEMA_PYTHON` to the approved project environment's Python executable
 (default: `.venv/bin/python`). Run `python scripts/verify_generated_schemas.py`

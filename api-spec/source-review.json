@@ -98,6 +98,20 @@
       "path": "/v1/folders/folder/{folder_token}",
       "routes": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
       "types": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs"
+    },
+    {
+      "auth": "public",
+      "effects": [],
+      "handler": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
+      "notes": "Returns service alert configuration without session lookup or domain writes. maybe_alert is null when no category or message is configured; refresh_interval_millis is 60000. Common deployment endpoint, IP and pushback controls still apply.",
+      "path": "/v1/status_alert_check",
+      "routes": "crates/service/web/storyteller_web/src/http_server/routes/service_routes.rs",
+      "source_control_flow": {
+        "helper": "crates/service/web/storyteller_web/src/http_server/endpoints/app_state/components/get_status_alert.rs",
+        "root": "crates/service/web/storyteller_web/src/main.rs",
+        "route_chain": "crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs"
+      },
+      "types": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs"
     }
   ],
   "public_schema_revision": "Not attested by docs host; route/response type/field/auth/effect evidence cross-checked against pinned source. Enum values and all schema facets come from the captured public schema, not a native build.",
@@ -164,6 +178,10 @@
       "sha256": "7b41a8db87168e6b785d4dcc25cb038adc02b6a546dffb4cf4c72cc56c29d6ff",
       "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/lib/caching/redis_caching/src/redis_ttl_cache.rs"
     },
+    "crates/service/web/storyteller_web/src/http_server/endpoints/app_state/components/get_status_alert.rs": {
+      "git_blob_sha": "4f4291929e69b8099158dda237f4eb6319ef7463",
+      "sha256": "f1cee759e0dfb1dc28c6822fbee0193e43186aba2a9bb58977fe1289e23b43aa"
+    },
     "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs": {
       "git_blob_sha": "bcca1a4238d0b1bed53c927189f52a3565f4bfe8",
       "sha256": "4596c7bda824b8060359fbf90cc5f650548bef7995cb96448a4f009776c4257f",
@@ -209,6 +227,10 @@
       "sha256": "522df99df3faaa357528a7897bb404aea8577c71eb3e4c3aba37f182e2bfdaca",
       "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/video/omni_gen_video_models_handler.rs"
     },
+    "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs": {
+      "git_blob_sha": "49f25c931514b9c9cdb163eac60036b5b0be75f8",
+      "sha256": "0a1640b288d96badde52f0a912980768103c02618fa096e14783444e3131c744"
+    },
     "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs": {
       "git_blob_sha": "d9f937476279bec80d28e47a62272d7b3ffb6f8f",
       "sha256": "8fef5145d1423d4b8e5e78d75d9a052eb87b13dbc49c3df75ad2ad56c42c0aca",
@@ -221,8 +243,7 @@
     },
     "crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs": {
       "git_blob_sha": "e739fd4b657debf1e04b41b7ee118cf3ee2500a8",
-      "sha256": "5bdcdad8f6b376ee7903697bd1081a65721221da52f5c73761abf9a2bb01ac9a",
-      "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/add_routes.rs"
+      "sha256": "5bdcdad8f6b376ee7903697bd1081a65721221da52f5c73761abf9a2bb01ac9a"
     },
     "crates/service/web/storyteller_web/src/http_server/routes/application_routes/add_application_routes.rs": {
       "git_blob_sha": "d413f221c11530ac0ac6cff3381a8c36d3d8bba6",
@@ -244,6 +265,10 @@
       "sha256": "67270431ffada5d2aedfe9895c8e52f4e9b97bc1e9ee1123c84087c16f6f2bb5",
       "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs"
     },
+    "crates/service/web/storyteller_web/src/http_server/routes/service_routes.rs": {
+      "git_blob_sha": "6399308165adc18c21bac543b632f1b65d22713a",
+      "sha256": "a9f82fe01822af3e81263457ba81dd609eb78e7fa4f047f280a00e04e7d9fe2c"
+    },
     "crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/require_user_session.rs": {
       "git_blob_sha": "57c48b3bf94c0e611c5b7971ca49b5fa9189a227",
       "sha256": "ad22f63082da33221f7d29ab2f683f145312e3abaf522532429acde4b573c909",
@@ -253,6 +278,10 @@
       "git_blob_sha": "2e0c0fa98d3cdcac73894873ab450f9a13a3d53c",
       "sha256": "9f11cbe90f601c9817898a265cc189ccb59110d7855c23cf51b0a81bcc371d33",
       "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/user_lookup/user_session/session_utils/session_checker.rs"
+    },
+    "crates/service/web/storyteller_web/src/main.rs": {
+      "git_blob_sha": "1666b6a0b051d7c6728b8976c1ac3988992a4aad",
+      "sha256": "70a788afaaaeddac1b3e19fdc13c7c95e3deec3f5fc8d177c6f65c72bb88b6fd"
     }
   },
   "source_schema_addition_evidence": {
