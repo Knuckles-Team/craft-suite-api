@@ -3,9 +3,9 @@ requires = [ "setuptools>=80.9.0", "wheel",]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "artcraft-api"
+name = "craft-suite-api"
 version = "0.1.0"
-description = "ArtCraft backend API connector and MCP server"
+description = "Craft suite API connector and MCP server; current ArtCraft backend subset"
 readme = "README.md"
 classifiers = [ "Development Status :: 4 - Beta", "License :: OSI Approved :: MIT License", "Environment :: Console", "Operating System :: POSIX :: Linux", "Programming Language :: Python :: 3",]
 requires-python = ">=3.12, <3.15"
@@ -29,23 +29,23 @@ test = [
     "pytest-xdist>=3.6.0", "pytest", "pytest-asyncio", "pytest-cov",]
 
 [project.scripts]
-artcraft-mcp = "artcraft_api.mcp_server:mcp_server"
+craft-suite-mcp = "craft_suite_api.mcp_server:mcp_server"
 
 
 # Fleet contribution (CONCEPT:OS-5.52 / AU-KG.ontology.federation-provider-leg): advertise this
 # package's skills, prompts, OWL/RDF ontology, and source-connector presets so
 # agent-utilities discovers + federates them without importing this package's agent code.
 [project.entry-points."agent_utilities.skill_providers"]
-artcraft-api = "artcraft_api.skills"
+craft-suite-api = "craft_suite_api.skills"
 
 [project.entry-points."agent_utilities.prompt_providers"]
-artcraft-api = "artcraft_api.prompts"
+craft-suite-api = "craft_suite_api.prompts"
 
 [project.entry-points."agent_utilities.ontology_providers"]
-artcraft-api = "artcraft_api.ontology"
+craft-suite-api = "craft_suite_api.ontology"
 
 [project.entry-points."agent_utilities.source_connector_providers"]
-artcraft-api = "artcraft_api.connectors"
+craft-suite-api = "craft_suite_api.connectors"
 
 [tool.uv.workspace]
 members = ["."]
@@ -66,21 +66,22 @@ check_untyped_defs = true
 # .pre-commit-config.yaml; these values identify this generated repository and
 # keep its README/AGENTS surface deterministic without network access.
 [tool.pipelines_hooks]
-packages = ["artcraft_api"]
+packages = ["craft_suite_api"]
 
 [tool.pipelines_hooks.public_surface]
-repository = "Knuckles-Team/artcraft-api"
-distribution = "artcraft-api"
-pages_url = "https://knuckles-team.github.io/artcraft-api/"
+repository = "Knuckles-Team/craft-suite-api"
+distribution = "craft-suite-api"
+pages_url = "https://knuckles-team.github.io/craft-suite-api/"
 mcp_server = true
 
 [dependency-groups]
 dev = [
+    "epistemic-graph>=2.27.0,<3",
     "pytest-timeout>=2.4.0",
 ]
 
 [tool.setuptools.package-data]
-artcraft_api = [ "openapi_contract.json", "mcp_config.json", "prompts/**", "skills/**", "ontology/**", "connectors/**", "connector_manifest.yml",]
+craft_suite_api = [ "openapi_contract.json", "mcp_config.json", "prompts/**", "skills/**", "ontology/**", "connectors/**", "connector_manifest.yml",]
 
 [tool.ruff.lint]
 select = [ "E", "F", "I", "UP", "B",]
@@ -88,7 +89,29 @@ ignore = [ "E402", "E501", "B008",]
 
 [tool.setuptools.packages.find]
 where = [ ".",]
-include = ["artcraft_api*"]
+include = ["craft_suite_api*"]
 
 [tool.vulture]
 ignore_names = ["request", "config"]
+
+[tool.pipelines_hooks.stdout_writes]
+served_paths = ["craft_suite_api"]
+
+[tool.uv.sources]
+agent-connector-sdk = { git = "https://github.com/Knuckles-Team/agent-connector-sdk.git", rev = "5babc4cc48ad73928468b243842f219f51e2cca1" }
+epistemic-graph = { git = "https://github.com/Knuckles-Team/epistemic-graph.git", rev = "d33abec1e09b63cdcde01f8e8e4fe810d91cd43d" }
+
+# Static resolver metadata from the exact SDK Git revision above; avoids executing
+# its dynamic-version build backend during lock resolution. Runtime source remains pinned.
+[[tool.uv.dependency-metadata]]
+name = "agent-connector-sdk"
+version = "0.1.0"
+requires-python = ">=3.12,<3.15"
+requires-dist = ["fastmcp>=4.0.3,<5", "epistemic-graph>=2.27.0,<3", "pydantic>=2.13.4,<3", "PyYAML>=6.0.3", "httpx>=0.28.1", "httpx2>=2.12.0", "anyio>=4.13.0", "cryptography>=50.0.1"]
+
+# Development resolution metadata from the exact tested EG source, not a PyPI release claim.
+[[tool.uv.dependency-metadata]]
+name = "epistemic-graph"
+version = "2.27.0"
+requires-python = ">=3.10"
+requires-dist = ["msgpack>=1.2.1", "pydantic>=2,<3", "pyoxigraph>=0.3.22", "httpx>=0.24.0"]

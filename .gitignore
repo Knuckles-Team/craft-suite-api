@@ -104,3 +104,6 @@ trace.txt
 # against its own tracked lock instead of the outer ecosystem workspace. Never
 # tracked.
 .uv-workspace-siblings/
+
+# Immutable CI captures and locked source test environment.
+.ci/

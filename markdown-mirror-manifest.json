@@ -2,84 +2,84 @@
   "applicable": true,
   "entries": [
     {
-      "bytes": 1603,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/index.md",
-      "sha256": "14cad8c143901f6b29a2eef9f8c6da5ee91f3571c61527ffffe90a84273e3711",
+      "bytes": 1590,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/index.md",
+      "sha256": "ca75a1059247701574a2b045905c9efd0251262b054e1c4d61eaf6e45682cba2",
       "source": "docs/index.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/"
     },
     {
-      "bytes": 1015,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/overview/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/overview/index.md",
-      "sha256": "de65cf7a19af1a6b7d30c2ce9ae29fe184b1d44efaf5d285fc269abed5285837",
+      "bytes": 1018,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/overview/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/overview/index.md",
+      "sha256": "9e78602b5329caae7269311a0094fc46c8b255b545a5df2b410b6764c78a4133",
       "source": "docs/overview.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/overview/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/overview/"
     },
     {
-      "bytes": 1919,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/architecture/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/architecture/index.md",
-      "sha256": "58adcfccc146e9f1af4eb164f5eee74e322491a1852d02d6c076366b5cd04d83",
+      "bytes": 1971,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/architecture/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/architecture/index.md",
+      "sha256": "4450591d123ed52f4a7e207cca6f13dee84b5aac22e192f7589e058d57640eda",
       "source": "docs/architecture.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/architecture/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/architecture/"
     },
     {
-      "bytes": 744,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/installation/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/installation/index.md",
-      "sha256": "ee6b42a1b0f5eed11bceaf38dcd6f6551f3e6a8396256e7956f7ecbaac51299c",
+      "bytes": 1648,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/installation/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/installation/index.md",
+      "sha256": "2d139126f73924ca264fb5fdd3872aefecb012c75bab8763825b2027dd91c5af",
       "source": "docs/installation.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/installation/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/installation/"
     },
     {
-      "bytes": 2852,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/deployment/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/deployment/index.md",
-      "sha256": "b469b76c6bc6e263d784e11d35cf5b5f0e0449ba425e5e5fb17bc4068ac807e0",
+      "bytes": 3862,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/deployment/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/deployment/index.md",
+      "sha256": "df4606c2bcbd8bed7a6c895d6e75f78aab198b7ec36653ac93a8859d8f4e0aaa",
       "source": "docs/deployment.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/deployment/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/deployment/"
     },
     {
-      "bytes": 1334,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/usage/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/usage/index.md",
-      "sha256": "81255c5eab58dc8304caa252124146e371ab909f6ab61289addd3ad9938933a2",
+      "bytes": 1856,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/usage/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/usage/index.md",
+      "sha256": "3a298a497c192f5b360d2f4ac7144e0cdaff1b0298479edf8cd14221a7e30178",
       "source": "docs/usage.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/usage/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/usage/"
     },
     {
-      "bytes": 711,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/platform/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/platform/index.md",
-      "sha256": "ccd169f4a71887779cf07dd42dfdec620004f67173a4e11dd501e02254a471ed",
+      "bytes": 714,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/platform/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/platform/index.md",
+      "sha256": "f17de2e1ae5db86643ddb61bc1cb0749b419fa03731ff0147734830ba4bfaecb",
       "source": "docs/platform.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/platform/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/platform/"
     },
     {
-      "bytes": 768,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/concepts/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/concepts/index.md",
-      "sha256": "bbde2db0c220c2120f3815fca1a0a6cf869df44dfd68f24fa2712df61e9d968f",
+      "bytes": 771,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/concepts/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/concepts/index.md",
+      "sha256": "7dda75716e83232b7c89db81d767da297d018e4c0ca79a3d193c5e5583558eca",
       "source": "docs/concepts.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/concepts/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/concepts/"
     },
     {
       "bytes": 1643,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/glossary/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/glossary/index.md",
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/glossary/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/glossary/index.md",
       "sha256": "0c01322fff633a1d420fa3b0f4ee246124802f6b33bb0d4827b5d12fb9b56e09",
       "source": "docs/glossary.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/glossary/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/glossary/"
     },
     {
-      "bytes": 1128,
-      "canonical_url": "https://knuckles-team.github.io/artcraft-api/spec-delivery/",
-      "markdown_url": "https://knuckles-team.github.io/artcraft-api/spec-delivery/index.md",
-      "sha256": "1b7ccbff567d8ababf546c1e639f2828f2489bc41b5216548832bc35821b8f43",
+      "bytes": 1134,
+      "canonical_url": "https://knuckles-team.github.io/craft-suite-api/spec-delivery/",
+      "markdown_url": "https://knuckles-team.github.io/craft-suite-api/spec-delivery/index.md",
+      "sha256": "e4342874389c696878a8d053969bfaaa0a52d61cd6c70ee4ce28ef700f241cda",
       "source": "docs/spec-delivery.md",
-      "url": "https://knuckles-team.github.io/artcraft-api/spec-delivery/"
+      "url": "https://knuckles-team.github.io/craft-suite-api/spec-delivery/"
     }
   ],
   "schema_version": "agent-readiness/v1",

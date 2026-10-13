@@ -2,7 +2,7 @@
   "algorithm": "agent-connector-sdk:mcp-tool-contract-compat:v2",
   "tools": {
     "folders_operations": {
-      "compatibility_sha256": "6d0b0117a71a83f91ab460e926447006a947e50f1e85e66269843aa43d44f215",
+      "compatibility_sha256": "fc7e3ccc470d652f86094f6abc8b73c1d7424555e14861e220ac7d8b6327877a",
       "inputSchema": {
         "oneOf": [
           {
@@ -54,6 +54,7 @@
                   },
                   "limit": {
                     "format": "int32",
+                    "maximum": 4294967295,
                     "minimum": 0,
                     "type": [
                       "integer",
@@ -3063,7 +3064,7 @@
       }
     },
     "tags_operations": {
-      "compatibility_sha256": "545e90a247646e5123797b6adf7bdd9606690c3668e883755f774ac2fc546109",
+      "compatibility_sha256": "7ce01a4d1315b04832b39d98ab7a498d5bebab6c20986734d11b6f9883967b93",
       "inputSchema": {
         "oneOf": [
           {
@@ -3115,6 +3116,7 @@
                   },
                   "limit": {
                     "format": "int32",
+                    "maximum": 4294967295,
                     "minimum": 0,
                     "type": [
                       "integer",

@@ -1,6 +1,6 @@
 {
   "schema_version": "agent-readiness/v1",
-  "project": {"name": "artcraft-api", "kind": "package"},
+  "project": {"name": "craft-suite-api", "kind": "package"},
   "applicability": {
     "content": true,
     "discoverability": true,
@@ -26,6 +26,6 @@
     "api": {"applicable": true, "artifact": "docs/capabilities/api.json"},
     "mcp": {"applicable": true, "artifact": "docs/capabilities/mcp.json"},
     "a2a": {"applicable": false},
-    "skills": {"applicable": true, "path": "artcraft_api/skills"}
+    "skills": {"applicable": true, "path": "craft_suite_api/skills"}
   }
 }

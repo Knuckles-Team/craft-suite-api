@@ -21,6 +21,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs#L51"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 47,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
@@ -46,11 +47,29 @@
       "method": "GET",
       "notes": "Owner-only; default limit 100, clamped to 1000. Pass maybe_cursor unchanged; does not auto-paginate.",
       "path": "/v1/folders/list_all",
+      "query_unsigned_bounds": {
+        "limit": "u32"
+      },
       "registration_evidence": {
         "line": 44,
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/folders_routes.rs#L44"
       },
+      "request_checks": [
+        {
+          "evidence": {
+            "line": 27,
+            "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
+            "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs#L27"
+          },
+          "fields": {
+            "cursor": "Option<String>",
+            "limit": "Option<u32>"
+          },
+          "struct": "ListFoldersQueryParams"
+        }
+      ],
+      "request_struct": "ListFoldersQueryParams",
       "response_evidence": {
         "line": 33,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/folders/folder.rs",
@@ -79,6 +98,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L88"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 12,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_audio_models.rs",
@@ -107,6 +127,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L84"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 36,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_image_models.rs",
@@ -135,6 +156,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L92"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 14,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_mesh_models.rs",
@@ -163,6 +185,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/omni_gen_routes.rs#L96"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 12,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/omni_gen/models/omni_gen_splat_models.rs",
@@ -188,11 +211,29 @@
       "method": "GET",
       "notes": "Newest first. Default limit 100, clamped to 1000; pass maybe_cursor unchanged for next page. Does not auto-paginate.",
       "path": "/v1/tags/list",
+      "query_unsigned_bounds": {
+        "limit": "u32"
+      },
       "registration_evidence": {
         "line": 36,
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs#L36"
       },
+      "request_checks": [
+        {
+          "evidence": {
+            "line": 9,
+            "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs",
+            "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs#L9"
+          },
+          "fields": {
+            "cursor": "Option<String>",
+            "limit": "Option<u32>"
+          },
+          "struct": "ListTagsQueryParams"
+        }
+      ],
+      "request_struct": "ListTagsQueryParams",
       "response_evidence": {
         "line": 15,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_tags.rs",
@@ -223,6 +264,7 @@
         "path": "crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/routes/application_routes/tag_routes.rs#L60"
       },
+      "request_checks": [],
       "response_evidence": {
         "line": 16,
         "path": "crates/api_clients/artcraft/artcraft_api_defs/src/tags/list_media_file_tags.rs",

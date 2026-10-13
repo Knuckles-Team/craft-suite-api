@@ -1,18 +1,10 @@
-# artcraft-api — Usage (API / CLI / MCP)
+# craft-suite-api — Usage (API / CLI / MCP)
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Usage (API / CLI / MCP)
 
-- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/artcraft-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
+- [Usage (API / CLI / MCP)](https://knuckles-team.github.io/craft-suite-api/usage/) — The current backend connector has three tools and eight source-reviewed actions. See README for the exact allowlist and configuration. All operation inputs and outputs are generated from the reviewed subset in api-spec/artcraft.reviewed.openapi.json.
 
-## Standards maturity
-
-- RFC 3986: rfc (normative)
-- RFC 9264: rfc (normative)
-- RFC 9727: rfc (normative)
-- RFC 8414: rfc (normative)
-- RFC 9728: rfc (normative)
-- Agent Documentation Standard vNext: draft (draft)
-- Concept IDs and AGENTS: convention (advisory)
+Standards maturity and scope: [root documentation index](../../llms.txt).

@@ -1,8 +1,8 @@
-# ArtCraft engineering contract
+# Craft Suite engineering contract
 
 ## Architecture
 
-`artcraft_api/api/` owns service operations; `mcp/` adapts them to tools.
+`craft_suite_api/api/` owns service operations; `mcp/` adapts them to tools.
 The connector SDK owns HTTP, credential references, TLS, server policy,
 registration, content publication and ingestion transport. The graph engine
 owns durable storage and semantics. Optional orchestration belongs to

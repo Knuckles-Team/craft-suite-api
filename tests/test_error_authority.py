@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from artcraft_api.error_authority import (
+from craft_suite_api.error_authority import (
     BROWSER_HTML_MEDIA_TYPE,
     MAX_DETAIL_CHARS,
     PROBLEM_JSON_MEDIA_TYPE,
@@ -41,9 +41,7 @@ def test_denial_is_never_retryable_and_detail_is_bounded():
         status=403,
         code="permission_denied",
         instance="urn:request:denied",
-        detail=(
-            "/home/operator/private-token " + ("x" * (MAX_DETAIL_CHARS + 100))
-        ),
+        detail=("/home/operator/private-token " + ("x" * (MAX_DETAIL_CHARS + 100))),
         retryable=True,
         retry_after_s=30,
     )

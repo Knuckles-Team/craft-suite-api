@@ -1,0 +1,47 @@
+{
+  "connector": "craft-suite-api",
+  "ontology_source": "artcraft",
+  "schema_version": "1",
+  "resources": [
+    {
+      "name": "ArtcraftResource"
+    },
+    {
+      "name": "Document"
+    },
+    {
+      "name": "MediaAsset"
+    }
+  ],
+  "identity": {
+    "id_field": {
+      "ArtcraftResource": "id"
+    },
+    "title_field": {
+      "ArtcraftResource": "name"
+    }
+  },
+  "schema_mappings": {
+    "ArtcraftResource": {
+      "fields": {
+        "name": "xsd:string"
+      }
+    }
+  },
+  "sync": [],
+  "provenance": {
+    "generated_by": "mcp-builder/scripts/scaffold_package.py",
+    "source_artifacts": [
+      "ontology/artcraft.ttl"
+    ],
+    "integrity": {
+      "algorithm": "sha256",
+      "hash": "a759f5a7effd1151539a1f9918225939ea8bc2484ff28b36852310e054d1d9db"
+    }
+  },
+  "review_todos": [
+    "Replace the starter resource mapping with the reviewed source model.",
+    "Declare real source presets and matching sync entries before certification.",
+    "Integrity is an ontology byte hash, not canonical RDF or release certification."
+  ]
+}

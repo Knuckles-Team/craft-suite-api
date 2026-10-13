@@ -1,0 +1,53 @@
+{
+  "base": "bf7207daa6c56ff29c82fcc863864d6a34e56cb7",
+  "package_tests": {
+    "passed": 77,
+    "provider": "mock provider transport with actual pinned SDK; configured pre-push pytest passes"
+  },
+  "ruff": "PASS all 41 Python files at 0.15.12",
+  "strict_mkdocs": "PASS",
+  "schema_check": "PASS",
+  "staged_complexity": "PASS",
+  "production_complexity_census": "PASS",
+  "full_configured_gates": [
+    {
+      "stage": "pre-commit",
+      "exit_code": 1,
+      "seconds": 6.129
+    },
+    {
+      "stage": "pre-push",
+      "exit_code": 1,
+      "seconds": 7.232
+    }
+  ],
+  "merge_ready": false,
+  "remaining_failures": [
+    "SC-GHA-010 (two workflow references) and SC-HOOK-003: pipeline main approval remains pending; immutable refs unchanged",
+    "jscpd differential: seven repeated generated JSON schema blocks across reviewed OpenAPI, runtime contract and native MCP snapshot"
+  ],
+  "protocol_boundary": {
+    "legacy_confirmation": "all four effectful GETs accepted/refused",
+    "2026-07-28": "fails closed before outbound provider access"
+  },
+  "windows_baseline": "report-only green executed zero tests; not acceptance",
+  "runtime": "No image build, live service call, credentials, security settings or deployment changed.",
+  "root_review_required_before_merge": true,
+  "kiss": "PASS canonical thresholds, 19 production files, 0 findings",
+  "scanner_provenance": "PASS verified existing jscpd receipt and pinned scanner versions",
+  "development_lock": "90 packages resolved without builds; offline lock freshness passes; not installation certification",
+  "evidence_storage": {
+    "snapshots_bundled": false,
+    "preserved_originals": "Local validation evidence and immutable historical capture commit recorded in api-spec/source-review.json",
+    "authored_fixture": "tests/fixtures/request_structs.rs is an authored parser fixture, not an upstream snapshot"
+  },
+  "gate_input_commit": "ac0b6f0e20566740d191194832adf99790d68915",
+  "deterministic_regeneration": {
+    "identical": true,
+    "tracked_files": 155,
+    "seconds": 0.244,
+    "source_inputs": "External exact captures verified against source-review hashes"
+  },
+  "other_configured_gates": "PASS: scanner provenance, KISS, complexity, function duplication, security, secret history, stdio, cycles, schema contracts, formatting, spec gates and pytest",
+  "protocol_error": "elicitation via server-initiated requests is unavailable on 2026-07-28 connections."
+}

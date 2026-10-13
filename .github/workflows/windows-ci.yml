@@ -14,7 +14,7 @@ name: Cross-platform coverage
 on:
   pull_request:
     paths:
-      - 'artcraft_api/**'
+      - 'craft_suite_api/**'
       - 'scripts/**'
       - 'tests/**'
       - 'pyproject.toml'

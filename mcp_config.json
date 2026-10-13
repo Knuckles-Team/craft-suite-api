@@ -1,14 +1,14 @@
 {
   "mcpServers": {
-    "artcraft-api": {
+    "craft-suite-api": {
       "command": "uv",
       "args": [
         "run",
-        "artcraft-mcp"
+        "craft-suite-mcp"
       ],
       "env": {
         "SYSTEMTOOL": "true",
-        "ARTCRAFT_API_ALLOW_PLAINTEXT": "false"
+        "CRAFT_SUITE_API_ALLOW_PLAINTEXT": "false"
       }
     }
   }

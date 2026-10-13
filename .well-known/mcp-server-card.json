@@ -2,7 +2,7 @@
   "experimental": true,
   "schema_version": "mcp-server-card/v1-experimental",
   "server": {
-    "name": "artcraft-api"
+    "name": "craft-suite-api"
   },
   "source": "docs/capabilities/mcp.json",
   "transports": [

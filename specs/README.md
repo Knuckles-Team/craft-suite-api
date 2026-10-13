@@ -9,9 +9,9 @@ Follow the [shared spec standard](https://github.com/Knuckles-Team/pipelines/blo
 | `CONN` | This connector's external-system behavior |
 | `CRAFT` | This repository's concept registry |
 
-- [`CONN-ARTCRAFT-API`](artcraft-api/spec.md) — Integrate ArtCraft through the shared connector contracts.
+- [`CONN-CRAFT-SUITE-API`](craft-suite-api/spec.md) — Integrate ArtCraft through the shared connector contracts.
 
 The lifecycle generator owns delivery receipts in `status.json`.
 Run `pipelines-hook spec-status --write` after reviewed source changes enter Git history.
 Run `pipelines-hook spec-standard` and `pipelines-hook spec-decomposition` before publishing source changes.
-See the [delivery dashboard](https://knuckles-team.github.io/artcraft-api/spec-delivery/).
+See the [delivery dashboard](https://knuckles-team.github.io/craft-suite-api/spec-delivery/).

@@ -1,18 +1,10 @@
-# artcraft-api — Deployment
+# craft-suite-api — Deployment
 
 > Current documentation index generated from the exact MkDocs navigation.
 > Capability and content-use claims are operator-scoped and provenance-bound.
 
 ## Deployment
 
-- [Deployment](https://knuckles-team.github.io/artcraft-api/deployment/) — This page covers running artcraft-api as long-lived servers.
+- [Deployment](https://knuckles-team.github.io/craft-suite-api/deployment/) — This page covers running craft-suite-api as long-lived servers.
 
-## Standards maturity
-
-- RFC 3986: rfc (normative)
-- RFC 9264: rfc (normative)
-- RFC 9727: rfc (normative)
-- RFC 8414: rfc (normative)
-- RFC 9728: rfc (normative)
-- Agent Documentation Standard vNext: draft (draft)
-- Concept IDs and AGENTS: convention (advisory)
+Standards maturity and scope: [root documentation index](../../llms.txt).

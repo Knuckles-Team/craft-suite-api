@@ -1,4 +1,4 @@
-# artcraft-api — Concept Overview
+# craft-suite-api — Concept Overview
 
 > **Category**: Integration | **Ecosystem Role**: MCP Server
 > Built on [`agent-connector-sdk`](https://github.com/Knuckles-Team/agent-connector-sdk).
