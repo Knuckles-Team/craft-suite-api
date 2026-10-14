@@ -88,8 +88,8 @@
         "source": "docs/overview.md"
       },
       {
-        "bytes": 2187,
-        "sha256": "f882967fcbc85dcfd6f5be0873f83223a6ea2dbd014c8c99c16cff143e231f82",
+        "bytes": 2327,
+        "sha256": "1de3880883dd01cbcfdfde31feffeedb56438a314d78e71235bea943032cf165",
         "source": "docs/architecture.md"
       },
       {
@@ -103,8 +103,8 @@
         "source": "docs/deployment.md"
       },
       {
-        "bytes": 2429,
-        "sha256": "568981ce0fc2d71022ff11daa3744ef25d92f21835b919315e4ac801c2ff3543",
+        "bytes": 2751,
+        "sha256": "042b92fc5387c10925982f502601fe30b0b3d0c2db1f1a3e48be535c0ce3d053",
         "source": "docs/usage.md"
       },
       {
