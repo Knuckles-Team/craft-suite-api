@@ -1,0 +1,37 @@
+{
+  "base": "4c9e7d973711e0b34fd1354a6b0b1e7c5c92dbab",
+  "builder": "1feaddd003b3e8753dfe63f67f21c14ea10885bd",
+  "builder_pull_request": "https://github.com/Knuckles-Team/universal-skills/pull/28",
+  "candidate_api_probes": 518,
+  "candidate_fixture_sha256": "dc10c96d1267e537592cbc201d79d8b2e5d52b9220881c63b9bc78e9a501c3ea",
+  "candidate_methods": {
+    "DELETE": 9,
+    "GET": 82,
+    "POST": 162,
+    "PUT": 6
+  },
+  "candidate_native_client_factory_calls": 0,
+  "candidate_native_mcp_probes": 518,
+  "candidate_operations": 259,
+  "candidate_source_sha256": "275cb14084a9b9e5f830ac7589a1efbd26aa220b92ca413681fa1bdaa777842e",
+  "candidate_transport_calls": 0,
+  "canonical_execution_sha256": "2cd43276cec1eef065f0e9e3e31611a39d2a8546ccb5bdbb2cf601324b685e8a",
+  "existing_operations": 9,
+  "live_calls": 0,
+  "native_tools": 4,
+  "new_denial_tests": 180,
+  "new_operations_admitted": 0,
+  "real_credentials": 0,
+  "remaining_limits": [
+    "Authorization, ownership, effects and complete serializer proof remain incomplete for broader candidates.",
+    "Deprecated enqueue_video_style_transfer_handler has only a commented route; log_browser_session_handler is documented but unregistered.",
+    "No live deployment or provider acceptance is asserted."
+  ],
+  "scope": "Authorization execution preflight only; no operation admissions or live acceptance.",
+  "sdk": "b9ee9ed0a82f6ecd5ed23d6226ca5ab503f74f9c",
+  "tests_passed": 390,
+  "unchanged_artifacts": [
+    "api-spec/artcraft.reviewed.openapi.json",
+    "schemas/mcp_tools.json"
+  ]
+}

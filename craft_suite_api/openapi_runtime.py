@@ -7,7 +7,7 @@ from fastmcp.tools import Tool, ToolResult
 from mcp.types import InputRequiredResult, ToolAnnotations
 from pydantic import Field
 
-from .openapi_execution import confirm_write
+from .openapi_execution import confirm_write, require_authorization
 from .openapi_schema import CONTRACT, validate
 
 
@@ -20,6 +20,7 @@ class OpenApiTool(Tool):
     async def run(self, arguments):
         validate(arguments, self.parameters)
         operation = CONTRACT["operations"][arguments["action"]]
+        require_authorization(operation, CONTRACT)
         client = self.client_factory()
         confirmation = await confirm_write(operation, arguments, client)
         if isinstance(confirmation, InputRequiredResult):

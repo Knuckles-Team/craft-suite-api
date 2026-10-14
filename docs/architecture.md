@@ -19,6 +19,7 @@ flowchart LR
 |---|---|---|
 | MCP entry and routing | `craft_suite_api/mcp_server.py`, `craft_suite_api/mcp/__init__.py` | `tests/test_artcraft_mcp_validation.py` |
 | Effect confirmation | `craft_suite_api/openapi_execution.py`, SDK context helper | `tests/test_modern_confirmation.py` |
+| Authorization provenance | Canonical builder helper in `craft_suite_api/openapi_execution.py` | `tests/test_authorization_preflight.py` |
 | Required formats | `craft_suite_api/openapi_schema.py` | `tests/test_required_formats.py` |
 | Credentials and TLS | `craft_suite_api/auth.py` | `tests/test_auth.py` |
 | External requests | `craft_suite_api/api/api_client_system.py`, `craft_suite_api/openapi_client.py` | `tests/test_api_wrapper.py` |

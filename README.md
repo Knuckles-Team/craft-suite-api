@@ -103,7 +103,7 @@ Handwritten pairs, including handwritten-to-schema pairs, remain enforced.
 Missing inputs, stale artifacts, extra paths and invalid receipts fail the gate.
 The scanner versions, thresholds and existing exclusions are unchanged.
 
-For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.9 skill source,
+For these checks, set `MCP_BUILDER_SKILL_DIR` to the recorded 1.3.10 skill source,
 `ARTCRAFT_SOURCE_EVIDENCE_DIR` to the exact preserved capture directory, and
 `GENERATED_SCHEMA_PYTHON` to the approved project environment's Python executable
 (default: `.venv/bin/python`). Run `python scripts/verify_generated_schemas.py`
@@ -124,6 +124,11 @@ built by this workflow. Bootstrap authority is recorded in
 `validation/ci-bootstrap.json`.
 
 URI and date-time schema formats are enforced with the declared validators.
+Authorization provenance is also enforced during execution. Unknown or missing
+declarations refuse before API transport and before native MCP credential resolution
+or write confirmation. The existing nine reviewed operations retain their declared
+public, optional-session or required-session rules. This guard admits no additional
+operations; the 259 broader candidates remain withheld.
 Missing required format support fails explicitly; provider date representation
 still requires source review before additional operations can be admitted.
 
