@@ -2,19 +2,15 @@
 
 import asyncio
 import copy
-from contextlib import closing
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import api_key_auth
 from fastmcp import Client
 from mcp.shared.exceptions import MCPError
 from mcp.types import ElicitResult, InputRequiredResult
 
 from craft_suite_api import mcp, openapi_execution
-from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.mcp_server import build_server
-from craft_suite_api.openapi_client import ClientPolicy
 from craft_suite_api.openapi_runtime import CONTRACT, OpenApiTool
 
 from .test_source_contract import response_for
@@ -23,7 +19,7 @@ EFFECTFUL = [a for a, op in CONTRACT["operations"].items() if not op["read_only"
 
 
 @pytest.fixture(params=EFFECTFUL)
-def effect_client(request, monkeypatch):
+def effect_client(request, monkeypatch, synthetic_session_client):
     action = request.param
     operation = CONTRACT["operations"][action]
     arguments = {"action": action}
@@ -41,17 +37,7 @@ def effect_client(request, monkeypatch):
         assert outbound.headers["session"] == "synthetic-session"
         return httpx.Response(200, json=response_for(action))
 
-    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "synthetic-session")
-    monkeypatch.setenv("ENABLE_DELEGATION", "false")
-    with closing(
-        ApiClientSystem(
-            "https://craft.example.invalid",
-            api_key_auth("env://CRAFT_SUITE_FIXTURE_SESSION", header="session"),
-            credential_scheme="signed_session",
-            policy=ClientPolicy(allow_writes=True),
-            transport=httpx.MockTransport(respond),
-        )
-    ) as api:
+    with synthetic_session_client(respond, allow_writes=True) as api:
         registrar = getattr(mcp, f"register_{operation['domain']}_tools")
         monkeypatch.setitem(registrar.keywords, "client_factory", lambda: api)
         yield api, arguments, operation, requests

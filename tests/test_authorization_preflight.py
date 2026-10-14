@@ -2,19 +2,15 @@
 
 import asyncio
 import copy
-from contextlib import closing
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import api_key_auth
 from fastmcp import Client
 from mcp.shared.exceptions import MCPError
 from mcp.types import ElicitResult
 
 from craft_suite_api import mcp
-from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.mcp_server import build_server
-from craft_suite_api.openapi_client import ClientPolicy
 from craft_suite_api.openapi_runtime import CONTRACT
 
 from .test_source_contract import response_for
@@ -53,7 +49,9 @@ def declaration(request):
 
 
 @pytest.fixture(params=REVIEWED_ACTIONS)
-def rejected_operation(request, monkeypatch, allow_writes, declaration):
+def rejected_operation(
+    request, monkeypatch, allow_writes, declaration, synthetic_session_client
+):
     action = request.param
     operation = copy.deepcopy(CONTRACT["operations"][action])
     if declaration is MISSING:
@@ -73,17 +71,7 @@ def rejected_operation(request, monkeypatch, allow_writes, declaration):
         calls["transport"] += 1
         return httpx.Response(200, json=response_for(action))
 
-    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "synthetic-session")
-    monkeypatch.setenv("ENABLE_DELEGATION", "false")
-    with closing(
-        ApiClientSystem(
-            "https://craft.example.invalid",
-            api_key_auth("env://CRAFT_SUITE_FIXTURE_SESSION", header="session"),
-            credential_scheme="signed_session",
-            policy=ClientPolicy(allow_writes=allow_writes),
-            transport=httpx.MockTransport(respond),
-        )
-    ) as api:
+    with synthetic_session_client(respond, allow_writes=allow_writes) as api:
 
         def factory():
             calls["factory"] += 1
