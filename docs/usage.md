@@ -31,3 +31,8 @@ write enablement remains necessary. Public catalog reads do not request confirma
 URI and date-time formats are validated on API and MCP paths. Malformed values
 are rejected without echoing the input; a missing required format checker fails
 explicitly instead of silently accepting data.
+
+The client also checks authorization provenance before executing an operation.
+Missing or unknown declarations refuse before HTTP transport and before native
+MCP creates a client or requests confirmation. This preserves the existing nine
+operations and their public/session rules; broader candidate routes stay withheld.

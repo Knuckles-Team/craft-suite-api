@@ -1534,6 +1534,7 @@
           "signed_session": []
         }
       ],
+      "security_declaration": "operation",
       "source_effects": [
         "session_cache_fill_possible"
       ],
@@ -1542,6 +1543,8 @@
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/get_folder_handler.rs#L26"
       },
+      "source_operation_sha256": "f2d815be7bdd3ba42a704f975175a027fb64fded7897275c507ac0425a2cc19a",
+      "source_path": "/v1/folders/folder/{folder_token}",
       "summary": "Fetch a single folder owned by the logged-in user."
     },
     "list_folders_handler": {
@@ -1638,6 +1641,7 @@
           "signed_session": []
         }
       ],
+      "security_declaration": "operation",
       "source_effects": [
         "session_cache_fill_possible"
       ],
@@ -1646,6 +1650,8 @@
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/folders/folder/list_folders_handler.rs#L32"
       },
+      "source_operation_sha256": "1e11a4ed05415b17c570df94fafe06ed1c94d30ee0ab3aab06986c59422aeb75",
+      "source_path": "/v1/folders/list_all",
       "summary": "List all live folders owned by the logged-in user. Newest first.\nIncludes the derived `is_orphaned` flag."
     },
     "list_media_file_tags_handler": {
@@ -1716,6 +1722,7 @@
           "signed_session": []
         }
       ],
+      "security_declaration": "operation",
       "source_effects": [
         "session_cache_fill_possible"
       ],
@@ -1724,6 +1731,8 @@
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_media_file_tags_handler.rs#L31"
       },
+      "source_operation_sha256": "7405c6f09e973b46baef9df0961b678763b56e980ae623d12781b378e4f4045d",
+      "source_path": "/v1/tags/media_file/list/{media_file_token}",
       "summary": "All tags on a media file, sorted by tag value. No login required for\npublic and hidden media files (anyone with the URL); PRIVATE files\nonly reveal their tags to their creator \u2014 everyone else gets a 404,\nsame as a nonexistent file, so private tag vocabulary doesn't leak."
     },
     "list_tags_handler": {
@@ -1820,6 +1829,7 @@
           "signed_session": []
         }
       ],
+      "security_declaration": "operation",
       "source_effects": [
         "session_cache_fill_possible"
       ],
@@ -1828,6 +1838,8 @@
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/tags/list_tags_handler.rs#L24"
       },
+      "source_operation_sha256": "bf9171ad8811a3aaf04043917640ad87fed9ee2cfa73637c4ac87d5954387697",
+      "source_path": "/v1/tags/list",
       "summary": "Paginated list of the logged-in user's tags, newest first."
     },
     "omni_gen_audio_models_handler": {
@@ -1868,12 +1880,15 @@
         "500": {}
       },
       "security": [],
+      "security_declaration": "operation",
       "source_effects": [],
       "source_evidence": {
         "line": 15,
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/audio/omni_gen_audio_models_handler.rs#L15"
       },
+      "source_operation_sha256": "d3e7b3e0a0ed54440d442714036643b86d5a7baef03ad89e52706ba083558c8c",
+      "source_path": "/v1/omni_gen/models/audio",
       "summary": "List available audio models."
     },
     "omni_gen_image_models_handler": {
@@ -1948,12 +1963,15 @@
         "500": {}
       },
       "security": [],
+      "security_declaration": "operation",
       "source_effects": [],
       "source_evidence": {
         "line": 17,
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/image/omni_gen_image_models_handler.rs#L17"
       },
+      "source_operation_sha256": "ef76efddf362f3b38617a681080a4649f1a9376d2c4177089ad0978540561f38",
+      "source_path": "/v1/omni_gen/models/image",
       "summary": "List available image models."
     },
     "omni_gen_mesh_models_handler": {
@@ -1994,12 +2012,15 @@
         "500": {}
       },
       "security": [],
+      "security_declaration": "operation",
       "source_effects": [],
       "source_evidence": {
         "line": 15,
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/mesh/omni_gen_mesh_models_handler.rs#L15"
       },
+      "source_operation_sha256": "6c8b0b6893aec3fdd91859d58dbb5d2dcfb69403d69aec51fb721db849cef3c6",
+      "source_path": "/v1/omni_gen/models/mesh",
       "summary": "List available mesh (3D object) models."
     },
     "omni_gen_splat_models_handler": {
@@ -2040,12 +2061,15 @@
         "500": {}
       },
       "security": [],
+      "security_declaration": "operation",
       "source_effects": [],
       "source_evidence": {
         "line": 15,
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/omni_gen/models/splat/omni_gen_splat_models_handler.rs#L15"
       },
+      "source_operation_sha256": "5dc667e3ddd917bc4b463f2dfdd921ea576a10cec3dd449940071e40967b508a",
+      "source_path": "/v1/omni_gen/models/splat",
       "summary": "List available splat (3D world) models."
     },
     "status_alert_handler": {
@@ -2086,12 +2110,15 @@
         "500": {}
       },
       "security": [],
+      "security_declaration": "operation",
       "source_effects": [],
       "source_evidence": {
         "line": 59,
         "path": "crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs",
         "url": "https://github.com/storytold/artcraft-services/blob/bcff742052ef54c7adc2d19161faf4b8d4a73963/crates/service/web/storyteller_web/src/http_server/endpoints/service/status_alert_handler.rs#L59"
       },
+      "source_operation_sha256": "a35a915bb180af402c6a9b80565bc018d165896287b9d8319f82363ded4a5d7d",
+      "source_path": "/v1/status_alert_check",
       "summary": "status_alert_handler"
     }
   },

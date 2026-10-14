@@ -11,6 +11,7 @@ from agent_connector_sdk.http.client import create_http_client
 from agent_connector_sdk.http.options import HttpClientOptions
 from agent_connector_sdk.http.retry import RetryPolicy
 
+from .openapi_execution import require_authorization
 from .openapi_parameters import parameters, request_body
 from .openapi_responses import read_response, response_value
 from .openapi_schema import CONTRACT, validate
@@ -65,6 +66,7 @@ class OpenApiClient:
         self.session.close()
 
     def _authorize(self, operation):
+        require_authorization(operation, CONTRACT)
         if not operation["read_only"] and not self.allow_writes:
             raise PermissionError("Writes require explicit operator enablement")
         requirements = operation["security"]
