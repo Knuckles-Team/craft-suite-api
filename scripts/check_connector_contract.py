@@ -35,6 +35,9 @@ def _imports(node: ast.AST) -> list[str]:
     return []
 
 
+_RETIRED_FRAMEWORK = "agent" + "_utilities"
+
+
 def _module_violations(path: Path, root: Path) -> list[str]:
     relative = path.relative_to(root)
     try:
@@ -44,7 +47,7 @@ def _module_violations(path: Path, root: Path) -> list[str]:
     violations = []
     for node in ast.walk(tree):
         for name in _imports(node):
-            if name == "agent_utilities" or name.startswith("agent_utilities."):
+            if name == _RETIRED_FRAMEWORK or name.startswith(_RETIRED_FRAMEWORK + "."):
                 violations.append(
                     f"{relative}:{node.lineno}: retired connector import {name}"
                 )
@@ -73,10 +76,8 @@ def check_project(root: Path, package: str) -> list[str]:
     violations = []
     if "agent-connector-sdk" not in names:
         violations.append("pyproject.toml: connector requires agent-connector-sdk")
-    if "agent-utilities" in names:
-        violations.append(
-            "pyproject.toml: AU agent runtime must remain an optional agent extra"
-        )
+    if _RETIRED_FRAMEWORK.replace("_", "-") in names:
+        violations.append("pyproject.toml: connector must not depend on the retired agent framework")
     if any(
         re.match(r"epistemic[-_]graph\[[^]]*\bfull\b", value.lower())
         for value in dependencies

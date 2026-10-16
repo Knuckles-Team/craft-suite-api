@@ -14,13 +14,13 @@ The desktop cockpit for chat, graph, fleet, health, and operator workflows. Its 
 
 ## Messaging channels
 
-Chat and voice entrypoints hosted and supervised by Graph OS. The adapter registry, inbound router, and orchestration bridge are implemented by Agent Utilities.
+Chat and voice entrypoints hosted and supervised by Graph OS. The adapter registry, inbound router, and orchestration bridge are implemented by Agent Connector SDK.
 
 ## Graph OS
 
 The governed runtime gateway and composition host for user interfaces, messaging channels, MCP, REST, and A2A clients.
 
-## Agent Utilities
+## Agent Connector SDK
 
 The agent control plane for orchestration, workflows, evaluation, and agent skills.
 
