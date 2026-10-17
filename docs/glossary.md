@@ -18,8 +18,6 @@ Chat and voice entrypoints hosted and supervised by Graph OS. The adapter regist
 
 ## Graph OS
 
-The governed runtime gateway and composition host for user interfaces, messaging channels, MCP, REST, and A2A clients.
-
 ## Agent Connector SDK
 
 The agent control plane for orchestration, workflows, evaluation, and agent skills.
@@ -35,10 +33,6 @@ The governed source integration boundary for discovering, reading, and synchroni
 ## MCP
 
 The Model Context Protocol, a standard interface for exposing tools and context to AI applications.
-
-## A2A
-
-Agent-to-Agent, a protocol for communication and task exchange between agents.
 
 ## OWL
 
