@@ -19,7 +19,7 @@
     ]
   },
   "instructions": {
-    "core_directive": "Available tools are misc_operations, omni_gen_operations, tags_operations and folders_operations. The model tool admits omni_gen_audio_models_handler, omni_gen_image_models_handler, omni_gen_mesh_models_handler and omni_gen_splat_models_handler without a credential. The tags tool admits list_tags_handler and list_media_file_tags_handler; the folders tool admits list_folders_handler and get_folder_handler. Tag/folder reads may populate session caches: require operator write enablement and native MCP confirmation. Session credentials are SDK references and owner access is enforced by the provider; anonymous media-tag access is limited to provider-visible files. Request one page at a time and pass returned cursors unchanged. Image provider filtering is ignored by the pinned backend. Generation, uploads, job-status polling, video catalogs and graph ingestion are unavailable. Never claim deployment, full enum/serializer parity or package/image release validation from source tests. The misc tool admits status_alert_handler without a credential or write enablement; preserve the nullable alert and provider refresh interval.",
+    "core_directive": "Each reviewed operation is its own craft_suite_<action> tool (for example craft_suite_list_tags_handler). The model tools are omni_gen_audio_models_handler, omni_gen_image_models_handler, omni_gen_mesh_models_handler and omni_gen_splat_models_handler without a credential. The tag tools are list_tags_handler and list_media_file_tags_handler; the folder tools are list_folders_handler and get_folder_handler. Tag/folder reads may populate session caches: require operator write enablement and native MCP confirmation. Session credentials are SDK references and owner access is enforced by the provider; anonymous media-tag access is limited to provider-visible files. Request one page at a time and pass returned cursors unchanged. Image provider filtering is ignored by the pinned backend. Generation, uploads, job-status polling, video catalogs and graph ingestion are unavailable. Never claim deployment, full enum/serializer parity or package/image release validation from source tests. craft_suite_status_alert_handler runs without a credential or write enablement; preserve the nullable alert and provider refresh interval.",
     "quality_checklist": [
       "Use an admitted operation and its declared schema.",
       "Preserve credential-reference, owner-access and confirmation boundaries.",
@@ -28,9 +28,14 @@
   },
   "skills": [],
   "tools": [
-    "omni_gen_operations",
-    "tags_operations",
-    "folders_operations",
-    "misc_operations"
+    "craft_suite_get_folder_handler",
+    "craft_suite_list_folders_handler",
+    "craft_suite_list_media_file_tags_handler",
+    "craft_suite_list_tags_handler",
+    "craft_suite_omni_gen_audio_models_handler",
+    "craft_suite_omni_gen_image_models_handler",
+    "craft_suite_omni_gen_mesh_models_handler",
+    "craft_suite_omni_gen_splat_models_handler",
+    "craft_suite_status_alert_handler"
   ]
 }

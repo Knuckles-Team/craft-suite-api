@@ -9,6 +9,7 @@ from fastmcp import Client
 from mcp.shared.exceptions import MCPError
 
 from craft_suite_api import mcp
+from .conftest import native_tool
 from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.mcp_server import build_server
 
@@ -50,7 +51,7 @@ def call_native(arguments):
         async with Client(
             build_server(command_args=["--transport", "stdio"])
         ) as client:
-            result = await client.call_tool("misc_operations", arguments)
+            result = await client.call_tool(*native_tool(arguments))
             return result.structured_content
 
     return asyncio.run(run())

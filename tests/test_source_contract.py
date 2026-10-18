@@ -10,8 +10,9 @@ import pytest
 from agent_connector_sdk.auth.static import api_key_auth
 
 from craft_suite_api.api import ApiClientSystem
+from .conftest import native_tool
 from craft_suite_api.openapi_client import ClientPolicy
-from craft_suite_api.openapi_runtime import CONTRACT
+from craft_suite_api.openapi_runtime import CONTRACT, operation_tool_name
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -239,19 +240,15 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch, action):
         ) as client:
             tools = {tool.name: tool for tool in await client.list_tools()}
             assert set(tools) == {
-                "folders_operations",
-                "misc_operations",
-                "omni_gen_operations",
-                "tags_operations",
+                operation_tool_name(name) for name in CONTRACT["operations"]
             }
-            assert tools["omni_gen_operations"].annotations.read_only_hint
-            assert tools["misc_operations"].annotations.read_only_hint
-            assert not tools["folders_operations"].annotations.read_only_hint
-            assert not tools["tags_operations"].annotations.read_only_hint
-            result = await client.call_tool(
-                CONTRACT["operations"][action]["domain"] + "_operations",
-                {"action": action},
-            )
+            for name, op in CONTRACT["operations"].items():
+                hint = tools[operation_tool_name(name)].annotations.read_only_hint
+                assert bool(hint) == bool(op["read_only"])
+                assert "action" not in tools[operation_tool_name(name)].inputSchema.get(
+                    "properties", {}
+                )
+            result = await client.call_tool(*native_tool({"action": action}))
             assert result.structured_content == {
                 "action": action,
                 "status": 200,
@@ -378,14 +375,12 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
             mode=mode,
         ) as client:
             if accepted:
-                result = await client.call_tool(
-                    operation["domain"] + "_operations", arguments
-                )
+                result = await client.call_tool(*native_tool(arguments))
                 assert result.structured_content["data"] == response_for(action)
             else:
                 with pytest.raises(MCPError, match="Write was not confirmed"):
                     await client.call_tool(
-                        operation["domain"] + "_operations", arguments
+                        *native_tool(arguments)
                     )
 
     try:
@@ -428,10 +423,7 @@ def test_served_prompts_match_admitted_capabilities():
     for path in (ROOT / "craft_suite_api/prompts").glob("*.json"):
         prompt = json.loads(path.read_text())
         assert set(prompt["tools"]) == {
-            "folders_operations",
-            "misc_operations",
-            "tags_operations",
-            "omni_gen_operations",
+            operation_tool_name(name) for name in CONTRACT["operations"]
         }
         assert "TODO" not in path.read_text()
         assert (

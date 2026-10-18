@@ -12,12 +12,12 @@ metadata:
 
 # Browse ArtCraft model catalogs
 
-Use `omni_gen_operations` with one of these exact actions:
+Use one of these per-operation tools (each action is its own `craft_suite_<action>` tool):
 
-- `omni_gen_audio_models_handler`
-- `omni_gen_image_models_handler`
-- `omni_gen_mesh_models_handler`
-- `omni_gen_splat_models_handler`
+- `craft_suite_omni_gen_audio_models_handler`
+- `craft_suite_omni_gen_image_models_handler`
+- `craft_suite_omni_gen_mesh_models_handler`
+- `craft_suite_omni_gen_splat_models_handler`
 
 The approved provider origin and TLS configuration come from the operator.
 These four static catalog reads require no signed session or write enablement.

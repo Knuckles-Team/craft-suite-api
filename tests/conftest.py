@@ -34,3 +34,11 @@ def synthetic_session_client(monkeypatch):
         )
 
     return create
+
+
+def native_tool(arguments):
+    """The per-operation tool name and its arguments for a contract call."""
+    from craft_suite_api.openapi_runtime import operation_tool_name
+
+    rest = {key: value for key, value in arguments.items() if key != "action"}
+    return operation_tool_name(arguments["action"]), rest
