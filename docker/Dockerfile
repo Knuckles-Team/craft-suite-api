@@ -21,7 +21,7 @@ COPY craft_suite_api/ ./craft_suite_api/
 # MCP serving dependency closure (including SDK graph client).
 FROM builder-base AS builder-mcp
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install --system --break-system-packages --prerelease=allow ".[mcp]"
+    uv pip install --system --break-system-packages craft-suite-api[mcp]==0.2.0
 
 FROM python:3.12-slim@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de AS runtime-base
 ARG HOST=127.0.0.1

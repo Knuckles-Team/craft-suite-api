@@ -5,6 +5,6 @@
 
 ## Concepts
 
-- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
+- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.2.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
 
 Standards maturity and scope: [root documentation index](../../llms.txt).
