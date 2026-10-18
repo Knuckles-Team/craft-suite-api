@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-# MCP serving image; --target mcp and the default target are equivalent.
+# MCP-only image: ships the MCP server and nothing else (no agent mode).
+#   docker build --target mcp -t <name>:mcp .
 FROM python:3.12-slim@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de AS builder-base
 COPY --from=ghcr.io/astral-sh/uv:0.11.7@sha256:240fb85ab0f263ef12f492d8476aa3a2e4e1e333f7d67fbdd923d00a506a516a /uv /uvx /bin/
 ENV UV_COMPILE_BYTECODE=1 \
@@ -20,7 +21,7 @@ COPY craft_suite_api/ ./craft_suite_api/
 # MCP serving dependency closure (including SDK graph client).
 FROM builder-base AS builder-mcp
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install --system --break-system-packages --prerelease=allow ".[mcp]"
+    uv pip install --system --break-system-packages craft-suite-api[mcp]==0.2.0
 
 FROM python:3.12-slim@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de AS runtime-base
 ARG HOST=127.0.0.1

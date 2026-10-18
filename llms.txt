@@ -33,11 +33,11 @@
 
 ## Concepts
 
-- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.1.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
+- [Concepts](https://knuckles-team.github.io/craft-suite-api/concepts/) — > Prefix: CONCEPT:CRAFT- > Version: 0.2.0 > Bridge: CONCEPT:ECO-4.0 (Unified Toolkit Ingestion)
 
 ## Glossary
 
-- [Glossary](https://knuckles-team.github.io/craft-suite-api/glossary/) — The browser operator experience for working with agents and their runtime. Graph OS hosts it as a composed service.
+- [Glossary](https://knuckles-team.github.io/craft-suite-api/glossary/) — The browser operator experience for working with agents and their runtime. Arbora hosts it as a composed service.
 
 ## Spec delivery
 
