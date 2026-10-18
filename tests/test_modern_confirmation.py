@@ -11,9 +11,10 @@ from mcp.types import ElicitResult, InputRequiredResult
 
 from craft_suite_api import mcp, openapi_execution
 from craft_suite_api.mcp_server import build_server
-from craft_suite_api.openapi_runtime import CONTRACT, OpenApiTool
+from craft_suite_api.openapi_runtime import CONTRACT, OpenApiTool, operation_inputs
 
 from .test_source_contract import response_for
+from .conftest import native_tool
 
 EFFECTFUL = [a for a, op in CONTRACT["operations"].items() if not op["read_only"]]
 
@@ -75,9 +76,9 @@ def test_modern_pending_then_bound_retry(effect_client, decision):
         async with Client(
             build_server(command_args=["--transport", "stdio"]), mode="2026-07-28"
         ) as client:
-            tool = operation["domain"] + "_operations"
+            tool, native_arguments = native_tool(arguments)
             pending = await client.session.call_tool(
-                tool, arguments, allow_input_required=True
+                tool, native_arguments, allow_input_required=True
             )
             assert isinstance(pending, InputRequiredResult)
             assert requests == []
@@ -98,9 +99,9 @@ def test_modern_pending_then_bound_retry(effect_client, decision):
             )
             retry = client.session.call_tool(
                 tool,
-                altered_arguments(arguments)
+                native_tool(altered_arguments(arguments))[1]
                 if decision == "changed_arguments"
-                else arguments,
+                else native_arguments,
                 input_responses=None if decision == "missing_responses" else responses,
                 request_state=state,
                 allow_input_required=True,
@@ -137,8 +138,7 @@ def test_native_write_disabled_denies_before_prompt(effect_client):
                 MCPError, match="Writes require explicit operator enablement"
             ):
                 await client.session.call_tool(
-                    operation["domain"] + "_operations",
-                    arguments,
+                    *native_tool(arguments),
                     allow_input_required=True,
                 )
 
@@ -152,9 +152,10 @@ def test_missing_context_denies_without_dispatch(effect_client, monkeypatch):
     tool = OpenApiTool(
         name="fixture",
         domain=operation["domain"],
+        action=arguments["action"],
         client_factory=lambda: api,
-        parameters=CONTRACT["schemas"][operation["domain"]][0],
+        parameters=operation_inputs(operation["domain"], arguments["action"]),
     )
     with pytest.raises(PermissionError, match="not confirmed"):
-        asyncio.run(tool.run(arguments))
+        asyncio.run(tool.run(native_tool(arguments)[1]))
     assert requests == []

@@ -5,7 +5,7 @@ See [README](https://github.com/Knuckles-Team/craft-suite-api/blob/main/README.m
 configuration. All operation inputs and outputs are generated from the reviewed
 subset in `api-spec/artcraft.reviewed.openapi.json`.
 
-Four anonymous model-catalog GETs and the service-status GET form the public read-only surface. Call `misc_operations` with `{"action":"status_alert_handler"}` to retrieve the alert and its 60000 ms refresh interval; `maybe_alert` is null when no alert is configured. Tag and folder
+Four anonymous model-catalog GETs and the service-status GET form the public read-only surface. Call `craft_suite_status_alert_handler` (no arguments) to retrieve the alert and its 60000 ms refresh interval; `maybe_alert` is null when no alert is configured. Tag and folder
 GETs can populate Redis session caches and therefore require explicit write
 enablement plus native MCP confirmation. This is a conservative effect gate,
 not a claim that they alter user-owned tags or folders. Owner checks remain at

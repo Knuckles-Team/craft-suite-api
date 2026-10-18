@@ -14,6 +14,7 @@ from craft_suite_api.mcp_server import build_server
 from craft_suite_api.openapi_runtime import CONTRACT
 
 from .test_source_contract import response_for
+from .conftest import native_tool
 
 REVIEWED_ACTIONS = (
     "get_folder_handler",
@@ -103,7 +104,7 @@ def test_native_denies_before_client_factory_or_confirmation(rejected_operation)
             mode="2026-07-28",
         ) as client:
             with pytest.raises(MCPError, match=AUTHORIZATION_ERROR):
-                await client.call_tool(operation["domain"] + "_operations", arguments)
+                await client.call_tool(*native_tool(arguments))
 
     asyncio.run(call())
     assert calls == {"factory": 0, "transport": 0, "confirmation": 0}

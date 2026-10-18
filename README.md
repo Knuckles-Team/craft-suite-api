@@ -8,12 +8,12 @@ This partial surface does not meet the required full Craft-suite API/MCP parity;
 
 ## Supported operations
 
-| MCP tool | Actions | Authentication | Effect policy |
-| --- | --- | --- | --- |
-| `misc_operations` | `status_alert_handler` | Public | Service alert configuration read |
-| `omni_gen_operations` | `omni_gen_audio_models_handler`, `omni_gen_image_models_handler`, `omni_gen_mesh_models_handler`, `omni_gen_splat_models_handler` | Public | Static catalog reads |
-| `tags_operations` | `list_tags_handler`, `list_media_file_tags_handler` | Signed session; optional for public/hidden media tags | Session-cache effects require explicit enablement and MCP confirmation |
-| `folders_operations` | `list_folders_handler`, `get_folder_handler` | Owner's signed session | Session-cache effects require explicit enablement and MCP confirmation |
+| MCP tools | Authentication | Effect policy |
+| --- | --- | --- |
+| `craft_suite_status_alert_handler` | Public | Service alert configuration read |
+| `craft_suite_omni_gen_audio_models_handler`, `craft_suite_omni_gen_image_models_handler`, `craft_suite_omni_gen_mesh_models_handler`, `craft_suite_omni_gen_splat_models_handler` | Public | Static catalog reads |
+| `craft_suite_list_tags_handler`, `craft_suite_list_media_file_tags_handler` | Signed session; optional for public/hidden media tags | Session-cache effects require explicit enablement and MCP confirmation |
+| `craft_suite_list_folders_handler`, `craft_suite_get_folder_handler` | Owner's signed session | Session-cache effects require explicit enablement and MCP confirmation |
 
 The image catalog accepts a `provider` query parameter, but the pinned handler
 ignores it. List endpoints return one page: pass `maybe_cursor` unchanged to the
@@ -53,7 +53,7 @@ After installing the declared SDK and package dependencies in an approved source
 environment, run `craft-suite-mcp` (stdio by default). For example, call:
 
 ```json
-{"name":"omni_gen_operations","arguments":{"action":"omni_gen_audio_models_handler"}}
+{"name":"craft_suite_omni_gen_audio_models_handler","arguments":{}}
 ```
 
 This repository is source-validated. Package release, registry installation,
