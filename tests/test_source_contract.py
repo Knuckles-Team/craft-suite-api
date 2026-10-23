@@ -10,9 +10,10 @@ import pytest
 from agent_connector_sdk.auth.static import api_key_auth
 
 from craft_suite_api.api import ApiClientSystem
-from .conftest import native_tool
 from craft_suite_api.openapi_client import ClientPolicy
 from craft_suite_api.openapi_runtime import CONTRACT, operation_tool_name
+
+from .conftest import native_tool
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -379,9 +380,7 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
                 assert result.structured_content["data"] == response_for(action)
             else:
                 with pytest.raises(MCPError, match="Write was not confirmed"):
-                    await client.call_tool(
-                        *native_tool(arguments)
-                    )
+                    await client.call_tool(*native_tool(arguments))
 
     try:
         asyncio.run(call())

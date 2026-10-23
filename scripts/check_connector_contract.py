@@ -77,7 +77,9 @@ def check_project(root: Path, package: str) -> list[str]:
     if "agent-connector-sdk" not in names:
         violations.append("pyproject.toml: connector requires agent-connector-sdk")
     if _RETIRED_FRAMEWORK.replace("_", "-") in names:
-        violations.append("pyproject.toml: connector must not depend on the retired agent framework")
+        violations.append(
+            "pyproject.toml: connector must not depend on the retired agent framework"
+        )
     if any(
         re.match(r"epistemic[-_]graph\[[^]]*\bfull\b", value.lower())
         for value in dependencies

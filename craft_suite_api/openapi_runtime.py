@@ -10,7 +10,6 @@ from pydantic import Field
 from .openapi_execution import confirm_write, require_authorization
 from .openapi_schema import CONTRACT, validate
 
-
 PREFIX = "craft_suite"
 
 
@@ -82,7 +81,8 @@ def register_domain(mcp, domain, client_factory):
                 annotations=ToolAnnotations(
                     readOnlyHint=read_only,
                     destructiveHint=not read_only and operation["method"] == "DELETE",
-                    idempotentHint=operation["method"] in ("GET", "HEAD", "PUT", "DELETE"),
+                    idempotentHint=operation["method"]
+                    in ("GET", "HEAD", "PUT", "DELETE"),
                     openWorldHint=True,
                 ),
             )
