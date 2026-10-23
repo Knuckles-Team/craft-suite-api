@@ -2,7 +2,7 @@
   "artifacts": {
     "api-spec/artcraft.reviewed.openapi.json": "8442e659a8f26555792be7c013c97978a90b6a3d77ba0c94fd8dc8db0c5daa22",
     "craft_suite_api/openapi_contract.json": "478d6d1bdf47b1377ad067486a9e0bab2681d5870d8f252f64ce0400b381890c",
-    "schemas/mcp_tools.json": "52fec46da232a739357f538141b7772c35b9a27c6d8f122057c977b046d4bf20"
+    "schemas/mcp_tools.json": "dd28687f3402112004bda858df405f7e901a2351255bfe75d2bb56c8e68f9c63"
   },
   "builder": {
     "commit": "1feaddd003b3e8753dfe63f67f21c14ea10885bd",

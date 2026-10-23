@@ -13,8 +13,8 @@ from craft_suite_api import mcp
 from craft_suite_api.mcp_server import build_server
 from craft_suite_api.openapi_runtime import CONTRACT
 
-from .test_source_contract import response_for
 from .conftest import native_tool
+from .test_source_contract import response_for
 
 REVIEWED_ACTIONS = (
     "get_folder_handler",

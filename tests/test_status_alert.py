@@ -9,9 +9,10 @@ from fastmcp import Client
 from mcp.shared.exceptions import MCPError
 
 from craft_suite_api import mcp
-from .conftest import native_tool
 from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.mcp_server import build_server
+
+from .conftest import native_tool
 
 ACTION = "status_alert_handler"
 
