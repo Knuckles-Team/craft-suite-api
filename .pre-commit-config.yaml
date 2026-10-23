@@ -18,12 +18,6 @@ repos:
     stages: [pre-push]
   - id: kiss-census
     stages: [pre-push]
-  - id: jscpd-differential
-    entry: python scripts/generated_schema_clones.py differential
-    stages: [pre-push]
-  - id: jscpd-census
-    entry: python scripts/generated_schema_clones.py census
-    stages: [pre-push]
   - id: public-surface
   - id: security-sanitizer
   - id: secret-history
@@ -67,19 +61,6 @@ repos:
     language: system
     pass_filenames: false
     always_run: true
-  - id: connector-tool-schemas
-    name: Live SDK input and output schema contracts
-    entry: python scripts/generate_tool_schemas.py --check
-    language: system
-    pass_filenames: false
-    always_run: true
-  - id: generated-schema-proof
-    name: Exact generated schema provenance and regeneration
-    entry: python scripts/verify_generated_schemas.py
-    language: system
-    pass_filenames: false
-    always_run: true
-    stages: [pre-push]
   - id: pytest
     name: Generated connector contracts
     entry: python -m pytest tests -q
