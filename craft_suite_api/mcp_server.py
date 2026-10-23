@@ -1,31 +1,22 @@
 import sys
-from pathlib import Path
 
 from agent_connector_sdk.config import load_config
-from agent_connector_sdk.mcp.content import ConnectorContent
 from agent_connector_sdk.mcp.server import create_mcp_server
 from agent_connector_sdk.mcp.tool_surface import register_tool_surface
 
 from . import mcp as tool_modules
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 
 def get_mcp_instance(*, command_args=None):
     """Construct one SDK-governed server and its native package content."""
     load_config()
-    package_root = Path(__file__).resolve().parent
     args, mcp, middlewares = create_mcp_server(
         name="Craft Suite",
         version=__version__,
         instructions="Craft Suite connector; nine reviewed ArtCraft backend reads",
         command_args=command_args,
-        content=ConnectorContent(
-            connector="craft-suite-api",
-            package_root=package_root,
-            package_version=__version__,
-            manifest_path=package_root / "connector_manifest.yml",
-        ),
     )
     register_tool_surface(mcp, service="craft-suite-api", tools_module=tool_modules)
     for middleware in middlewares:
