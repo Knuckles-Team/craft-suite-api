@@ -25,5 +25,4 @@
 
 <http://knuckles.team/kg/artcraft> a owl:Ontology ;
     rdfs:label "ArtCraft Ontology" ;
-    rdfs:comment "ArtCraft domain extensions federated into the KG hub. STUB." ;
-    owl:imports <http://knuckles.team/kg> .
+    rdfs:comment "ArtCraft domain extensions federated into the KG hub. STUB." .

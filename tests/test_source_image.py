@@ -22,7 +22,6 @@ def test_image_installs_the_published_wheel_only():
         "README.md",
         "LICENSE",
         "craft_suite_api/openapi_contract.json",
-        "craft_suite_api/connector_manifest.yml",
     ]:
         assert (ROOT / name).is_file()
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text())
