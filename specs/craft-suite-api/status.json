@@ -28,8 +28,10 @@
     {
       "id": "CONN-CRAFT-SUITE-API-R003",
       "title": "MCP registration",
-      "delivery_state": "SPECIFIED",
-      "landed_in": [],
+      "delivery_state": "LANDED",
+      "landed_in": [
+        "34d32a3bb56c"
+      ],
       "verified_by": []
     },
     {
