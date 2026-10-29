@@ -32,4 +32,3 @@ RESOURCES: tuple[dict[str, str], ...] = (
         "name": "MediaAsset",
     },
 )
-
