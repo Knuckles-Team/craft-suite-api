@@ -74,8 +74,8 @@ def check_project(root: Path, package: str) -> list[str]:
         for value in dependencies
     }
     violations = []
-    if "agent-connector-sdk" not in names:
-        violations.append("pyproject.toml: connector requires agent-connector-sdk")
+    if "scion-sdk" not in names:
+        violations.append("pyproject.toml: connector requires scion-sdk")
     if _RETIRED_FRAMEWORK.replace("_", "-") in names:
         violations.append(
             "pyproject.toml: connector must not depend on the retired agent framework"
