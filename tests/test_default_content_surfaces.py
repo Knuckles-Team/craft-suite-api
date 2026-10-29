@@ -16,13 +16,9 @@ pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R001")
 
 
 def _server():
-    namespace = {"__name__": PACKAGE + ".mcp_server"}
-    exec(
-        "from agent_connector_sdk.mcp.server import create_mcp_server\n"
-        "result = create_mcp_server('craft-suite-api', version='0', command_args=[])",
-        namespace,
-    )
-    return namespace["result"][1]
+    from craft_suite_api.mcp_server import build_server
+
+    return build_server(command_args=[])
 
 
 async def _listings():
