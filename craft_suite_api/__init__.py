@@ -6,7 +6,14 @@ import warnings
 
 warnings.filterwarnings("ignore", message=".*urllib3.*or chardet.*")
 
-__all__: list[str] = []
+from agent_connector_sdk.connector import Connector
+
+connector = Connector(
+    instructions="Craft Suite connector; nine reviewed ArtCraft backend reads",
+    tools="craft_suite_api.mcp",
+)
+
+__all__: list[str] = ["connector"]
 
 CORE_MODULES = [
     "craft_suite_api.api",

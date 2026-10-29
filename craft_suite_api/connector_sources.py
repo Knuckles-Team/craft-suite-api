@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from agent_connector_sdk.ingest.sources import IngestSourceDeclaration, IngestSourceSpec
-
 CONNECTOR: str = "craft-suite-api"
 
 SOURCES: tuple[Any, ...] = ()
@@ -34,23 +32,3 @@ RESOURCES: tuple[dict[str, str], ...] = (
         "name": "MediaAsset",
     },
 )
-
-
-def declaration() -> IngestSourceDeclaration:
-    """The declaration the server assembles from this module."""
-    specs: list[IngestSourceSpec] = []
-    for item in SOURCES:
-        for entry in item["connector_sources"]:
-            body: dict[str, Any] = {
-                k: v for k, v in entry.items() if k not in ("tool", "mapping")
-            }
-            spec = {**body, "tools": (entry["tool"],)}
-            specs.append(IngestSourceSpec.model_validate(spec))
-    return IngestSourceDeclaration.model_validate(
-        {
-            "connector": CONNECTOR,
-            "sources": specs,
-            "schema_mappings": SCHEMA_MAPPINGS,
-            "resources": RESOURCES,
-        }
-    )
