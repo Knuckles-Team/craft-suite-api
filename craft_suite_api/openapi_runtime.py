@@ -2,10 +2,10 @@
 
 from typing import Any
 
-from agent_connector_sdk.mcp.concurrency import run_blocking
 from fastmcp.tools import Tool, ToolResult
 from mcp.types import InputRequiredResult, ToolAnnotations
 from pydantic import Field
+from scion_sdk.mcp.concurrency import run_blocking
 
 from .openapi_execution import confirm_write, require_authorization
 from .openapi_schema import CONTRACT, validate

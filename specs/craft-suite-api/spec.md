@@ -12,7 +12,7 @@ The shared connector SDK owns reusable transport, authentication, MCP, and inges
 The shared pipelines repository owns quality gates and delivery rendering.
 
 Component: Connector integration
-References: [Connector SDK](https://github.com/Knuckles-Team/agent-connector-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md)
+References: [Connector SDK](https://github.com/Knuckles-Team/scion-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md)
 Code: ../../craft_suite_api/auth.py ../../craft_suite_api/openapi_client.py ../../craft_suite_api/openapi_runtime.py ../../craft_suite_api/mcp_server.py ../../craft_suite_api/mcp/__init__.py ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../scripts/generate_tool_schemas.py
 
 ## Non-goals

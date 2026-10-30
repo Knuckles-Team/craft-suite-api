@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import httpx
 import pytest
-from agent_connector_sdk.credentials.references import SecretReferenceError
+from scion_sdk.credentials.references import SecretReferenceError
 
 import craft_suite_api.auth as auth_module
 

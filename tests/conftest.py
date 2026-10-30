@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import api_key_auth
+from scion_sdk.auth.static import api_key_auth
 
 from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.openapi_client import ClientPolicy

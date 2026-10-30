@@ -7,7 +7,7 @@ from pathlib import Path
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import api_key_auth
+from scion_sdk.auth.static import api_key_auth
 
 from craft_suite_api.api import ApiClientSystem
 from craft_suite_api.openapi_client import ClientPolicy
@@ -206,8 +206,8 @@ def test_provider_filter_is_a_closed_enum():
     "action", [a for a, op in CONTRACT["operations"].items() if op["read_only"]]
 )
 def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch, action):
-    from agent_connector_sdk.http.client import create_http_client
     from fastmcp import Client
+    from scion_sdk.http.client import create_http_client
 
     from craft_suite_api import auth, openapi_client
     from craft_suite_api.mcp_server import build_server
@@ -322,10 +322,10 @@ def test_request_struct_parity_and_u32_bounds():
 @pytest.mark.parametrize("accepted", [True, False])
 @pytest.mark.parametrize("mode", ["legacy", "2026-07-28"])
 def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatch):
-    from agent_connector_sdk.http.client import create_http_client
     from fastmcp import Client
     from fastmcp.client.elicitation import ElicitResult
     from mcp.shared.exceptions import MCPError
+    from scion_sdk.http.client import create_http_client
 
     from craft_suite_api import auth, openapi_client
     from craft_suite_api.mcp_server import build_server

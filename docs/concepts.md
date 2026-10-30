@@ -2,7 +2,7 @@
 
 > **Prefix**: `CONCEPT:CRAFT-*`
 > **Version**: 0.1.0
-> **Bridge**: [`CONCEPT:ECO-4.0`](https://github.com/Knuckles-Team/agent-connector-sdk/blob/main/docs/concepts.md) (Unified Toolkit Ingestion)
+> **Bridge**: [`CONCEPT:ECO-4.0`](https://github.com/Knuckles-Team/scion-sdk/blob/main/docs/concepts.md) (Unified Toolkit Ingestion)
 
 ---
 
@@ -12,10 +12,10 @@
 |------------|------|-------------|
 | `CONCEPT:CRAFT-001` | System Operations | MCP tool domain `system` — Action-routed dynamic tool registration |
 
-## Cross-Project References (from agent-connector-sdk)
+## Cross-Project References (from scion-sdk)
 
 | Concept ID | Name | Origin |
 |------------|------|--------|
-| `CONCEPT:ECO-4.0` | Unified Toolkit Ingestion | agent-connector-sdk |
-| `CONCEPT:ORCH-1.2` | Confidence-Gated Router | agent-connector-sdk |
-| `CONCEPT:OS-5.1` | Prompt Injection Defense | agent-connector-sdk |
+| `CONCEPT:ECO-4.0` | Unified Toolkit Ingestion | scion-sdk |
+| `CONCEPT:ORCH-1.2` | Confidence-Gated Router | scion-sdk |
+| `CONCEPT:OS-5.1` | Prompt Injection Defense | scion-sdk |

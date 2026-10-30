@@ -1,5 +1,5 @@
-from agent_connector_sdk.connector import build_server as _sdk_build_server
-from agent_connector_sdk.connector import run
+from scion_sdk.connector import build_server as _sdk_build_server
+from scion_sdk.connector import run
 
 PACKAGE = "craft_suite_api"
 
