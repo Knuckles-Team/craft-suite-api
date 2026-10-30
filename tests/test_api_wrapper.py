@@ -4,10 +4,10 @@ import ssl
 
 import httpx
 import pytest
-from agent_connector_sdk.auth.static import api_key_auth
-from agent_connector_sdk.http.errors import TlsVerificationError
-from agent_connector_sdk.tls.errors import TransportSecurityError
-from agent_connector_sdk.tls.resolve import resolve_tls_profile
+from scion_sdk.auth.static import api_key_auth
+from scion_sdk.http.errors import TlsVerificationError
+from scion_sdk.tls.errors import TransportSecurityError
+from scion_sdk.tls.resolve import resolve_tls_profile
 
 from craft_suite_api import openapi_client
 from craft_suite_api.api import ApiClientSystem

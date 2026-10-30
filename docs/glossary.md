@@ -14,11 +14,11 @@ The desktop cockpit for chat, graph, fleet, health, and operator workflows. Its 
 
 ## Messaging channels
 
-Chat and voice entrypoints hosted and supervised by Arbora. The adapter registry, inbound router, and orchestration bridge are implemented by Agent Connector SDK.
+Chat and voice entrypoints hosted and supervised by Arbora. The adapter registry, inbound router, and orchestration bridge are implemented by Scion SDK.
 
 ## Arbora
 
-## Agent Connector SDK
+## Scion SDK
 
 The agent control plane for orchestration, workflows, evaluation, and agent skills.
 
@@ -26,7 +26,7 @@ The agent control plane for orchestration, workflows, evaluation, and agent skil
 
 The durable multimodal knowledge and reasoning engine for graph data, evidence, and provenance.
 
-## Agent Connector SDK
+## Scion SDK
 
 The governed source integration boundary for discovering, reading, and synchronizing external systems.
 

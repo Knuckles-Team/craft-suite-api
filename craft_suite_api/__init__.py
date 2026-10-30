@@ -6,7 +6,7 @@ import warnings
 
 warnings.filterwarnings("ignore", message=".*urllib3.*or chardet.*")
 
-from agent_connector_sdk.connector import Connector
+from scion_sdk.connector import Connector
 
 connector = Connector(
     instructions="Craft Suite connector; nine reviewed ArtCraft backend reads",
