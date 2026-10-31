@@ -107,3 +107,6 @@ trace.txt
 
 # Immutable CI captures and locked source test environment.
 .ci/
+
+# Shared Pages theme: checked out from pipelines at build time, never tracked.
+.pipeline-theme/
