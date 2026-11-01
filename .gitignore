@@ -110,3 +110,6 @@ trace.txt
 
 # Shared Pages theme: checked out from pipelines at build time, never tracked.
 .pipeline-theme/
+
+# Generated spec status: never tracked.
+specs/*/status.json
