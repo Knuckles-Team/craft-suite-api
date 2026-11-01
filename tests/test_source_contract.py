@@ -324,7 +324,6 @@ def test_request_struct_parity_and_u32_bounds():
 def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatch):
     from fastmcp import Client
     from fastmcp.client.elicitation import ElicitResult
-    from mcp.shared.exceptions import MCPError
     from scion_sdk.http.client import create_http_client
 
     from craft_suite_api import auth, openapi_client
@@ -379,8 +378,10 @@ def test_native_mcp_cache_effect_confirmation(action, accepted, mode, monkeypatc
                 result = await client.call_tool(*native_tool(arguments))
                 assert result.structured_content["data"] == response_for(action)
             else:
-                with pytest.raises(MCPError, match="Write was not confirmed"):
-                    await client.call_tool(*native_tool(arguments))
+                refused = await client.call_tool(*native_tool(arguments))
+                assert not refused.is_error
+                assert refused.structured_content["cancelled"] is True
+                assert refused.structured_content["operation"] == action
 
     try:
         asyncio.run(call())

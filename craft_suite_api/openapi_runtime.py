@@ -12,6 +12,40 @@ from .openapi_schema import CONTRACT, validate
 
 PREFIX = "craft_suite"
 
+#: Explicit-confirmation argument of every write tool, for clients that cannot
+#: answer an elicitation. It is never part of the upstream request.
+CONFIRM_PARAMETER = "confirm"
+CONFIRM_SCHEMA = {
+    "type": "boolean",
+    "default": False,
+    "description": (
+        "Explicitly confirm this write. Needed only when the client cannot "
+        "answer a confirmation prompt."
+    ),
+}
+
+REFUSAL_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "cancelled": {"const": True},
+        "operation": {"type": "string"},
+        "reason": {"type": "string"},
+    },
+    "required": ["cancelled", "operation"],
+}
+
+
+def write_outputs(outputs: dict[str, Any]) -> dict[str, Any]:
+    """A write tool may answer with its response variants or the SDK refusal."""
+    variants = {k: v for k, v in outputs.items() if k != "$defs"}
+    schema: dict[str, Any] = {
+        "type": "object",
+        "anyOf": [variants, REFUSAL_SCHEMA],
+    }
+    if "$defs" in outputs:
+        schema["$defs"] = outputs["$defs"]
+    return schema
+
 
 def operation_tool_name(action: str) -> str:
     """The per-operation tool name for one reviewed contract action."""
@@ -35,6 +69,10 @@ def operation_inputs(domain: str, action: str) -> dict[str, Any]:
     }
     if "$defs" in inputs:
         schema["$defs"] = inputs["$defs"]
+    if not CONTRACT["operations"][action]["read_only"]:
+        if CONFIRM_PARAMETER in properties:
+            raise ValueError(f"{action} already declares a {CONFIRM_PARAMETER} input")
+        schema["properties"] = {**properties, CONFIRM_PARAMETER: CONFIRM_SCHEMA}
     return schema
 
 
@@ -49,15 +87,31 @@ class OpenApiTool(Tool):
     action: str = Field(exclude=True)
     client_factory: Any = Field(exclude=True)
 
+    def parameters_without_confirm(self):
+        properties = {
+            k: v
+            for k, v in self.parameters["properties"].items()
+            if k != CONFIRM_PARAMETER
+        }
+        return {**self.parameters, "properties": properties}
+
     async def run(self, arguments):
-        validate(arguments, self.parameters)
         operation = CONTRACT["operations"][self.action]
+        arguments = dict(arguments)
+        confirm = (
+            bool(arguments.pop(CONFIRM_PARAMETER, False))
+            if not operation["read_only"]
+            else False
+        )
+        validate(arguments, self.parameters_without_confirm())
         require_authorization(operation, CONTRACT)
         client = self.client_factory()
         call = {"action": self.action, **arguments}
-        confirmation = await confirm_write(operation, call, client)
+        confirmation = await confirm_write(operation, call, client, confirm=confirm)
         if isinstance(confirmation, InputRequiredResult):
             return confirmation
+        if confirmation is not None:
+            return ToolResult(structured_content=confirmation)
         result = await run_blocking(client.execute, self.domain, call)
         return ToolResult(structured_content=result)
 
@@ -76,7 +130,7 @@ def register_domain(mcp, domain, client_factory):
                 client_factory=client_factory,
                 description=operation.get("summary") or action.replace("_", " "),
                 parameters=operation_inputs(domain, action),
-                output_schema=outputs,
+                output_schema=outputs if read_only else write_outputs(outputs),
                 tags={domain, "operation"},
                 annotations=ToolAnnotations(
                     readOnlyHint=read_only,

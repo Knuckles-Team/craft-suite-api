@@ -16,6 +16,12 @@ from craft_suite_api.openapi_runtime import CONTRACT, OpenApiTool, operation_inp
 from .conftest import native_tool
 from .test_source_contract import response_for
 
+
+async def advertise_elicitation(message, response_type, params, context):
+    """Declare the capability; the modern flow answers through input_responses."""
+    return ElicitResult(action="cancel")
+
+
 EFFECTFUL = [a for a, op in CONTRACT["operations"].items() if not op["read_only"]]
 
 
@@ -74,7 +80,9 @@ def test_modern_pending_then_bound_retry(effect_client, decision):
 
     async def call():
         async with Client(
-            build_server(command_args=["--transport", "stdio"]), mode="2026-07-28"
+            build_server(command_args=["--transport", "stdio"]),
+            mode="2026-07-28",
+            elicitation_handler=advertise_elicitation,
         ) as client:
             tool, native_arguments = native_tool(arguments)
             pending = await client.session.call_tool(
@@ -106,14 +114,15 @@ def test_modern_pending_then_bound_retry(effect_client, decision):
                 request_state=state,
                 allow_input_required=True,
             )
-            if decision != "accept":
-                message = (
-                    "Invalid or expired requestState"
-                    if decision in {"changed_arguments", "changed_state"}
-                    else "Write was not confirmed"
-                )
-                with pytest.raises(MCPError, match=message):
+            if decision in {"changed_arguments", "changed_state"}:
+                with pytest.raises(MCPError, match="Invalid or expired requestState"):
                     await retry
+                return
+            if decision != "accept":
+                refused = await retry
+                assert not isinstance(refused, InputRequiredResult)
+                assert not refused.is_error
+                assert refused.structured_content["cancelled"] is True
                 return
             result = await retry
             assert not isinstance(result, InputRequiredResult)
@@ -156,6 +165,7 @@ def test_missing_context_denies_without_dispatch(effect_client, monkeypatch):
         client_factory=lambda: api,
         parameters=operation_inputs(operation["domain"], arguments["action"]),
     )
-    with pytest.raises(PermissionError, match="not confirmed"):
-        asyncio.run(tool.run(native_tool(arguments)[1]))
+    result = asyncio.run(tool.run(native_tool(arguments)[1]))
+    assert result.structured_content["cancelled"] is True
+    assert result.structured_content["operation"] == arguments["action"]
     assert requests == []

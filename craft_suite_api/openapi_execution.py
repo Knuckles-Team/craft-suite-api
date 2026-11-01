@@ -4,7 +4,7 @@ from urllib.parse import urlsplit
 
 from fastmcp.server.dependencies import get_context
 from mcp.types import InputRequiredResult
-from scion_sdk.mcp.context import ctx_confirm_destructive
+from scion_sdk.mcp.context import confirmation_refusal, ctx_confirm_destructive
 
 
 def _reviewed_public(operation, overlay):
@@ -56,16 +56,20 @@ def require_origin(base_url, *, credential_scheme, allow_plaintext):
         raise ValueError("Credential-bearing plaintext HTTP requires explicit opt-in")
 
 
-async def confirm_write(operation, arguments, client):
+async def confirm_write(operation, arguments, client, *, confirm=False):
     if operation["read_only"]:
         return None
     if not client.allow_writes:
         raise PermissionError("Writes require explicit operator enablement")
+    ctx = get_context()
     confirmation = await ctx_confirm_destructive(
-        get_context(), operation["action"], confirmation_arguments=arguments
+        ctx,
+        operation["action"],
+        confirmation_arguments=arguments,
+        explicit_confirm=confirm,
     )
     if isinstance(confirmation, InputRequiredResult):
         return confirmation
     if confirmation is not True:
-        raise PermissionError("Write was not confirmed")
+        return confirmation_refusal(ctx, operation["action"])
     return None
