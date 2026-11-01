@@ -15,4 +15,4 @@ Native content listing needs a connector-owned integration test before the conte
 | `CONN-CRAFT-SUITE-API-R005` | `tests/test_source_contract.py::test_unscoped_ingestion_is_unavailable` must reject import of the removed ingestion starter. |
 
 The owner must retain failure evidence and use canonical lifecycle tooling to regenerate `status.json`.
-| `CONN-CRAFT-SUITE-API-R006` | `tests/test_destructive_confirmation_transports.py` must show, over stdio, unauthenticated HTTP, and JWT HTTP, that a client without elicitation is refused with no upstream write until `confirm=true`, and that an eliciting client is asked and then writes. |
+| `CONN-CRAFT-SUITE-API-R006` | `tests/test_destructive_confirmation_transports.py::test_stdio_no_auth_destructive_call`, `::test_http_no_auth_localhost_destructive_call` and `::test_http_jwt_destructive_call` must show that a client without elicitation is refused with no upstream write until `confirm=true`, and that an eliciting client is asked and then writes. |
