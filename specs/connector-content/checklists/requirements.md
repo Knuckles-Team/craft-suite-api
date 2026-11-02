@@ -1,7 +1,5 @@
 # CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT — Requirements quality checklist
 
-Fill this before landing. Check an item only when the spec text satisfies it; an unchecked item blocks landing.
-
 ## Content quality
 
 - [x] No implementation detail leaks into the user stories
