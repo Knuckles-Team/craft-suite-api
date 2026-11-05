@@ -11,6 +11,7 @@ from scion_sdk.http.options import HttpClientOptions
 from scion_sdk.tls.resolve import resolve_tls_profile
 
 from .api import ApiClientSystem
+from .error_authority import BackendNotConfigured
 from .openapi_auth_scheme import AuthKind, declared_scheme
 from .openapi_client import ClientPolicy
 from .openapi_schema import CONTRACT
@@ -75,7 +76,7 @@ def get_client():
     load_config()
     base_url = setting("CRAFT_SUITE_API_BASE_URL", "")
     if not base_url:
-        raise ValueError("Provider base URL is required")
+        raise BackendNotConfigured()
     with ExitStack() as resources:
         client = _build_client(base_url, resources)
         _resources = resources.pop_all()

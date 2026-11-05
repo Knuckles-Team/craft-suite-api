@@ -12,6 +12,23 @@ from .problem_details import (
     ProblemDetails,
 )
 
+#: The refusal a Tier 1 call answers with while the backend is not configured.
+BACKEND_NOT_CONFIGURED = "BACKEND_NOT_CONFIGURED"
+
+
+class BackendNotConfigured(RuntimeError):
+    """The provider base URL is unset: the backend tier is off, not broken.
+
+    Raised by ``get_client`` before any request. The tool layer maps it to
+    the typed refusal :data:`BACKEND_NOT_CONFIGURED`; it never escapes as a
+    raw exception.
+    """
+
+    code = BACKEND_NOT_CONFIGURED
+
+    def __init__(self) -> None:
+        super().__init__(BACKEND_NOT_CONFIGURED)
+
 
 @dataclass(frozen=True)
 class RenderedError:
@@ -129,8 +146,10 @@ def error_response(
 __all__ = [
     "BROWSER_HTML_MEDIA_TYPE",
     "AGENT_ERROR_ACCEPT",
+    "BACKEND_NOT_CONFIGURED",
     "MAX_DETAIL_CHARS",
     "PROBLEM_JSON_MEDIA_TYPE",
+    "BackendNotConfigured",
     "ProblemDetails",
     "RenderedError",
     "STRUCTURED_MARKDOWN_MEDIA_TYPE",

@@ -7,6 +7,7 @@ from mcp.types import InputRequiredResult, ToolAnnotations
 from pydantic import Field
 from scion_sdk.mcp.concurrency import run_blocking
 
+from .error_authority import BACKEND_NOT_CONFIGURED, BackendNotConfigured
 from .openapi_execution import confirm_write, require_authorization
 from .openapi_schema import CONTRACT, validate
 
@@ -34,6 +35,17 @@ REFUSAL_SCHEMA = {
     "required": ["cancelled", "operation"],
 }
 
+#: The refusal a read tool admits while the backend is not configured.
+NOT_CONFIGURED_REFUSAL_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "cancelled": {"const": True},
+        "operation": {"type": "string"},
+        "reason": {"const": BACKEND_NOT_CONFIGURED},
+    },
+    "required": ["cancelled", "operation"],
+}
+
 
 def write_outputs(outputs: dict[str, Any]) -> dict[str, Any]:
     """A write tool may answer with its response variants or the SDK refusal."""
@@ -45,6 +57,31 @@ def write_outputs(outputs: dict[str, Any]) -> dict[str, Any]:
     if "$defs" in outputs:
         schema["$defs"] = outputs["$defs"]
     return schema
+
+
+def read_outputs(outputs: dict[str, Any]) -> dict[str, Any]:
+    """A read tool may answer with its variants or the not-configured refusal."""
+    variants = {k: v for k, v in outputs.items() if k != "$defs"}
+    schema: dict[str, Any] = {
+        "type": "object",
+        "anyOf": [variants, NOT_CONFIGURED_REFUSAL_SCHEMA],
+    }
+    if "$defs" in outputs:
+        schema["$defs"] = outputs["$defs"]
+    return schema
+
+
+def not_configured_refusal(action: str) -> dict[str, Any]:
+    """The typed refusal a Tier 1 call answers with while the backend is off.
+
+    It reuses the SDK cancellation shape: a cancelled flag, the named
+    operation and the refusal code. No exception detail leaves the wire.
+    """
+    return {
+        "cancelled": True,
+        "operation": action,
+        "reason": BACKEND_NOT_CONFIGURED,
+    }
 
 
 def operation_tool_name(action: str) -> str:
@@ -105,7 +142,10 @@ class OpenApiTool(Tool):
         )
         validate(arguments, self.parameters_without_confirm())
         require_authorization(operation, CONTRACT)
-        client = self.client_factory()
+        try:
+            client = self.client_factory()
+        except BackendNotConfigured:
+            return ToolResult(structured_content=not_configured_refusal(self.action))
         call = {"action": self.action, **arguments}
         confirmation = await confirm_write(operation, call, client, confirm=confirm)
         if isinstance(confirmation, InputRequiredResult):
@@ -130,7 +170,9 @@ def register_domain(mcp, domain, client_factory):
                 client_factory=client_factory,
                 description=operation.get("summary") or action.replace("_", " "),
                 parameters=operation_inputs(domain, action),
-                output_schema=outputs if read_only else write_outputs(outputs),
+                output_schema=read_outputs(outputs)
+                if read_only
+                else write_outputs(outputs),
                 tags={domain, "operation"},
                 annotations=ToolAnnotations(
                     readOnlyHint=read_only,

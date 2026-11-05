@@ -6,11 +6,36 @@ import warnings
 
 warnings.filterwarnings("ignore", message=".*urllib3.*or chardet.*")
 
+from scion_sdk.config import ConfigurationError, load_config, setting
 from scion_sdk.connector import Connector
+from scion_sdk.connector_hooks import Readiness
+
+from .upstreams import UPSTREAMS
+
+
+async def _tier1_readiness() -> Readiness:
+    """The Tier 1 backend state; an unconfigured backend never unseats the server.
+
+    ``detail`` reports the configuration only: no request is made and no
+    exception escapes, so a bad or missing configuration reads
+    ``not_configured`` instead of failing the probe.
+    """
+    try:
+        load_config()
+        configured = bool(setting("CRAFT_SUITE_API_BASE_URL", ""))
+    except ConfigurationError:
+        configured = False
+    return Readiness(
+        ready=True,
+        detail={"backend": "configured" if configured else "not_configured"},
+    )
+
 
 connector = Connector(
     instructions="Craft Suite connector; nine reviewed ArtCraft backend reads",
     tools="craft_suite_api.mcp",
+    upstreams=UPSTREAMS,
+    readiness=_tier1_readiness,
 )
 
 __all__: list[str] = ["connector"]
