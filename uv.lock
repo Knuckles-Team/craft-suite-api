@@ -305,7 +305,7 @@ wheels = [
 
 [[package]]
 name = "craft-suite-api"
-version = "0.5.1"
+version = "0.5.2"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
@@ -347,9 +347,9 @@ requires-dist = [
     { name = "regex", specifier = ">=2026.9.29" },
     { name = "rfc3339-validator", specifier = ">=0.1.4,<0.2" },
     { name = "rfc3986-validator", specifier = ">=0.1.1,<0.2" },
-    { name = "scion-sdk", extras = ["mcp"], specifier = ">=0.8.0,<0.9" },
-    { name = "scion-sdk", extras = ["mcp", "storage-s3"], marker = "extra == 'all'", specifier = ">=0.8.0,<0.9" },
-    { name = "scion-sdk", extras = ["mcp", "storage-s3"], marker = "extra == 'mcp'", specifier = ">=0.8.0,<0.9" },
+    { name = "scion-sdk", extras = ["mcp"], specifier = ">=0.8.1,<0.9" },
+    { name = "scion-sdk", extras = ["mcp", "storage-s3"], marker = "extra == 'all'", specifier = ">=0.8.1,<0.9" },
+    { name = "scion-sdk", extras = ["mcp", "storage-s3"], marker = "extra == 'mcp'", specifier = ">=0.8.1,<0.9" },
 ]
 provides-extras = ["mcp", "all", "test"]
 
@@ -1542,7 +1542,7 @@ wheels = [
 
 [[package]]
 name = "scion-sdk"
-version = "0.8.0"
+version = "0.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1555,9 +1555,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/fd/d6b86b7b6f3003ee6466071006a852350e09afa50103917b8d9b10099f9b/scion_sdk-0.8.0.tar.gz", hash = "sha256:306442ee0d052f0253485b3aaae5a4a98f647dcbae4aa351775c50a2139294f1", size = 1213004, upload-time = "2026-11-05T10:53:30.734Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5c/98/3f5aa64fbed24b301763b670c2120506c45ef834df508480f76d1956607f/scion_sdk-0.8.1.tar.gz", hash = "sha256:ae5fd3891207ee878d38d21bd0b7c90f75c3ec17977d9fee0609f638135ad984", size = 1213436, upload-time = "2026-11-05T15:21:20.846Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/99/71d110fd51ddd5c106045201929798c6a7e81af9ee0c73dc9f4fc2008357/scion_sdk-0.8.0-py3-none-any.whl", hash = "sha256:582c5fcebfc8c03864a3cd664194729cabdc02b65e45595759fccad537dbb1a2", size = 1185186, upload-time = "2026-11-05T10:53:32.659Z" },
+    { url = "https://files.pythonhosted.org/packages/32/86/ae1e3847219fc873ec372dea8859d2cc05862742b3574f172821e5f335cf/scion_sdk-0.8.1-py3-none-any.whl", hash = "sha256:6c66bac6be0200c674e80e25c143c6908ab8eeaed7c1fc41ff70fbcd99553b60", size = 1185364, upload-time = "2026-11-05T15:21:22.394Z" },
 ]
 
 [package.optional-dependencies]

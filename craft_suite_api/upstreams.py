@@ -21,6 +21,7 @@ from scion_sdk.mcp.upstreams import ExchangeBinding, SandboxRoots, UpstreamDecl
 
 __all__ = [
     "APPS",
+    "FLAGLESS_APPS",
     "EXCHANGE",
     "READ_ROOTS_SETTING",
     "WRITE_ROOTS_SETTING",
@@ -50,6 +51,14 @@ WRITE_ROOTS_SETTING = "CRAFT_SUITE_WRITE_ROOTS"
 READ_FLAG = "--automation-read-root"
 WRITE_FLAG = "--automation-write-root"
 
+#: Apps whose ``mcp`` subcommand has no filesystem-root flags (verified
+#: against ``<app>-cli mcp --help`` in the shipped image). They take no root
+#: flag, so the operator's root settings cannot reach them and the SDK passes
+#: nothing. Their file access is bounded by the container, not by a flag;
+#: calls that carry a ``path`` argument still run through the artifact
+#: exchange, which stages them in the run directory.
+FLAGLESS_APPS = ("filmcraft", "cadcraft")
+
 #: The arguments whose relative values land in the run's output directory
 #: (CONN-CRAFT-SUITE-API-APPS-R013). Every app writes beneath its write root.
 EXCHANGE = ExchangeBinding(path_args=("path", "dir", "out", "out_dir"))
@@ -72,21 +81,26 @@ def build_upstreams() -> tuple[UpstreamDecl, ...]:
     """One declaration per app, with the operator's root settings applied."""
     read = root_paths(READ_ROOTS_SETTING)
     write = root_paths(WRITE_ROOTS_SETTING)
-    return tuple(
-        UpstreamDecl(
-            name=app,
-            kind="stdio",
-            command=f"{app}-cli",
-            args=("mcp",),
-            sandbox=SandboxRoots(
-                read=read,
-                write=write,
-                read_flag=READ_FLAG,
-                write_flag=WRITE_FLAG,
-            ),
-            exchange=EXCHANGE,
+    return tuple(_declare(app, read, write) for app in APPS)
+
+
+def _declare(
+    app: str, read: tuple[str, ...], write: tuple[str, ...]
+) -> UpstreamDecl:
+    """One app's declaration; a flagless app passes no root flag at all."""
+    if app in FLAGLESS_APPS:
+        sandbox = SandboxRoots(read_flag=None, write_flag=None)
+    else:
+        sandbox = SandboxRoots(
+            read=read, write=write, read_flag=READ_FLAG, write_flag=WRITE_FLAG
         )
-        for app in APPS
+    return UpstreamDecl(
+        name=app,
+        kind="stdio",
+        command=f"{app}-cli",
+        args=("mcp",),
+        sandbox=sandbox,
+        exchange=EXCHANGE,
     )
 
 

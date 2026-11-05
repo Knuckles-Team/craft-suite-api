@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2026-11-05
+
+### Fixed
+- `filmcraft` and `cadcraft` declare no filesystem-root flags: their `mcp`
+  subcommand does not accept `--automation-read-root`/`--automation-write-root`,
+  which made both upstreams fail `UPSTREAM_SPAWN_FAILED`. Their file access is
+  bounded by the container; path arguments still go through the exchange
+  (CONN-CRAFT-SUITE-API-APPS-R002). Needs `scion-sdk>=0.8.1`.
+
 ## [0.5.1] - 2026-11-05
 
 ### Fixed
