@@ -269,6 +269,7 @@ def test_native_mcp_catalog_call_and_effect_annotations(monkeypatch, action):
         auth.close_client()
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R005")
 def test_unscoped_ingestion_is_unavailable():
     import importlib.util
 
@@ -424,6 +425,7 @@ def test_optional_session_media_tags_supports_anonymous_access():
         client.close()
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R004")
 def test_served_prompts_match_admitted_capabilities():
     from craft_suite_api.upstreams import APPS
 

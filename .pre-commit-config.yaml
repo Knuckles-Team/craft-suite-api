@@ -61,6 +61,12 @@ repos:
     language: system
     pass_filenames: false
     always_run: true
+  - id: content-drift
+    name: Generated app content drift gate (CONTENT_DRIFT)
+    entry: uv run --frozen python scripts/generate_app_content.py --check
+    language: system
+    pass_filenames: false
+    files: ^(content/|craft_suite_api/(skills|ontology|prompts)/|scripts/generate_app_content\.py$)
   - id: pytest
     name: Generated connector contracts
     entry: python -m pytest tests -q
