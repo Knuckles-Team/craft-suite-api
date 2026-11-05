@@ -19,6 +19,8 @@ nav:
   - Architecture: architecture.md
   - Installation: installation.md
   - Deployment: deployment.md
+  - Fleet deployment: fleet-deployment.md
+  - Tool budget: tool-budget.md
   - Usage (API / CLI / MCP): usage.md
   - Backing Platform (ArtCraft): platform.md
   - Concepts: concepts.md

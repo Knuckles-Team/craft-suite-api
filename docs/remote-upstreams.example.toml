@@ -1,0 +1,16 @@
+# Operator overlay: one app over streamable HTTP (CONN-CRAFT-SUITE-API-APPS-R005).
+#
+# Name this file in the setting SCION_UPSTREAMS_FILE. Each [[upstream]]
+# table merges by name against the connector's declarations; an entry that
+# changes the kind starts from a clean declaration. The remote topology is
+# operator-supplied: the URL is an https endpoint of the app's own MCP
+# server, the credential holds a secret reference (never a value), and the
+# TLS profile is a name from the operator's catalog. The values below are
+# placeholders from an unresolvable domain; replace them before use.
+
+[[upstream]]
+name = "photocraft"
+kind = "http"
+url = "https://apps.example.invalid/photocraft/mcp"
+credential = "env://CRAFT_SUITE_PHOTO_CRAFT_TOKEN"
+tls_profile = "default"
