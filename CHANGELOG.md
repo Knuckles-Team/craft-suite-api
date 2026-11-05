@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-11-05
+
+### Fixed
+- The `mcp` and `all` extras (and so the container image) now install the SDK
+  `storage-s3` extra: the documented object-store sink failed in the image with
+  `STORAGE_DEPENDENCY_MISSING` (CONN-CRAFT-SUITE-API-APPS-R014).
+
 ## [0.5.0] - 2026-11-05
 
 ### Added
