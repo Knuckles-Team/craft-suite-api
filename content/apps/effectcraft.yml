@@ -1,0 +1,32 @@
+app: effectcraft
+summary: EffectCraft motion graphics — projects, compositions, effects, keyframes and rendering.
+classes:
+  - name: EffectProject
+    parent: CreativeWork
+    description: A motion-graphics project edited by EffectCraft.
+  - name: EffectComposition
+    parent: CreativeWork
+    description: A composition inside an EffectCraft project.
+functionality:
+  - name: build_composition
+    description: Open a project, inspect a composition and add effects.
+    tools: [open_project, get_comp, add_effect, render_frame]
+    steps:
+      - Open the project.
+      - Read the composition.
+      - Apply the effects.
+      - Render a frame to check.
+  - name: keyframe_property
+    description: Read a property and animate it with keyframes.
+    tools: [get_layer, get_property, add_keyframe, set_property]
+    steps:
+      - Read the layer and property.
+      - Add the keyframes.
+      - Set the values between them.
+  - name: script_project
+    description: Drive the project through commands and scripts.
+    tools: [list_commands, execute_command, run_script, save_project]
+    steps:
+      - Look up the commands.
+      - Run the commands or a script.
+      - Save the project.

@@ -1,0 +1,31 @@
+app: solidcraft
+summary: SolidCraft parametric solid modeling — parameters, bodies, exports and measurements.
+classes:
+  - name: SolidDesign
+    parent: Artifact
+    description: A parametric 3D design file produced by SolidCraft.
+  - name: SolidBody
+    parent: Artifact
+    description: A body inside a SolidCraft design.
+functionality:
+  - name: model_body
+    description: Start a design, run modeling commands and look at the result.
+    tools: [new_design, list_commands, execute, screenshot]
+    steps:
+      - Start the design.
+      - Run the modeling commands in a batch.
+      - Render a screenshot to check the geometry.
+  - name: parameterize_design
+    description: Add parameters to a design and verify their effect.
+    tools: [set_parameter, check_parameters, inspect_design]
+    steps:
+      - Set the parameters.
+      - Dry-run the values without keeping them.
+      - Inspect the design state.
+  - name: export_model
+    description: Measure a design and export its bodies.
+    tools: [measure, body_topology, export]
+    steps:
+      - Measure the geometry.
+      - Read the body topology.
+      - Export in the requested format.

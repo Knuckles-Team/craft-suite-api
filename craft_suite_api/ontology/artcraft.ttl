@@ -3,26 +3,56 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# TODO: replace this stub with the real domain model. Classes/properties live in the
-# SHARED : (kg#) namespace; only the owl:Ontology node gets the per-package IRI. Do NOT
-# redefine classes another package owns (:MediaAsset/:Blob/:Document/:Person) — reuse them.
+# ArtCraft suite pack classes. Classes and properties live in the shared :
+# (kg#) namespace; only the owl:Ontology node carries the pack IRI. The pack
+# reuses the core classes and never redeclares them or imports the engine
+# ontology. Generated per-app files (artcraft-<app>.ttl) import this module.
 
-:ArtcraftResource a owl:Class ;
-    rdfs:label "ArtCraft Resource" ;
-    rdfs:comment "A primary object managed by ArtCraft (STUB — rename/expand)." .
+:App a owl:Class ;
+    rdfs:label "ArtCraft App" ;
+    rdfs:comment "One ArtCraft suite application served as an upstream MCP server." ;
+    rdfs:subClassOf :Application .
 
-:managedBy a owl:ObjectProperty ;
-    rdfs:label "managed by" ;
-    rdfs:comment "Links a ArtCraft resource to the Person responsible (STUB)." ;
-    rdfs:domain :ArtcraftResource ;
-    rdfs:range :Person .
+:AppTool a owl:Class ;
+    rdfs:label "ArtCraft App Tool" ;
+    rdfs:comment "One tool exposed by an ArtCraft app on its MCP surface." ;
+    rdfs:subClassOf :Tool .
 
-:artcraftId a owl:DatatypeProperty ;
-    rdfs:label "artcraft id" ;
-    rdfs:comment "External identifier of the ArtCraft resource (STUB)." ;
-    rdfs:domain :ArtcraftResource ;
+:UseCase a owl:Class ;
+    rdfs:label "ArtCraft Use Case" ;
+    rdfs:comment "An authored task of an ArtCraft app, walking an ordered set of app tools." ;
+    rdfs:subClassOf :Task .
+
+:ofApp a owl:ObjectProperty ;
+    rdfs:label "of app" ;
+    rdfs:comment "Links an app tool to the app that exposes it." ;
+    rdfs:domain :AppTool ;
+    rdfs:range :App .
+
+:forApp a owl:ObjectProperty ;
+    rdfs:label "for app" ;
+    rdfs:comment "Links a use case to the app it is performed in." ;
+    rdfs:domain :UseCase ;
+    rdfs:range :App .
+
+:usesToolName a owl:DatatypeProperty ;
+    rdfs:label "uses tool name" ;
+    rdfs:comment "A namespaced tool name the use case walks through." ;
+    rdfs:domain :UseCase ;
+    rdfs:range xsd:string .
+
+:appNamespace a owl:DatatypeProperty ;
+    rdfs:label "app namespace" ;
+    rdfs:comment "The upstream registry namespace of the app." ;
+    rdfs:domain :App ;
+    rdfs:range xsd:string .
+
+:appVersion a owl:DatatypeProperty ;
+    rdfs:label "app version" ;
+    rdfs:comment "The version of the app CLI the content was generated from." ;
+    rdfs:domain :App ;
     rdfs:range xsd:string .
 
 <http://knuckles.team/kg/artcraft> a owl:Ontology ;
     rdfs:label "ArtCraft Ontology" ;
-    rdfs:comment "ArtCraft domain extensions federated into the KG hub. STUB." .
+    rdfs:comment "ArtCraft suite pack classes federated into the KG hub." .

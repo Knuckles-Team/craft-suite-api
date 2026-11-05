@@ -1,0 +1,27 @@
+app: soundcraft
+summary: SoundCraft audio mixing — sessions, tracks, imports, edits and bounce renders.
+classes:
+  - name: SoundSession
+    parent: CreativeWork
+    description: An audio mixing session managed by SoundCraft.
+functionality:
+  - name: mix_session
+    description: Start a session, inspect the tracks and bounce the mix.
+    tools: [new_session, inspect_session, bounce_mix]
+    steps:
+      - Start the session.
+      - Inspect the tracks and buses.
+      - Bounce the mix to an audio file.
+  - name: import_and_save
+    description: Import audio onto the session and save it.
+    tools: [import_audio, save_session]
+    steps:
+      - Import the audio files.
+      - Save the session.
+  - name: edit_session
+    description: Run session commands and review the result.
+    tools: [list_commands, execute, inspect_session]
+    steps:
+      - Look up the commands.
+      - Run the edits.
+      - Inspect the session state.

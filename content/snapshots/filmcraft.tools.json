@@ -1,0 +1,416 @@
+{
+  "app": "filmcraft",
+  "version": "0.17.0",
+  "tools": [
+    {
+      "name": "command_batch",
+      "description": "Run several commands in order: {steps: [{id, params?}], stop_on_error?: true}. Returns {completed, failed, results: [{ok, result | error}]}; each edit is its own undo step.",
+      "input_schema": {
+        "$defs": {
+          "BatchStep": {
+            "properties": {
+              "id": {
+                "description": "Command id.",
+                "type": "string"
+              },
+              "params": {
+                "default": null,
+                "description": "Parameters object."
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "steps": {
+            "description": "Commands to run in order.",
+            "items": {
+              "$ref": "#/$defs/BatchStep"
+            },
+            "type": "array"
+          },
+          "stop_on_error": {
+            "default": null,
+            "description": "Stop at the first failing step (default true).",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "command_list",
+      "description": "List every command (id, label, menu path, shortcut, parameter doc, enabled now). Menus, shortcuts, panels and timeline gestures all map to these ids.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "enabled_only": {
+            "default": null,
+            "description": "Only commands that can run right now.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "filter": {
+            "default": null,
+            "description": "Only commands whose id or label contains this text (case-insensitive).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "command_run",
+      "description": "Run a command by id with JSON params, e.g. {\"id\":\"timeline.razor\",\"params\":{\"seconds\":3.5}} or {\"id\":\"effects.apply\",\"params\":{\"effect\":\"Gaussian Blur\"}}. Undoable edits land in History.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "id": {
+            "description": "Command id, e.g. `sequence.addEdit`, `timeline.trim`, `effects.apply`, `file.import`.",
+            "type": "string"
+          },
+          "params": {
+            "default": null,
+            "description": "Parameters object (see `params` in `command_list`)."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "doc_inspect",
+      "description": "The project as JSON: the tree (as project_inspect) plus the active sequence (as sequence_inspect; null when there is none).",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "media_import",
+      "description": "Import media files by absolute path (MP4/MOV, WAV/MP3/FLAC/AIFF/Ogg, PNG/JPEG/\u2026).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "bin": {
+            "default": null,
+            "description": "Bin ID to import into (optional).",
+            "format": "uint64",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "image_sequence": {
+            "default": null,
+            "description": "Import numbered stills as an image sequence (optional, default false).",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "paths": {
+            "description": "Absolute paths to media files (MP4/MOV, WAV/MP3/FLAC/AIFF/Ogg, PNG/JPEG/\u2026).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "paths"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "project_inspect",
+      "description": "Project tree (bins and items with ids, types, durations), active sequence, source clip.",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "render_frame",
+      "description": "Render the active sequence's frame (at `seconds` or the playhead) and return it as PNG.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "max_side": {
+            "default": null,
+            "description": "Longest side of the PNG (default 960).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "seconds": {
+            "default": null,
+            "description": "Timeline time in seconds (default: the playhead).",
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "render_preview",
+      "description": "The active sequence's frame at `seconds` (default: the playhead) as PNG, same as render_frame (bridge mode: Program monitor screenshot).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "max_side": {
+            "default": null,
+            "description": "Longest side of the PNG (default 960).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "seconds": {
+            "default": null,
+            "description": "Timeline time in seconds (default: the playhead).",
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "sequence_inspect",
+      "description": "The active sequence as JSON: settings, tracks, clips (ids, start/duration in ticks and frames, effects), transitions, markers, in/out, playhead, selection. 254016000000 ticks = 1 second.",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_click",
+      "description": "Live app: click an element by id or at x,y (points). Supports right/middle button, double-click (count=2) and modifiers.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "button": {
+            "default": null,
+            "description": "left | right | middle",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "count": {
+            "default": null,
+            "description": "Number of clicks (0\u201310; defaults to 1). Use 2 for double-click. Larger values are rejected.",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "id": {
+            "default": null,
+            "description": "Element id from `ui_elements` (e.g. `timeline.track.V1.lock`, `tools.Razor`, `project.item.12`).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "modifiers": {
+            "default": null,
+            "description": "{\"shift\":bool,\"alt\":bool,\"command\":bool,\"ctrl\":bool}"
+          },
+          "x": {
+            "default": null,
+            "description": "Or screen coordinates in points.",
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "y": {
+            "default": null,
+            "format": "double",
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_control",
+      "description": "Live app: call any control-channel method directly (ui.set, ui.scroll, ui.timeline.hit, ui.timeline.locate, ui.playback, ui.panel.show, ui.menu.list, \u2026).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "method": {
+            "description": "Any control-channel method (e.g. `ui.set`, `ui.scroll`, `ui.timeline.hit`, `ui.playback`).",
+            "type": "string"
+          },
+          "params": {
+            "default": null
+          }
+        },
+        "required": [
+          "method"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_drag",
+      "description": "Live app: press-drag-release from one point/element to another (move clips, trim edges, scrub, resize panels, drop project items onto tracks).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "from": {
+            "description": "Start: {\"id\":..} or {\"x\":..,\"y\":..} (optionally \"fx\"/\"fy\" fractions inside the element)."
+          },
+          "modifiers": {
+            "default": null
+          },
+          "steps": {
+            "default": null,
+            "description": "Movement steps (0\u20131024; defaults to 12; 0 or 1 uses 2). Larger values are rejected.",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "to": {
+            "description": "End point, same forms."
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_elements",
+      "description": "Live app: every on-screen interactive element with id, label and rect (points). Use ids with ui_click/ui_drag.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "prefix": {
+            "default": null,
+            "description": "Only element ids starting with this prefix (e.g. `timeline.clip.`).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_inspect",
+      "description": "Live app: UI state (tool, workspace, panels, timeline zoom, playback, selection, fps).",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_key",
+      "description": "Live app: press a key or shortcut (e.g. `Space`, `L`, `Cmd+K`, `Shift+Delete`, `Cmd+Z`).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "key": {
+            "description": "Key with optional modifiers, e.g. `Space`, `Cmd+K`, `Shift+Delete`, `I`, `L`.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_screenshot",
+      "description": "Live app: screenshot of the window or one panel (PNG).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "max_side": {
+            "default": null,
+            "description": "Longest side of the PNG (default 1600).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "panel": {
+            "default": null,
+            "description": "Panel to crop to (e.g. `Timeline`, `Program`); omit for the whole window.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_type",
+      "description": "Live app: type text into the focused field.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      }
+    }
+  ]
+}

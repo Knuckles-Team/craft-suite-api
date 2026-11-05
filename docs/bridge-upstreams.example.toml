@@ -1,0 +1,23 @@
+# Operator overlay: one app attached to a running desktop session (CONN-CRAFT-SUITE-API-APPS-R006).
+#
+# Name this file in the setting SCION_UPSTREAMS_FILE. The bridge reaches the
+# app's control protocol on a loopback address; the connector CLI flags stay
+# the SDK starting values (--bridge, --control-token-file). token_ref holds
+# a secret reference and is materialized to a private file the child reads;
+# the token never enters a command line or a log. The address and reference
+# below are placeholders; the address must stay loopback (127.0.0.1, ::1 or
+# localhost).
+#
+# Switching an existing upstream's kind starts from a clean declaration, so
+# the entry carries the transport fields (command, args, sandbox) that the
+# app's own declaration carries; the namespace is inherited from it.
+
+[[upstream]]
+name = "figcraft"
+kind = "bridge"
+command = "figcraft-cli"
+args = ["mcp"]
+bridge.address = "127.0.0.1:47001"
+bridge.token_ref = "env://CRAFT_SUITE_BRIDGE_TOKEN"
+sandbox.read_flag = "--automation-read-root"
+sandbox.write_flag = "--automation-write-root"

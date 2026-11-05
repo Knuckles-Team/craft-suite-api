@@ -25,4 +25,8 @@ def test_mcp_instance_registration(monkeypatch):
         "craft_suite_omni_gen_splat_models_handler",
         "craft_suite_list_media_file_tags_handler",
         "craft_suite_list_tags_handler",
+        "registry_list_namespaces",
+        "registry_activate",
+        "registry_deactivate",
+        "registry_status",
     }
