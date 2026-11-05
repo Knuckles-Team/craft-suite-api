@@ -38,3 +38,12 @@ apply.
 A tool pin (`ARBORA-FLEET-R059`) names a namespaced tool id such as
 `photocraft_execute`, so a pinned tool survives a gateway restart: the pin
 refers to the namespace, not to a session-local handle.
+
+## Artifact exchange
+
+Every app runs its calls through the SDK artifact exchange. Set `SCION_EXCHANGE_FILE` to a copy of [`exchange.example.json`](exchange.example.json) with real endpoints and secret references:
+
+- The `objects` sink keeps a durable copy in an S3-compatible object store and returns a signed URL valid for 7 days.
+- The `files` sink writes to a WebDAV file share folder `ArtCraft/<app>/<YYYY-MM-DD>/<run>/`, which a desktop sync client mirrors.
+
+Optional knobs: `SCION_EXCHANGE_STAGING_ROOT` (per-run staging directories; the apps receive its `in` and `out` trees as roots), `SCION_EXCHANGE_MAX_INPUT_BYTES`, `SCION_EXCHANGE_MAX_OUTPUT_BYTES`, `SCION_EXCHANGE_RETENTION_S` and `SCION_EXCHANGE_LINEAGE`. A caller groups calls into one run with the request metadata key `scion/run`. Inputs take `exchange://<sink>/<key>` or an `https` URL. Without `SCION_EXCHANGE_FILE` the apps behave as before.

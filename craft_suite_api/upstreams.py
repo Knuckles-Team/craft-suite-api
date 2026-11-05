@@ -17,10 +17,11 @@ from __future__ import annotations
 import os
 
 from scion_sdk.config import setting
-from scion_sdk.mcp.upstreams import SandboxRoots, UpstreamDecl
+from scion_sdk.mcp.upstreams import ExchangeBinding, SandboxRoots, UpstreamDecl
 
 __all__ = [
     "APPS",
+    "EXCHANGE",
     "READ_ROOTS_SETTING",
     "WRITE_ROOTS_SETTING",
     "UPSTREAMS",
@@ -48,6 +49,10 @@ WRITE_ROOTS_SETTING = "CRAFT_SUITE_WRITE_ROOTS"
 
 READ_FLAG = "--automation-read-root"
 WRITE_FLAG = "--automation-write-root"
+
+#: The arguments whose relative values land in the run's output directory
+#: (CONN-CRAFT-SUITE-API-APPS-R013). Every app writes beneath its write root.
+EXCHANGE = ExchangeBinding(path_args=("path", "dir", "out", "out_dir"))
 
 
 def root_paths(setting_name: str) -> tuple[str, ...]:
@@ -79,6 +84,7 @@ def build_upstreams() -> tuple[UpstreamDecl, ...]:
                 read_flag=READ_FLAG,
                 write_flag=WRITE_FLAG,
             ),
+            exchange=EXCHANGE,
         )
         for app in APPS
     )

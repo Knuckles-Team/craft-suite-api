@@ -13,6 +13,10 @@ SolidCraft parametric solid modeling — parameters, bodies, exports and measure
 
 Call `registry_activate` with the namespace `solidcraft` before using any `solidcraft_*` tool.
 
+## Files in and out
+
+Pass an input file as `exchange://<sink>/<key>` (for example `exchange://files/in/photo.png`) or as an `https` URL; the server stages it and hands the app a local path. Give an output path as a relative path such as `out.png`: it lands in this run's folder, and after the call the result links each output in every configured sink.
+
 ## Tools
 
 | Tool | What it does |

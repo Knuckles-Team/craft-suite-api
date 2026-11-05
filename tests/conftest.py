@@ -61,15 +61,23 @@ def app_cli_factory(tmp_path, monkeypatch):
     bin_dir.mkdir()
     monkeypatch.setenv("PATH", str(bin_dir) + os.pathsep + os.environ["PATH"])
 
-    def make(app, *, die=False, no_mcp=False, drift=False, version="0.0.1-fixture"):
+    def make(
+        app,
+        *,
+        die=False,
+        no_mcp=False,
+        drift=False,
+        files=False,
+        version="0.0.1-fixture",
+    ):
         wrapper = bin_dir / f"{app}-cli"
-        env_lines = []
-        if die:
-            env_lines.append("FAKE_APP_CLI_DIE_ON_MCP=1")
-        if no_mcp:
-            env_lines.append("FAKE_APP_CLI_NO_MCP=1")
-        if drift:
-            env_lines.append("FAKE_APP_CLI_TOOL_DRIFT=1")
+        knobs = {
+            "FAKE_APP_CLI_DIE_ON_MCP": die,
+            "FAKE_APP_CLI_NO_MCP": no_mcp,
+            "FAKE_APP_CLI_TOOL_DRIFT": drift,
+            "FAKE_APP_CLI_FILES": files,
+        }
+        env_lines = [f"{name}=1" for name, enabled in knobs.items() if enabled]
         body = "\n".join(f"export {line}\n" for line in env_lines)
         wrapper.write_text(
             "#!/bin/sh\n"

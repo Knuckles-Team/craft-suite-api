@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.12, <3.15"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -277,7 +277,7 @@ wheels = [
 
 [[package]]
 name = "craft-suite-api"
-version = "0.4.0"
+version = "0.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
@@ -319,9 +319,9 @@ requires-dist = [
     { name = "regex", specifier = ">=2026.9.29" },
     { name = "rfc3339-validator", specifier = ">=0.1.4,<0.2" },
     { name = "rfc3986-validator", specifier = ">=0.1.1,<0.2" },
-    { name = "scion-sdk", extras = ["mcp"], specifier = ">=0.7.1,<0.8" },
-    { name = "scion-sdk", extras = ["mcp"], marker = "extra == 'all'", specifier = ">=0.7.1,<0.8" },
-    { name = "scion-sdk", extras = ["mcp"], marker = "extra == 'mcp'", specifier = ">=0.7.1,<0.8" },
+    { name = "scion-sdk", extras = ["mcp"], specifier = ">=0.8.0,<0.9" },
+    { name = "scion-sdk", extras = ["mcp"], marker = "extra == 'all'", specifier = ">=0.8.0,<0.9" },
+    { name = "scion-sdk", extras = ["mcp"], marker = "extra == 'mcp'", specifier = ">=0.8.0,<0.9" },
 ]
 provides-extras = ["mcp", "all", "test"]
 
@@ -1481,7 +1481,7 @@ wheels = [
 
 [[package]]
 name = "scion-sdk"
-version = "0.7.1"
+version = "0.8.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1494,9 +1494,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/30/d5/08a2f35748c53e10e92b8f3e49222d28caaa7d66788c3bbec239ac40c1be/scion_sdk-0.7.1.tar.gz", hash = "sha256:f080bd07f1dc279e26d3c0c6d157cba96e44593e9f277e8e0df5d5f7554cbb65", size = 1181251, upload-time = "2026-11-04T06:02:08.29Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/fd/d6b86b7b6f3003ee6466071006a852350e09afa50103917b8d9b10099f9b/scion_sdk-0.8.0.tar.gz", hash = "sha256:306442ee0d052f0253485b3aaae5a4a98f647dcbae4aa351775c50a2139294f1", size = 1213004, upload-time = "2026-11-05T10:53:30.734Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/61/c8/b216c1b5fc32d80faad6c0a1741d8e79ed4965f779aef0d0238be62c4818/scion_sdk-0.7.1-py3-none-any.whl", hash = "sha256:faf0b263311de9a6be91939005338987de7d6184bb464cad0d09f0541a67083d", size = 1139800, upload-time = "2026-11-04T06:02:09.979Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/99/71d110fd51ddd5c106045201929798c6a7e81af9ee0c73dc9f4fc2008357/scion_sdk-0.8.0-py3-none-any.whl", hash = "sha256:582c5fcebfc8c03864a3cd664194729cabdc02b65e45595759fccad537dbb1a2", size = 1185186, upload-time = "2026-11-05T10:53:32.659Z" },
 ]
 
 [package.optional-dependencies]

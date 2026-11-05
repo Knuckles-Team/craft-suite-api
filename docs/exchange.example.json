@@ -1,0 +1,37 @@
+{
+  "stores": {
+    "objects": {
+      "backend": "s3",
+      "endpoint": "https://objects.example.invalid",
+      "presign_endpoint": "https://objects.example.invalid",
+      "credentials": {
+        "access_key_id": "openbao://kv/craft-suite/exchange#access_key_id",
+        "secret_access_key": "openbao://kv/craft-suite/exchange#secret_access_key"
+      }
+    },
+    "files": {
+      "backend": "webdav",
+      "endpoint": "https://files.example.invalid/remote.php/dav/files/artcraft",
+      "credentials": {
+        "username": "env://CRAFT_SUITE_FILES_USER",
+        "password": "openbao://kv/craft-suite/exchange#files_password"
+      }
+    }
+  },
+  "sinks": [
+    {
+      "name": "objects",
+      "store": "objects",
+      "bucket": "artcraft",
+      "path_template": "artcraft/{namespace}/{date}/{run}/{name}",
+      "signed_url_ttl_s": 604800,
+      "required": true
+    },
+    {
+      "name": "files",
+      "store": "files",
+      "bucket": "ArtCraft",
+      "path_template": "{namespace}/{date}/{run}/{name}"
+    }
+  ]
+}
