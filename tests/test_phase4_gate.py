@@ -451,6 +451,7 @@ async def loopback_gateway(tmp_path, app_cli_factory, monkeypatch) -> _LoopbackG
     )
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R008")
 async def test_arbora_loads_and_unloads_one_app_group(
     loopback_gateway: _LoopbackGateway,
 ) -> None:

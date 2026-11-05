@@ -6,6 +6,7 @@ from craft_suite_api.mcp_server import get_mcp_instance
 
 
 @pytest.mark.concept("CRAFT-001")
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R003")
 def test_mcp_instance_registration(monkeypatch):
     """MCP server instantiates with its tool domains registered.
 

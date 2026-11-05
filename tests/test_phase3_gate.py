@@ -335,12 +335,11 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
     # (4) The served import half of R008: only with the engine binary.
     binary = _engine_binary()
     if binary is None:
-        print(
-            "SKIP served pack import: the medulla server binary "
+        pytest.skip(
+            "served pack import not proven: the medulla server binary "
             "(medulla[server], e.g. epistemic-graph-server) is not "
             "installed; the in-process native engine exposes no "
             "ConnectorPack operation, so the import can only be "
             "proven served."
         )
-    else:
-        asyncio.run(_served_import(binary, pack, tmp_path))
+    asyncio.run(_served_import(binary, pack, tmp_path))

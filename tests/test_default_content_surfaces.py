@@ -28,6 +28,7 @@ async def _listings():
     return resources, prompts
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R004")
 def test_default_content_surfaces() -> None:
     resources, prompts = asyncio.run(_listings())
     if list(ROOT.glob("skills/*/SKILL.md")):

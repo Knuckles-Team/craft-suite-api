@@ -21,6 +21,7 @@ def configured_client(monkeypatch):
 
 
 @pytest.mark.concept("CRAFT-SUITE-API-001")
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R001")
 def test_client_resolves_reference_and_cleans_up():
     tls = MagicMock()
     with (

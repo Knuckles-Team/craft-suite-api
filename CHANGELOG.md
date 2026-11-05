@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-11-04
+
+### Added
+- ArtCraft suite MCP facade: eleven app upstreams are served behind this one connector through the SDK upstream registry, with lazy activation per app group, registry tools to list, load and unload groups, and local, remote and bridge overlays for reaching each app.
+- Content tier: a per-app ontology, skill and prompts generated from the app sources, plus an offline drift gate (`scripts/generate_app_content.py --check`) wired into pre-commit and CI.
+
 ## [0.3.6] - 2026-11-01
 
 ### Fixed

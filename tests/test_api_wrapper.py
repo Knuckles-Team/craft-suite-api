@@ -87,11 +87,13 @@ def test_catalogued_path_cannot_escape_origin(client_factory, monkeypatch, path)
         "https://service.example.invalid#fragment",
     ],
 )
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R002")
 def test_invalid_provider_origin_rejected(client_factory, target):
     with pytest.raises(ValueError):
         client_factory(lambda request: httpx.Response(200), target)
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R002")
 def test_redirect_not_followed(client_factory):
     calls = []
 
@@ -172,6 +174,7 @@ def test_tls_cannot_disable_verification():
         profile.cleanup()
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R002")
 def test_oversized_response_rejected(client_factory, monkeypatch):
     monkeypatch.setattr(openapi_client, "MAX_BYTES", 8)
     with pytest.raises(RuntimeError, match="response limit"):
@@ -191,6 +194,7 @@ def test_stream_without_length_still_bounded(client_factory, monkeypatch):
         execute(client_factory(lambda request: httpx.Response(200, stream=Chunks())))
 
 
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R002")
 def test_response_deadline_enforced(client_factory, monkeypatch):
     class SlowChunk(httpx.SyncByteStream):
         def __iter__(self):
