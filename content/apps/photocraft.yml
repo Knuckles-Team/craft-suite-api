@@ -1,0 +1,29 @@
+app: photocraft
+summary: PhotoCraft raster image editing — documents, layers, data sets and background jobs.
+classes:
+  - name: PhotoDocument
+    parent: CreativeWork
+    description: A raster image document edited by PhotoCraft.
+  - name: PhotoDataSet
+    parent: Document
+    description: A flattened data set exported from a PhotoCraft document.
+functionality:
+  - name: edit_image
+    description: Open an image, inspect it, run engine commands and save the result.
+    tools: [doc_open, doc_inspect, command_list, command_run, doc_save]
+    steps:
+      - Open the file and read the layer tree.
+      - Run the engine commands in one batch where possible.
+      - Save in the native format unless another format is requested.
+  - name: export_document
+    description: Export the active document or its layers to files.
+    tools: [doc_inspect, doc_export, doc_export_layers, jobs_list]
+    steps:
+      - Confirm the export target and format.
+      - Export and check the job result.
+  - name: inspect_session
+    description: Survey the open documents of the running session.
+    tools: [session_list, doc_select, doc_inspect]
+    steps:
+      - List the open documents.
+      - Select and inspect the target document.

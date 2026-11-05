@@ -1,0 +1,29 @@
+app: vectorcraft
+summary: VectorCraft vector illustration — shapes, paths, paint, text, effects and export.
+classes:
+  - name: VectorDocument
+    parent: CreativeWork
+    description: A vector illustration document edited by VectorCraft.
+functionality:
+  - name: create_illustration
+    description: Draw shapes and paths, paint them and save the document.
+    tools: [inspect_document, draw_shape, draw_path, set_paint, save_file]
+    steps:
+      - Inspect the active document.
+      - Draw the shapes and paths.
+      - Apply the paint.
+      - Save the document.
+  - name: edit_selection
+    description: Combine, transform and undo edits on the selection.
+    tools: [select_tool, pathfinder, transform, undo, redo]
+    steps:
+      - Select the target objects.
+      - Combine and transform them.
+      - Step back or forward through the undo history.
+  - name: export_artwork
+    description: Export the document and check the rendered result.
+    tools: [inspect_document, export, render_preview, screenshot]
+    steps:
+      - Inspect the artboards.
+      - Export the document.
+      - Render a preview to verify.

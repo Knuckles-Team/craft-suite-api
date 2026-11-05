@@ -1,0 +1,31 @@
+app: filmcraft
+summary: FilmCraft video editing — projects, sequences, media imports and frame renders.
+classes:
+  - name: FilmProject
+    parent: CreativeWork
+    description: A video editing project managed by FilmCraft.
+  - name: FilmSequence
+    parent: CreativeWork
+    description: A sequence inside a FilmCraft project.
+functionality:
+  - name: import_and_sequence
+    description: Import media and lay it into a sequence.
+    tools: [media_import, project_inspect, sequence_inspect]
+    steps:
+      - Import the media files.
+      - Inspect the project tree.
+      - Inspect the active sequence.
+  - name: trim_sequence
+    description: Run timeline commands and check the rendered frame.
+    tools: [command_list, command_run, render_frame]
+    steps:
+      - Look up the timeline commands.
+      - Run the trim commands.
+      - Render the frame to verify.
+  - name: inspect_project
+    description: Read the project, sequence and document state.
+    tools: [project_inspect, sequence_inspect, doc_inspect]
+    steps:
+      - Inspect the project tree.
+      - Inspect the active sequence.
+      - Read the full document state.

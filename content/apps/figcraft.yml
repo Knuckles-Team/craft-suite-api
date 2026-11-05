@@ -1,0 +1,33 @@
+app: figcraft
+summary: FigCraft figure design — layers, properties, text and document export.
+classes:
+  - name: FigDocument
+    parent: CreativeWork
+    description: A figure design document edited by FigCraft.
+  - name: FigLayer
+    parent: Artifact
+    description: A layer inside a FigCraft document.
+functionality:
+  - name: create_figure
+    description: Create layers, set their properties and save the document.
+    tools: [inspect_document, create_node, set_properties, save_file]
+    steps:
+      - Inspect the active document.
+      - Create the layers.
+      - Set their properties.
+      - Save the document.
+  - name: edit_layers
+    description: Read, select and restyle layers of an open document.
+    tools: [get_node, select, set_properties, screenshot]
+    steps:
+      - Read the target layer.
+      - Select the layers to change.
+      - Apply the new properties.
+      - Screenshot the canvas to verify.
+  - name: batch_edits
+    description: Apply several edits as one undo step and review them.
+    tools: [list_commands, run_command, batch, undo]
+    steps:
+      - Look up the command ids.
+      - Run the edits in one batch.
+      - Undo the step if the result is wrong.

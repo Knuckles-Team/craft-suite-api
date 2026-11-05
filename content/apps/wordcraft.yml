@@ -1,0 +1,28 @@
+app: wordcraft
+summary: WordCraft word processing — documents, formatting, tracked edits and page renders.
+classes:
+  - name: WordDocument
+    parent: CreativeWork
+    description: A word-processor document edited by WordCraft.
+functionality:
+  - name: write_document
+    description: Start a document, type content and save it.
+    tools: [new_document, type_text, select_text, save_document]
+    steps:
+      - Start the document kind that fits the task.
+      - Type and adjust the text.
+      - Save in the requested format.
+  - name: format_document
+    description: Inspect the document structure and apply formatting commands.
+    tools: [inspect_document, list_commands, execute, render_page]
+    steps:
+      - Read the block structure.
+      - Apply the formatting commands.
+      - Render the page to check the result.
+  - name: open_and_review
+    description: Open an existing document, read its text and save changes.
+    tools: [open_document, get_text, save_document]
+    steps:
+      - Open the file.
+      - Read the text and apply tracked edits.
+      - Save.

@@ -1,0 +1,32 @@
+app: cadcraft
+summary: CadCraft 2D drafting — drawings, entities, queries, scripts and renders.
+classes:
+  - name: CadDrawing
+    parent: Document
+    description: A 2D CAD drawing produced by CadCraft.
+  - name: CadEntity
+    parent: Artifact
+    description: An entity inside a CadCraft drawing.
+functionality:
+  - name: create_drawing
+    description: Start a drawing, run drafting commands and render it.
+    tools: [new_drawing, list_commands, execute, render]
+    steps:
+      - Start the drawing in the requested units.
+      - Look up the drafting commands.
+      - Run the commands.
+      - Render the drawing to verify.
+  - name: query_drawing
+    description: Inspect a drawing and query its entities and texts.
+    tools: [inspect_drawing, query_entities, find_text]
+    steps:
+      - Inspect the drawing summary.
+      - Query the entities by type or layer.
+      - Read the drawing texts.
+  - name: script_drawing
+    description: Drive the command line with a script and save the result.
+    tools: [script, command_line, save]
+    steps:
+      - Run the script inputs.
+      - Type single command lines as needed.
+      - Save the drawing.

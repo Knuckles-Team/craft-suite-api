@@ -1,0 +1,32 @@
+app: deckcraft
+summary: DeckCraft presentation editing — slides, shapes, charts, tables and export.
+classes:
+  - name: DeckPresentation
+    parent: CreativeWork
+    description: A presentation edited by DeckCraft.
+  - name: DeckSlide
+    parent: Document
+    description: A slide inside a DeckCraft presentation.
+functionality:
+  - name: build_deck
+    description: Start a presentation, add slides and text, then save.
+    tools: [new_presentation, add_slide, add_text_box, save_presentation]
+    steps:
+      - Start the presentation.
+      - Add the slides.
+      - Add the text boxes.
+      - Save the presentation.
+  - name: insert_content
+    description: Add shapes, charts and tables to the current slide.
+    tools: [inspect_document, add_shape, insert_chart, insert_table]
+    steps:
+      - Inspect the slides.
+      - Add the shapes.
+      - Insert the charts and tables.
+  - name: export_deck
+    description: Render a slide, check it, and export the deck.
+    tools: [render_slide, export, save_presentation]
+    steps:
+      - Render the slide to verify.
+      - Export in the requested format.
+      - Save the presentation.

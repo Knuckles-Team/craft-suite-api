@@ -1,0 +1,51 @@
+app: pdfcraft
+summary: PdfCraft PDF processing — documents, forms, text, bookmarks, OCR, redactions and signatures.
+classes:
+  - name: PdfDocument
+    parent: Document
+    description: A PDF document processed by PdfCraft.
+  - name: PdfForm
+    parent: Document
+    description: A fillable PDF form inside a PdfCraft document.
+functionality:
+  - name: edit_pdf
+    description: Inspect a PDF, run engine commands on it and check the render.
+    tools: [doc_inspect, command_list, command_run, render_preview]
+    steps:
+      - Inspect the document.
+      - Run the engine commands.
+      - Render a preview to verify.
+  - name: fill_form
+    description: Detect, fill and reset the fields of a PDF form.
+    tools: [form_detect_fields, form_fields, form_fill, form_reset]
+    steps:
+      - Detect the form fields.
+      - Fill them from the supplied data.
+      - Reset when the draft is discarded.
+  - name: redact_document
+    description: Mark, apply and audit redactions in a document.
+    tools: [redact_mark, redact_apply, doc_audit_redactions]
+    steps:
+      - Mark the spans to redact.
+      - Apply the redactions.
+      - Audit that no content survives.
+  - name: extract_content
+    description: Extract text and pages from a document.
+    tools: [text_extract, page_extract, doc_export_text]
+    steps:
+      - Extract the text.
+      - Pull out the requested pages.
+  - name: add_bookmarks
+    description: Build and adjust the bookmark outline of a document.
+    tools: [bookmark_list, bookmark_add, bookmark_set_page]
+    steps:
+      - List the existing outline.
+      - Add the missing bookmarks.
+      - Point each bookmark at its page.
+  - name: recognize_scans
+    description: Run OCR on scanned pages and read the recognized text.
+    tools: [ocr_status, ocr_recognize, text_extract]
+    steps:
+      - Check the OCR status.
+      - Recognize the pages.
+      - Extract the text.
