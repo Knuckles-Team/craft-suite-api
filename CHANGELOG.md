@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-11-05
+
+### Added
+- Artifact exchange for every app (CONN-CRAFT-SUITE-API-APPS-R013): each app call runs in its own run folder; a relative output path lands there, and after the call the outputs publish to every configured sink. Inputs accept `exchange://<sink>/<key>` or an `https` URL. Results link each output (`resource_link`) and list them under `scion/artifacts`.
+- `docs/exchange.example.json`: an S3-compatible object-store sink with signed URLs and a WebDAV file-share sink in `ArtCraft/<app>/<YYYY-MM-DD>/<run>/` (CONN-CRAFT-SUITE-API-APPS-R014); deployment guide section.
+- The generated app skills state the input forms and the output rule (CONN-CRAFT-SUITE-API-APPS-R016).
+
+### Changed
+- Requires `scion-sdk>=0.8.0,<0.9`.
+
 ## [0.4.0] - 2026-11-04
 
 ### Added

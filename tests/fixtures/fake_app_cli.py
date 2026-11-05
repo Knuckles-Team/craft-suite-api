@@ -12,6 +12,7 @@ environment variables:
 - ``FAKE_APP_CLI_NO_MCP``      ``1``: refuse the ``mcp`` subcommand
 - ``FAKE_APP_CLI_DIE_ON_MCP``  ``1``: exit at once, before the handshake
 - ``FAKE_APP_CLI_TOOL_DRIFT``  ``1``: give ``read_demo`` an extra parameter
+- ``FAKE_APP_CLI_FILES``       ``1``: also serve ``copy`` (read ``src``, write ``path``)
 
 The tests place one copy per app on the PATH under the name
 ``<app>-cli`` and point the registry overlay at the copy.
@@ -29,6 +30,20 @@ from fastmcp import Context, FastMCP
 
 def _argv_file() -> str | None:
     return os.environ.get("FAKE_APP_CLI_ARGV_FILE")
+
+
+def _register_files(mcp: FastMCP) -> None:
+    """Serve ``copy`` when ``FAKE_APP_CLI_FILES=1`` (the artifact exchange proof)."""
+    if os.environ.get("FAKE_APP_CLI_FILES") != "1":
+        return
+
+    @mcp.tool
+    def copy(src: str, path: str) -> str:
+        """Copy the file at ``src`` to ``path``."""
+        target = pathlib.Path(path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(pathlib.Path(src).read_bytes())
+        return f"copied:{target.name}"
 
 
 def main() -> int:
@@ -96,6 +111,7 @@ def main() -> int:
             answer = answer.get("answer", "")
         return {"answer": str(answer)}
 
+    _register_files(mcp)
     mcp.run(transport="stdio")
     return 0
 
