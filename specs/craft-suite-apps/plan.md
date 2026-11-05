@@ -108,7 +108,7 @@ Repository commands: `pre-commit run --all-files`, then `uv run pytest tests`. N
 
 ## Production caller chain
 
-Entry point: the `scion_sdk.connector` entry point calls `run` and `build_server`, which call `_serve_hooks` (`scion_sdk/_connector_serve.py:97`). `_serve_hooks` calls `attach_upstreams` with `connector.upstreams` from `craft_suite_api/__init__.py`. Tier 1 reaches the backend through `get_client` (`craft_suite_api/auth.py:70`). Obsolete paths to delete: none.
+Entry point: the `scion_sdk.connector` entry point calls `run` and `build_server`, which call `_serve_hooks` (in the `scion-sdk` package, module `scion_sdk._connector_serve`, line 97). `_serve_hooks` calls `attach_upstreams` with `connector.upstreams` from `craft_suite_api/__init__.py`. Tier 1 reaches the backend through `get_client` (`craft_suite_api/auth.py:70`). Obsolete paths to delete: none.
 
 ## Cross-repo seams
 
