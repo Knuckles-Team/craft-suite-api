@@ -7,6 +7,7 @@ from scion_sdk.mcp.upstreams.stdio import build_stdio_command
 
 from craft_suite_api.upstreams import (
     APPS,
+    FLAGLESS_APPS,
     READ_ROOTS_SETTING,
     UPSTREAMS,
     WRITE_ROOTS_SETTING,
@@ -30,8 +31,13 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
         assert decl.args == ("mcp",)
         assert decl.activation is None
         assert decl.sandbox is not None
-        assert decl.sandbox.read_flag == "--automation-read-root"
-        assert decl.sandbox.write_flag == "--automation-write-root"
+        if decl.name in FLAGLESS_APPS:
+            assert decl.sandbox.read_flag is None
+            assert decl.sandbox.write_flag is None
+        else:
+            assert decl.sandbox.read_flag == "--automation-read-root"
+            assert decl.sandbox.write_flag == "--automation-write-root"
+    assert FLAGLESS_APPS == ("filmcraft", "cadcraft")
 
     # Both settings unset: no root flag reaches any command line.
     monkeypatch.delenv(READ_ROOTS_SETTING, raising=False)
@@ -44,6 +50,9 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
     monkeypatch.setenv(READ_ROOTS_SETTING, "/srv/artcraft-inbox")
     for decl in build_upstreams():
         command = build_stdio_command(decl)
+        if decl.name in FLAGLESS_APPS:
+            assert command == [f"{decl.name}-cli", "mcp"], command
+            continue
         assert command == [
             f"{decl.name}-cli",
             "mcp",
@@ -56,6 +65,9 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
     monkeypatch.setenv(WRITE_ROOTS_SETTING, "/srv/artcraft-outbox")
     for decl in build_upstreams():
         command = build_stdio_command(decl)
+        if decl.name in FLAGLESS_APPS:
+            assert command == [f"{decl.name}-cli", "mcp"], command
+            continue
         assert "--automation-write-root" in command
         assert command.count("--automation-read-root") == 1
         assert command.count("--automation-write-root") == 1
