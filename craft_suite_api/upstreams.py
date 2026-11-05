@@ -84,9 +84,7 @@ def build_upstreams() -> tuple[UpstreamDecl, ...]:
     return tuple(_declare(app, read, write) for app in APPS)
 
 
-def _declare(
-    app: str, read: tuple[str, ...], write: tuple[str, ...]
-) -> UpstreamDecl:
+def _declare(app: str, read: tuple[str, ...], write: tuple[str, ...]) -> UpstreamDecl:
     """One app's declaration; a flagless app passes no root flag at all."""
     if app in FLAGLESS_APPS:
         sandbox = SandboxRoots(read_flag=None, write_flag=None)
