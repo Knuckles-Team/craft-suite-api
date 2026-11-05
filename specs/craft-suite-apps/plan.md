@@ -39,6 +39,8 @@ docs/bridge-upstreams.example.toml    new       bridge overlay example
 docs/tool-budget.md                   new       activation steps
 docs/fleet-deployment.md              new       gateway settings
 tests/fixtures/fake_app_cli.py        new       fixture app command-line program
+docs/exchange.example.json            new       two exchange sinks (R014)
+tests/test_artifact_exchange.py       new       R013 to R016 proofs
 ```
 
 ## Phase 0: Research
@@ -66,6 +68,10 @@ Roots: unset means deny. The read and write settings are separate, and the write
 Lifecycle: pooled stdio children, owned by the SDK (`SCION-CONNECTOR-CONTROL-R914.8`). The connector sets no lifecycle knob.
 
 Remote and bridge modes: operator overlays only. The repository ships examples with placeholder values.
+
+### Artifact exchange (R013 to R016)
+
+The SDK exchange owns staging, inputs, publication, links and lineage. This connector adds one binding per app, one example settings file and one skill paragraph. The output rule fits the apps: each app writes beneath its write root, and a relative path resolves inside it. The SDK rewrites that path into the run's output directory. An absolute path still passes to the app, and the app's roots govern it.
 
 ### Acceptance phases
 
@@ -107,4 +113,5 @@ Entry point: the `scion_sdk.connector` entry point calls `run` and `build_server
 ## Cross-repo seams
 
 - Upstream registry: provider `SCION-CONNECTOR-CONTROL-R914`, consumer `CONN-CRAFT-SUITE-API-APPS-R002`; see [contracts/upstream-registry.md](contracts/upstream-registry.md).
+- Artifact exchange: provider `SCION-CONNECTOR-CONTROL-R914.13`, consumer `CONN-CRAFT-SUITE-API-APPS-R013`; see [contracts/artifact-exchange.md](contracts/artifact-exchange.md).
 - Gateway fleet: provider `ARBORA-FLEET-R061`, consumer `CONN-CRAFT-SUITE-API-APPS-R008`; see [contracts/arbora-fleet.md](contracts/arbora-fleet.md).

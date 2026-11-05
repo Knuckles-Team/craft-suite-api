@@ -14,5 +14,9 @@ Run the proof of each row from a fresh checkout after `uv sync`. Each command ex
 - CONN-CRAFT-SUITE-API-APPS-R010: `uv run pytest tests/test_phase2_gate.py::test_eleven_upstreams_isolated_failure_and_overlays -q`
 - CONN-CRAFT-SUITE-API-APPS-R011: `uv run pytest tests/test_phase3_gate.py::test_all_apps_have_content_and_pack_imports_clean -q`
 - CONN-CRAFT-SUITE-API-APPS-R012: `uv run pytest tests/test_phase4_gate.py::test_coverage_passes_and_pin_survives_restart -q`
+- CONN-CRAFT-SUITE-API-APPS-R013: `uv run pytest tests/test_artifact_exchange.py::test_every_app_declares_the_exchange_binding -q`
+- CONN-CRAFT-SUITE-API-APPS-R014: `uv run pytest tests/test_artifact_exchange.py::test_example_exchange_file_validates_and_renders_app_folders -q`
+- CONN-CRAFT-SUITE-API-APPS-R015: `uv run pytest tests/test_artifact_exchange.py::test_fixture_app_reads_exchange_input_and_publishes_output -q`
+- CONN-CRAFT-SUITE-API-APPS-R016: `uv run pytest tests/test_artifact_exchange.py::test_every_app_skill_states_input_forms_and_output_links -q`
 
 The opt-in live smoke runs only on a host that has the app command-line programs: `CRAFT_SUITE_LIVE=1 uv run pytest tests/live -q`.
