@@ -14,3 +14,7 @@ Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requireme
 - [ ] T010 [US1] CONN-CRAFT-SUITE-API-APPS-R010 Acceptance: phase 2 proves the full registry, remote mode and bridge mode.
 - [ ] T011 [US1] CONN-CRAFT-SUITE-API-APPS-R011 Acceptance: phase 3 proves the content tier.
 - [ ] T012 [US1] CONN-CRAFT-SUITE-API-APPS-R012 Acceptance: phase 4 proves arbora integration.
+- [ ] T013 [US4] CONN-CRAFT-SUITE-API-APPS-R013 Bind each app to the artifact exchange.
+- [ ] T014 [US4] CONN-CRAFT-SUITE-API-APPS-R014 Deliver outputs to an object store and a file share.
+- [ ] T015 [US4] CONN-CRAFT-SUITE-API-APPS-R015 Hot-path proof: an app call takes an exchange input and publishes its output.
+- [ ] T016 [P] [US4] CONN-CRAFT-SUITE-API-APPS-R016 Skills tell the agent how to pass inputs and find outputs.

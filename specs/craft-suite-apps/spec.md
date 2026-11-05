@@ -38,12 +38,23 @@ A gateway user loads and unloads one app as a group.
 
 1. **Given** the facade is registered once, **When** the user loads the group `photocraft`, **Then** only photocraft tools load (`CONN-CRAFT-SUITE-API-APPS-R008`).
 
+### User Story 4 - Get app outputs where they are needed (Priority: P1)
+
+An operator runs an app tool through the gateway. The output appears in the file share folder of that app and day, and in the object store. The caller gets a link.
+
+**Acceptance Scenarios**:
+
+1. **Given** the two sinks of the example, **When** a photocraft tool saves `out.png`, **Then** the file share holds `ArtCraft/photocraft/<date>/<run>/out.png`.
+2. **Given** an input `exchange://files/in/a.png`, **When** the app opens it, **Then** the app reads the staged copy.
+
 ### Edge Cases
 
 - An app command-line program is missing from `PATH`: only that app is `unavailable` (`CONN-CRAFT-SUITE-API-APPS-R004`).
 - The Tier 1 backend is not configured: the server starts and Tier 1 calls refuse with a typed code (`CONN-CRAFT-SUITE-API-APPS-R001`).
 - Roots are unset: every app gets no root flag and so no file access (`CONN-CRAFT-SUITE-API-APPS-R002`).
 - An app update changes its tool list: the drift gate reports it (`CONN-CRAFT-SUITE-API-APPS-R011`).
+- No exchange settings are present: the binding is inert, and app calls behave as before (`CONN-CRAFT-SUITE-API-APPS-R013`).
+- An optional sink fails: the call succeeds and the result records the failure code (`CONN-CRAFT-SUITE-API-APPS-R014`).
 
 ## Requirements
 
@@ -53,6 +64,7 @@ A gateway user loads and unloads one app as a group.
 - **FR-004**: Support local, remote and bridge deployment. Rows: `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006`.
 - **FR-005**: Keep the initial tool list small. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
 - **FR-006**: Register the facade once and load one app at a time. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
+- **FR-008**: Exchange app inputs and outputs with configured sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R013`, `CONN-CRAFT-SUITE-API-APPS-R014`, `CONN-CRAFT-SUITE-API-APPS-R015`, `CONN-CRAFT-SUITE-API-APPS-R016`.
 - **FR-007**: Pass four phased acceptance gates. Rows: `CONN-CRAFT-SUITE-API-APPS-R009`, `CONN-CRAFT-SUITE-API-APPS-R010`, `CONN-CRAFT-SUITE-API-APPS-R011`, `CONN-CRAFT-SUITE-API-APPS-R012`.
 
 ## Success Criteria
@@ -61,6 +73,7 @@ A gateway user loads and unloads one app as a group.
 - **SC-002**: With roots unset, no root flag reaches any app process. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
 - **SC-003**: One failing app leaves ten apps callable. Rows: `CONN-CRAFT-SUITE-API-APPS-R010`.
 - **SC-004**: Loading one group loads only that app. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
+- **SC-005**: One app call with an exchange input lands its output in both sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R015`.
 
 ## Assumptions
 
@@ -82,4 +95,5 @@ In scope: the rows of [requirements.md](requirements.md). Out of scope: the regi
 | FR-004 | `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006` | [plan.md](plan.md) | T-004 to T-006 | [test-spec.md](test-spec.md) |
 | FR-005 | `CONN-CRAFT-SUITE-API-APPS-R007` | [plan.md](plan.md) | T-007 | [test-spec.md](test-spec.md) |
 | FR-006 | `CONN-CRAFT-SUITE-API-APPS-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
+| FR-008 | `CONN-CRAFT-SUITE-API-APPS-R013` to `CONN-CRAFT-SUITE-API-APPS-R016` | [plan.md](plan.md) | T-013 to T-016 | [test-spec.md](test-spec.md) |
 | FR-007 | `CONN-CRAFT-SUITE-API-APPS-R009` to `CONN-CRAFT-SUITE-API-APPS-R012` | [plan.md](plan.md) | T-009 to T-012 | [test-spec.md](test-spec.md) |
