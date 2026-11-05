@@ -125,3 +125,14 @@ def test_every_app_skill_states_input_forms_and_output_links() -> None:
         assert "## Files in and out" in text
         assert "exchange://<sink>/<key>" in text and "https" in text
         assert "relative path" in text and "links each output" in text
+
+
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R014")
+def test_mcp_extra_carries_the_s3_sink_backend() -> None:
+    import tomllib
+
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
+    for extra in ("mcp", "all"):
+        pins = " ".join(project["optional-dependencies"][extra])
+        assert "scion-sdk[mcp,storage-s3]" in pins
+    assert "craft-suite-api[mcp]==" in (ROOT / "docker" / "Dockerfile").read_text()
