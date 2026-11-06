@@ -66,7 +66,7 @@ An operator runs an app tool through the gateway. The output appears in the file
 - **FR-006**: Register the facade once and load one app at a time. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
 - **FR-008**: Exchange app inputs and outputs with configured sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R013`, `CONN-CRAFT-SUITE-API-APPS-R014`, `CONN-CRAFT-SUITE-API-APPS-R015`, `CONN-CRAFT-SUITE-API-APPS-R016`.
 - **FR-009**: Serve every app engine command as its own tool. Rows: `CONN-CRAFT-SUITE-API-APPS-R017`.
-- **FR-010**: Start gracefully: each app warms on its own and calls to a warming app wait or refuse retryably, and each component's readiness is an SDK lifecycle state. Rows: `CONN-CRAFT-SUITE-API-APPS-R018`, `CONN-CRAFT-SUITE-API-APPS-R018.1`, `CONN-CRAFT-SUITE-API-APPS-R018.2`, `CONN-CRAFT-SUITE-API-APPS-R018.3`, `CONN-CRAFT-SUITE-API-APPS-R018.4`.
+- **FR-010**: Start gracefully: each app warms on its own and calls to a warming app wait or refuse retryably, and each component's readiness is an SDK lifecycle state. Rows: `CONN-CRAFT-SUITE-API-APPS-R018`, `CONN-CRAFT-SUITE-API-APPS-R018.1`, `CONN-CRAFT-SUITE-API-APPS-R018.2`, `CONN-CRAFT-SUITE-API-APPS-R018.3`, `CONN-CRAFT-SUITE-API-APPS-R018.4`, `CONN-CRAFT-SUITE-API-APPS-R018.5`.
 - **FR-011**: Type every command tool's parameters the apps document. Rows: `CONN-CRAFT-SUITE-API-APPS-R019`.
 - **FR-012**: Run command tools through the artifact exchange and await their background jobs. Rows: `CONN-CRAFT-SUITE-API-APPS-R020`.
 - **FR-007**: Pass four phased acceptance gates. Rows: `CONN-CRAFT-SUITE-API-APPS-R009`, `CONN-CRAFT-SUITE-API-APPS-R010`, `CONN-CRAFT-SUITE-API-APPS-R011`, `CONN-CRAFT-SUITE-API-APPS-R012`.
@@ -102,7 +102,7 @@ In scope: the rows of [requirements.md](requirements.md). Out of scope: the regi
 | FR-006 | `CONN-CRAFT-SUITE-API-APPS-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
 | FR-008 | `CONN-CRAFT-SUITE-API-APPS-R013` to `CONN-CRAFT-SUITE-API-APPS-R016` | [plan.md](plan.md) | T-013 to T-016 | [test-spec.md](test-spec.md) |
 | FR-009 | `CONN-CRAFT-SUITE-API-APPS-R017` | [plan.md](plan.md) | T-017 | [test-spec.md](test-spec.md) |
-| FR-010 | `CONN-CRAFT-SUITE-API-APPS-R018`, `CONN-CRAFT-SUITE-API-APPS-R018.1`, `CONN-CRAFT-SUITE-API-APPS-R018.2`, `CONN-CRAFT-SUITE-API-APPS-R018.3`, `CONN-CRAFT-SUITE-API-APPS-R018.4` | [plan.md](plan.md) | T-018 | [test-spec.md](test-spec.md) |
+| FR-010 | `CONN-CRAFT-SUITE-API-APPS-R018`, `CONN-CRAFT-SUITE-API-APPS-R018.1`, `CONN-CRAFT-SUITE-API-APPS-R018.2`, `CONN-CRAFT-SUITE-API-APPS-R018.3`, `CONN-CRAFT-SUITE-API-APPS-R018.4`, `CONN-CRAFT-SUITE-API-APPS-R018.5` | [plan.md](plan.md) | T-018 | [test-spec.md](test-spec.md) |
 | FR-011 | `CONN-CRAFT-SUITE-API-APPS-R019` | [plan.md](plan.md) | T-019 | [test-spec.md](test-spec.md) |
 | FR-012 | `CONN-CRAFT-SUITE-API-APPS-R020` | [plan.md](plan.md) | T-020 | [test-spec.md](test-spec.md) |
 | FR-007 | `CONN-CRAFT-SUITE-API-APPS-R009` to `CONN-CRAFT-SUITE-API-APPS-R012` | [plan.md](plan.md) | T-009 to T-012 | [test-spec.md](test-spec.md) |
