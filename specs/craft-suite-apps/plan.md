@@ -137,6 +137,3 @@ Row `CONN-CRAFT-SUITE-API-APPS-R018.1` to `R018.4`: the `scion_sdk.connector` en
 - Upstream registry: provider `SCION-CONNECTOR-CONTROL-R914`, consumer `CONN-CRAFT-SUITE-API-APPS-R002`; see [contracts/upstream-registry.md](contracts/upstream-registry.md).
 - Artifact exchange: provider `SCION-CONNECTOR-CONTROL-R914.13`, consumer `CONN-CRAFT-SUITE-API-APPS-R013`; see [contracts/artifact-exchange.md](contracts/artifact-exchange.md).
 - Gateway fleet: provider `ARBORA-FLEET-R061`, consumer `CONN-CRAFT-SUITE-API-APPS-R008`; see [contracts/arbora-fleet.md](contracts/arbora-fleet.md).
-
-### Amendments
-- 2026-11-06: readiness by explicit lifecycle (organization constitution Article XXXI). Child rows `CONN-CRAFT-SUITE-API-APPS-R018.1` to `R018.4` and `CONN-CRAFT-SUITE-API-APPS-R001.1` replace the local readiness function with probes over the SDK `ConnectorLifecycle` machine. The ontology half is `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`.

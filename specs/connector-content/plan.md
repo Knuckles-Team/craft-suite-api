@@ -93,7 +93,3 @@ Row `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`: the packaged ontology is serv
 ## Cross-repo seams
 
 - Ontology joins the core: provider `MEDULLA-TYPED-PACKS-R105`, consumer `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R002`; see [contracts/medulla-ontology.md](contracts/medulla-ontology.md).
-
-### Amendments
-
-- 2026-11-06: lifecycle ontology by reuse (organization constitution Article XXXI). Row `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010` and children R010.1 and R010.2 describe component readiness for `CONN-CRAFT-SUITE-API-APPS-R018.3` without redeclaring the machine.
