@@ -1,0 +1,32 @@
+app: texturecraft
+summary: TextureCraft 3D texture painting — projects, meshes, bakes, paint strokes and texture exports.
+classes:
+  - name: TextureProject
+    parent: Document
+    description: A TextureCraft texture painting project.
+  - name: TextureSet
+    parent: Artifact
+    description: A texture set painted on a mesh in TextureCraft.
+functionality:
+  - name: paint_mesh
+    description: Start a project from a mesh, bake its maps and paint it.
+    tools: [project_new, mesh_import, bake, paint_stroke, project_save]
+    steps:
+      - Start the project from the mesh.
+      - Bake the mesh maps.
+      - Paint the strokes.
+      - Save the project.
+  - name: export_textures
+    description: Open a project, render the viewport and export the textures.
+    tools: [project_open, viewport_render, textures_export, mesh_export]
+    steps:
+      - Open the project.
+      - Render the viewport to verify.
+      - Export the textures.
+  - name: run_commands
+    description: Look up engine commands and run them, alone or in a batch.
+    tools: [command_list, command_run, command_batch, session_inspect]
+    steps:
+      - Look up the commands.
+      - Run them.
+      - Inspect the session to verify.

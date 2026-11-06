@@ -4,7 +4,7 @@ This file records what the rows rely on. It describes capabilities of the ArtCra
 
 ## Capabilities of the ArtCraft system
 
-- The suite has fourteen installed app command-line programs. Eleven expose an `mcp` subcommand: photocraft, wordcraft, pdfcraft, solidcraft, vectorcraft, figcraft, effectcraft, filmcraft, soundcraft, deckcraft and cadcraft. Lightcraft, designcraft and gridcraft do not today.
+- The vendor ships sixteen app command-line programs with an `mcp` subcommand (designcraft, gridcraft, lightcraft, materialcraft and texturecraft joined the original eleven): photocraft, wordcraft, pdfcraft, solidcraft, vectorcraft, figcraft, effectcraft, filmcraft, soundcraft, deckcraft and cadcraft. Lightcraft, designcraft and gridcraft do not today.
 - A live smoke on a host started photocraft (26 tools), wordcraft (17 tools) and solidcraft (21 tools). Each answered the MCP handshake with protocol version 2025-06-18. Pdfcraft exposes about 170 tools. The suite exposes more than 400.
 - Each app `mcp` subcommand takes separate read and write automation roots. An omitted root denies access. A bridge option attaches the subcommand to a running desktop app on a loopback address with a control token or a token file.
 - Tool names such as `execute`, `save`, `export` and `screenshot` occur in several apps.

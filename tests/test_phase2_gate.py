@@ -183,7 +183,7 @@ def test_eleven_upstreams_isolated_failure_and_overlays(
     # http, ten stay stdio.
     monkeypatch.setenv("SCION_UPSTREAMS_FILE", str(REMOTE_EXAMPLE))
     kinds = _served_kinds()
-    assert len(kinds) == 11
+    assert len(kinds) == len(APPS) == 16
     assert kinds["photocraft"] == "http"
     assert {name: kind for name, kind in kinds.items() if name != "photocraft"} == {
         name: "stdio" for name in APPS if name != "photocraft"

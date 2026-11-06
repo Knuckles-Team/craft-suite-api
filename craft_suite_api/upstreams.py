@@ -7,9 +7,8 @@ settings of absolute paths split by the platform path separator. An
 unset setting holds no root, which denies access: the SDK passes no
 flag. Write roots never default to the read roots.
 
-lightcraft, designcraft and gridcraft are not declared until
-``craft-suite-probe`` (CONN-CRAFT-SUITE-API-APPS-R003) reports that they
-expose ``mcp``.
+Every app the vendor ships with an ``mcp`` subcommand is declared; the
+``craft-suite-probe`` (CONN-CRAFT-SUITE-API-APPS-R003) re-checks the set.
 """
 
 from __future__ import annotations
@@ -22,6 +21,7 @@ from scion_sdk.mcp.upstreams import ExchangeBinding, SandboxRoots, UpstreamDecl
 __all__ = [
     "APPS",
     "FLAGLESS_APPS",
+    "ROOT_FLAGS",
     "EXCHANGE",
     "READ_ROOTS_SETTING",
     "WRITE_ROOTS_SETTING",
@@ -43,6 +43,11 @@ APPS = (
     "soundcraft",
     "deckcraft",
     "cadcraft",
+    "designcraft",
+    "gridcraft",
+    "lightcraft",
+    "materialcraft",
+    "texturecraft",
 )
 
 READ_ROOTS_SETTING = "CRAFT_SUITE_READ_ROOTS"
@@ -57,7 +62,10 @@ WRITE_FLAG = "--automation-write-root"
 #: nothing. Their file access is bounded by the container, not by a flag;
 #: calls that carry a ``path`` argument still run through the artifact
 #: exchange, which stages them in the run directory.
-FLAGLESS_APPS = ("filmcraft", "cadcraft")
+FLAGLESS_APPS = ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
+
+#: Apps whose root flags have other names than ``READ_FLAG``/``WRITE_FLAG``.
+ROOT_FLAGS = {"materialcraft": ("--read-root", "--write-root")}
 
 #: The arguments whose relative values land in the run's output directory
 #: (CONN-CRAFT-SUITE-API-APPS-R013). Every app writes beneath its write root.
@@ -89,8 +97,9 @@ def _declare(app: str, read: tuple[str, ...], write: tuple[str, ...]) -> Upstrea
     if app in FLAGLESS_APPS:
         sandbox = SandboxRoots(read_flag=None, write_flag=None)
     else:
+        read_flag, write_flag = ROOT_FLAGS.get(app, (READ_FLAG, WRITE_FLAG))
         sandbox = SandboxRoots(
-            read=read, write=write, read_flag=READ_FLAG, write_flag=WRITE_FLAG
+            read=read, write=write, read_flag=read_flag, write_flag=write_flag
         )
     return UpstreamDecl(
         name=app,

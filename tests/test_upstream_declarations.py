@@ -1,4 +1,4 @@
-"""CONN-CRAFT-SUITE-API-APPS-R002: eleven app upstreams, with roots that fail closed."""
+"""CONN-CRAFT-SUITE-API-APPS-R002: sixteen app upstreams, with roots that fail closed."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from craft_suite_api.upstreams import (
     APPS,
     FLAGLESS_APPS,
     READ_ROOTS_SETTING,
+    ROOT_FLAGS,
     UPSTREAMS,
     WRITE_ROOTS_SETTING,
     build_upstreams,
@@ -17,12 +18,12 @@ from craft_suite_api.upstreams import (
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R002")
 
 
-def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
-    # Eleven declarations, one per app, with unique namespaces.
-    assert len(UPSTREAMS) == 11
+def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
+    # Sixteen declarations, one per app, with unique namespaces.
+    assert len(UPSTREAMS) == 16
     assert set(decl.name for decl in UPSTREAMS) == set(APPS)
     namespaces = [decl.effective_namespace for decl in UPSTREAMS]
-    assert len(set(namespaces)) == 11
+    assert len(set(namespaces)) == 16
 
     # Every declaration is a stdio child of <app>-cli mcp.
     for decl in UPSTREAMS:
@@ -35,9 +36,13 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
             assert decl.sandbox.read_flag is None
             assert decl.sandbox.write_flag is None
         else:
-            assert decl.sandbox.read_flag == "--automation-read-root"
-            assert decl.sandbox.write_flag == "--automation-write-root"
-    assert FLAGLESS_APPS == ("filmcraft", "cadcraft")
+            read_flag, write_flag = ROOT_FLAGS.get(
+                decl.name, ("--automation-read-root", "--automation-write-root")
+            )
+            assert decl.sandbox.read_flag == read_flag
+            assert decl.sandbox.write_flag == write_flag
+    assert FLAGLESS_APPS == ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
+    assert ROOT_FLAGS == {"materialcraft": ("--read-root", "--write-root")}
 
     # Both settings unset: no root flag reaches any command line.
     monkeypatch.delenv(READ_ROOTS_SETTING, raising=False)
@@ -53,13 +58,16 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
         if decl.name in FLAGLESS_APPS:
             assert command == [f"{decl.name}-cli", "mcp"], command
             continue
+        read_flag, write_flag = ROOT_FLAGS.get(
+            decl.name, ("--automation-read-root", "--automation-write-root")
+        )
         assert command == [
             f"{decl.name}-cli",
             "mcp",
-            "--automation-read-root",
+            read_flag,
             "/srv/artcraft-inbox",
         ], command
-        assert "--automation-write-root" not in command
+        assert write_flag not in command
 
     # A write root set on its own never borrows the read roots.
     monkeypatch.setenv(WRITE_ROOTS_SETTING, "/srv/artcraft-outbox")
@@ -68,9 +76,11 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
         if decl.name in FLAGLESS_APPS:
             assert command == [f"{decl.name}-cli", "mcp"], command
             continue
-        assert "--automation-write-root" in command
-        assert command.count("--automation-read-root") == 1
-        assert command.count("--automation-write-root") == 1
+        read_flag, write_flag = ROOT_FLAGS.get(
+            decl.name, ("--automation-read-root", "--automation-write-root")
+        )
+        assert command.count(read_flag) == 1
+        assert command.count(write_flag) == 1
 
 
 def test_flagless_apps_survive_exchange_binding(tmp_path) -> None:

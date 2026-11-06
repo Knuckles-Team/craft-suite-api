@@ -3,7 +3,7 @@
 Run the proof of each row from a fresh checkout after `uv sync`. Each command exercises the row through the production server.
 
 - CONN-CRAFT-SUITE-API-APPS-R001: `uv run pytest tests/test_tier1_degrade.py::test_unconfigured_backend_lists_tools_and_refuses_typed -q`
-- CONN-CRAFT-SUITE-API-APPS-R002: `uv run pytest tests/test_upstream_declarations.py::test_eleven_apps_declared_with_roots_fail_closed -q`
+- CONN-CRAFT-SUITE-API-APPS-R002: `uv run pytest tests/test_upstream_declarations.py::test_every_app_declared_with_roots_fail_closed -q`
 - CONN-CRAFT-SUITE-API-APPS-R003: `uv run pytest tests/test_probe_apps.py::test_probe_reports_declared_undeclared_and_missing -q`
 - CONN-CRAFT-SUITE-API-APPS-R004: `uv run pytest tests/test_local_mode.py::test_missing_cli_marks_one_upstream_unavailable -q`
 - CONN-CRAFT-SUITE-API-APPS-R005: `uv run pytest tests/test_remote_overlay.py::test_example_overlay_validates_and_switches_one_app_to_http -q`
@@ -20,3 +20,4 @@ Run the proof of each row from a fresh checkout after `uv sync`. Each command ex
 - CONN-CRAFT-SUITE-API-APPS-R016: `uv run pytest tests/test_artifact_exchange.py::test_every_app_skill_states_input_forms_and_output_links -q`
 
 The opt-in live smoke runs only on a host that has the app command-line programs: `CRAFT_SUITE_LIVE=1 uv run pytest tests/live -q`.
+- CONN-CRAFT-SUITE-API-APPS-R017: `uv run pytest tests/test_app_commands.py -q`

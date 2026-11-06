@@ -1,0 +1,527 @@
+{
+  "app": "materialcraft",
+  "version": "0.1.2",
+  "tools": [
+    {
+      "name": "bitmap_import",
+      "description": "Embed an image (path relative to the read root) as a bitmap resource. Returns its name, for a `bitmap` node's `resource` parameter.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "name": {
+            "description": "Resource name (default: the file name).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "path": {
+            "description": "Image file relative to the read root (png, jpg, tga, tif, bmp, webp, exr, hdr).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "command_batch",
+      "description": "Run several commands in order: steps [{id, params}]. Stops at the first error. Returns {completed, results, failed: {index, id, error} | null}; a failed batch is a tool error.",
+      "input_schema": {
+        "$defs": {
+          "RunParams": {
+            "properties": {
+              "id": {
+                "description": "Command id from `command_list`, e.g. `graph.node.add`, `graph.connect`, `edit.undo`.",
+                "type": "string"
+              },
+              "params": {
+                "description": "Command parameters (see the command's `params` doc). Omitted = defaults; never a dialog."
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "steps": {
+            "description": "Commands run in order; the batch stops at the first error and reports its index.",
+            "items": {
+              "$ref": "#/$defs/RunParams"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "command_list",
+      "description": "List engine commands: id, label, menu path, shortcut, params doc and whether it can run now.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "filter": {
+            "description": "Only entries whose id or label contains this text (case-insensitive).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "command_run",
+      "description": "Run an engine command by id with JSON params (see command_list). Runs with defaults, never opens a dialog. Commands given host paths are disabled: use package_open, package_save, bitmap_import and outputs_export.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "id": {
+            "description": "Command id from `command_list`, e.g. `graph.node.add`, `graph.connect`, `edit.undo`.",
+            "type": "string"
+          },
+          "params": {
+            "description": "Command parameters (see the command's `params` doc). Omitted = defaults; never a dialog."
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "graph_new",
+      "description": "Add a new graph to the package from a template and open it. Returns {graph, name}.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "size": {
+            "description": "Graph size in pixels, a power of two from 16 to 8192 (default 1024).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "template": {
+            "description": "Template id: empty, pbr (default: six material outputs), bricks, stone_tiles, wood, metal_plates, rusty_metal, lava, marble, wicker, fabric, ground.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "library_list",
+      "description": "The node library: every node's id, label, category, input and output ports and parameters (id, default, range, enum options). Filter by text or category.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "category": {
+            "description": "Only nodes in this library category, e.g. \"Noises\", \"Patterns\", \"Filters/Blurs\".",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "filter": {
+            "description": "Only nodes whose id or label contains this text.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "node_add",
+      "description": "Add a node to the open graph (optionally wired from another node's output). Returns {id}.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "at": {
+            "description": "Graph position `[x, y]` (default: right of `connectFrom`, else the origin).",
+            "items": {
+              "format": "float",
+              "type": "number"
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "connectFrom": {
+            "description": "Wire `{node, port?}`'s output into the new node's first input."
+          },
+          "def": {
+            "description": "Node definition id from `library_list`, e.g. `perlin_noise`, `blend`, `levels`, `normal`, `output`.",
+            "type": "string"
+          },
+          "params": {
+            "description": "Parameter values by id (see `library_list`): numbers, `[x, y]`, `\"#rrggbb\"`, enum indices."
+          }
+        },
+        "required": [
+          "def"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "node_connect",
+      "description": "Wire an output port of one node into an input port of another (replacing what fed that input).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "from": {
+            "description": "Source node id.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "fromPort": {
+            "description": "Source output port id (default: its first output).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "to": {
+            "description": "Target node id.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "toPort": {
+            "description": "Target input port id (default: its first input).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "node_param",
+      "description": "Set one parameter of a node.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "id": {
+            "description": "Node id.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "param": {
+            "description": "Parameter id (see `library_list`).",
+            "type": "string"
+          },
+          "value": {
+            "description": "The value: a number, `[x, y]`, `\"#rrggbb\"`, an enum index, a curve `[[x, y], \u2026]` or a gradient `[[pos, color], \u2026]`."
+          }
+        },
+        "required": [
+          "id",
+          "param",
+          "value"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "outputs_export",
+      "description": "Cook a graph at full size and write every output (base color, normal, roughness, \u2026) into a folder relative to the write root. Returns the written files.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "depth": {
+            "description": "8, 16 or 32 bits (default: the graph's output format).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "dir": {
+            "description": "Output folder relative to the write root (created if missing; `.` = the root).",
+            "type": "string"
+          },
+          "format": {
+            "description": "png (default), jpg, tga, tif, bmp, webp, exr, hdr.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "graph": {
+            "description": "Graph index (default: the open graph).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pattern": {
+            "description": "File name pattern with $(graph), $(identifier) and $(usage) (default `$(graph)_$(identifier)`).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "dir"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "package_open",
+      "description": "Open an .sbs or .mcraft package (path relative to the read root). Returns the session; `package.warnings` lists what an SBS file holds that MaterialCraft can't read yet (missing nodes are kept as placeholders).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "path": {
+            "description": "Forward-slash path relative to the workspace root.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "package_save",
+      "description": "Save the package (path relative to the write root; omit to save to its own file). Saves SBS (.sbs, the main format) unless the path ends in .mcraft.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "path": {
+            "description": "Forward-slash path relative to the write root (`.sbs` is appended unless it ends in `.sbs`\nor `.mcraft`). Omit to save to the package's own file.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "session_inspect",
+      "description": "The whole session as JSON: package, graphs, the open graph's nodes (definition, parameters, base parameters, ports, cook errors, timings, mean values), connections, frames, comments, pins, exposed inputs, views and history.",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_input",
+      "description": "Bridge mode: synthesize mouse, keyboard and text input in the app window (clicks, drags between node ports, scrolling, shortcuts, typing). Positions are window points (see ui_inspect for node rectangles).",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "events": {
+            "description": "Input events in window points, applied in order on the next frames. Each is one of:\n{\"type\":\"move\",\"pos\":[x,y]}, {\"type\":\"down\"|\"up\",\"pos\":[x,y],\"button\":\"left\"|\"right\"|\"middle\"},\n{\"type\":\"click\"|\"doubleClick\",\"pos\":[x,y],\"button\"?}, {\"type\":\"drag\",\"from\":[x,y],\"to\":[x,y],\"button\"?,\"steps\"?},\n{\"type\":\"scroll\",\"pos\":[x,y],\"delta\":[dx,dy]}, {\"type\":\"key\",\"key\":\"A\"|\"Enter\"|\"Space\"|\u2026,\"modifiers\"?:[\"ctrl\",\"shift\",\"alt\"]},\n{\"type\":\"text\",\"text\":\"\u2026\"}.",
+            "items": true,
+            "type": "array"
+          }
+        },
+        "required": [
+          "events"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_inspect",
+      "description": "Bridge mode: the app's UI state (panels, windows, graph view camera, node rectangles on screen, toasts).",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_menu_invoke",
+      "description": "Bridge mode: activate a menu item by id like a click (may open a window). ui.menu.list lists ids.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "id": {
+            "description": "Menu item id from the app's `ui.menu.list`, e.g. `file.save`, `ui.newGraph`, `ui.view.library`.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "ui_screenshot",
+      "description": "Bridge mode: PNG of the whole app window (downscaled to 2048 px a side at most).",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "view_render",
+      "description": "Headless: render the material on the 3D view's scene, or a node's output (view 2d), as a PNG up to 2048 px a side. In bridge mode use view_screenshot.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "displacement": {
+            "description": "With `hq`: displacement depth in scene radii (default 0.04).",
+            "format": "float",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "full": {
+            "description": "Cook at the full graph size instead of the preview size.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "height": {
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "hq": {
+            "description": "3D beauty render: real displacement from the height output, ambient occlusion and a\nshadowed key light (slower).",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "node": {
+            "description": "2D: the node to show (default: the 2D view's node, else the first output).",
+            "format": "uint64",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pitch": {
+            "format": "float",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "port": {
+            "description": "2D: the output port index.",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "scene": {
+            "description": "3D scene: rounded_cube, cube, sphere, cylinder, plane, torus, material_ball.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tiling": {
+            "description": "3D: UV repeats of the material on the scene for this render only.",
+            "format": "float",
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "view": {
+            "description": "`3d` (default: the material on the 3D view's scene) or `2d` (a node's output).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "width": {
+            "description": "Pixels, 16..2048.",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "yaw": {
+            "description": "Camera yaw/pitch in degrees for this render only.",
+            "format": "float",
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "view_screenshot",
+      "description": "Bridge mode: PNG of the live app's 3D or 2D view.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "view": {
+            "description": "`3d` (default) or `2d`.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "type": "object"
+      }
+    }
+  ]
+}

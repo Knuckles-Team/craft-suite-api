@@ -1,0 +1,32 @@
+app: lightcraft
+summary: LightCraft photo library and raw development — imports, queries, develop settings and exports.
+classes:
+  - name: PhotoLibrary
+    parent: Document
+    description: A LightCraft photo library.
+  - name: DevelopedPhoto
+    parent: CreativeWork
+    description: A photo developed and exported by LightCraft.
+functionality:
+  - name: develop_photo
+    description: Import a photo, adjust its develop settings and export it.
+    tools: [import, get_develop, set_develop, apply_preset, export]
+    steps:
+      - Import the file or folder.
+      - Read the current develop settings.
+      - Set the controls or apply a preset.
+      - Export the result.
+  - name: query_library
+    description: Find and select photos in the library.
+    tools: [query_photos, select_photos, list_controls, render_photo]
+    steps:
+      - Query the photos by filter.
+      - Select the ones to work on.
+      - Render a preview to verify.
+  - name: run_commands
+    description: Look up engine commands and run them.
+    tools: [list_commands, command_list, command_batch, doc_inspect]
+    steps:
+      - Look up the commands.
+      - Run them in one batch.
+      - Inspect the session to verify.
