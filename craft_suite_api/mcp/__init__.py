@@ -14,6 +14,7 @@ from scion_sdk.config import ConfigurationError, csv_values, setting
 
 from ..app_commands import (
     AppCommandProvider,
+    ExchangeOutputPaths,
     HideDispatchTools,
     SessionTracker,
     dispatch_tool_names,
@@ -84,3 +85,4 @@ def register_app_command_tools(mcp):
         )
     )
     mcp.add_transform(HideDispatchTools(dispatch_tool_names(tuple(apps))))
+    mcp.add_transform(ExchangeOutputPaths())

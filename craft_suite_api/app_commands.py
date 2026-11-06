@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import functools
 import hashlib
 import json
 import logging
@@ -1033,6 +1034,52 @@ class AppCommandProvider(Provider):
         if state == FAILED:
             return _refusal_tool(name, app, APP_REGISTRY_UNREADABLE, self.retry_s)
         return None
+
+
+@functools.cache
+def _output_paths_tool_class() -> Any:
+    from scion_sdk.mcp.upstreams.exchange import ExchangeProxyTool
+
+    class OutputPathsProxyTool(ExchangeProxyTool):
+        """An app's own tool whose exchange moves only real output paths."""
+
+        _call_path_args: tuple[str, ...] = ()
+
+        def _spec(self) -> Any:
+            import dataclasses
+
+            return dataclasses.replace(super()._spec(), path_args=self._call_path_args)
+
+        async def run(
+            self, arguments: dict[str, Any], context: Any = None
+        ) -> ToolResult:
+            self._call_path_args = output_path_args(dict(arguments or {}))
+            return await super().run(arguments, context)
+
+    return OutputPathsProxyTool
+
+
+class ExchangeOutputPaths(Transform):
+    """The apps' own tools move only real output paths into the run.
+
+    The SDK exchange moves every relative ``path`` value into the run folder,
+    which breaks app tools whose ``path`` is not a file: effectcraft's
+    ``get_property``/``set_property``/``add_keyframe`` take a property path
+    such as ``transform/opacity``. Each call keeps the same rule the command
+    tools use (``output_path_args``) (CONN-CRAFT-SUITE-API-APPS-R020).
+    """
+
+    async def get_tool(self, name: str, call_next: Any, *, version: Any = None) -> Any:
+        tool = await call_next(name, version=version)
+        from scion_sdk.mcp.upstreams.exchange import ExchangeProxyTool
+
+        wrapper = _output_paths_tool_class()
+        if isinstance(tool, ExchangeProxyTool) and not isinstance(tool, wrapper):
+            wrapped = wrapper.bind(tool, tool._exchange_decl, tool._exchange_runtime)
+            # The namespace transform renamed the tool; calls keep the app's name.
+            wrapped._backend_name = tool._backend_name or tool.name
+            return wrapped
+        return tool
 
 
 class HideDispatchTools(Transform):

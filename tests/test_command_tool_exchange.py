@@ -165,3 +165,30 @@ def test_only_real_output_paths_move_into_the_run() -> None:
             "size": 12,
         }
     ) == ("output", "dir", "outputDir")
+
+
+def test_app_tools_keep_non_file_paths(exchange) -> None:
+    import asyncio as _asyncio
+
+    from fastmcp.server.providers.proxy import ProxyTool
+    from scion_sdk.mcp.upstreams.exchange import ExchangeProxyTool
+
+    from craft_suite_api.app_commands import ExchangeOutputPaths
+    from craft_suite_api.upstreams import UPSTREAMS
+
+    decl = next(d for d in UPSTREAMS if d.name == "effectcraft")
+    runtime = app_commands._exchange_runtime()
+    proxy = ProxyTool(lambda: None, name="effectcraft_set_property", parameters={})
+    native = ExchangeProxyTool.bind(proxy, decl, runtime)
+
+    async def call_next(name, version=None):
+        return native
+
+    wrapped = _asyncio.run(ExchangeOutputPaths().get_tool("x", call_next))
+    assert isinstance(wrapped, ExchangeProxyTool) and wrapped is not native
+    wrapped._call_path_args = app_commands.output_path_args(
+        {"path": "transform/opacity", "value": 50}
+    )
+    assert wrapped._spec().path_args == ()
+    wrapped._call_path_args = app_commands.output_path_args({"path": "frame.png"})
+    assert wrapped._spec().path_args == ("path",)
