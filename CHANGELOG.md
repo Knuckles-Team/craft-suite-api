@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-11-06
+
+### Added
+- Graceful startup: each app's command registry loads on its own; a listing
+  answers at once and every app that lands publishes `ToolsListChanged`. A call
+  to a warming app waits up to `CRAFT_SUITE_WARMUP_WAIT_S` for that app, then
+  answers the retryable refusal `APP_WARMING`; a failed registry answers
+  `APP_REGISTRY_UNREADABLE` and is retried in the background. `/ready` is 503
+  until every app has settled and reports the per-app state
+  (CONN-CRAFT-SUITE-API-APPS-R018).
+- Command tool parameters are typed from the apps' own documentation (types,
+  ranges, enums, defaults; pdfcraft's JSON schemas as is); unions and prose
+  stay open (CONN-CRAFT-SUITE-API-APPS-R019).
+- Sixteen proven business workflows as skills, six agent definitions
+  (operator plus five business roles) as system prompts, and the workflow
+  ontology: tool-use contracts, data locations, and the skill, prompt and role
+  links, rolled up to the core by subclassing
+  (CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009).
+
+### Fixed
+- Command tools ran their arguments outside the artifact exchange, so no
+  command output was published and filmcraft could not write an export. They
+  now stage inputs, place relative outputs in the run, publish them, and await
+  background export jobs (CONN-CRAFT-SUITE-API-APPS-R020).
+- Only real output paths move into the run: effectcraft's property paths
+  (`transform/opacity`) and photocraft's vector path names pass through.
+- materialcraft and texturecraft get root-relative paths (they refuse absolute
+  ones); solidcraft gets its folders through `--allow-path` (it ignored the
+  automation root flags) (CONN-CRAFT-SUITE-API-APPS-R002, R020).
+- The backend description keeps the JSON body of operations with a bogus
+  `request` parameter (flux schnell asked for a file) and opens response-only
+  enums the live backend exceeds (CONN-CRAFT-SUITE-API-R007).
+
+### Changed
+- The served backend description is built from the pinned published document
+  at first use; the committed generated copy and its drift hook are gone
+  (CONN-CRAFT-SUITE-API-R007).
+
 ## [0.7.1] - 2026-11-06
 
 ### Fixed

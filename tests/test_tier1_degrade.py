@@ -62,6 +62,10 @@ def test_unconfigured_backend_lists_tools_and_refuses_typed(monkeypatch) -> None
 
 
 def test_readiness_reports_not_configured_and_stays_ready(monkeypatch) -> None:
+    from craft_suite_api import app_commands
+
+    # No server is warming in this test: the backend state alone decides.
+    monkeypatch.setattr(app_commands, "WARMUP", None)
     monkeypatch.delenv("CRAFT_SUITE_API_BASE_URL", raising=False)
     probe = asyncio.run(_tier1_readiness())
     assert probe.ready is True
@@ -104,6 +108,9 @@ def test_unusable_backend_setting_starts_and_refuses_typed(
         }
         probe = asyncio.run(_tier1_readiness())
         assert probe.ready is True
-        assert probe.detail == {"backend": "invalid", "code": BACKEND_CONFIG_INVALID}
+        assert {k: probe.detail[k] for k in ("backend", "code")} == {
+            "backend": "invalid",
+            "code": BACKEND_CONFIG_INVALID,
+        }
     finally:
         BACKEND_STATE.clear()

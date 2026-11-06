@@ -1,0 +1,3684 @@
+@prefix : <http://knuckles.team/kg#> .
+@prefix wf: <http://knuckles.team/kg/artcraft/workflows#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# The proven ArtCraft business workflows: each workflow's tool-use contract (tools, order,
+# parameters), the skill and agent prompts that use it, and where its data lives. Classes are in
+# artcraft-workflows-vocabulary.ttl; this module imports nothing.
+
+<http://knuckles.team/kg/artcraft/workflows> a owl:Ontology ;
+    rdfs:label "ArtCraft workflows" ;
+    rdfs:comment "Tool-use contracts, skills, agent prompts and data locations of the proven ArtCraft workflows." .
+
+wf:exchange_objects a :ExchangeSink ;
+    rdfs:label "objects sink" ;
+    rdfs:comment "The object-store sink of the artifact exchange: every output is published there with a signed link; inputs are read from it." ;
+    :locationReference "exchange://objects/<key>" ;
+    :locationSetting "SCION_EXCHANGE_FILE" .
+
+wf:exchange_files a :ExchangeSink ;
+    rdfs:label "files sink" ;
+    rdfs:comment "The file-share sink of the artifact exchange: outputs land under <app>/<date>/<run>/<name> for people to open." ;
+    :locationReference "exchange://files/<key>" ;
+    :locationSetting "SCION_EXCHANGE_FILE" .
+
+wf:backend_private_bucket a :BackendBucket ;
+    rdfs:label "craft backend private download bucket" ;
+    rdfs:comment "Media files and generation results of the craft backend, reached through the craft_suite_* tools." ;
+    :locationSetting "W2L_PRIVATE_DOWNLOAD_BUCKET_NAME" .
+
+wf:backend_public_bucket a :BackendBucket ;
+    rdfs:label "craft backend public download bucket" ;
+    rdfs:comment "Media files and generation results of the craft backend, reached through the craft_suite_* tools." ;
+    :locationSetting "W2L_PUBLIC_DOWNLOAD_BUCKET_NAME" .
+
+wf:backend_public_gc_bucket a :BackendBucket ;
+    rdfs:label "craft backend public bucket with expiry" ;
+    rdfs:comment "Media files and generation results of the craft backend, reached through the craft_suite_* tools." ;
+    :locationSetting "GC_ENABLED_PUBLIC_BUCKET_NAME" .
+
+wf:cadcraft_session a :AppSession ;
+    rdfs:label "cadcraft session" ;
+    rdfs:comment "The caller's pooled cadcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "cadcraft (per caller)" .
+
+wf:deckcraft_session a :AppSession ;
+    rdfs:label "deckcraft session" ;
+    rdfs:comment "The caller's pooled deckcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "deckcraft (per caller)" .
+
+wf:designcraft_session a :AppSession ;
+    rdfs:label "designcraft session" ;
+    rdfs:comment "The caller's pooled designcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "designcraft (per caller)" .
+
+wf:effectcraft_session a :AppSession ;
+    rdfs:label "effectcraft session" ;
+    rdfs:comment "The caller's pooled effectcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "effectcraft (per caller)" .
+
+wf:figcraft_session a :AppSession ;
+    rdfs:label "figcraft session" ;
+    rdfs:comment "The caller's pooled figcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "figcraft (per caller)" .
+
+wf:filmcraft_session a :AppSession ;
+    rdfs:label "filmcraft session" ;
+    rdfs:comment "The caller's pooled filmcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "filmcraft (per caller)" .
+
+wf:gridcraft_session a :AppSession ;
+    rdfs:label "gridcraft session" ;
+    rdfs:comment "The caller's pooled gridcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "gridcraft (per caller)" .
+
+wf:lightcraft_session a :AppSession ;
+    rdfs:label "lightcraft session" ;
+    rdfs:comment "The caller's pooled lightcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "lightcraft (per caller)" .
+
+wf:materialcraft_session a :AppSession ;
+    rdfs:label "materialcraft session" ;
+    rdfs:comment "The caller's pooled materialcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "materialcraft (per caller)" .
+
+wf:pdfcraft_session a :AppSession ;
+    rdfs:label "pdfcraft session" ;
+    rdfs:comment "The caller's pooled pdfcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "pdfcraft (per caller)" .
+
+wf:photocraft_session a :AppSession ;
+    rdfs:label "photocraft session" ;
+    rdfs:comment "The caller's pooled photocraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "photocraft (per caller)" .
+
+wf:solidcraft_session a :AppSession ;
+    rdfs:label "solidcraft session" ;
+    rdfs:comment "The caller's pooled solidcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "solidcraft (per caller)" .
+
+wf:soundcraft_session a :AppSession ;
+    rdfs:label "soundcraft session" ;
+    rdfs:comment "The caller's pooled soundcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "soundcraft (per caller)" .
+
+wf:texturecraft_session a :AppSession ;
+    rdfs:label "texturecraft session" ;
+    rdfs:comment "The caller's pooled texturecraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "texturecraft (per caller)" .
+
+wf:vectorcraft_session a :AppSession ;
+    rdfs:label "vectorcraft session" ;
+    rdfs:comment "The caller's pooled vectorcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "vectorcraft (per caller)" .
+
+wf:wordcraft_session a :AppSession ;
+    rdfs:label "wordcraft session" ;
+    rdfs:comment "The caller's pooled wordcraft process: open documents and projects persist between calls of one caller." ;
+    :locationReference "wordcraft (per caller)" .
+
+wf:photocraft_edit_product_photo a :CraftWorkflow ;
+    rdfs:label "Edit a product photo" ;
+    rdfs:comment "Open a product photo, crop and resize it for a listing, lift exposure and saturation, add a headline, and export PNG and JPEG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/photocraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:photocraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:photocraft_session ;
+    :outputFormat "png" ;
+    :outputFormat "jpg" ;
+    :producesAssetType :ProductPhoto ;
+    :hasToolUseContract wf:photocraft_edit_product_photo_contract .
+
+wf:photocraft_edit_product_photo_contract a :ToolUseContract ;
+    rdfs:label "Edit a product photo contract" ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step1 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step2 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step3 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step4 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step5 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step6 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step7 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step8 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step9 ;
+    :hasToolUseStep wf:photocraft_edit_product_photo_step10 .
+
+wf:photocraft_edit_product_photo_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "photocraft_doc_open" ;
+    :stepPurpose "Open the photo; the answer gives its width and height." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step1_p1 .
+
+wf:photocraft_edit_product_photo_step1_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${photo}\"" .
+
+wf:photocraft_edit_product_photo_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "photocraft_cmd_image_crop" ;
+    :stepPurpose "Crop to the product (pixels from the top-left)." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step2_p1 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step2_p2 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step2_p3 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step2_p4 .
+
+wf:photocraft_edit_product_photo_step2_p1 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "200" .
+
+wf:photocraft_edit_product_photo_step2_p2 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "150" .
+
+wf:photocraft_edit_product_photo_step2_p3 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1200" .
+
+wf:photocraft_edit_product_photo_step2_p4 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "900" .
+
+wf:photocraft_edit_product_photo_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "photocraft_cmd_image_imageSize" ;
+    :stepPurpose "Resize to the delivery size." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step3_p1 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step3_p2 .
+
+wf:photocraft_edit_product_photo_step3_p1 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1080" .
+
+wf:photocraft_edit_product_photo_step3_p2 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "810" .
+
+wf:photocraft_edit_product_photo_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "photocraft_cmd_image_adjustments_exposure" ;
+    :stepPurpose "Lift the exposure (EV stops, -20..20)." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step4_p1 .
+
+wf:photocraft_edit_product_photo_step4_p1 a :ToolParameterBinding ;
+    :parameterName "exposure" ;
+    :parameterValue "0.6" .
+
+wf:photocraft_edit_product_photo_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "photocraft_cmd_image_adjustments_hueSaturation" ;
+    :stepPurpose "Raise the saturation (-100..100)." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step5_p1 .
+
+wf:photocraft_edit_product_photo_step5_p1 a :ToolParameterBinding ;
+    :parameterName "saturation" ;
+    :parameterValue "30" .
+
+wf:photocraft_edit_product_photo_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "photocraft_cmd_type_create" ;
+    :stepPurpose "Add the headline as a text layer (x,y is the baseline start; size in pt; color #rrggbb)." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p1 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p2 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p3 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p4 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p5 ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step6_p6 .
+
+wf:photocraft_edit_product_photo_step6_p1 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:photocraft_edit_product_photo_step6_p2 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "740" .
+
+wf:photocraft_edit_product_photo_step6_p3 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${headline}\"" .
+
+wf:photocraft_edit_product_photo_step6_p4 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "64" .
+
+wf:photocraft_edit_product_photo_step6_p5 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#ffffff\"" .
+
+wf:photocraft_edit_product_photo_step6_p6 a :ToolParameterBinding ;
+    :parameterName "font" ;
+    :parameterValue "\"DejaVu Sans\"" .
+
+wf:photocraft_edit_product_photo_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "photocraft_cmd_layer_flattenImage" ;
+    :stepPurpose "Flatten so the exports carry the text." .
+
+wf:photocraft_edit_product_photo_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "photocraft_doc_export" ;
+    :stepPurpose "Export a PNG; a relative path lands in the run folder and is published." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step8_p1 .
+
+wf:photocraft_edit_product_photo_step8_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"product-edit.png\"" .
+
+wf:photocraft_edit_product_photo_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "photocraft_doc_export" ;
+    :stepPurpose "Export a JPEG copy the same way." ;
+    :hasParameterBinding wf:photocraft_edit_product_photo_step9_p1 .
+
+wf:photocraft_edit_product_photo_step9_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"product-edit.jpg\"" .
+
+wf:photocraft_edit_product_photo_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "photocraft_doc_close" ;
+    :stepPurpose "Close the document so the session holds nothing stale." .
+
+wf:skill_photocraft_edit_product_photo a :CraftSkill ;
+    rdfs:label "Edit a product photo" ;
+    :skillName "photocraft-edit-product-photo" ;
+    :skillWalksWorkflow wf:photocraft_edit_product_photo .
+
+wf:filmcraft_cut_promo_video a :CraftWorkflow ;
+    rdfs:label "Cut a promo video" ;
+    rdfs:comment "Import a clip, make a sequence from it, trim the head and tail, lay a title over it and export an H.264 MP4." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/filmcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:filmcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:filmcraft_session ;
+    :outputFormat "mp4" ;
+    :producesAssetType :PromoVideo ;
+    :hasToolUseContract wf:filmcraft_cut_promo_video_contract .
+
+wf:filmcraft_cut_promo_video_contract a :ToolUseContract ;
+    rdfs:label "Cut a promo video contract" ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step1 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step2 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step3 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step4 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step5 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step6 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step7 ;
+    :hasToolUseStep wf:filmcraft_cut_promo_video_step8 .
+
+wf:filmcraft_cut_promo_video_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "filmcraft_cmd_file_newProject" ;
+    :stepPurpose "Start a project." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step1_p1 .
+
+wf:filmcraft_cut_promo_video_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${project}\"" .
+
+wf:filmcraft_cut_promo_video_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "filmcraft_cmd_file_import" ;
+    :stepPurpose "Import the clip; the answer names the project item." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step2_p1 .
+
+wf:filmcraft_cut_promo_video_step2_p1 a :ToolParameterBinding ;
+    :parameterName "paths" ;
+    :parameterValue "[\"${clip}\"]" .
+
+wf:filmcraft_cut_promo_video_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "filmcraft_cmd_file_newSequenceFromClip" ;
+    :stepPurpose "Make a sequence from the clip; the answer gives the video and audio clip ids." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step3_p1 .
+
+wf:filmcraft_cut_promo_video_step3_p1 a :ToolParameterBinding ;
+    :parameterName "items" ;
+    :parameterValue "[\"${item}\"]" .
+
+wf:filmcraft_cut_promo_video_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "filmcraft_cmd_timeline_trim" ;
+    :stepPurpose "Trim the head: ripple the in edge forward (delta in ticks; here 2 s), audio follows when linked." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step4_p1 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step4_p2 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step4_p3 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step4_p4 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step4_p5 .
+
+wf:filmcraft_cut_promo_video_step4_p1 a :ToolParameterBinding ;
+    :parameterName "clip" ;
+    :parameterValue "\"${vclip}\"" .
+
+wf:filmcraft_cut_promo_video_step4_p2 a :ToolParameterBinding ;
+    :parameterName "edge" ;
+    :parameterValue "\"in\"" .
+
+wf:filmcraft_cut_promo_video_step4_p3 a :ToolParameterBinding ;
+    :parameterName "mode" ;
+    :parameterValue "\"ripple\"" .
+
+wf:filmcraft_cut_promo_video_step4_p4 a :ToolParameterBinding ;
+    :parameterName "delta" ;
+    :parameterValue "508032000000" .
+
+wf:filmcraft_cut_promo_video_step4_p5 a :ToolParameterBinding ;
+    :parameterName "linked" ;
+    :parameterValue "true" .
+
+wf:filmcraft_cut_promo_video_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "filmcraft_cmd_timeline_trim" ;
+    :stepPurpose "Trim the tail: ripple the out edge back (here 4 s), leaving 6 s." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step5_p1 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step5_p2 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step5_p3 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step5_p4 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step5_p5 .
+
+wf:filmcraft_cut_promo_video_step5_p1 a :ToolParameterBinding ;
+    :parameterName "clip" ;
+    :parameterValue "\"${vclip}\"" .
+
+wf:filmcraft_cut_promo_video_step5_p2 a :ToolParameterBinding ;
+    :parameterName "edge" ;
+    :parameterValue "\"out\"" .
+
+wf:filmcraft_cut_promo_video_step5_p3 a :ToolParameterBinding ;
+    :parameterName "mode" ;
+    :parameterValue "\"ripple\"" .
+
+wf:filmcraft_cut_promo_video_step5_p4 a :ToolParameterBinding ;
+    :parameterName "delta" ;
+    :parameterValue "-1016064000000" .
+
+wf:filmcraft_cut_promo_video_step5_p5 a :ToolParameterBinding ;
+    :parameterName "linked" ;
+    :parameterValue "true" .
+
+wf:filmcraft_cut_promo_video_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "filmcraft_cmd_graphics_newText" ;
+    :stepPurpose "Add the title on the track above (position in pixels, size in px, seconds on screen, time in ticks)." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step6_p1 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step6_p2 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step6_p3 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step6_p4 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step6_p5 .
+
+wf:filmcraft_cut_promo_video_step6_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${title}\"" .
+
+wf:filmcraft_cut_promo_video_step6_p2 a :ToolParameterBinding ;
+    :parameterName "position" ;
+    :parameterValue "[120, 620]" .
+
+wf:filmcraft_cut_promo_video_step6_p3 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "72" .
+
+wf:filmcraft_cut_promo_video_step6_p4 a :ToolParameterBinding ;
+    :parameterName "seconds" ;
+    :parameterValue "6" .
+
+wf:filmcraft_cut_promo_video_step6_p5 a :ToolParameterBinding ;
+    :parameterName "time" ;
+    :parameterValue "0" .
+
+wf:filmcraft_cut_promo_video_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "filmcraft_sequence_inspect" ;
+    :stepPurpose "Check the sequence: duration, clip in/out and the title clip." .
+
+wf:filmcraft_cut_promo_video_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "filmcraft_cmd_file_exportMedia" ;
+    :stepPurpose "Export the MP4. The export runs as a background job; the tool waits for it and then publishes the file." ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step8_p1 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step8_p2 ;
+    :hasParameterBinding wf:filmcraft_cut_promo_video_step8_p3 .
+
+wf:filmcraft_cut_promo_video_step8_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"promo.mp4\"" .
+
+wf:filmcraft_cut_promo_video_step8_p2 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"h264\"" .
+
+wf:filmcraft_cut_promo_video_step8_p3 a :ToolParameterBinding ;
+    :parameterName "audioCodec" ;
+    :parameterValue "\"aac\"" .
+
+wf:skill_filmcraft_cut_promo_video a :CraftSkill ;
+    rdfs:label "Cut a promo video" ;
+    :skillName "filmcraft-cut-promo-video" ;
+    :skillWalksWorkflow wf:filmcraft_cut_promo_video .
+
+wf:designcraft_social_post a :CraftWorkflow ;
+    rdfs:label "Design a social post" ;
+    rdfs:comment "Lay out a square social post with a brand background, the product photo and a headline, and export a 1080 x 1080 PNG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/designcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:designcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:designcraft_session ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:designcraft_social_post_contract .
+
+wf:designcraft_social_post_contract a :ToolUseContract ;
+    rdfs:label "Design a social post contract" ;
+    :hasToolUseStep wf:designcraft_social_post_step1 ;
+    :hasToolUseStep wf:designcraft_social_post_step2 ;
+    :hasToolUseStep wf:designcraft_social_post_step3 ;
+    :hasToolUseStep wf:designcraft_social_post_step4 ;
+    :hasToolUseStep wf:designcraft_social_post_step5 ;
+    :hasToolUseStep wf:designcraft_social_post_step6 ;
+    :hasToolUseStep wf:designcraft_social_post_step7 ;
+    :hasToolUseStep wf:designcraft_social_post_step8 ;
+    :hasToolUseStep wf:designcraft_social_post_step9 ;
+    :hasToolUseStep wf:designcraft_social_post_step10 .
+
+wf:designcraft_social_post_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "designcraft_new_document" ;
+    :stepPurpose "New web document, 540 x 540 pt (1080 px at scale 2), no margins." ;
+    :hasParameterBinding wf:designcraft_social_post_step1_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step1_p2 ;
+    :hasParameterBinding wf:designcraft_social_post_step1_p3 ;
+    :hasParameterBinding wf:designcraft_social_post_step1_p4 .
+
+wf:designcraft_social_post_step1_p1 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "540" .
+
+wf:designcraft_social_post_step1_p2 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "540" .
+
+wf:designcraft_social_post_step1_p3 a :ToolParameterBinding ;
+    :parameterName "intent" ;
+    :parameterValue "\"web\"" .
+
+wf:designcraft_social_post_step1_p4 a :ToolParameterBinding ;
+    :parameterName "margins" ;
+    :parameterValue "0" .
+
+wf:designcraft_social_post_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "designcraft_cmd_frame_create" ;
+    :stepPurpose "Draw the background frame over the whole page; the answer gives its id." ;
+    :hasParameterBinding wf:designcraft_social_post_step2_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step2_p2 ;
+    :hasParameterBinding wf:designcraft_social_post_step2_p3 .
+
+wf:designcraft_social_post_step2_p1 a :ToolParameterBinding ;
+    :parameterName "rect" ;
+    :parameterValue "[0, 0, 540, 540]" .
+
+wf:designcraft_social_post_step2_p2 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"rectangle\"" .
+
+wf:designcraft_social_post_step2_p3 a :ToolParameterBinding ;
+    :parameterName "content" ;
+    :parameterValue "\"unassigned\"" .
+
+wf:designcraft_social_post_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "designcraft_cmd_object_color" ;
+    :stepPurpose "Fill it with the brand colour." ;
+    :hasParameterBinding wf:designcraft_social_post_step3_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step3_p2 ;
+    :hasParameterBinding wf:designcraft_social_post_step3_p3 .
+
+wf:designcraft_social_post_step3_p1 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"${brand_color}\"" .
+
+wf:designcraft_social_post_step3_p2 a :ToolParameterBinding ;
+    :parameterName "target" ;
+    :parameterValue "\"fill\"" .
+
+wf:designcraft_social_post_step3_p3 a :ToolParameterBinding ;
+    :parameterName "ids" ;
+    :parameterValue "[\"${bg}\"]" .
+
+wf:designcraft_social_post_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "designcraft_place_image" ;
+    :stepPurpose "Place the product photo (x, y and width in pt)." ;
+    :hasParameterBinding wf:designcraft_social_post_step4_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step4_p2 ;
+    :hasParameterBinding wf:designcraft_social_post_step4_p3 ;
+    :hasParameterBinding wf:designcraft_social_post_step4_p4 .
+
+wf:designcraft_social_post_step4_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${photo}\"" .
+
+wf:designcraft_social_post_step4_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "90" .
+
+wf:designcraft_social_post_step4_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "36" .
+
+wf:designcraft_social_post_step4_p4 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "360" .
+
+wf:designcraft_social_post_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "designcraft_cmd_frame_create" ;
+    :stepPurpose "Create the headline text frame (rect in pt)." ;
+    :hasParameterBinding wf:designcraft_social_post_step5_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step5_p2 ;
+    :hasParameterBinding wf:designcraft_social_post_step5_p3 .
+
+wf:designcraft_social_post_step5_p1 a :ToolParameterBinding ;
+    :parameterName "rect" ;
+    :parameterValue "[40, 330, 500, 420]" .
+
+wf:designcraft_social_post_step5_p2 a :ToolParameterBinding ;
+    :parameterName "content" ;
+    :parameterValue "\"text\"" .
+
+wf:designcraft_social_post_step5_p3 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${headline}\"" .
+
+wf:designcraft_social_post_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "designcraft_cmd_text_selectStory" ;
+    :stepPurpose "Select the headline's story so formatting reaches the text." ;
+    :hasParameterBinding wf:designcraft_social_post_step6_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step6_p2 .
+
+wf:designcraft_social_post_step6_p1 a :ToolParameterBinding ;
+    :parameterName "frame" ;
+    :parameterValue "\"${headline}\"" .
+
+wf:designcraft_social_post_step6_p2 a :ToolParameterBinding ;
+    :parameterName "point" ;
+    :parameterValue "[60, 345]" .
+
+wf:designcraft_social_post_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "designcraft_cmd_type_char" ;
+    :stepPurpose "Set the headline's font, style and size." ;
+    :hasParameterBinding wf:designcraft_social_post_step7_p1 .
+
+wf:designcraft_social_post_step7_p1 a :ToolParameterBinding ;
+    :parameterName "attrs" ;
+    :parameterValue "{\"size\": 40, \"fontFamily\": \"DejaVu Sans\", \"fontStyle\": \"Bold\"}" .
+
+wf:designcraft_social_post_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "designcraft_cmd_object_color" ;
+    :stepPurpose "Colour the selected text." ;
+    :hasParameterBinding wf:designcraft_social_post_step8_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step8_p2 .
+
+wf:designcraft_social_post_step8_p1 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"${accent_color}\"" .
+
+wf:designcraft_social_post_step8_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "true" .
+
+wf:designcraft_social_post_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "designcraft_cmd_text_exitToFrame" ;
+    :stepPurpose "Leave the text so the export shows the page, not a caret." .
+
+wf:designcraft_social_post_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "designcraft_export_png" ;
+    :stepPurpose "Export the page as PNG (scale = pixels per point)." ;
+    :hasParameterBinding wf:designcraft_social_post_step10_p1 ;
+    :hasParameterBinding wf:designcraft_social_post_step10_p2 .
+
+wf:designcraft_social_post_step10_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"social-post.png\"" .
+
+wf:designcraft_social_post_step10_p2 a :ToolParameterBinding ;
+    :parameterName "scale" ;
+    :parameterValue "2" .
+
+wf:skill_designcraft_social_post a :CraftSkill ;
+    rdfs:label "Design a social post" ;
+    :skillName "designcraft-social-post" ;
+    :skillWalksWorkflow wf:designcraft_social_post .
+
+wf:wordcraft_press_release a :CraftWorkflow ;
+    rdfs:label "Write a press release" ;
+    rdfs:comment "Write a one-page press release with a heading, body paragraphs and the product photo, and save it as DOCX and PDF." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/wordcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:wordcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:wordcraft_session ;
+    :outputFormat "docx" ;
+    :outputFormat "pdf" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:wordcraft_press_release_contract .
+
+wf:wordcraft_press_release_contract a :ToolUseContract ;
+    rdfs:label "Write a press release contract" ;
+    :hasToolUseStep wf:wordcraft_press_release_step1 ;
+    :hasToolUseStep wf:wordcraft_press_release_step2 ;
+    :hasToolUseStep wf:wordcraft_press_release_step3 ;
+    :hasToolUseStep wf:wordcraft_press_release_step4 ;
+    :hasToolUseStep wf:wordcraft_press_release_step5 ;
+    :hasToolUseStep wf:wordcraft_press_release_step6 ;
+    :hasToolUseStep wf:wordcraft_press_release_step7 ;
+    :hasToolUseStep wf:wordcraft_press_release_step8 ;
+    :hasToolUseStep wf:wordcraft_press_release_step9 ;
+    :hasToolUseStep wf:wordcraft_press_release_step10 .
+
+wf:wordcraft_press_release_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "wordcraft_new_document" ;
+    :stepPurpose "New blank document; the answer gives its id." ;
+    :hasParameterBinding wf:wordcraft_press_release_step1_p1 .
+
+wf:wordcraft_press_release_step1_p1 a :ToolParameterBinding ;
+    :parameterName "template" ;
+    :parameterValue "\"blank\"" .
+
+wf:wordcraft_press_release_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "wordcraft_cmd_para_heading1" ;
+    :stepPurpose "Make the first paragraph a Heading 1." .
+
+wf:wordcraft_press_release_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "wordcraft_type_text" ;
+    :stepPurpose "Type the headline." ;
+    :hasParameterBinding wf:wordcraft_press_release_step3_p1 .
+
+wf:wordcraft_press_release_step3_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${headline}\"" .
+
+wf:wordcraft_press_release_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "wordcraft_cmd_text_newParagraph" ;
+    :stepPurpose "Start a new paragraph." .
+
+wf:wordcraft_press_release_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "wordcraft_cmd_para_style" ;
+    :stepPurpose "Set it to the Normal style." ;
+    :hasParameterBinding wf:wordcraft_press_release_step5_p1 .
+
+wf:wordcraft_press_release_step5_p1 a :ToolParameterBinding ;
+    :parameterName "style" ;
+    :parameterValue "\"Normal\"" .
+
+wf:wordcraft_press_release_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "wordcraft_type_text" ;
+    :stepPurpose "Type the body; paragraphs:true turns each line into a paragraph." ;
+    :hasParameterBinding wf:wordcraft_press_release_step6_p1 ;
+    :hasParameterBinding wf:wordcraft_press_release_step6_p2 .
+
+wf:wordcraft_press_release_step6_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${body}\"" .
+
+wf:wordcraft_press_release_step6_p2 a :ToolParameterBinding ;
+    :parameterName "paragraphs" ;
+    :parameterValue "true" .
+
+wf:wordcraft_press_release_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "wordcraft_cmd_insert_picture" ;
+    :stepPurpose "Insert the product photo inline (width in pt) with alt text." ;
+    :hasParameterBinding wf:wordcraft_press_release_step7_p1 ;
+    :hasParameterBinding wf:wordcraft_press_release_step7_p2 ;
+    :hasParameterBinding wf:wordcraft_press_release_step7_p3 .
+
+wf:wordcraft_press_release_step7_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${photo}\"" .
+
+wf:wordcraft_press_release_step7_p2 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "300" .
+
+wf:wordcraft_press_release_step7_p3 a :ToolParameterBinding ;
+    :parameterName "alt" ;
+    :parameterValue "\"Ember Lamp product photo\"" .
+
+wf:wordcraft_press_release_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "wordcraft_get_text" ;
+    :stepPurpose "Read the text back to check it." .
+
+wf:wordcraft_press_release_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "wordcraft_save_document" ;
+    :stepPurpose "Save as DOCX (the extension picks the format)." ;
+    :hasParameterBinding wf:wordcraft_press_release_step9_p1 .
+
+wf:wordcraft_press_release_step9_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.docx\"" .
+
+wf:wordcraft_press_release_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "wordcraft_save_document" ;
+    :stepPurpose "Save as PDF." ;
+    :hasParameterBinding wf:wordcraft_press_release_step10_p1 .
+
+wf:wordcraft_press_release_step10_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.pdf\"" .
+
+wf:skill_wordcraft_press_release a :CraftSkill ;
+    rdfs:label "Write a press release" ;
+    :skillName "wordcraft-press-release" ;
+    :skillWalksWorkflow wf:wordcraft_press_release .
+
+wf:pdfcraft_stamp_and_brand a :CraftWorkflow ;
+    rdfs:label "Stamp and brand a PDF" ;
+    rdfs:comment "Open a PDF, add a watermark, a header and page-numbered footer, set its title and author, and save a new PDF." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/pdfcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:pdfcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:pdfcraft_session ;
+    :outputFormat "pdf" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:pdfcraft_stamp_and_brand_contract .
+
+wf:pdfcraft_stamp_and_brand_contract a :ToolUseContract ;
+    rdfs:label "Stamp and brand a PDF contract" ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step1 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step2 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step3 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step4 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step5 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step6 ;
+    :hasToolUseStep wf:pdfcraft_stamp_and_brand_step7 .
+
+wf:pdfcraft_stamp_and_brand_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "pdfcraft_doc_open" ;
+    :stepPurpose "Open the PDF; the answer gives its doc id." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step1_p1 .
+
+wf:pdfcraft_stamp_and_brand_step1_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${src}\"" .
+
+wf:pdfcraft_stamp_and_brand_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "pdfcraft_doc_watermark" ;
+    :stepPurpose "Add the watermark (opacity 0..1, rotation in degrees, colour #rrggbb)." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step2_p1 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step2_p2 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step2_p3 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step2_p4 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step2_p5 .
+
+wf:pdfcraft_stamp_and_brand_step2_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step2_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${watermark}\"" .
+
+wf:pdfcraft_stamp_and_brand_step2_p3 a :ToolParameterBinding ;
+    :parameterName "opacity" ;
+    :parameterValue "0.25" .
+
+wf:pdfcraft_stamp_and_brand_step2_p4 a :ToolParameterBinding ;
+    :parameterName "rotation" ;
+    :parameterValue "45" .
+
+wf:pdfcraft_stamp_and_brand_step2_p5 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#cc0000\"" .
+
+wf:pdfcraft_stamp_and_brand_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "pdfcraft_doc_header_footer" ;
+    :stepPurpose "Add the header and footer; <<1 of n>> numbers pages and <<yyyy-mm-dd>> stamps the date." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p1 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p2 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p3 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p4 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p5 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step3_p6 .
+
+wf:pdfcraft_stamp_and_brand_step3_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step3_p2 a :ToolParameterBinding ;
+    :parameterName "header_left" ;
+    :parameterValue "\"${company}\"" .
+
+wf:pdfcraft_stamp_and_brand_step3_p3 a :ToolParameterBinding ;
+    :parameterName "footer_center" ;
+    :parameterValue "\"Page <<1 of n>>\"" .
+
+wf:pdfcraft_stamp_and_brand_step3_p4 a :ToolParameterBinding ;
+    :parameterName "footer_right" ;
+    :parameterValue "\"<<yyyy-mm-dd>>\"" .
+
+wf:pdfcraft_stamp_and_brand_step3_p5 a :ToolParameterBinding ;
+    :parameterName "font" ;
+    :parameterValue "\"Helvetica\"" .
+
+wf:pdfcraft_stamp_and_brand_step3_p6 a :ToolParameterBinding ;
+    :parameterName "font_size" ;
+    :parameterValue "9" .
+
+wf:pdfcraft_stamp_and_brand_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "pdfcraft_doc_set_info" ;
+    :stepPurpose "Set the Title metadata." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step4_p1 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step4_p2 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step4_p3 .
+
+wf:pdfcraft_stamp_and_brand_step4_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step4_p2 a :ToolParameterBinding ;
+    :parameterName "key" ;
+    :parameterValue "\"Title\"" .
+
+wf:pdfcraft_stamp_and_brand_step4_p3 a :ToolParameterBinding ;
+    :parameterName "value" ;
+    :parameterValue "\"${title}\"" .
+
+wf:pdfcraft_stamp_and_brand_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "pdfcraft_doc_set_info" ;
+    :stepPurpose "Set the Author metadata." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step5_p1 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step5_p2 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step5_p3 .
+
+wf:pdfcraft_stamp_and_brand_step5_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step5_p2 a :ToolParameterBinding ;
+    :parameterName "key" ;
+    :parameterValue "\"Author\"" .
+
+wf:pdfcraft_stamp_and_brand_step5_p3 a :ToolParameterBinding ;
+    :parameterName "value" ;
+    :parameterValue "\"${company}\"" .
+
+wf:pdfcraft_stamp_and_brand_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "pdfcraft_doc_info" ;
+    :stepPurpose "Read the document info to check it." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step6_p1 .
+
+wf:pdfcraft_stamp_and_brand_step6_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "pdfcraft_doc_save" ;
+    :stepPurpose "Save as a new PDF." ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step7_p1 ;
+    :hasParameterBinding wf:pdfcraft_stamp_and_brand_step7_p2 .
+
+wf:pdfcraft_stamp_and_brand_step7_p1 a :ToolParameterBinding ;
+    :parameterName "doc" ;
+    :parameterValue "\"${doc}\"" .
+
+wf:pdfcraft_stamp_and_brand_step7_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.pdf\"" .
+
+wf:skill_pdfcraft_stamp_and_brand a :CraftSkill ;
+    rdfs:label "Stamp and brand a PDF" ;
+    :skillName "pdfcraft-stamp-and-brand" ;
+    :skillWalksWorkflow wf:pdfcraft_stamp_and_brand .
+
+wf:gridcraft_price_list a :CraftWorkflow ;
+    rdfs:label "Build a price list" ;
+    rdfs:comment "Build a product price list with formula columns, currency formats and a chart, and save it as XLSX and CSV." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/gridcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:gridcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:gridcraft_session ;
+    :outputFormat "xlsx" ;
+    :outputFormat "csv" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:gridcraft_price_list_contract .
+
+wf:gridcraft_price_list_contract a :ToolUseContract ;
+    rdfs:label "Build a price list contract" ;
+    :hasToolUseStep wf:gridcraft_price_list_step1 ;
+    :hasToolUseStep wf:gridcraft_price_list_step2 ;
+    :hasToolUseStep wf:gridcraft_price_list_step3 ;
+    :hasToolUseStep wf:gridcraft_price_list_step4 ;
+    :hasToolUseStep wf:gridcraft_price_list_step5 ;
+    :hasToolUseStep wf:gridcraft_price_list_step6 ;
+    :hasToolUseStep wf:gridcraft_price_list_step7 ;
+    :hasToolUseStep wf:gridcraft_price_list_step8 ;
+    :hasToolUseStep wf:gridcraft_price_list_step9 ;
+    :hasToolUseStep wf:gridcraft_price_list_step10 ;
+    :hasToolUseStep wf:gridcraft_price_list_step11 ;
+    :hasToolUseStep wf:gridcraft_price_list_step12 .
+
+wf:gridcraft_price_list_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "gridcraft_new_workbook" ;
+    :stepPurpose "New workbook." .
+
+wf:gridcraft_price_list_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "gridcraft_write_range" ;
+    :stepPurpose "Write the table from A1; strings that start with = are formulas." ;
+    :hasParameterBinding wf:gridcraft_price_list_step2_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step2_p2 .
+
+wf:gridcraft_price_list_step2_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"A1\"" .
+
+wf:gridcraft_price_list_step2_p2 a :ToolParameterBinding ;
+    :parameterName "values" ;
+    :parameterValue "[[\"SKU\", \"Product\", \"Unit Cost\", \"Markup %\", \"Price\", \"Stock\", \"Stock Value\"], [\"EL-001\", \"Ember Lamp\", 22, 0.5, \"=C2*(1+D2)\", 40, \"=E2*F2\"], [\"EL-002\", \"Ember Lamp Mini\", 14, 0.5, \"=C3*(1+D3)\", 75, \"=E3*F3\"], [\"EL-003\", \"Ember Shade\", 6, 0.8, \"=C4*(1+D4)\", 120, \"=E4*F4\"], [\"EL-004\", \"Ember Stand\", 9, 0.6, \"=C5*(1+D5)\", 60, \"=E5*F5\"], [\"\", \"Total\", \"\", \"\", \"\", \"=SUM(F2:F5)\", \"=SUM(G2:G5)\"]]" .
+
+wf:gridcraft_price_list_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "gridcraft_format_range" ;
+    :stepPurpose "Bold and shade the header row." ;
+    :hasParameterBinding wf:gridcraft_price_list_step3_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step3_p2 ;
+    :hasParameterBinding wf:gridcraft_price_list_step3_p3 .
+
+wf:gridcraft_price_list_step3_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"A1:G1\"" .
+
+wf:gridcraft_price_list_step3_p2 a :ToolParameterBinding ;
+    :parameterName "bold" ;
+    :parameterValue "true" .
+
+wf:gridcraft_price_list_step3_p3 a :ToolParameterBinding ;
+    :parameterName "fillColor" ;
+    :parameterValue "\"#DDEEFF\"" .
+
+wf:gridcraft_price_list_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "gridcraft_format_range" ;
+    :stepPurpose "Currency format for unit cost." ;
+    :hasParameterBinding wf:gridcraft_price_list_step4_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step4_p2 .
+
+wf:gridcraft_price_list_step4_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"C2:C5\"" .
+
+wf:gridcraft_price_list_step4_p2 a :ToolParameterBinding ;
+    :parameterName "numberFormat" ;
+    :parameterValue "\"Currency\"" .
+
+wf:gridcraft_price_list_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "gridcraft_format_range" ;
+    :stepPurpose "Currency format for price." ;
+    :hasParameterBinding wf:gridcraft_price_list_step5_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step5_p2 .
+
+wf:gridcraft_price_list_step5_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"E2:E5\"" .
+
+wf:gridcraft_price_list_step5_p2 a :ToolParameterBinding ;
+    :parameterName "numberFormat" ;
+    :parameterValue "\"Currency\"" .
+
+wf:gridcraft_price_list_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "gridcraft_format_range" ;
+    :stepPurpose "Currency format for stock value and total." ;
+    :hasParameterBinding wf:gridcraft_price_list_step6_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step6_p2 .
+
+wf:gridcraft_price_list_step6_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"G2:G6\"" .
+
+wf:gridcraft_price_list_step6_p2 a :ToolParameterBinding ;
+    :parameterName "numberFormat" ;
+    :parameterValue "\"Currency\"" .
+
+wf:gridcraft_price_list_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "gridcraft_format_range" ;
+    :stepPurpose "Percent format for markup." ;
+    :hasParameterBinding wf:gridcraft_price_list_step7_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step7_p2 .
+
+wf:gridcraft_price_list_step7_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"D2:D5\"" .
+
+wf:gridcraft_price_list_step7_p2 a :ToolParameterBinding ;
+    :parameterName "numberFormat" ;
+    :parameterValue "\"0%\"" .
+
+wf:gridcraft_price_list_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "gridcraft_insert_chart" ;
+    :stepPurpose "Insert a column chart (a range list like B1:B5,E1:E5 picks non-adjacent columns; at is the anchor cell)." ;
+    :hasParameterBinding wf:gridcraft_price_list_step8_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step8_p2 ;
+    :hasParameterBinding wf:gridcraft_price_list_step8_p3 ;
+    :hasParameterBinding wf:gridcraft_price_list_step8_p4 .
+
+wf:gridcraft_price_list_step8_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"B1:B5,E1:E5\"" .
+
+wf:gridcraft_price_list_step8_p2 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"column\"" .
+
+wf:gridcraft_price_list_step8_p3 a :ToolParameterBinding ;
+    :parameterName "title" ;
+    :parameterValue "\"Retail price by product\"" .
+
+wf:gridcraft_price_list_step8_p4 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "\"I2\"" .
+
+wf:gridcraft_price_list_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "gridcraft_read_range" ;
+    :stepPurpose "Read back the formulas." ;
+    :hasParameterBinding wf:gridcraft_price_list_step9_p1 ;
+    :hasParameterBinding wf:gridcraft_price_list_step9_p2 .
+
+wf:gridcraft_price_list_step9_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"A1:G6\"" .
+
+wf:gridcraft_price_list_step9_p2 a :ToolParameterBinding ;
+    :parameterName "formulas" ;
+    :parameterValue "true" .
+
+wf:gridcraft_price_list_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "gridcraft_read_range" ;
+    :stepPurpose "Read back the values." ;
+    :hasParameterBinding wf:gridcraft_price_list_step10_p1 .
+
+wf:gridcraft_price_list_step10_p1 a :ToolParameterBinding ;
+    :parameterName "range" ;
+    :parameterValue "\"A1:G6\"" .
+
+wf:gridcraft_price_list_step11 a :ToolUseStep ;
+    :stepOrder 11 ;
+    :stepToolName "gridcraft_save_workbook" ;
+    :stepPurpose "Save as XLSX (formulas and chart kept)." ;
+    :hasParameterBinding wf:gridcraft_price_list_step11_p1 .
+
+wf:gridcraft_price_list_step11_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.xlsx\"" .
+
+wf:gridcraft_price_list_step12 a :ToolUseStep ;
+    :stepOrder 12 ;
+    :stepToolName "gridcraft_save_workbook" ;
+    :stepPurpose "Save as CSV (the shown values)." ;
+    :hasParameterBinding wf:gridcraft_price_list_step12_p1 .
+
+wf:gridcraft_price_list_step12_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.csv\"" .
+
+wf:skill_gridcraft_price_list a :CraftSkill ;
+    rdfs:label "Build a price list" ;
+    :skillName "gridcraft-price-list" ;
+    :skillWalksWorkflow wf:gridcraft_price_list .
+
+wf:lightcraft_develop_product_photo a :CraftWorkflow ;
+    rdfs:label "Develop a product photo" ;
+    rdfs:comment "Import a photo into the library, develop it (exposure, contrast, shadows, vibrance, white balance), crop it and export a JPEG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/lightcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:lightcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:lightcraft_session ;
+    :outputFormat "jpg" ;
+    :producesAssetType :ProductPhoto ;
+    :hasToolUseContract wf:lightcraft_develop_product_photo_contract .
+
+wf:lightcraft_develop_product_photo_contract a :ToolUseContract ;
+    rdfs:label "Develop a product photo contract" ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step1 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step2 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step3 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step4 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step5 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step6 ;
+    :hasToolUseStep wf:lightcraft_develop_product_photo_step7 .
+
+wf:lightcraft_develop_product_photo_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "lightcraft_import" ;
+    :stepPurpose "Import the photo; a photo already in the library is reported as a duplicate instead." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step1_p1 .
+
+wf:lightcraft_develop_product_photo_step1_p1 a :ToolParameterBinding ;
+    :parameterName "paths" ;
+    :parameterValue "[\"${photo}\"]" .
+
+wf:lightcraft_develop_product_photo_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "lightcraft_query_photos" ;
+    :stepPurpose "Find the photo's id (newest first)." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step2_p1 .
+
+wf:lightcraft_develop_product_photo_step2_p1 a :ToolParameterBinding ;
+    :parameterName "limit" ;
+    :parameterValue "1" .
+
+wf:lightcraft_develop_product_photo_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "lightcraft_select_photos" ;
+    :stepPurpose "Select it and make it active." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step3_p1 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step3_p2 .
+
+wf:lightcraft_develop_product_photo_step3_p1 a :ToolParameterBinding ;
+    :parameterName "ids" ;
+    :parameterValue "[\"${pid}\"]" .
+
+wf:lightcraft_develop_product_photo_step3_p2 a :ToolParameterBinding ;
+    :parameterName "active" ;
+    :parameterValue "\"${pid}\"" .
+
+wf:lightcraft_develop_product_photo_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "lightcraft_set_develop" ;
+    :stepPurpose "Set the develop values (exposure in EV, contrast, shadows, vibrance)." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step4_p1 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step4_p2 .
+
+wf:lightcraft_develop_product_photo_step4_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${pid}\"" .
+
+wf:lightcraft_develop_product_photo_step4_p2 a :ToolParameterBinding ;
+    :parameterName "values" ;
+    :parameterValue "{\"light.exposure\": 0.5, \"light.contrast\": 15, \"light.shadows\": 20, \"color.vibrance\": 20}" .
+
+wf:lightcraft_develop_product_photo_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "lightcraft_cmd_develop_wb" ;
+    :stepPurpose "Set a custom white balance (temperature in K, tint)." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step5_p1 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step5_p2 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step5_p3 .
+
+wf:lightcraft_develop_product_photo_step5_p1 a :ToolParameterBinding ;
+    :parameterName "mode" ;
+    :parameterValue "\"custom\"" .
+
+wf:lightcraft_develop_product_photo_step5_p2 a :ToolParameterBinding ;
+    :parameterName "temp" ;
+    :parameterValue "5800" .
+
+wf:lightcraft_develop_product_photo_step5_p3 a :ToolParameterBinding ;
+    :parameterName "tint" ;
+    :parameterValue "5" .
+
+wf:lightcraft_develop_product_photo_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "lightcraft_crop" ;
+    :stepPurpose "Crop with a normalised rect [left, top, right, bottom] in 0..1." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step6_p1 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step6_p2 .
+
+wf:lightcraft_develop_product_photo_step6_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${pid}\"" .
+
+wf:lightcraft_develop_product_photo_step6_p2 a :ToolParameterBinding ;
+    :parameterName "rect" ;
+    :parameterValue "[0.1, 0.1, 0.9, 0.9]" .
+
+wf:lightcraft_develop_product_photo_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "lightcraft_export" ;
+    :stepPurpose "Export a JPEG." ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step7_p1 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step7_p2 ;
+    :hasParameterBinding wf:lightcraft_develop_product_photo_step7_p3 .
+
+wf:lightcraft_develop_product_photo_step7_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${pid}\"" .
+
+wf:lightcraft_develop_product_photo_step7_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.jpg\"" .
+
+wf:lightcraft_develop_product_photo_step7_p3 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"jpeg\"" .
+
+wf:skill_lightcraft_develop_product_photo a :CraftSkill ;
+    rdfs:label "Develop a product photo" ;
+    :skillName "lightcraft-develop-product-photo" ;
+    :skillWalksWorkflow wf:lightcraft_develop_product_photo .
+
+wf:vectorcraft_logo_banner a :CraftWorkflow ;
+    rdfs:label "Make a logo banner" ;
+    rdfs:comment "Draw a brand banner with a simple logo mark, the brand name and a tagline, and export it as SVG and PNG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/vectorcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:vectorcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:vectorcraft_session ;
+    :outputFormat "svg" ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:vectorcraft_logo_banner_contract .
+
+wf:vectorcraft_logo_banner_contract a :ToolUseContract ;
+    rdfs:label "Make a logo banner contract" ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step1 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step2 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step3 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step4 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step5 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step6 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step7 ;
+    :hasToolUseStep wf:vectorcraft_logo_banner_step8 .
+
+wf:vectorcraft_logo_banner_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "vectorcraft_cmd_file_new" ;
+    :stepPurpose "New document in pixels (1200 x 400)." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step1_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step1_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step1_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step1_p4 .
+
+wf:vectorcraft_logo_banner_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:vectorcraft_logo_banner_step1_p2 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1200" .
+
+wf:vectorcraft_logo_banner_step1_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "400" .
+
+wf:vectorcraft_logo_banner_step1_p4 a :ToolParameterBinding ;
+    :parameterName "units" ;
+    :parameterValue "\"Pixels\"" .
+
+wf:vectorcraft_logo_banner_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "vectorcraft_draw_shape" ;
+    :stepPurpose "Background rectangle in the brand colour." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p4 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p5 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p6 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p7 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step2_p8 .
+
+wf:vectorcraft_logo_banner_step2_p1 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"rectangle\"" .
+
+wf:vectorcraft_logo_banner_step2_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "0" .
+
+wf:vectorcraft_logo_banner_step2_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "0" .
+
+wf:vectorcraft_logo_banner_step2_p4 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1200" .
+
+wf:vectorcraft_logo_banner_step2_p5 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "400" .
+
+wf:vectorcraft_logo_banner_step2_p6 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"${brand_color}\"" .
+
+wf:vectorcraft_logo_banner_step2_p7 a :ToolParameterBinding ;
+    :parameterName "stroke" ;
+    :parameterValue "\"none\"" .
+
+wf:vectorcraft_logo_banner_step2_p8 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"background\"" .
+
+wf:vectorcraft_logo_banner_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "vectorcraft_draw_shape" ;
+    :stepPurpose "Logo mark: a filled circle." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p4 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p5 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p6 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p7 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step3_p8 .
+
+wf:vectorcraft_logo_banner_step3_p1 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"ellipse\"" .
+
+wf:vectorcraft_logo_banner_step3_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:vectorcraft_logo_banner_step3_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "90" .
+
+wf:vectorcraft_logo_banner_step3_p4 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "220" .
+
+wf:vectorcraft_logo_banner_step3_p5 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "220" .
+
+wf:vectorcraft_logo_banner_step3_p6 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#ff7a2f\"" .
+
+wf:vectorcraft_logo_banner_step3_p7 a :ToolParameterBinding ;
+    :parameterName "stroke" ;
+    :parameterValue "\"none\"" .
+
+wf:vectorcraft_logo_banner_step3_p8 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"logo-flame\"" .
+
+wf:vectorcraft_logo_banner_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "vectorcraft_draw_shape" ;
+    :stepPurpose "Logo mark: a star over it (points, inner and outer radius)." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p4 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p5 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p6 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p7 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p8 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step4_p9 .
+
+wf:vectorcraft_logo_banner_step4_p1 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"star\"" .
+
+wf:vectorcraft_logo_banner_step4_p2 a :ToolParameterBinding ;
+    :parameterName "cx" ;
+    :parameterValue "170" .
+
+wf:vectorcraft_logo_banner_step4_p3 a :ToolParameterBinding ;
+    :parameterName "cy" ;
+    :parameterValue "200" .
+
+wf:vectorcraft_logo_banner_step4_p4 a :ToolParameterBinding ;
+    :parameterName "radius1" ;
+    :parameterValue "70" .
+
+wf:vectorcraft_logo_banner_step4_p5 a :ToolParameterBinding ;
+    :parameterName "radius2" ;
+    :parameterValue "30" .
+
+wf:vectorcraft_logo_banner_step4_p6 a :ToolParameterBinding ;
+    :parameterName "points" ;
+    :parameterValue "5" .
+
+wf:vectorcraft_logo_banner_step4_p7 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#ffe9b8\"" .
+
+wf:vectorcraft_logo_banner_step4_p8 a :ToolParameterBinding ;
+    :parameterName "stroke" ;
+    :parameterValue "\"none\"" .
+
+wf:vectorcraft_logo_banner_step4_p9 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"logo-star\"" .
+
+wf:vectorcraft_logo_banner_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "vectorcraft_add_text" ;
+    :stepPurpose "Brand name as live text (x, y is the baseline start; size in px)." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p4 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p5 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step5_p6 .
+
+wf:vectorcraft_logo_banner_step5_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${brand}\"" .
+
+wf:vectorcraft_logo_banner_step5_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "330" .
+
+wf:vectorcraft_logo_banner_step5_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "210" .
+
+wf:vectorcraft_logo_banner_step5_p4 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "96" .
+
+wf:vectorcraft_logo_banner_step5_p5 a :ToolParameterBinding ;
+    :parameterName "font" ;
+    :parameterValue "\"DejaVu Sans\"" .
+
+wf:vectorcraft_logo_banner_step5_p6 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#ffb347\"" .
+
+wf:vectorcraft_logo_banner_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "vectorcraft_add_text" ;
+    :stepPurpose "Tagline as live text." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p2 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p3 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p4 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p5 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step6_p6 .
+
+wf:vectorcraft_logo_banner_step6_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${tagline}\"" .
+
+wf:vectorcraft_logo_banner_step6_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "334" .
+
+wf:vectorcraft_logo_banner_step6_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "290" .
+
+wf:vectorcraft_logo_banner_step6_p4 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "34" .
+
+wf:vectorcraft_logo_banner_step6_p5 a :ToolParameterBinding ;
+    :parameterName "font" ;
+    :parameterValue "\"DejaVu Sans\"" .
+
+wf:vectorcraft_logo_banner_step6_p6 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#ffffff\"" .
+
+wf:vectorcraft_logo_banner_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "vectorcraft_export" ;
+    :stepPurpose "Export SVG (the extension picks the format)." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step7_p1 .
+
+wf:vectorcraft_logo_banner_step7_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.svg\"" .
+
+wf:vectorcraft_logo_banner_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "vectorcraft_export" ;
+    :stepPurpose "Export PNG at scale 2 (2400 x 800)." ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step8_p1 ;
+    :hasParameterBinding wf:vectorcraft_logo_banner_step8_p2 .
+
+wf:vectorcraft_logo_banner_step8_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.png\"" .
+
+wf:vectorcraft_logo_banner_step8_p2 a :ToolParameterBinding ;
+    :parameterName "scale" ;
+    :parameterValue "2" .
+
+wf:skill_vectorcraft_logo_banner a :CraftSkill ;
+    rdfs:label "Make a logo banner" ;
+    :skillName "vectorcraft-logo-banner" ;
+    :skillWalksWorkflow wf:vectorcraft_logo_banner .
+
+wf:figcraft_ad_banner a :CraftWorkflow ;
+    rdfs:label "Design an ad banner" ;
+    rdfs:comment "Build a 1200 x 628 ad banner frame with the product photo, headline, subhead and a call-to-action button, and export it as PNG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/figcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:figcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:figcraft_session ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:figcraft_ad_banner_contract .
+
+wf:figcraft_ad_banner_contract a :ToolUseContract ;
+    rdfs:label "Design an ad banner contract" ;
+    :hasToolUseStep wf:figcraft_ad_banner_step1 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step2 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step3 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step4 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step5 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step6 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step7 ;
+    :hasToolUseStep wf:figcraft_ad_banner_step8 .
+
+wf:figcraft_ad_banner_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "figcraft_cmd_file_new" ;
+    :stepPurpose "New file." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step1_p1 .
+
+wf:figcraft_ad_banner_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:figcraft_ad_banner_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "figcraft_create_node" ;
+    :stepPurpose "Create the 1200 x 628 frame filled with the brand colour; the answer gives its id." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step2_p7 .
+
+wf:figcraft_ad_banner_step2_p1 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"frame\"" .
+
+wf:figcraft_ad_banner_step2_p2 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"Ad 1200x628\"" .
+
+wf:figcraft_ad_banner_step2_p3 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "0" .
+
+wf:figcraft_ad_banner_step2_p4 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "0" .
+
+wf:figcraft_ad_banner_step2_p5 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1200" .
+
+wf:figcraft_ad_banner_step2_p6 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "628" .
+
+wf:figcraft_ad_banner_step2_p7 a :ToolParameterBinding ;
+    :parameterName "props" ;
+    :parameterValue "{\"fill\": \"#1d1b3a\", \"clip\": true}" .
+
+wf:figcraft_ad_banner_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "figcraft_cmd_image_place" ;
+    :stepPurpose "Place the product photo inside the frame." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step3_p7 .
+
+wf:figcraft_ad_banner_step3_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${photo}\"" .
+
+wf:figcraft_ad_banner_step3_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "700" .
+
+wf:figcraft_ad_banner_step3_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "90" .
+
+wf:figcraft_ad_banner_step3_p4 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "440" .
+
+wf:figcraft_ad_banner_step3_p5 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "330" .
+
+wf:figcraft_ad_banner_step3_p6 a :ToolParameterBinding ;
+    :parameterName "parent" ;
+    :parameterValue "\"${fr}\"" .
+
+wf:figcraft_ad_banner_step3_p7 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"Product\"" .
+
+wf:figcraft_ad_banner_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "figcraft_create_node" ;
+    :stepPurpose "Headline text node (fontSize, fill)." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p7 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step4_p8 .
+
+wf:figcraft_ad_banner_step4_p1 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"text\"" .
+
+wf:figcraft_ad_banner_step4_p2 a :ToolParameterBinding ;
+    :parameterName "parent" ;
+    :parameterValue "\"${fr}\"" .
+
+wf:figcraft_ad_banner_step4_p3 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:figcraft_ad_banner_step4_p4 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "150" .
+
+wf:figcraft_ad_banner_step4_p5 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "600" .
+
+wf:figcraft_ad_banner_step4_p6 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${headline}\"" .
+
+wf:figcraft_ad_banner_step4_p7 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"Headline\"" .
+
+wf:figcraft_ad_banner_step4_p8 a :ToolParameterBinding ;
+    :parameterName "props" ;
+    :parameterValue "{\"fontSize\": 88, \"fill\": \"#ffb347\"}" .
+
+wf:figcraft_ad_banner_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "figcraft_create_node" ;
+    :stepPurpose "Subhead text node." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p7 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step5_p8 .
+
+wf:figcraft_ad_banner_step5_p1 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"text\"" .
+
+wf:figcraft_ad_banner_step5_p2 a :ToolParameterBinding ;
+    :parameterName "parent" ;
+    :parameterValue "\"${fr}\"" .
+
+wf:figcraft_ad_banner_step5_p3 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:figcraft_ad_banner_step5_p4 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "290" .
+
+wf:figcraft_ad_banner_step5_p5 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "600" .
+
+wf:figcraft_ad_banner_step5_p6 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${subhead}\"" .
+
+wf:figcraft_ad_banner_step5_p7 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"Subhead\"" .
+
+wf:figcraft_ad_banner_step5_p8 a :ToolParameterBinding ;
+    :parameterName "props" ;
+    :parameterValue "{\"fontSize\": 34, \"fill\": \"#ffffff\"}" .
+
+wf:figcraft_ad_banner_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "figcraft_create_node" ;
+    :stepPurpose "CTA button: a rounded rectangle." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p7 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step6_p8 .
+
+wf:figcraft_ad_banner_step6_p1 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"rectangle\"" .
+
+wf:figcraft_ad_banner_step6_p2 a :ToolParameterBinding ;
+    :parameterName "parent" ;
+    :parameterValue "\"${fr}\"" .
+
+wf:figcraft_ad_banner_step6_p3 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:figcraft_ad_banner_step6_p4 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "440" .
+
+wf:figcraft_ad_banner_step6_p5 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "280" .
+
+wf:figcraft_ad_banner_step6_p6 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "76" .
+
+wf:figcraft_ad_banner_step6_p7 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"CTA\"" .
+
+wf:figcraft_ad_banner_step6_p8 a :ToolParameterBinding ;
+    :parameterName "props" ;
+    :parameterValue "{\"fill\": \"#ff7a2f\", \"cornerRadius\": 38}" .
+
+wf:figcraft_ad_banner_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "figcraft_create_node" ;
+    :stepPurpose "CTA label text." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p3 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p4 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p5 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p6 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step7_p7 .
+
+wf:figcraft_ad_banner_step7_p1 a :ToolParameterBinding ;
+    :parameterName "type" ;
+    :parameterValue "\"text\"" .
+
+wf:figcraft_ad_banner_step7_p2 a :ToolParameterBinding ;
+    :parameterName "parent" ;
+    :parameterValue "\"${fr}\"" .
+
+wf:figcraft_ad_banner_step7_p3 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "100" .
+
+wf:figcraft_ad_banner_step7_p4 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "458" .
+
+wf:figcraft_ad_banner_step7_p5 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${cta}\"" .
+
+wf:figcraft_ad_banner_step7_p6 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"CTA label\"" .
+
+wf:figcraft_ad_banner_step7_p7 a :ToolParameterBinding ;
+    :parameterName "props" ;
+    :parameterValue "{\"fontSize\": 34, \"fill\": \"#1d1b3a\"}" .
+
+wf:figcraft_ad_banner_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "figcraft_export" ;
+    :stepPurpose "Export the frame as PNG at scale 1." ;
+    :hasParameterBinding wf:figcraft_ad_banner_step8_p1 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step8_p2 ;
+    :hasParameterBinding wf:figcraft_ad_banner_step8_p3 .
+
+wf:figcraft_ad_banner_step8_p1 a :ToolParameterBinding ;
+    :parameterName "ids" ;
+    :parameterValue "[\"${fr}\"]" .
+
+wf:figcraft_ad_banner_step8_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.png\"" .
+
+wf:figcraft_ad_banner_step8_p3 a :ToolParameterBinding ;
+    :parameterName "scale" ;
+    :parameterValue "1" .
+
+wf:skill_figcraft_ad_banner a :CraftSkill ;
+    rdfs:label "Design an ad banner" ;
+    :skillName "figcraft-ad-banner" ;
+    :skillWalksWorkflow wf:figcraft_ad_banner .
+
+wf:effectcraft_title_card a :CraftWorkflow ;
+    rdfs:label "Animate a title card" ;
+    rdfs:comment "Build a 5 s animated title card (title slides and fades in, subtitle fades in) and render it to MP4, with stills and a Lottie file." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/effectcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:effectcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:effectcraft_session ;
+    :outputFormat "mp4" ;
+    :outputFormat "png" ;
+    :outputFormat "json" ;
+    :producesAssetType :PromoVideo ;
+    :hasToolUseContract wf:effectcraft_title_card_contract .
+
+wf:effectcraft_title_card_contract a :ToolUseContract ;
+    rdfs:label "Animate a title card contract" ;
+    :hasToolUseStep wf:effectcraft_title_card_step1 ;
+    :hasToolUseStep wf:effectcraft_title_card_step2 ;
+    :hasToolUseStep wf:effectcraft_title_card_step3 ;
+    :hasToolUseStep wf:effectcraft_title_card_step4 ;
+    :hasToolUseStep wf:effectcraft_title_card_step5 ;
+    :hasToolUseStep wf:effectcraft_title_card_step6 ;
+    :hasToolUseStep wf:effectcraft_title_card_step7 ;
+    :hasToolUseStep wf:effectcraft_title_card_step8 ;
+    :hasToolUseStep wf:effectcraft_title_card_step9 ;
+    :hasToolUseStep wf:effectcraft_title_card_step10 ;
+    :hasToolUseStep wf:effectcraft_title_card_step11 ;
+    :hasToolUseStep wf:effectcraft_title_card_step12 ;
+    :hasToolUseStep wf:effectcraft_title_card_step13 .
+
+wf:effectcraft_title_card_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "effectcraft_cmd_file_newProject" ;
+    :stepPurpose "New project." .
+
+wf:effectcraft_title_card_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "effectcraft_cmd_comp_new" ;
+    :stepPurpose "New composition: size, frame rate, duration in seconds, background colour." ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p4 ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p5 ;
+    :hasParameterBinding wf:effectcraft_title_card_step2_p6 .
+
+wf:effectcraft_title_card_step2_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:effectcraft_title_card_step2_p2 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1280" .
+
+wf:effectcraft_title_card_step2_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "720" .
+
+wf:effectcraft_title_card_step2_p4 a :ToolParameterBinding ;
+    :parameterName "frameRate" ;
+    :parameterValue "24" .
+
+wf:effectcraft_title_card_step2_p5 a :ToolParameterBinding ;
+    :parameterName "duration" ;
+    :parameterValue "5" .
+
+wf:effectcraft_title_card_step2_p6 a :ToolParameterBinding ;
+    :parameterName "background" ;
+    :parameterValue "\"#1d1b3a\"" .
+
+wf:effectcraft_title_card_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "effectcraft_cmd_layer_newSolid" ;
+    :stepPurpose "A backdrop solid." ;
+    :hasParameterBinding wf:effectcraft_title_card_step3_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step3_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step3_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step3_p4 .
+
+wf:effectcraft_title_card_step3_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"Backdrop\"" .
+
+wf:effectcraft_title_card_step3_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#2a2760\"" .
+
+wf:effectcraft_title_card_step3_p3 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1280" .
+
+wf:effectcraft_title_card_step3_p4 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "720" .
+
+wf:effectcraft_title_card_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "effectcraft_cmd_layer_newText" ;
+    :stepPurpose "The title text layer (position in px, size, fill)." ;
+    :hasParameterBinding wf:effectcraft_title_card_step4_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step4_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step4_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step4_p4 ;
+    :hasParameterBinding wf:effectcraft_title_card_step4_p5 .
+
+wf:effectcraft_title_card_step4_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${title}\"" .
+
+wf:effectcraft_title_card_step4_p2 a :ToolParameterBinding ;
+    :parameterName "position" ;
+    :parameterValue "[640, 330]" .
+
+wf:effectcraft_title_card_step4_p3 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "120" .
+
+wf:effectcraft_title_card_step4_p4 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#ffb347\"" .
+
+wf:effectcraft_title_card_step4_p5 a :ToolParameterBinding ;
+    :parameterName "justify" ;
+    :parameterValue "\"center\"" .
+
+wf:effectcraft_title_card_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "effectcraft_cmd_layer_newText" ;
+    :stepPurpose "The subtitle text layer." ;
+    :hasParameterBinding wf:effectcraft_title_card_step5_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step5_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step5_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step5_p4 ;
+    :hasParameterBinding wf:effectcraft_title_card_step5_p5 .
+
+wf:effectcraft_title_card_step5_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${subtitle}\"" .
+
+wf:effectcraft_title_card_step5_p2 a :ToolParameterBinding ;
+    :parameterName "position" ;
+    :parameterValue "[640, 440]" .
+
+wf:effectcraft_title_card_step5_p3 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "44" .
+
+wf:effectcraft_title_card_step5_p4 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#ffffff\"" .
+
+wf:effectcraft_title_card_step5_p5 a :ToolParameterBinding ;
+    :parameterName "justify" ;
+    :parameterValue "\"center\"" .
+
+wf:effectcraft_title_card_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "effectcraft_add_keyframe" ;
+    :stepPurpose "Fade the title in: opacity keys (0 to 100 over 1 s)." ;
+    :hasParameterBinding wf:effectcraft_title_card_step6_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step6_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step6_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step6_p4 .
+
+wf:effectcraft_title_card_step6_p1 a :ToolParameterBinding ;
+    :parameterName "layer" ;
+    :parameterValue "\"#2\"" .
+
+wf:effectcraft_title_card_step6_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"transform/opacity\"" .
+
+wf:effectcraft_title_card_step6_p3 a :ToolParameterBinding ;
+    :parameterName "keys" ;
+    :parameterValue "[{\"time\": 0, \"value\": 0}, {\"time\": 1, \"value\": 100}]" .
+
+wf:effectcraft_title_card_step6_p4 a :ToolParameterBinding ;
+    :parameterName "interpolation" ;
+    :parameterValue "\"easyEase\"" .
+
+wf:effectcraft_title_card_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "effectcraft_add_keyframe" ;
+    :stepPurpose "Slide the title in: position keys." ;
+    :hasParameterBinding wf:effectcraft_title_card_step7_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step7_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step7_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step7_p4 .
+
+wf:effectcraft_title_card_step7_p1 a :ToolParameterBinding ;
+    :parameterName "layer" ;
+    :parameterValue "\"#2\"" .
+
+wf:effectcraft_title_card_step7_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"transform/position\"" .
+
+wf:effectcraft_title_card_step7_p3 a :ToolParameterBinding ;
+    :parameterName "keys" ;
+    :parameterValue "[{\"time\": 0, \"value\": [440, 330]}, {\"time\": 1.2, \"value\": [640, 330]}]" .
+
+wf:effectcraft_title_card_step7_p4 a :ToolParameterBinding ;
+    :parameterName "interpolation" ;
+    :parameterValue "\"easyEase\"" .
+
+wf:effectcraft_title_card_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "effectcraft_add_keyframe" ;
+    :stepPurpose "Fade the subtitle in after the title." ;
+    :hasParameterBinding wf:effectcraft_title_card_step8_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step8_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step8_p3 ;
+    :hasParameterBinding wf:effectcraft_title_card_step8_p4 .
+
+wf:effectcraft_title_card_step8_p1 a :ToolParameterBinding ;
+    :parameterName "layer" ;
+    :parameterValue "\"#1\"" .
+
+wf:effectcraft_title_card_step8_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"transform/opacity\"" .
+
+wf:effectcraft_title_card_step8_p3 a :ToolParameterBinding ;
+    :parameterName "keys" ;
+    :parameterValue "[{\"time\": 0.8, \"value\": 0}, {\"time\": 1.8, \"value\": 100}]" .
+
+wf:effectcraft_title_card_step8_p4 a :ToolParameterBinding ;
+    :parameterName "interpolation" ;
+    :parameterValue "\"easyEase\"" .
+
+wf:effectcraft_title_card_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "effectcraft_cmd_renderQueue_add" ;
+    :stepPurpose "Queue the render: format and relative output file." ;
+    :hasParameterBinding wf:effectcraft_title_card_step9_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step9_p2 ;
+    :hasParameterBinding wf:effectcraft_title_card_step9_p3 .
+
+wf:effectcraft_title_card_step9_p1 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"h264\"" .
+
+wf:effectcraft_title_card_step9_p2 a :ToolParameterBinding ;
+    :parameterName "output" ;
+    :parameterValue "\"title-card.mp4\"" .
+
+wf:effectcraft_title_card_step9_p3 a :ToolParameterBinding ;
+    :parameterName "_meta.scion/run" ;
+    :parameterValue "\"${run}\"" .
+
+wf:effectcraft_title_card_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "effectcraft_cmd_renderQueue_render" ;
+    :stepPurpose "Render the queue and wait. The output is written during this call, so steps 9 and 10 share one exchange run." ;
+    :hasParameterBinding wf:effectcraft_title_card_step10_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step10_p2 .
+
+wf:effectcraft_title_card_step10_p1 a :ToolParameterBinding ;
+    :parameterName "wait" ;
+    :parameterValue "true" .
+
+wf:effectcraft_title_card_step10_p2 a :ToolParameterBinding ;
+    :parameterName "_meta.scion/run" ;
+    :parameterValue "\"${run}\"" .
+
+wf:effectcraft_title_card_step11 a :ToolUseStep ;
+    :stepOrder 11 ;
+    :stepToolName "effectcraft_cmd_comp_saveFrameAs" ;
+    :stepPurpose "Save a still early in the animation." ;
+    :hasParameterBinding wf:effectcraft_title_card_step11_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step11_p2 .
+
+wf:effectcraft_title_card_step11_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"title-t0.3.png\"" .
+
+wf:effectcraft_title_card_step11_p2 a :ToolParameterBinding ;
+    :parameterName "time" ;
+    :parameterValue "0.3" .
+
+wf:effectcraft_title_card_step12 a :ToolUseStep ;
+    :stepOrder 12 ;
+    :stepToolName "effectcraft_cmd_comp_saveFrameAs" ;
+    :stepPurpose "Save a still once everything is in." ;
+    :hasParameterBinding wf:effectcraft_title_card_step12_p1 ;
+    :hasParameterBinding wf:effectcraft_title_card_step12_p2 .
+
+wf:effectcraft_title_card_step12_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"title-t2.5.png\"" .
+
+wf:effectcraft_title_card_step12_p2 a :ToolParameterBinding ;
+    :parameterName "time" ;
+    :parameterValue "2.5" .
+
+wf:effectcraft_title_card_step13 a :ToolUseStep ;
+    :stepOrder 13 ;
+    :stepToolName "effectcraft_cmd_file_exportLottie" ;
+    :stepPurpose "Export the animation as Lottie JSON." ;
+    :hasParameterBinding wf:effectcraft_title_card_step13_p1 .
+
+wf:effectcraft_title_card_step13_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"title-card.json\"" .
+
+wf:skill_effectcraft_title_card a :CraftSkill ;
+    rdfs:label "Animate a title card" ;
+    :skillName "effectcraft-title-card" ;
+    :skillWalksWorkflow wf:effectcraft_title_card .
+
+wf:soundcraft_promo_audio_bed a :CraftWorkflow ;
+    rdfs:label "Make a promo audio bed" ;
+    rdfs:comment "Import audio (or a clip's soundtrack), raise its gain, fade it in and out, and bounce the mix to WAV." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/soundcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:soundcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:soundcraft_session ;
+    :outputFormat "wav" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:soundcraft_promo_audio_bed_contract .
+
+wf:soundcraft_promo_audio_bed_contract a :ToolUseContract ;
+    rdfs:label "Make a promo audio bed contract" ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step1 ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step2 ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step3 ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step4 ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step5 ;
+    :hasToolUseStep wf:soundcraft_promo_audio_bed_step6 .
+
+wf:soundcraft_promo_audio_bed_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "soundcraft_new_session" ;
+    :stepPurpose "New session." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step1_p1 .
+
+wf:soundcraft_promo_audio_bed_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:soundcraft_promo_audio_bed_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "soundcraft_import_audio" ;
+    :stepPurpose "Import the audio (a video file's soundtrack works); the answer gives the clip id." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step2_p1 .
+
+wf:soundcraft_promo_audio_bed_step2_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${clip}\"" .
+
+wf:soundcraft_promo_audio_bed_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "soundcraft_cmd_clip_gain" ;
+    :stepPurpose "Raise the clip gain (dB)." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step3_p1 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step3_p2 .
+
+wf:soundcraft_promo_audio_bed_step3_p1 a :ToolParameterBinding ;
+    :parameterName "clips" ;
+    :parameterValue "[\"${c}\"]" .
+
+wf:soundcraft_promo_audio_bed_step3_p2 a :ToolParameterBinding ;
+    :parameterName "db" ;
+    :parameterValue "6" .
+
+wf:soundcraft_promo_audio_bed_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "soundcraft_cmd_edit_fades_create" ;
+    :stepPurpose "Fade in (length in samples; 48000 = 1 s at 48 kHz)." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step4_p1 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step4_p2 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step4_p3 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step4_p4 .
+
+wf:soundcraft_promo_audio_bed_step4_p1 a :ToolParameterBinding ;
+    :parameterName "clip" ;
+    :parameterValue "\"${c}\"" .
+
+wf:soundcraft_promo_audio_bed_step4_p2 a :ToolParameterBinding ;
+    :parameterName "side" ;
+    :parameterValue "\"in\"" .
+
+wf:soundcraft_promo_audio_bed_step4_p3 a :ToolParameterBinding ;
+    :parameterName "length" ;
+    :parameterValue "48000" .
+
+wf:soundcraft_promo_audio_bed_step4_p4 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"equal power\"" .
+
+wf:soundcraft_promo_audio_bed_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "soundcraft_cmd_edit_fades_create" ;
+    :stepPurpose "Fade out (here 2 s)." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step5_p1 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step5_p2 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step5_p3 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step5_p4 .
+
+wf:soundcraft_promo_audio_bed_step5_p1 a :ToolParameterBinding ;
+    :parameterName "clip" ;
+    :parameterValue "\"${c}\"" .
+
+wf:soundcraft_promo_audio_bed_step5_p2 a :ToolParameterBinding ;
+    :parameterName "side" ;
+    :parameterValue "\"out\"" .
+
+wf:soundcraft_promo_audio_bed_step5_p3 a :ToolParameterBinding ;
+    :parameterName "length" ;
+    :parameterValue "96000" .
+
+wf:soundcraft_promo_audio_bed_step5_p4 a :ToolParameterBinding ;
+    :parameterName "shape" ;
+    :parameterValue "\"s-curve\"" .
+
+wf:soundcraft_promo_audio_bed_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "soundcraft_bounce_mix" ;
+    :stepPurpose "Bounce the mix to WAV; the answer gives seconds, peak and loudness." ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step6_p1 ;
+    :hasParameterBinding wf:soundcraft_promo_audio_bed_step6_p2 .
+
+wf:soundcraft_promo_audio_bed_step6_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"promo-bed.wav\"" .
+
+wf:soundcraft_promo_audio_bed_step6_p2 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"wav\"" .
+
+wf:skill_soundcraft_promo_audio_bed a :CraftSkill ;
+    rdfs:label "Make a promo audio bed" ;
+    :skillName "soundcraft-promo-audio-bed" ;
+    :skillWalksWorkflow wf:soundcraft_promo_audio_bed .
+
+wf:deckcraft_product_pitch a :CraftWorkflow ;
+    rdfs:label "Build a product pitch deck" ;
+    rdfs:comment "Build a two-slide product pitch with a title slide, bullet points and the product photo, and export PDF and PPTX." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/deckcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:deckcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:deckcraft_session ;
+    :outputFormat "pdf" ;
+    :outputFormat "pptx" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:deckcraft_product_pitch_contract .
+
+wf:deckcraft_product_pitch_contract a :ToolUseContract ;
+    rdfs:label "Build a product pitch deck contract" ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step1 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step2 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step3 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step4 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step5 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step6 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step7 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step8 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step9 ;
+    :hasToolUseStep wf:deckcraft_product_pitch_step10 .
+
+wf:deckcraft_product_pitch_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "deckcraft_new_presentation" ;
+    :stepPurpose "New presentation with a theme." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step1_p1 .
+
+wf:deckcraft_product_pitch_step1_p1 a :ToolParameterBinding ;
+    :parameterName "theme" ;
+    :parameterValue "\"Ember\"" .
+
+wf:deckcraft_product_pitch_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "deckcraft_inspect_slide" ;
+    :stepPurpose "Read the title slide's placeholder ids." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step2_p1 .
+
+wf:deckcraft_product_pitch_step2_p1 a :ToolParameterBinding ;
+    :parameterName "index" ;
+    :parameterValue "0" .
+
+wf:deckcraft_product_pitch_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "deckcraft_set_text" ;
+    :stepPurpose "Set the title." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step3_p1 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step3_p2 .
+
+wf:deckcraft_product_pitch_step3_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${t0}\"" .
+
+wf:deckcraft_product_pitch_step3_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${title}\"" .
+
+wf:deckcraft_product_pitch_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "deckcraft_set_text" ;
+    :stepPurpose "Set the subtitle." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step4_p1 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step4_p2 .
+
+wf:deckcraft_product_pitch_step4_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${s0}\"" .
+
+wf:deckcraft_product_pitch_step4_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${subtitle}\"" .
+
+wf:deckcraft_product_pitch_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "deckcraft_add_slide" ;
+    :stepPurpose "Add a title-only slide." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step5_p1 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step5_p2 .
+
+wf:deckcraft_product_pitch_step5_p1 a :ToolParameterBinding ;
+    :parameterName "layout" ;
+    :parameterValue "\"titleOnly\"" .
+
+wf:deckcraft_product_pitch_step5_p2 a :ToolParameterBinding ;
+    :parameterName "title" ;
+    :parameterValue "\"${slide2_title}\"" .
+
+wf:deckcraft_product_pitch_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "deckcraft_add_text_box" ;
+    :stepPurpose "Add the bullets as a text box (x, y, width in pt)." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step6_p1 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step6_p2 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step6_p3 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step6_p4 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step6_p5 .
+
+wf:deckcraft_product_pitch_step6_p1 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "60" .
+
+wf:deckcraft_product_pitch_step6_p2 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "150" .
+
+wf:deckcraft_product_pitch_step6_p3 a :ToolParameterBinding ;
+    :parameterName "w" ;
+    :parameterValue "400" .
+
+wf:deckcraft_product_pitch_step6_p4 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${bullets}\"" .
+
+wf:deckcraft_product_pitch_step6_p5 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "24" .
+
+wf:deckcraft_product_pitch_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "deckcraft_insert_picture" ;
+    :stepPurpose "Insert the product photo (x, y, w, h in pt)." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step7_p1 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step7_p2 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step7_p3 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step7_p4 ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step7_p5 .
+
+wf:deckcraft_product_pitch_step7_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${photo}\"" .
+
+wf:deckcraft_product_pitch_step7_p2 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "500" .
+
+wf:deckcraft_product_pitch_step7_p3 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "130" .
+
+wf:deckcraft_product_pitch_step7_p4 a :ToolParameterBinding ;
+    :parameterName "w" ;
+    :parameterValue "400" .
+
+wf:deckcraft_product_pitch_step7_p5 a :ToolParameterBinding ;
+    :parameterName "h" ;
+    :parameterValue "300" .
+
+wf:deckcraft_product_pitch_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "deckcraft_inspect_document" ;
+    :stepPurpose "Check the deck." .
+
+wf:deckcraft_product_pitch_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "deckcraft_export" ;
+    :stepPurpose "Export PDF." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step9_p1 .
+
+wf:deckcraft_product_pitch_step9_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.pdf\"" .
+
+wf:deckcraft_product_pitch_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "deckcraft_export" ;
+    :stepPurpose "Export PPTX." ;
+    :hasParameterBinding wf:deckcraft_product_pitch_step10_p1 .
+
+wf:deckcraft_product_pitch_step10_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.pptx\"" .
+
+wf:skill_deckcraft_product_pitch a :CraftSkill ;
+    rdfs:label "Build a product pitch deck" ;
+    :skillName "deckcraft-product-pitch" ;
+    :skillWalksWorkflow wf:deckcraft_product_pitch .
+
+wf:solidcraft_product_model a :CraftWorkflow ;
+    rdfs:label "Model a product in 3-D" ;
+    rdfs:comment "Sketch a profile and revolve it into a solid product model, check its size, and export STL, STEP, a PNG render and the design file." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/solidcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:solidcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:solidcraft_session ;
+    :outputFormat "stl" ;
+    :outputFormat "step" ;
+    :outputFormat "png" ;
+    :outputFormat "sc" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:solidcraft_product_model_contract .
+
+wf:solidcraft_product_model_contract a :ToolUseContract ;
+    rdfs:label "Model a product in 3-D contract" ;
+    :hasToolUseStep wf:solidcraft_product_model_step1 ;
+    :hasToolUseStep wf:solidcraft_product_model_step2 ;
+    :hasToolUseStep wf:solidcraft_product_model_step3 ;
+    :hasToolUseStep wf:solidcraft_product_model_step4 ;
+    :hasToolUseStep wf:solidcraft_product_model_step5 ;
+    :hasToolUseStep wf:solidcraft_product_model_step6 ;
+    :hasToolUseStep wf:solidcraft_product_model_step7 .
+
+wf:solidcraft_product_model_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "solidcraft_new_design" ;
+    :stepPurpose "New design." ;
+    :hasParameterBinding wf:solidcraft_product_model_step1_p1 .
+
+wf:solidcraft_product_model_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:solidcraft_product_model_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "solidcraft_batch" ;
+    :stepPurpose "Sketch the half profile on XZ and revolve it 360 deg around Z in one batch (with an expected bounding box check)." ;
+    :hasParameterBinding wf:solidcraft_product_model_step2_p1 ;
+    :hasParameterBinding wf:solidcraft_product_model_step2_p2 .
+
+wf:solidcraft_product_model_step2_p1 a :ToolParameterBinding ;
+    :parameterName "commands" ;
+    :parameterValue "[{\"command\": \"sketch.create\", \"params\": {\"plane\": \"XZ\"}}, {\"command\": \"sketch.line\", \"params\": {\"points\": [[60, 0], [57, 0], [37, -87], [15, -87], [15, -90], [40, -90]], \"closed\": true}}, {\"command\": \"solid.revolve\", \"params\": {\"axis\": \"Z\", \"angle\": \"360 deg\", \"body_name\": \"LampShade\"}}]" .
+
+wf:solidcraft_product_model_step2_p2 a :ToolParameterBinding ;
+    :parameterName "expect" ;
+    :parameterValue "{\"bodies\": 1, \"bbox\": {\"min\": [-60, -60, 0], \"max\": [60, 60, 90]}}" .
+
+wf:solidcraft_product_model_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "solidcraft_measure" ;
+    :stepPurpose "Measure the body: bounding box, volume, faces." ;
+    :hasParameterBinding wf:solidcraft_product_model_step3_p1 .
+
+wf:solidcraft_product_model_step3_p1 a :ToolParameterBinding ;
+    :parameterName "summary" ;
+    :parameterValue "true" .
+
+wf:solidcraft_product_model_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "solidcraft_export" ;
+    :stepPurpose "Export STL for printing or texturing." ;
+    :hasParameterBinding wf:solidcraft_product_model_step4_p1 .
+
+wf:solidcraft_product_model_step4_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.stl\"" .
+
+wf:solidcraft_product_model_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "solidcraft_export" ;
+    :stepPurpose "Export STEP for CAD exchange." ;
+    :hasParameterBinding wf:solidcraft_product_model_step5_p1 .
+
+wf:solidcraft_product_model_step5_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.step\"" .
+
+wf:solidcraft_product_model_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "solidcraft_screenshot" ;
+    :stepPurpose "Render a PNG (width and height in px)." ;
+    :hasParameterBinding wf:solidcraft_product_model_step6_p1 ;
+    :hasParameterBinding wf:solidcraft_product_model_step6_p2 ;
+    :hasParameterBinding wf:solidcraft_product_model_step6_p3 .
+
+wf:solidcraft_product_model_step6_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.png\"" .
+
+wf:solidcraft_product_model_step6_p2 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1000" .
+
+wf:solidcraft_product_model_step6_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "800" .
+
+wf:solidcraft_product_model_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "solidcraft_save" ;
+    :stepPurpose "Save the design." ;
+    :hasParameterBinding wf:solidcraft_product_model_step7_p1 .
+
+wf:solidcraft_product_model_step7_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.sc\"" .
+
+wf:skill_solidcraft_product_model a :CraftSkill ;
+    rdfs:label "Model a product in 3-D" ;
+    :skillName "solidcraft-product-model" ;
+    :skillWalksWorkflow wf:solidcraft_product_model .
+
+wf:cadcraft_product_drawing a :CraftWorkflow ;
+    rdfs:label "Draw a dimensioned product drawing" ;
+    rdfs:comment "Draw a product outline with linear dimensions and a title block on layers, and save DXF and PDF plus a PNG render." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/cadcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:cadcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:cadcraft_session ;
+    :outputFormat "dxf" ;
+    :outputFormat "pdf" ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:cadcraft_product_drawing_contract .
+
+wf:cadcraft_product_drawing_contract a :ToolUseContract ;
+    rdfs:label "Draw a dimensioned product drawing contract" ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step1 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step2 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step3 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step4 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step5 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step6 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step7 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step8 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step9 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step10 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step11 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step12 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step13 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step14 ;
+    :hasToolUseStep wf:cadcraft_product_drawing_step15 .
+
+wf:cadcraft_product_drawing_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "cadcraft_new_drawing" ;
+    :stepPurpose "New metric drawing." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step1_p1 .
+
+wf:cadcraft_product_drawing_step1_p1 a :ToolParameterBinding ;
+    :parameterName "metric" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "cadcraft_cmd_layer_new" ;
+    :stepPurpose "Outline layer." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step2_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step2_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step2_p3 .
+
+wf:cadcraft_product_drawing_step2_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"OUTLINE\"" .
+
+wf:cadcraft_product_drawing_step2_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"white\"" .
+
+wf:cadcraft_product_drawing_step2_p3 a :ToolParameterBinding ;
+    :parameterName "current" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "cadcraft_cmd_pline" ;
+    :stepPurpose "The outline as a closed polyline (mm)." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step3_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step3_p2 .
+
+wf:cadcraft_product_drawing_step3_p1 a :ToolParameterBinding ;
+    :parameterName "vertices" ;
+    :parameterValue "[[0, 0], [120, 0], [100, 90], [20, 90]]" .
+
+wf:cadcraft_product_drawing_step3_p2 a :ToolParameterBinding ;
+    :parameterName "closed" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "cadcraft_cmd_layer_new" ;
+    :stepPurpose "Dimensions layer." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step4_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step4_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step4_p3 .
+
+wf:cadcraft_product_drawing_step4_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"DIMS\"" .
+
+wf:cadcraft_product_drawing_step4_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"red\"" .
+
+wf:cadcraft_product_drawing_step4_p3 a :ToolParameterBinding ;
+    :parameterName "current" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "cadcraft_cmd_dimlinear" ;
+    :stepPurpose "Bottom width dimension." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step5_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step5_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step5_p3 .
+
+wf:cadcraft_product_drawing_step5_p1 a :ToolParameterBinding ;
+    :parameterName "p1" ;
+    :parameterValue "[0, 0]" .
+
+wf:cadcraft_product_drawing_step5_p2 a :ToolParameterBinding ;
+    :parameterName "p2" ;
+    :parameterValue "[120, 0]" .
+
+wf:cadcraft_product_drawing_step5_p3 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[60, -20]" .
+
+wf:cadcraft_product_drawing_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "cadcraft_cmd_dimlinear" ;
+    :stepPurpose "Top width dimension." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step6_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step6_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step6_p3 .
+
+wf:cadcraft_product_drawing_step6_p1 a :ToolParameterBinding ;
+    :parameterName "p1" ;
+    :parameterValue "[20, 90]" .
+
+wf:cadcraft_product_drawing_step6_p2 a :ToolParameterBinding ;
+    :parameterName "p2" ;
+    :parameterValue "[100, 90]" .
+
+wf:cadcraft_product_drawing_step6_p3 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[60, 105]" .
+
+wf:cadcraft_product_drawing_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "cadcraft_cmd_dimlinear" ;
+    :stepPurpose "Height dimension (rotated 90)." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step7_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step7_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step7_p3 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step7_p4 .
+
+wf:cadcraft_product_drawing_step7_p1 a :ToolParameterBinding ;
+    :parameterName "p1" ;
+    :parameterValue "[120, 0]" .
+
+wf:cadcraft_product_drawing_step7_p2 a :ToolParameterBinding ;
+    :parameterName "p2" ;
+    :parameterValue "[100, 90]" .
+
+wf:cadcraft_product_drawing_step7_p3 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[140, 45]" .
+
+wf:cadcraft_product_drawing_step7_p4 a :ToolParameterBinding ;
+    :parameterName "rotation" ;
+    :parameterValue "90" .
+
+wf:cadcraft_product_drawing_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "cadcraft_cmd_layer_new" ;
+    :stepPurpose "Title layer." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step8_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step8_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step8_p3 .
+
+wf:cadcraft_product_drawing_step8_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"TITLE\"" .
+
+wf:cadcraft_product_drawing_step8_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"cyan\"" .
+
+wf:cadcraft_product_drawing_step8_p3 a :ToolParameterBinding ;
+    :parameterName "current" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "cadcraft_cmd_text" ;
+    :stepPurpose "Title text (height in mm)." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step9_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step9_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step9_p3 .
+
+wf:cadcraft_product_drawing_step9_p1 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[0, -50]" .
+
+wf:cadcraft_product_drawing_step9_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${title}\"" .
+
+wf:cadcraft_product_drawing_step9_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "6" .
+
+wf:cadcraft_product_drawing_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "cadcraft_cmd_text" ;
+    :stepPurpose "Notes text." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step10_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step10_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step10_p3 .
+
+wf:cadcraft_product_drawing_step10_p1 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[0, -60]" .
+
+wf:cadcraft_product_drawing_step10_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${notes}\"" .
+
+wf:cadcraft_product_drawing_step10_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "4" .
+
+wf:cadcraft_product_drawing_step11 a :ToolUseStep ;
+    :stepOrder 11 ;
+    :stepToolName "cadcraft_cmd_zoom_extents" ;
+    :stepPurpose "Zoom to the drawing." .
+
+wf:cadcraft_product_drawing_step12 a :ToolUseStep ;
+    :stepOrder 12 ;
+    :stepToolName "cadcraft_inspect_drawing" ;
+    :stepPurpose "List the entities to check." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step12_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step12_p2 .
+
+wf:cadcraft_product_drawing_step12_p1 a :ToolParameterBinding ;
+    :parameterName "entities" ;
+    :parameterValue "true" .
+
+wf:cadcraft_product_drawing_step12_p2 a :ToolParameterBinding ;
+    :parameterName "limit" ;
+    :parameterValue "50" .
+
+wf:cadcraft_product_drawing_step13 a :ToolUseStep ;
+    :stepOrder 13 ;
+    :stepToolName "cadcraft_save" ;
+    :stepPurpose "Save DXF." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step13_p1 .
+
+wf:cadcraft_product_drawing_step13_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.dxf\"" .
+
+wf:cadcraft_product_drawing_step14 a :ToolUseStep ;
+    :stepOrder 14 ;
+    :stepToolName "cadcraft_save" ;
+    :stepPurpose "Save PDF." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step14_p1 .
+
+wf:cadcraft_product_drawing_step14_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.pdf\"" .
+
+wf:cadcraft_product_drawing_step15 a :ToolUseStep ;
+    :stepOrder 15 ;
+    :stepToolName "cadcraft_render" ;
+    :stepPurpose "Render a PNG." ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step15_p1 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step15_p2 ;
+    :hasParameterBinding wf:cadcraft_product_drawing_step15_p3 .
+
+wf:cadcraft_product_drawing_step15_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.png\"" .
+
+wf:cadcraft_product_drawing_step15_p2 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1200" .
+
+wf:cadcraft_product_drawing_step15_p3 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "800" .
+
+wf:skill_cadcraft_product_drawing a :CraftSkill ;
+    rdfs:label "Draw a dimensioned product drawing" ;
+    :skillName "cadcraft-product-drawing" ;
+    :skillWalksWorkflow wf:cadcraft_product_drawing .
+
+wf:materialcraft_product_material a :CraftWorkflow ;
+    rdfs:label "Build a product material" ;
+    rdfs:comment "Build a brushed-metal PBR material graph from noise, levels, a gradient map and a normal/AO node, and export its texture maps." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/materialcraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:materialcraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:materialcraft_session ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:materialcraft_product_material_contract .
+
+wf:materialcraft_product_material_contract a :ToolUseContract ;
+    rdfs:label "Build a product material contract" ;
+    :hasToolUseStep wf:materialcraft_product_material_step1 ;
+    :hasToolUseStep wf:materialcraft_product_material_step2 ;
+    :hasToolUseStep wf:materialcraft_product_material_step3 ;
+    :hasToolUseStep wf:materialcraft_product_material_step4 ;
+    :hasToolUseStep wf:materialcraft_product_material_step5 ;
+    :hasToolUseStep wf:materialcraft_product_material_step6 ;
+    :hasToolUseStep wf:materialcraft_product_material_step7 ;
+    :hasToolUseStep wf:materialcraft_product_material_step8 ;
+    :hasToolUseStep wf:materialcraft_product_material_step9 ;
+    :hasToolUseStep wf:materialcraft_product_material_step10 ;
+    :hasToolUseStep wf:materialcraft_product_material_step11 ;
+    :hasToolUseStep wf:materialcraft_product_material_step12 ;
+    :hasToolUseStep wf:materialcraft_product_material_step13 .
+
+wf:materialcraft_product_material_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "materialcraft_graph_new" ;
+    :stepPurpose "New PBR graph (size in px); the answer gives its index." ;
+    :hasParameterBinding wf:materialcraft_product_material_step1_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step1_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step1_p3 .
+
+wf:materialcraft_product_material_step1_p1 a :ToolParameterBinding ;
+    :parameterName "name" ;
+    :parameterValue "\"${name}\"" .
+
+wf:materialcraft_product_material_step1_p2 a :ToolParameterBinding ;
+    :parameterName "template" ;
+    :parameterValue "\"pbr\"" .
+
+wf:materialcraft_product_material_step1_p3 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "512" .
+
+wf:materialcraft_product_material_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "materialcraft_command_batch" ;
+    :stepPurpose "Set the metallic output to 1 (select the node first, then set its parameter)." ;
+    :hasParameterBinding wf:materialcraft_product_material_step2_p1 .
+
+wf:materialcraft_product_material_step2_p1 a :ToolParameterBinding ;
+    :parameterName "steps" ;
+    :parameterValue "[{\"id\": \"graph.select\", \"params\": {\"ids\": [1]}}, {\"id\": \"graph.node.param\", \"params\": {\"id\": 1, \"param\": \"metallic\", \"value\": 1.0}}]" .
+
+wf:materialcraft_product_material_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "materialcraft_node_add" ;
+    :stepPurpose "Anisotropic noise: the brushed streaks." ;
+    :hasParameterBinding wf:materialcraft_product_material_step3_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step3_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step3_p3 .
+
+wf:materialcraft_product_material_step3_p1 a :ToolParameterBinding ;
+    :parameterName "def" ;
+    :parameterValue "\"anisotropic_noise\"" .
+
+wf:materialcraft_product_material_step3_p2 a :ToolParameterBinding ;
+    :parameterName "params" ;
+    :parameterValue "{\"scale\": 2, \"scale_y\": 300, \"smoothness\": 0.4}" .
+
+wf:materialcraft_product_material_step3_p3 a :ToolParameterBinding ;
+    :parameterName "at" ;
+    :parameterValue "[-400, 0]" .
+
+wf:materialcraft_product_material_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "materialcraft_node_add" ;
+    :stepPurpose "Levels: the roughness range." ;
+    :hasParameterBinding wf:materialcraft_product_material_step4_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step4_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step4_p3 .
+
+wf:materialcraft_product_material_step4_p1 a :ToolParameterBinding ;
+    :parameterName "def" ;
+    :parameterValue "\"levels\"" .
+
+wf:materialcraft_product_material_step4_p2 a :ToolParameterBinding ;
+    :parameterName "params" ;
+    :parameterValue "{\"in_low\": 0.25, \"in_high\": 0.85, \"out_low\": 0.25, \"out_high\": 0.6}" .
+
+wf:materialcraft_product_material_step4_p3 a :ToolParameterBinding ;
+    :parameterName "connectFrom" ;
+    :parameterValue "{\"node\": \"${noise}\"}" .
+
+wf:materialcraft_product_material_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "materialcraft_node_add" ;
+    :stepPurpose "Gradient map: the metal's base colour." ;
+    :hasParameterBinding wf:materialcraft_product_material_step5_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step5_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step5_p3 .
+
+wf:materialcraft_product_material_step5_p1 a :ToolParameterBinding ;
+    :parameterName "def" ;
+    :parameterValue "\"gradient_map\"" .
+
+wf:materialcraft_product_material_step5_p2 a :ToolParameterBinding ;
+    :parameterName "params" ;
+    :parameterValue "{\"gradient\": [[0.0, \"#7d8189\"], [1.0, \"#d8dbe0\"]]}" .
+
+wf:materialcraft_product_material_step5_p3 a :ToolParameterBinding ;
+    :parameterName "connectFrom" ;
+    :parameterValue "{\"node\": \"${noise}\"}" .
+
+wf:materialcraft_product_material_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "materialcraft_node_add" ;
+    :stepPurpose "Height to normal and ambient occlusion." ;
+    :hasParameterBinding wf:materialcraft_product_material_step6_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step6_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step6_p3 .
+
+wf:materialcraft_product_material_step6_p1 a :ToolParameterBinding ;
+    :parameterName "def" ;
+    :parameterValue "\"height_normal_ao\"" .
+
+wf:materialcraft_product_material_step6_p2 a :ToolParameterBinding ;
+    :parameterName "params" ;
+    :parameterValue "{\"normal_intensity\": 0.6}" .
+
+wf:materialcraft_product_material_step6_p3 a :ToolParameterBinding ;
+    :parameterName "connectFrom" ;
+    :parameterValue "{\"node\": \"${noise}\"}" .
+
+wf:materialcraft_product_material_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "materialcraft_node_connect" ;
+    :stepPurpose "Base colour output from the gradient map." ;
+    :hasParameterBinding wf:materialcraft_product_material_step7_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step7_p2 .
+
+wf:materialcraft_product_material_step7_p1 a :ToolParameterBinding ;
+    :parameterName "from" ;
+    :parameterValue "\"${gm}\"" .
+
+wf:materialcraft_product_material_step7_p2 a :ToolParameterBinding ;
+    :parameterName "to" ;
+    :parameterValue "2" .
+
+wf:materialcraft_product_material_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "materialcraft_node_connect" ;
+    :stepPurpose "Normal output." ;
+    :hasParameterBinding wf:materialcraft_product_material_step8_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step8_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step8_p3 .
+
+wf:materialcraft_product_material_step8_p1 a :ToolParameterBinding ;
+    :parameterName "from" ;
+    :parameterValue "\"${hn}\"" .
+
+wf:materialcraft_product_material_step8_p2 a :ToolParameterBinding ;
+    :parameterName "fromPort" ;
+    :parameterValue "\"normal\"" .
+
+wf:materialcraft_product_material_step8_p3 a :ToolParameterBinding ;
+    :parameterName "to" ;
+    :parameterValue "3" .
+
+wf:materialcraft_product_material_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "materialcraft_node_connect" ;
+    :stepPurpose "Roughness output from the levels." ;
+    :hasParameterBinding wf:materialcraft_product_material_step9_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step9_p2 .
+
+wf:materialcraft_product_material_step9_p1 a :ToolParameterBinding ;
+    :parameterName "from" ;
+    :parameterValue "\"${lv}\"" .
+
+wf:materialcraft_product_material_step9_p2 a :ToolParameterBinding ;
+    :parameterName "to" ;
+    :parameterValue "4" .
+
+wf:materialcraft_product_material_step10 a :ToolUseStep ;
+    :stepOrder 10 ;
+    :stepToolName "materialcraft_node_connect" ;
+    :stepPurpose "Ambient occlusion output." ;
+    :hasParameterBinding wf:materialcraft_product_material_step10_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step10_p2 ;
+    :hasParameterBinding wf:materialcraft_product_material_step10_p3 .
+
+wf:materialcraft_product_material_step10_p1 a :ToolParameterBinding ;
+    :parameterName "from" ;
+    :parameterValue "\"${hn}\"" .
+
+wf:materialcraft_product_material_step10_p2 a :ToolParameterBinding ;
+    :parameterName "fromPort" ;
+    :parameterValue "\"ambient_occlusion\"" .
+
+wf:materialcraft_product_material_step10_p3 a :ToolParameterBinding ;
+    :parameterName "to" ;
+    :parameterValue "7" .
+
+wf:materialcraft_product_material_step11 a :ToolUseStep ;
+    :stepOrder 11 ;
+    :stepToolName "materialcraft_node_connect" ;
+    :stepPurpose "Height output from the noise." ;
+    :hasParameterBinding wf:materialcraft_product_material_step11_p1 ;
+    :hasParameterBinding wf:materialcraft_product_material_step11_p2 .
+
+wf:materialcraft_product_material_step11_p1 a :ToolParameterBinding ;
+    :parameterName "from" ;
+    :parameterValue "\"${noise}\"" .
+
+wf:materialcraft_product_material_step11_p2 a :ToolParameterBinding ;
+    :parameterName "to" ;
+    :parameterValue "6" .
+
+wf:materialcraft_product_material_step12 a :ToolUseStep ;
+    :stepOrder 12 ;
+    :stepToolName "materialcraft_outputs_export" ;
+    :stepPurpose "Export every output into a folder (relative to the run)." ;
+    :hasParameterBinding wf:materialcraft_product_material_step12_p1 .
+
+wf:materialcraft_product_material_step12_p1 a :ToolParameterBinding ;
+    :parameterName "dir" ;
+    :parameterValue "\"${name}\"" .
+
+wf:materialcraft_product_material_step13 a :ToolUseStep ;
+    :stepOrder 13 ;
+    :stepToolName "materialcraft_view_render" ;
+    :stepPurpose "Render a preview." .
+
+wf:skill_materialcraft_product_material a :CraftSkill ;
+    rdfs:label "Build a product material" ;
+    :skillName "materialcraft-product-material" ;
+    :skillWalksWorkflow wf:materialcraft_product_material .
+
+wf:texturecraft_texture_product a :CraftWorkflow ;
+    rdfs:label "Texture a product model" ;
+    rdfs:comment "Import a product mesh, paint colour and material strokes on it, render the viewport, and export PBR textures, a GLB and the project." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/texturecraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:texturecraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:texturecraft_session ;
+    :outputFormat "png" ;
+    :outputFormat "glb" ;
+    :outputFormat "tcraft" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:texturecraft_texture_product_contract .
+
+wf:texturecraft_texture_product_contract a :ToolUseContract ;
+    rdfs:label "Texture a product model contract" ;
+    :hasToolUseStep wf:texturecraft_texture_product_step1 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step2 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step3 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step4 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step5 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step6 ;
+    :hasToolUseStep wf:texturecraft_texture_product_step7 .
+
+wf:texturecraft_texture_product_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "texturecraft_mesh_import" ;
+    :stepPurpose "New project from the mesh (texture resolution in px)." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step1_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step1_p2 .
+
+wf:texturecraft_texture_product_step1_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${mesh}\"" .
+
+wf:texturecraft_texture_product_step1_p2 a :ToolParameterBinding ;
+    :parameterName "resolution" ;
+    :parameterValue "1024" .
+
+wf:texturecraft_texture_product_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "texturecraft_paint_stroke" ;
+    :stepPurpose "Paint a stroke: points in viewport pixels, base colour, roughness, metallic, brush size." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step2_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step2_p2 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step2_p3 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step2_p4 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step2_p5 .
+
+wf:texturecraft_texture_product_step2_p1 a :ToolParameterBinding ;
+    :parameterName "points" ;
+    :parameterValue "[[300, 200], [500, 300], [400, 420]]" .
+
+wf:texturecraft_texture_product_step2_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#c0392b\"" .
+
+wf:texturecraft_texture_product_step2_p3 a :ToolParameterBinding ;
+    :parameterName "roughness" ;
+    :parameterValue "0.4" .
+
+wf:texturecraft_texture_product_step2_p4 a :ToolParameterBinding ;
+    :parameterName "metallic" ;
+    :parameterValue "0.2" .
+
+wf:texturecraft_texture_product_step2_p5 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "30" .
+
+wf:texturecraft_texture_product_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "texturecraft_paint_stroke" ;
+    :stepPurpose "Paint a second stroke." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step3_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step3_p2 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step3_p3 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step3_p4 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step3_p5 .
+
+wf:texturecraft_texture_product_step3_p1 a :ToolParameterBinding ;
+    :parameterName "points" ;
+    :parameterValue "[[420, 180], [480, 250], [560, 330]]" .
+
+wf:texturecraft_texture_product_step3_p2 a :ToolParameterBinding ;
+    :parameterName "color" ;
+    :parameterValue "\"#f1c40f\"" .
+
+wf:texturecraft_texture_product_step3_p3 a :ToolParameterBinding ;
+    :parameterName "roughness" ;
+    :parameterValue "0.3" .
+
+wf:texturecraft_texture_product_step3_p4 a :ToolParameterBinding ;
+    :parameterName "metallic" ;
+    :parameterValue "0.8" .
+
+wf:texturecraft_texture_product_step3_p5 a :ToolParameterBinding ;
+    :parameterName "size" ;
+    :parameterValue "25" .
+
+wf:texturecraft_texture_product_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "texturecraft_viewport_render" ;
+    :stepPurpose "Render the viewport to check where the paint landed." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step4_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step4_p2 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step4_p3 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step4_p4 .
+
+wf:texturecraft_texture_product_step4_p1 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "800" .
+
+wf:texturecraft_texture_product_step4_p2 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "600" .
+
+wf:texturecraft_texture_product_step4_p3 a :ToolParameterBinding ;
+    :parameterName "yaw" ;
+    :parameterValue "30" .
+
+wf:texturecraft_texture_product_step4_p4 a :ToolParameterBinding ;
+    :parameterName "pitch" ;
+    :parameterValue "15" .
+
+wf:texturecraft_texture_product_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "texturecraft_textures_export" ;
+    :stepPurpose "Export the textures with a preset (glTF PBR Metal Roughness)." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step5_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step5_p2 .
+
+wf:texturecraft_texture_product_step5_p1 a :ToolParameterBinding ;
+    :parameterName "dir" ;
+    :parameterValue "\"${name}-textures\"" .
+
+wf:texturecraft_texture_product_step5_p2 a :ToolParameterBinding ;
+    :parameterName "preset" ;
+    :parameterValue "\"glTF PBR Metal Roughness\"" .
+
+wf:texturecraft_texture_product_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "texturecraft_mesh_export" ;
+    :stepPurpose "Export the mesh as GLB with its textures embedded." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step6_p1 ;
+    :hasParameterBinding wf:texturecraft_texture_product_step6_p2 .
+
+wf:texturecraft_texture_product_step6_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.glb\"" .
+
+wf:texturecraft_texture_product_step6_p2 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"glb\"" .
+
+wf:texturecraft_texture_product_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "texturecraft_project_save" ;
+    :stepPurpose "Save the project." ;
+    :hasParameterBinding wf:texturecraft_texture_product_step7_p1 .
+
+wf:texturecraft_texture_product_step7_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${name}.tcraft\"" .
+
+wf:skill_texturecraft_texture_product a :CraftSkill ;
+    rdfs:label "Texture a product model" ;
+    :skillName "texturecraft-texture-product" ;
+    :skillWalksWorkflow wf:texturecraft_texture_product .
+
+wf:role_craft_suite_operator a :CraftBusinessRole ;
+    rdfs:label "Craft Suite Operator" ;
+    :roleRunsWorkflow wf:photocraft_edit_product_photo ;
+    :roleRunsWorkflow wf:filmcraft_cut_promo_video ;
+    :roleRunsWorkflow wf:designcraft_social_post ;
+    :roleRunsWorkflow wf:wordcraft_press_release ;
+    :roleRunsWorkflow wf:pdfcraft_stamp_and_brand ;
+    :roleRunsWorkflow wf:gridcraft_price_list ;
+    :roleRunsWorkflow wf:lightcraft_develop_product_photo ;
+    :roleRunsWorkflow wf:vectorcraft_logo_banner ;
+    :roleRunsWorkflow wf:figcraft_ad_banner ;
+    :roleRunsWorkflow wf:effectcraft_title_card ;
+    :roleRunsWorkflow wf:soundcraft_promo_audio_bed ;
+    :roleRunsWorkflow wf:deckcraft_product_pitch ;
+    :roleRunsWorkflow wf:solidcraft_product_model ;
+    :roleRunsWorkflow wf:cadcraft_product_drawing ;
+    :roleRunsWorkflow wf:materialcraft_product_material ;
+    :roleRunsWorkflow wf:texturecraft_texture_product .
+
+wf:prompt_craft_suite_operator a :CraftAgentPrompt ;
+    rdfs:label "Craft Suite Operator agent" ;
+    :promptName "craft-suite-operator" ;
+    :promptServesRole wf:role_craft_suite_operator ;
+    :promptUsesSkill wf:skill_photocraft_edit_product_photo ;
+    :promptUsesSkill wf:skill_filmcraft_cut_promo_video ;
+    :promptUsesSkill wf:skill_designcraft_social_post ;
+    :promptUsesSkill wf:skill_wordcraft_press_release ;
+    :promptUsesSkill wf:skill_pdfcraft_stamp_and_brand ;
+    :promptUsesSkill wf:skill_gridcraft_price_list ;
+    :promptUsesSkill wf:skill_lightcraft_develop_product_photo ;
+    :promptUsesSkill wf:skill_vectorcraft_logo_banner ;
+    :promptUsesSkill wf:skill_figcraft_ad_banner ;
+    :promptUsesSkill wf:skill_effectcraft_title_card ;
+    :promptUsesSkill wf:skill_soundcraft_promo_audio_bed ;
+    :promptUsesSkill wf:skill_deckcraft_product_pitch ;
+    :promptUsesSkill wf:skill_solidcraft_product_model ;
+    :promptUsesSkill wf:skill_cadcraft_product_drawing ;
+    :promptUsesSkill wf:skill_materialcraft_product_material ;
+    :promptUsesSkill wf:skill_texturecraft_texture_product ;
+    :promptUsesToolName "photocraft_doc_open" ;
+    :promptUsesToolName "photocraft_cmd_image_crop" ;
+    :promptUsesToolName "photocraft_cmd_image_imageSize" ;
+    :promptUsesToolName "photocraft_cmd_image_adjustments_exposure" ;
+    :promptUsesToolName "photocraft_cmd_image_adjustments_hueSaturation" ;
+    :promptUsesToolName "photocraft_cmd_type_create" ;
+    :promptUsesToolName "photocraft_cmd_layer_flattenImage" ;
+    :promptUsesToolName "photocraft_doc_export" ;
+    :promptUsesToolName "photocraft_doc_close" ;
+    :promptUsesToolName "filmcraft_cmd_file_newProject" ;
+    :promptUsesToolName "filmcraft_cmd_file_import" ;
+    :promptUsesToolName "filmcraft_cmd_file_newSequenceFromClip" ;
+    :promptUsesToolName "filmcraft_cmd_timeline_trim" ;
+    :promptUsesToolName "filmcraft_cmd_graphics_newText" ;
+    :promptUsesToolName "filmcraft_sequence_inspect" ;
+    :promptUsesToolName "filmcraft_cmd_file_exportMedia" ;
+    :promptUsesToolName "designcraft_new_document" ;
+    :promptUsesToolName "designcraft_cmd_frame_create" ;
+    :promptUsesToolName "designcraft_cmd_object_color" ;
+    :promptUsesToolName "designcraft_place_image" ;
+    :promptUsesToolName "designcraft_cmd_text_selectStory" ;
+    :promptUsesToolName "designcraft_cmd_type_char" ;
+    :promptUsesToolName "designcraft_cmd_text_exitToFrame" ;
+    :promptUsesToolName "designcraft_export_png" ;
+    :promptUsesToolName "wordcraft_new_document" ;
+    :promptUsesToolName "wordcraft_cmd_para_heading1" ;
+    :promptUsesToolName "wordcraft_type_text" ;
+    :promptUsesToolName "wordcraft_cmd_text_newParagraph" ;
+    :promptUsesToolName "wordcraft_cmd_para_style" ;
+    :promptUsesToolName "wordcraft_cmd_insert_picture" ;
+    :promptUsesToolName "wordcraft_get_text" ;
+    :promptUsesToolName "wordcraft_save_document" ;
+    :promptUsesToolName "pdfcraft_doc_open" ;
+    :promptUsesToolName "pdfcraft_doc_watermark" ;
+    :promptUsesToolName "pdfcraft_doc_header_footer" ;
+    :promptUsesToolName "pdfcraft_doc_set_info" ;
+    :promptUsesToolName "pdfcraft_doc_info" ;
+    :promptUsesToolName "pdfcraft_doc_save" ;
+    :promptUsesToolName "gridcraft_new_workbook" ;
+    :promptUsesToolName "gridcraft_write_range" ;
+    :promptUsesToolName "gridcraft_format_range" ;
+    :promptUsesToolName "gridcraft_insert_chart" ;
+    :promptUsesToolName "gridcraft_read_range" ;
+    :promptUsesToolName "gridcraft_save_workbook" ;
+    :promptUsesToolName "lightcraft_import" ;
+    :promptUsesToolName "lightcraft_query_photos" ;
+    :promptUsesToolName "lightcraft_select_photos" ;
+    :promptUsesToolName "lightcraft_set_develop" ;
+    :promptUsesToolName "lightcraft_cmd_develop_wb" ;
+    :promptUsesToolName "lightcraft_crop" ;
+    :promptUsesToolName "lightcraft_export" ;
+    :promptUsesToolName "vectorcraft_cmd_file_new" ;
+    :promptUsesToolName "vectorcraft_draw_shape" ;
+    :promptUsesToolName "vectorcraft_add_text" ;
+    :promptUsesToolName "vectorcraft_export" ;
+    :promptUsesToolName "figcraft_cmd_file_new" ;
+    :promptUsesToolName "figcraft_create_node" ;
+    :promptUsesToolName "figcraft_cmd_image_place" ;
+    :promptUsesToolName "figcraft_export" ;
+    :promptUsesToolName "effectcraft_cmd_file_newProject" ;
+    :promptUsesToolName "effectcraft_cmd_comp_new" ;
+    :promptUsesToolName "effectcraft_cmd_layer_newSolid" ;
+    :promptUsesToolName "effectcraft_cmd_layer_newText" ;
+    :promptUsesToolName "effectcraft_add_keyframe" ;
+    :promptUsesToolName "effectcraft_cmd_renderQueue_add" ;
+    :promptUsesToolName "effectcraft_cmd_renderQueue_render" ;
+    :promptUsesToolName "effectcraft_cmd_comp_saveFrameAs" ;
+    :promptUsesToolName "effectcraft_cmd_file_exportLottie" ;
+    :promptUsesToolName "soundcraft_new_session" ;
+    :promptUsesToolName "soundcraft_import_audio" ;
+    :promptUsesToolName "soundcraft_cmd_clip_gain" ;
+    :promptUsesToolName "soundcraft_cmd_edit_fades_create" ;
+    :promptUsesToolName "soundcraft_bounce_mix" ;
+    :promptUsesToolName "deckcraft_new_presentation" ;
+    :promptUsesToolName "deckcraft_inspect_slide" ;
+    :promptUsesToolName "deckcraft_set_text" ;
+    :promptUsesToolName "deckcraft_add_slide" ;
+    :promptUsesToolName "deckcraft_add_text_box" ;
+    :promptUsesToolName "deckcraft_insert_picture" ;
+    :promptUsesToolName "deckcraft_inspect_document" ;
+    :promptUsesToolName "deckcraft_export" ;
+    :promptUsesToolName "solidcraft_new_design" ;
+    :promptUsesToolName "solidcraft_batch" ;
+    :promptUsesToolName "solidcraft_measure" ;
+    :promptUsesToolName "solidcraft_export" ;
+    :promptUsesToolName "solidcraft_screenshot" ;
+    :promptUsesToolName "solidcraft_save" ;
+    :promptUsesToolName "cadcraft_new_drawing" ;
+    :promptUsesToolName "cadcraft_cmd_layer_new" ;
+    :promptUsesToolName "cadcraft_cmd_pline" ;
+    :promptUsesToolName "cadcraft_cmd_dimlinear" ;
+    :promptUsesToolName "cadcraft_cmd_text" ;
+    :promptUsesToolName "cadcraft_cmd_zoom_extents" ;
+    :promptUsesToolName "cadcraft_inspect_drawing" ;
+    :promptUsesToolName "cadcraft_save" ;
+    :promptUsesToolName "cadcraft_render" ;
+    :promptUsesToolName "materialcraft_graph_new" ;
+    :promptUsesToolName "materialcraft_command_batch" ;
+    :promptUsesToolName "materialcraft_node_add" ;
+    :promptUsesToolName "materialcraft_node_connect" ;
+    :promptUsesToolName "materialcraft_outputs_export" ;
+    :promptUsesToolName "materialcraft_view_render" ;
+    :promptUsesToolName "texturecraft_mesh_import" ;
+    :promptUsesToolName "texturecraft_paint_stroke" ;
+    :promptUsesToolName "texturecraft_viewport_render" ;
+    :promptUsesToolName "texturecraft_textures_export" ;
+    :promptUsesToolName "texturecraft_mesh_export" ;
+    :promptUsesToolName "texturecraft_project_save" .
+
+wf:role_marketing_asset_producer a :CraftBusinessRole ;
+    rdfs:label "Marketing Asset Producer" ;
+    :roleRunsWorkflow wf:photocraft_edit_product_photo ;
+    :roleRunsWorkflow wf:designcraft_social_post ;
+    :roleRunsWorkflow wf:lightcraft_develop_product_photo ;
+    :roleRunsWorkflow wf:figcraft_ad_banner .
+
+wf:prompt_marketing_asset_producer a :CraftAgentPrompt ;
+    rdfs:label "Marketing Asset Producer agent" ;
+    :promptName "marketing-asset-producer" ;
+    :promptServesRole wf:role_marketing_asset_producer ;
+    :promptUsesSkill wf:skill_photocraft_edit_product_photo ;
+    :promptUsesSkill wf:skill_designcraft_social_post ;
+    :promptUsesSkill wf:skill_lightcraft_develop_product_photo ;
+    :promptUsesSkill wf:skill_figcraft_ad_banner ;
+    :promptUsesToolName "photocraft_doc_open" ;
+    :promptUsesToolName "photocraft_cmd_image_crop" ;
+    :promptUsesToolName "photocraft_cmd_image_imageSize" ;
+    :promptUsesToolName "photocraft_cmd_image_adjustments_exposure" ;
+    :promptUsesToolName "photocraft_cmd_image_adjustments_hueSaturation" ;
+    :promptUsesToolName "photocraft_cmd_type_create" ;
+    :promptUsesToolName "photocraft_cmd_layer_flattenImage" ;
+    :promptUsesToolName "photocraft_doc_export" ;
+    :promptUsesToolName "photocraft_doc_close" ;
+    :promptUsesToolName "designcraft_new_document" ;
+    :promptUsesToolName "designcraft_cmd_frame_create" ;
+    :promptUsesToolName "designcraft_cmd_object_color" ;
+    :promptUsesToolName "designcraft_place_image" ;
+    :promptUsesToolName "designcraft_cmd_text_selectStory" ;
+    :promptUsesToolName "designcraft_cmd_type_char" ;
+    :promptUsesToolName "designcraft_cmd_text_exitToFrame" ;
+    :promptUsesToolName "designcraft_export_png" ;
+    :promptUsesToolName "lightcraft_import" ;
+    :promptUsesToolName "lightcraft_query_photos" ;
+    :promptUsesToolName "lightcraft_select_photos" ;
+    :promptUsesToolName "lightcraft_set_develop" ;
+    :promptUsesToolName "lightcraft_cmd_develop_wb" ;
+    :promptUsesToolName "lightcraft_crop" ;
+    :promptUsesToolName "lightcraft_export" ;
+    :promptUsesToolName "figcraft_cmd_file_new" ;
+    :promptUsesToolName "figcraft_create_node" ;
+    :promptUsesToolName "figcraft_cmd_image_place" ;
+    :promptUsesToolName "figcraft_export" .
+
+wf:role_promo_video_editor a :CraftBusinessRole ;
+    rdfs:label "Promo Video Editor" ;
+    :roleRunsWorkflow wf:filmcraft_cut_promo_video ;
+    :roleRunsWorkflow wf:effectcraft_title_card ;
+    :roleRunsWorkflow wf:soundcraft_promo_audio_bed .
+
+wf:prompt_promo_video_editor a :CraftAgentPrompt ;
+    rdfs:label "Promo Video Editor agent" ;
+    :promptName "promo-video-editor" ;
+    :promptServesRole wf:role_promo_video_editor ;
+    :promptUsesSkill wf:skill_filmcraft_cut_promo_video ;
+    :promptUsesSkill wf:skill_effectcraft_title_card ;
+    :promptUsesSkill wf:skill_soundcraft_promo_audio_bed ;
+    :promptUsesToolName "filmcraft_cmd_file_newProject" ;
+    :promptUsesToolName "filmcraft_cmd_file_import" ;
+    :promptUsesToolName "filmcraft_cmd_file_newSequenceFromClip" ;
+    :promptUsesToolName "filmcraft_cmd_timeline_trim" ;
+    :promptUsesToolName "filmcraft_cmd_graphics_newText" ;
+    :promptUsesToolName "filmcraft_sequence_inspect" ;
+    :promptUsesToolName "filmcraft_cmd_file_exportMedia" ;
+    :promptUsesToolName "effectcraft_cmd_file_newProject" ;
+    :promptUsesToolName "effectcraft_cmd_comp_new" ;
+    :promptUsesToolName "effectcraft_cmd_layer_newSolid" ;
+    :promptUsesToolName "effectcraft_cmd_layer_newText" ;
+    :promptUsesToolName "effectcraft_add_keyframe" ;
+    :promptUsesToolName "effectcraft_cmd_renderQueue_add" ;
+    :promptUsesToolName "effectcraft_cmd_renderQueue_render" ;
+    :promptUsesToolName "effectcraft_cmd_comp_saveFrameAs" ;
+    :promptUsesToolName "effectcraft_cmd_file_exportLottie" ;
+    :promptUsesToolName "soundcraft_new_session" ;
+    :promptUsesToolName "soundcraft_import_audio" ;
+    :promptUsesToolName "soundcraft_cmd_clip_gain" ;
+    :promptUsesToolName "soundcraft_cmd_edit_fades_create" ;
+    :promptUsesToolName "soundcraft_bounce_mix" .
+
+wf:role_brand_designer a :CraftBusinessRole ;
+    rdfs:label "Brand Designer" ;
+    :roleRunsWorkflow wf:vectorcraft_logo_banner ;
+    :roleRunsWorkflow wf:designcraft_social_post ;
+    :roleRunsWorkflow wf:figcraft_ad_banner .
+
+wf:prompt_brand_designer a :CraftAgentPrompt ;
+    rdfs:label "Brand Designer agent" ;
+    :promptName "brand-designer" ;
+    :promptServesRole wf:role_brand_designer ;
+    :promptUsesSkill wf:skill_vectorcraft_logo_banner ;
+    :promptUsesSkill wf:skill_designcraft_social_post ;
+    :promptUsesSkill wf:skill_figcraft_ad_banner ;
+    :promptUsesToolName "vectorcraft_cmd_file_new" ;
+    :promptUsesToolName "vectorcraft_draw_shape" ;
+    :promptUsesToolName "vectorcraft_add_text" ;
+    :promptUsesToolName "vectorcraft_export" ;
+    :promptUsesToolName "designcraft_new_document" ;
+    :promptUsesToolName "designcraft_cmd_frame_create" ;
+    :promptUsesToolName "designcraft_cmd_object_color" ;
+    :promptUsesToolName "designcraft_place_image" ;
+    :promptUsesToolName "designcraft_cmd_text_selectStory" ;
+    :promptUsesToolName "designcraft_cmd_type_char" ;
+    :promptUsesToolName "designcraft_cmd_text_exitToFrame" ;
+    :promptUsesToolName "designcraft_export_png" ;
+    :promptUsesToolName "figcraft_cmd_file_new" ;
+    :promptUsesToolName "figcraft_create_node" ;
+    :promptUsesToolName "figcraft_cmd_image_place" ;
+    :promptUsesToolName "figcraft_export" .
+
+wf:role_sales_collateral_producer a :CraftBusinessRole ;
+    rdfs:label "Sales Collateral Producer" ;
+    :roleRunsWorkflow wf:wordcraft_press_release ;
+    :roleRunsWorkflow wf:pdfcraft_stamp_and_brand ;
+    :roleRunsWorkflow wf:gridcraft_price_list ;
+    :roleRunsWorkflow wf:deckcraft_product_pitch .
+
+wf:prompt_sales_collateral_producer a :CraftAgentPrompt ;
+    rdfs:label "Sales Collateral Producer agent" ;
+    :promptName "sales-collateral-producer" ;
+    :promptServesRole wf:role_sales_collateral_producer ;
+    :promptUsesSkill wf:skill_wordcraft_press_release ;
+    :promptUsesSkill wf:skill_pdfcraft_stamp_and_brand ;
+    :promptUsesSkill wf:skill_gridcraft_price_list ;
+    :promptUsesSkill wf:skill_deckcraft_product_pitch ;
+    :promptUsesToolName "wordcraft_new_document" ;
+    :promptUsesToolName "wordcraft_cmd_para_heading1" ;
+    :promptUsesToolName "wordcraft_type_text" ;
+    :promptUsesToolName "wordcraft_cmd_text_newParagraph" ;
+    :promptUsesToolName "wordcraft_cmd_para_style" ;
+    :promptUsesToolName "wordcraft_cmd_insert_picture" ;
+    :promptUsesToolName "wordcraft_get_text" ;
+    :promptUsesToolName "wordcraft_save_document" ;
+    :promptUsesToolName "pdfcraft_doc_open" ;
+    :promptUsesToolName "pdfcraft_doc_watermark" ;
+    :promptUsesToolName "pdfcraft_doc_header_footer" ;
+    :promptUsesToolName "pdfcraft_doc_set_info" ;
+    :promptUsesToolName "pdfcraft_doc_info" ;
+    :promptUsesToolName "pdfcraft_doc_save" ;
+    :promptUsesToolName "gridcraft_new_workbook" ;
+    :promptUsesToolName "gridcraft_write_range" ;
+    :promptUsesToolName "gridcraft_format_range" ;
+    :promptUsesToolName "gridcraft_insert_chart" ;
+    :promptUsesToolName "gridcraft_read_range" ;
+    :promptUsesToolName "gridcraft_save_workbook" ;
+    :promptUsesToolName "deckcraft_new_presentation" ;
+    :promptUsesToolName "deckcraft_inspect_slide" ;
+    :promptUsesToolName "deckcraft_set_text" ;
+    :promptUsesToolName "deckcraft_add_slide" ;
+    :promptUsesToolName "deckcraft_add_text_box" ;
+    :promptUsesToolName "deckcraft_insert_picture" ;
+    :promptUsesToolName "deckcraft_inspect_document" ;
+    :promptUsesToolName "deckcraft_export" .
+
+wf:role_product_visualizer a :CraftBusinessRole ;
+    rdfs:label "Product Visualizer" ;
+    :roleRunsWorkflow wf:solidcraft_product_model ;
+    :roleRunsWorkflow wf:cadcraft_product_drawing ;
+    :roleRunsWorkflow wf:materialcraft_product_material ;
+    :roleRunsWorkflow wf:texturecraft_texture_product .
+
+wf:prompt_product_visualizer a :CraftAgentPrompt ;
+    rdfs:label "Product Visualizer agent" ;
+    :promptName "product-visualizer" ;
+    :promptServesRole wf:role_product_visualizer ;
+    :promptUsesSkill wf:skill_solidcraft_product_model ;
+    :promptUsesSkill wf:skill_cadcraft_product_drawing ;
+    :promptUsesSkill wf:skill_materialcraft_product_material ;
+    :promptUsesSkill wf:skill_texturecraft_texture_product ;
+    :promptUsesToolName "solidcraft_new_design" ;
+    :promptUsesToolName "solidcraft_batch" ;
+    :promptUsesToolName "solidcraft_measure" ;
+    :promptUsesToolName "solidcraft_export" ;
+    :promptUsesToolName "solidcraft_screenshot" ;
+    :promptUsesToolName "solidcraft_save" ;
+    :promptUsesToolName "cadcraft_new_drawing" ;
+    :promptUsesToolName "cadcraft_cmd_layer_new" ;
+    :promptUsesToolName "cadcraft_cmd_pline" ;
+    :promptUsesToolName "cadcraft_cmd_dimlinear" ;
+    :promptUsesToolName "cadcraft_cmd_text" ;
+    :promptUsesToolName "cadcraft_cmd_zoom_extents" ;
+    :promptUsesToolName "cadcraft_inspect_drawing" ;
+    :promptUsesToolName "cadcraft_save" ;
+    :promptUsesToolName "cadcraft_render" ;
+    :promptUsesToolName "materialcraft_graph_new" ;
+    :promptUsesToolName "materialcraft_command_batch" ;
+    :promptUsesToolName "materialcraft_node_add" ;
+    :promptUsesToolName "materialcraft_node_connect" ;
+    :promptUsesToolName "materialcraft_outputs_export" ;
+    :promptUsesToolName "materialcraft_view_render" ;
+    :promptUsesToolName "texturecraft_mesh_import" ;
+    :promptUsesToolName "texturecraft_paint_stroke" ;
+    :promptUsesToolName "texturecraft_viewport_render" ;
+    :promptUsesToolName "texturecraft_textures_export" ;
+    :promptUsesToolName "texturecraft_mesh_export" ;
+    :promptUsesToolName "texturecraft_project_save" .

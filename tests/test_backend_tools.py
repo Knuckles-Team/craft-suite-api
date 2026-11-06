@@ -10,6 +10,7 @@ import base64
 import json
 import logging
 import time
+from pathlib import Path
 
 import httpx
 import pytest
@@ -64,10 +65,17 @@ async def test_every_operation_is_one_typed_tool(backend):
 
 
 @pytest.mark.spec("CONN-CRAFT-SUITE-API-R007")
-def test_generated_document_is_current_and_pinned():
-    from scripts.generate_backend_tools import main
+def test_served_document_is_built_from_the_pinned_source():
+    import hashlib
 
-    assert main(["--check"]) == 0
+    from craft_suite_api.backend_spec import pinned_source
+
+    # Nothing generated is committed: the served description is repaired from
+    # the shipped published document at first use, after its pin is checked.
+    package = Path(__file__).resolve().parents[1] / "craft_suite_api"
+    assert not (package / "backend_openapi.json").exists()
+    data, provenance = pinned_source()
+    assert hashlib.sha256(data).hexdigest() == provenance["sha256"]
     document = backend_document()
     assert "servers" not in document
     assert document["components"]["securitySchemes"]["signed_session"]["name"] == (
@@ -197,3 +205,19 @@ async def test_hot_path_read_reaches_the_exact_route_with_the_session(backend):
     assert request.headers["session"] == "synthetic-session"
     assert json.loads(json.dumps(result.structured_content)) == TAGS
     assert elapsed < 1.0
+
+
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R007")
+def test_repairs_keep_json_bodies_and_open_response_enums():
+    document = backend_document()
+    flux = document["paths"]["/v1/generate/image/flux_1_schnell_text_to_image"]["post"]
+    # A bogus `request` path parameter beside a JSON body is dropped; the
+    # operation is not mistaken for a multipart upload.
+    assert [p["name"] for p in flux.get("parameters", [])] == []
+    assert list(flux["requestBody"]["content"]) == ["application/json"]
+    # Response-only schemas carry no closed enum: the live backend answers
+    # values the published description does not list.
+    schemas = document["components"]["schemas"]
+    models = document["paths"]["/v1/omni_gen/models/image"]["get"]
+    ref = models["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
+    assert "enum" not in json.dumps(schemas[ref.rsplit("/", 1)[1]])

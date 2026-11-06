@@ -18,7 +18,7 @@ flowchart LR
 | Boundary | Source | Verification target |
 |---|---|---|
 | MCP entry and routing | `craft_suite_api/mcp_server.py`, `craft_suite_api/mcp/__init__.py` | `tests/test_artcraft_mcp_validation.py` |
-| One typed tool per backend operation | `craft_suite_api/backend.py`, `scripts/generate_backend_tools.py`, `craft_suite_api/backend_openapi.json` | `tests/test_backend_tools.py` |
+| One typed tool per backend operation | `craft_suite_api/backend.py`, `craft_suite_api/backend_spec.py`, `craft_suite_api/api_spec/` | `tests/test_backend_tools.py` |
 | Write governance and audit | `BackendGovernance` in `craft_suite_api/backend.py`, SDK confirmation helper | `tests/test_backend_tools.py`, `tests/test_destructive_confirmation_transports.py` |
 | Credentials, TLS and bounded requests | `craft_suite_api/auth.py` | `tests/test_auth.py`, `tests/test_api_wrapper.py` |
 | Withheld ingestion | No callable ingestion module | `tests/test_source_contract.py` verifies the starter cannot be imported |

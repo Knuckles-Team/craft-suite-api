@@ -42,7 +42,10 @@ def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
             assert decl.sandbox.read_flag == read_flag
             assert decl.sandbox.write_flag == write_flag
     assert FLAGLESS_APPS == ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
-    assert ROOT_FLAGS == {"materialcraft": ("--read-root", "--write-root")}
+    assert ROOT_FLAGS == {
+        "materialcraft": ("--read-root", "--write-root"),
+        "solidcraft": ("--allow-path", "--allow-path"),
+    }
 
     # Both settings unset: no root flag reaches any command line.
     monkeypatch.delenv(READ_ROOTS_SETTING, raising=False)
@@ -67,7 +70,8 @@ def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
             read_flag,
             "/srv/artcraft-inbox",
         ], command
-        assert write_flag not in command
+        if write_flag != read_flag:
+            assert write_flag not in command
 
     # A write root set on its own never borrows the read roots.
     monkeypatch.setenv(WRITE_ROOTS_SETTING, "/srv/artcraft-outbox")
@@ -79,8 +83,15 @@ def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
         read_flag, write_flag = ROOT_FLAGS.get(
             decl.name, ("--automation-read-root", "--automation-write-root")
         )
-        assert command.count(read_flag) == 1
-        assert command.count(write_flag) == 1
+        if read_flag == write_flag:
+            # One flag grants both: one occurrence per root.
+            assert command.count(read_flag) == 2
+            assert (
+                "/srv/artcraft-inbox" in command and "/srv/artcraft-outbox" in command
+            )
+        else:
+            assert command.count(read_flag) == 1
+            assert command.count(write_flag) == 1
 
 
 def test_flagless_apps_survive_exchange_binding(tmp_path) -> None:

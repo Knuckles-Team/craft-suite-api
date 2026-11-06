@@ -308,17 +308,27 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
     pack = asyncio.run(_build_pack())
     entries = pack.archive.entries
     kinds = Counter(entry.kind.value for entry in entries)
-    assert kinds["ontology"] == 1 + len(APPS)
-    assert kinds["skill"] == 1 + len(APPS)
+    # The authored workflow content (CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009)
+    # ships beside the generated per-app content: two workflow ontology
+    # modules and one <app>-<task> skill per proven workflow.
+    workflow_modules = {"artcraft-workflows.ttl", "artcraft-workflows-vocabulary.ttl"}
+    workflow_skills = {
+        path.parent.name
+        for path in (PACKAGE / "skills").glob("*-*/SKILL.md")
+        if path.parent.name != "artcraft-starter"
+    }
+    assert workflow_skills
+    assert kinds["ontology"] == 1 + len(APPS) + len(workflow_modules)
+    assert kinds["skill"] == 1 + len(APPS) + len(workflow_skills)
     assert kinds["prompt"] >= len(APPS)
     ontology_uris = {entry.uri for entry in entries if entry.kind.value == "ontology"}
     assert ontology_uris == {f"ontology://{CONNECTOR}/artcraft.ttl"} | {
         f"ontology://{CONNECTOR}/artcraft-{app}.ttl" for app in APPS
-    }
+    } | {f"ontology://{CONNECTOR}/{name}" for name in workflow_modules}
     skill_uris = {entry.uri for entry in entries if entry.kind.value == "skill"}
     assert skill_uris == {f"skill://{app}/SKILL.md" for app in APPS} | {
         "skill://artcraft-starter/SKILL.md"
-    }
+    } | {f"skill://{name}/SKILL.md" for name in workflow_skills}
     assert "connector://resources" in {entry.uri for entry in entries}
     prompt_uris = [entry.uri for entry in entries if entry.kind.value == "prompt"]
     for app in APPS:

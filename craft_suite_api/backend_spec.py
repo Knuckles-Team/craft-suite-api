@@ -1,10 +1,10 @@
-"""Build the served backend API description from the pinned published document.
+"""The served backend API description, built from the pinned published document.
 
 CONN-CRAFT-SUITE-API-R007. The input is the backend's own published OpenAPI
-document, pinned by sha256 in ``api-spec/backend.source.json``. The output,
-``craft_suite_api/backend_openapi.json``, is what the server turns into one
-typed tool per operation. Every change below is a deterministic repair of
-the published document, never a new operation:
+document, shipped byte for byte in ``api_spec/backend.openapi.json`` and
+pinned by sha256 in ``api_spec/backend.source.json``. The server repairs it
+in memory when it first builds the backend tools; nothing generated is
+committed. Every change is a deterministic repair, never a new operation:
 
 * a ``$ref`` to a schema the document omits becomes a typed open object;
 * a parameter without a schema becomes a string;
@@ -12,28 +12,22 @@ the published document, never a new operation:
   its real form body, with the file part carried as base64 text;
 * the session credential scheme the backend reads is declared;
 * each operation is classified ``read`` or one write class for governance.
-
-Run with ``--check`` to fail when the committed output is stale.
 """
 
 from __future__ import annotations
 
-import argparse
 import copy
 import hashlib
 import json
-import sys
-from pathlib import Path
+from importlib import resources
+from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "api-spec" / "backend.openapi.json"
-PROVENANCE = ROOT / "api-spec" / "backend.source.json"
-OUTPUT = ROOT / "craft_suite_api" / "backend_openapi.json"
-
-METHODS = ("get", "put", "post", "delete", "patch")
+__all__ = ["CLASS_KEY", "normalize", "pinned_source", "served_document", "write_class"]
 
 #: The vendor extension that carries an operation's governance class.
 CLASS_KEY = "x-craft-suite-class"
+
+METHODS = ("get", "put", "post", "delete", "patch")
 
 #: Upload operations whose form schema the document names; the rest use the
 #: generic upload form the backend drains field by field.
@@ -99,10 +93,6 @@ ACCOUNT_SEGMENTS = (
     "user_bans",
     "user_referral_codes",
 )
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def write_class(method: str, path: str) -> str:
@@ -193,36 +183,98 @@ def normalize(document: dict) -> dict:
                 p.get("in") == "path" and p.get("name") == "request"
                 for p in operation.get("parameters", [])
             ):
-                _repair_upload(operation, schemas)
+                if _has_json_body(operation):
+                    # The bogus `request` parameter repeats the JSON body: drop it.
+                    _drop_request_parameter(operation)
+                else:
+                    _repair_upload(operation, schemas)
             _repair_parameters(operation)
             operation[CLASS_KEY] = write_class(method, path)
+    _open_response_enums(document)
     return document
 
 
-def render() -> str:
-    provenance = json.loads(PROVENANCE.read_text())
-    actual = sha256(SOURCE)
+def _has_json_body(operation: dict) -> bool:
+    content = operation.get("requestBody", {}).get("content", {})
+    return "application/json" in content
+
+
+def _drop_request_parameter(operation: dict) -> None:
+    operation["parameters"] = [
+        p
+        for p in operation.get("parameters", [])
+        if not (p.get("in") == "path" and p.get("name") == "request")
+    ]
+
+
+def _schema_closure(roots: set[str], schemas: dict) -> set[str]:
+    seen: set[str] = set()
+    todo = list(roots)
+    while todo:
+        name = todo.pop()
+        if name in seen or name not in schemas:
+            continue
+        seen.add(name)
+        found: set[str] = set()
+        references(schemas[name], found)
+        todo.extend(found - seen)
+    return seen
+
+
+def _strip_enums(value) -> None:
+    if isinstance(value, dict):
+        value.pop("enum", None)
+        for item in value.values():
+            _strip_enums(item)
+    elif isinstance(value, list):
+        for item in value:
+            _strip_enums(item)
+
+
+def _open_response_enums(document: dict) -> None:
+    """Drop ``enum`` from the schemas only responses use.
+
+    The live backend answers values its published description does not list
+    (``quality_options: "auto"``, the model ``wan_3p0``), so a closed enum on a
+    response fails output validation for a good answer. Request schemas keep
+    their enums.
+    """
+    schemas = document["components"]["schemas"]
+    requests: set[str] = set()
+    responses: set[str] = set()
+    for item in document["paths"].values():
+        for method in METHODS:
+            operation = item.get(method)
+            if operation is None:
+                continue
+            references(operation.get("requestBody", {}), requests)
+            references(operation.get("parameters", []), requests)
+            references(operation.get("responses", {}), responses)
+            for response in operation.get("responses", {}).values():
+                _strip_enums(response.get("content", {}))
+    request_side = _schema_closure(requests, schemas)
+    for name in _schema_closure(responses, schemas) - request_side:
+        _strip_enums(schemas[name])
+
+
+def pinned_source() -> tuple[bytes, dict[str, Any]]:
+    """The published document's bytes and its provenance record."""
+    root = resources.files(__package__).joinpath("api_spec")
+    data = root.joinpath("backend.openapi.json").read_bytes()
+    provenance = json.loads(root.joinpath("backend.source.json").read_text())
+    return data, provenance
+
+
+def served_document() -> dict[str, Any]:
+    """The repaired description the backend tools are built from.
+
+    Raises:
+        ValueError: the shipped document does not match its pinned sha256.
+    """
+    data, provenance = pinned_source()
+    actual = hashlib.sha256(data).hexdigest()
     if actual != provenance["sha256"]:
-        raise SystemExit(f"pinned document sha256 {actual} != {provenance['sha256']}")
-    output = normalize(json.loads(SOURCE.read_text()))
-    return json.dumps(output, indent=1, sort_keys=True) + "\n"
-
-
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--check", action="store_true")
-    args = parser.parse_args(argv)
-    rendered = render()
-    if args.check:
-        if not OUTPUT.exists() or OUTPUT.read_text() != rendered:
-            sys.stderr.write(
-                "backend_openapi.json is stale; run scripts/generate_backend_tools.py\n"
-            )
-            return 1
-        return 0
-    OUTPUT.write_text(rendered)
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+        raise ValueError(
+            f"pinned backend document sha256 {actual} != {provenance['sha256']}"
+        )
+    return normalize(json.loads(data))

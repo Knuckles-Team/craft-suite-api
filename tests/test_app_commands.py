@@ -146,8 +146,9 @@ def test_schemas_carry_the_documented_parameters() -> None:
     assert new.meta == {
         "scion/upstream": {"namespace": "photocraft", "upstream": "photocraft"}
     }
-    # Names only: the fragments live once, in the description.
-    assert new.parameters["properties"]["width"] == {}
+    # Typed from the prose (CONN-CRAFT-SUITE-API-APPS-R019); the fragment's
+    # documentation lives once, in the description.
+    assert new.parameters["properties"]["width"] == {"type": "number"}
     typed = tools["photocraft_cmd_comp_new"]
     assert typed.parameters["properties"]["name"] == {"type": "string"}
     assert typed.parameters["required"] == ["name"]
