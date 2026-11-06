@@ -4,14 +4,20 @@ The backend API is one tool per operation (CONN-CRAFT-SUITE-API-R007); a
 backend setting that cannot be used never stops the server: every backend
 tool answers the typed refusal ``BACKEND_CONFIG_INVALID`` instead
 (CONN-CRAFT-SUITE-API-APPS-R001). Every suite app's engine command is one tool
-(CONN-CRAFT-SUITE-API-APPS-R017).
+(CONN-CRAFT-SUITE-API-APPS-R017). Each app's command tools warm independently
+(CONN-CRAFT-SUITE-API-APPS-R018).
 """
 
 import logging
 
 from scion_sdk.config import ConfigurationError, csv_values, setting
 
-from ..app_commands import AppCommandProvider, HideDispatchTools, dispatch_tool_names
+from ..app_commands import (
+    AppCommandProvider,
+    HideDispatchTools,
+    SessionTracker,
+    dispatch_tool_names,
+)
 from ..auth import PLACEHOLDER_ORIGIN, backend_settings, build_client
 from ..backend import NAMESPACE, Gate, build_backend_server
 from ..error_authority import BACKEND_CONFIG_INVALID
@@ -65,5 +71,16 @@ def register_app_command_tools(mcp):
     }
     if not apps:
         return
-    mcp.add_provider(AppCommandProvider(apps))
+    # Each app warms on its own; sessions hear tools/list_changed as each one
+    # lands (CONN-CRAFT-SUITE-API-APPS-R018).
+    tracker = SessionTracker(mcp)
+    mcp.add_middleware(tracker)
+    mcp.add_provider(
+        AppCommandProvider(
+            apps,
+            tracker=tracker,
+            wait_s=setting("CRAFT_SUITE_WARMUP_WAIT_S", 20.0),
+            retry_s=setting("CRAFT_SUITE_REGISTRY_RETRY_S", 15.0),
+        )
+    )
     mcp.add_transform(HideDispatchTools(dispatch_tool_names(tuple(apps))))

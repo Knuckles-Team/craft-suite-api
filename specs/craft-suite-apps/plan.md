@@ -43,6 +43,9 @@ docs/exchange.example.json            new       two exchange sinks (R014)
 tests/test_artifact_exchange.py       new       R013 to R016 proofs
 craft_suite_api/app_commands.py       new       R017 one tool per app engine command
 tests/test_app_commands.py            new       R017 proofs
+tests/test_app_warmup.py              new       R018 proofs (per-app warm-up, refusals, readiness)
+tests/test_typed_command_schemas.py   new       R019 proofs (typed schemas from prose)
+tests/test_command_tool_exchange.py   new       R020 proofs (exchange and job wait in command tools)
 ```
 
 ## Phase 0: Research

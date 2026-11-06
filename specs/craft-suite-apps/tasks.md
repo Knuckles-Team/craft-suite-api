@@ -19,3 +19,6 @@ Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requireme
 - [ ] T015 [US4] CONN-CRAFT-SUITE-API-APPS-R015 Hot-path proof: an app call takes an exchange input and publishes its output.
 - [ ] T016 [P] [US4] CONN-CRAFT-SUITE-API-APPS-R016 Skills tell the agent how to pass inputs and find outputs.
 - [ ] T017 [US1] CONN-CRAFT-SUITE-API-APPS-R017 Every app engine command is its own tool.
+- [ ] T018 [US1] CONN-CRAFT-SUITE-API-APPS-R018 Each app warms on its own; startup never blocks.
+- [ ] T019 [US1] CONN-CRAFT-SUITE-API-APPS-R019 Command tool schemas are typed from the apps' parameter documentation.
+- [ ] T020 [US4] CONN-CRAFT-SUITE-API-APPS-R020 Command tools run their arguments through the exchange and await background jobs.

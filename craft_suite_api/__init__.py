@@ -20,21 +20,28 @@ async def _tier1_readiness() -> Readiness:
     exception escapes, so a bad or missing configuration reads
     ``not_configured`` instead of failing the probe.
     """
+    from . import app_commands
     from .mcp import BACKEND_STATE
 
+    warmup = app_commands.WARMUP
+    apps = warmup.readiness_detail() if warmup is not None else {}
+    # Ready once every app's registry has settled (loaded or failed): a
+    # rolling update keeps the previous pod serving until then, and one
+    # failed app never holds readiness (CONN-CRAFT-SUITE-API-APPS-R018).
+    warm = warmup is None or warmup.settled
     if BACKEND_STATE.get("backend") == "invalid":
-        return Readiness(ready=True, detail=dict(BACKEND_STATE))
+        return Readiness(ready=warm, detail={**BACKEND_STATE, **apps})
     try:
         load_config()
         configured = bool(setting("CRAFT_SUITE_API_BASE_URL", ""))
     except ConfigurationError:
         return Readiness(
-            ready=True,
-            detail={"backend": "invalid", "code": "BACKEND_CONFIG_INVALID"},
+            ready=warm,
+            detail={"backend": "invalid", "code": "BACKEND_CONFIG_INVALID", **apps},
         )
     return Readiness(
-        ready=True,
-        detail={"backend": "configured" if configured else "not_configured"},
+        ready=warm,
+        detail={"backend": "configured" if configured else "not_configured", **apps},
     )
 
 
