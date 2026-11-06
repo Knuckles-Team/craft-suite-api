@@ -91,20 +91,25 @@ The SDK exchange owns staging, inputs, publication, links and lineage. This conn
 
 Run `pipelines-hook spec-standard`, `pipelines-hook spec-status` and `ste-staged` on the spec directory. Phase gates run offline against fixture programs.
 
-### Readiness by lifecycle (CONN-CRAFT-SUITE-API-APPS-R018.1 to R018.4)
+### Readiness by lifecycle (CONN-CRAFT-SUITE-API-APPS-R018.1 to R018.5)
 
-The connector holds no readiness vocabulary. It supplies probe results and the SDK `ConnectorLifecycle` machine of `SCION-CONNECTOR-CONTROL-R914` decides the state of the backend and of each of the sixteen upstreams.
+The connector holds no readiness vocabulary. It supplies probe results, and the SDK connector lifecycle machine (`SCION-CONNECTOR-CONTROL-R917`, per upstream `R917.6`) decides the state of the backend and of each of the sixteen upstreams.
 
-| Component outcome | Lifecycle state |
-|---|---|
-| App registry still loading | pre-proof state |
-| App registry loaded | Ready |
-| App registry unreadable, retry pending | Backoff |
-| App registry unreadable after three retries | Degraded |
-| Backend setting empty | unconfigured state |
-| Backend setting unusable | Degraded, code `BACKEND_CONFIG_INVALID` |
+Machine. The SDK declares it once. States: `Unconfigured`, `warming`, `Ready`, `Degraded`, `Backoff`, `Stopped` (terminal). The pre-proof state is named `warming` by owner decision. The one transition function is `scion_sdk/connector_lifecycle.py::transition`, owned by scion-sdk. An illegal event raises `LifecycleTransitionRefused` (`LIFECYCLE_TRANSITION_REFUSED`). The state field is `UpstreamStatus.state` (`scion_sdk/mcp/upstreams/model.py`) for an upstream and `RunnerHealth.lifecycle_state` for the backend. The ontology classes live in the SDK pack `scion_sdk/ontology/connector_lifecycle.ttl` and roll up to the medulla core classes; this repository declares none and adds only the `lifecycleState` property (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`).
 
-`/ready` keeps the rule that one failed app never holds the server unready. The detail now names each upstream with its lifecycle state, so a broken component is visible.
+| From | Event | To | Probe outcome |
+|---|---|---|---|
+| Unconfigured | `registry_loaded` | `warming` | app activated, or backend setting present |
+| `warming` | `cycle_ok` | Ready | registry settled, or configuration valid |
+| `warming` | `cycle_fail(1)` | Degraded | registry unreadable, or configuration invalid |
+| Degraded | `cycle_fail(3)` | Backoff | three retries used |
+| Degraded | `cycle_ok` | Ready | a retry succeeds |
+| Backoff | `cycle_ok` | Ready | a later probe succeeds |
+| any but Stopped | `removed` | Stopped | app or backend removed |
+
+Every other pair is refused. An empty backend setting stays `Unconfigured` with code `BACKEND_NOT_CONFIGURED`.
+
+`/ready` answers ready once no component is `warming`. A `Degraded`, `Backoff` or `Unconfigured` component never holds the server unready, and the detail names every component with its lifecycle state.
 
 ## Phase 2: Task approach
 
@@ -130,7 +135,7 @@ Repository commands: `pre-commit run --all-files`, then `uv run pytest tests`. N
 
 Entry point: the `scion_sdk.connector` entry point calls `run` and `build_server`, which call `_serve_hooks` (in the `scion-sdk` package, module `scion_sdk._connector_serve`, line 97). `_serve_hooks` calls `attach_upstreams` with `connector.upstreams` from `craft_suite_api/__init__.py`. Tier 1 reaches the backend through `get_client` (`craft_suite_api/auth.py:70`). Obsolete paths to delete: none.
 
-Row `CONN-CRAFT-SUITE-API-APPS-R018.1` to `R018.4`: the `scion_sdk.connector` entry point loads `craft_suite_api:connector`; the SDK supervisor calls `backend_probe` and `app_probe` in `craft_suite_api/probes.py`, feeds the results to the `ConnectorLifecycle` instance of each component, and `/ready` renders their states.
+Row `CONN-CRAFT-SUITE-API-APPS-R018.1` to `R018.5`: the `scion_sdk.connector` entry point loads `craft_suite_api:connector`; the SDK supervisor calls `backend_probe` and `app_probe` in `craft_suite_api/probes.py`, feeds the results to `scion_sdk/connector_lifecycle.py::transition` for each component, and `/ready` renders their states. The wiring row is `R018.3` and the hot-path proof row is `R018.4`.
 
 ## Cross-repo seams
 

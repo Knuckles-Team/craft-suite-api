@@ -27,5 +27,6 @@ Governing spec: [spec.md](spec.md).
 | T-021 | `CONN-CRAFT-SUITE-API-APPS-R018.1` | `tests/test_lifecycle_readiness.py::test_no_local_readiness_function_remains` (planned) | No readiness function stays in the package. |
 | T-022 | `CONN-CRAFT-SUITE-API-APPS-R018.2` | `tests/test_lifecycle_readiness.py::test_probes_return_results_not_states` (planned) | A probe returns a result and no state. |
 | T-023 | `CONN-CRAFT-SUITE-API-APPS-R018.3` | `tests/test_lifecycle_readiness.py::test_every_warmup_and_backend_outcome_maps_to_one_lifecycle_state` (planned) | Each outcome maps to one state. |
-| T-024 | `CONN-CRAFT-SUITE-API-APPS-R018.4` | `tests/test_lifecycle_readiness.py::test_ready_shows_broken_backend_and_app_as_not_ready_and_recovers` (planned) | A broken component is visible in `/ready`. |
-| T-025 | `CONN-CRAFT-SUITE-API-APPS-R001.1` | `tests/test_tier1_degrade.py::test_backend_detail_is_rendered_from_the_lifecycle_state` (planned) | One source of backend state. |
+| T-024 | `CONN-CRAFT-SUITE-API-APPS-R018.5` | `tests/test_lifecycle_readiness.py::test_ready_is_true_once_no_component_is_warming` (planned) | The answer follows `warming` and the detail names every state. |
+| T-025 | `CONN-CRAFT-SUITE-API-APPS-R018.4` | `tests/test_lifecycle_readiness.py::test_ready_shows_broken_backend_and_app_as_not_ready_and_recovers` (planned) | A broken component is visible in `/ready`. |
+| T-026 | `CONN-CRAFT-SUITE-API-APPS-R001.1` | `tests/test_tier1_degrade.py::test_backend_detail_is_rendered_from_the_lifecycle_state` (planned) | One source of backend state. |
