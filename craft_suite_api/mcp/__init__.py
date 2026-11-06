@@ -1,20 +1,16 @@
-"""Catalog-bound registrars preserving the SDK's per-domain toggles."""
+"""The connector's tool registrar: the backend API, one tool per operation."""
 
-from functools import partial
+from ..auth import backend_settings, build_client
+from ..backend import NAMESPACE, Gate, build_backend_server
 
-from ..auth import get_client
-from ..openapi_runtime import CONTRACT, register_domain
-
-
-def _domain_registrar(domain):
-    registrar = partial(register_domain, domain=domain, client_factory=get_client)
-    registrar.__name__ = f"register_{domain}_tools"
-    return registrar
+__all__ = ["register_backend_tools"]
 
 
-globals().update(
-    {
-        f"register_{domain}_tools": _domain_registrar(domain)
-        for domain in sorted(CONTRACT["domains"])
-    }
-)
+def register_backend_tools(mcp):
+    """Mount every backend operation as ``craft_suite_<operationId>``."""
+    settings = backend_settings()
+    server = build_backend_server(
+        build_client(settings),
+        Gate(configured=settings.configured, allow_writes=settings.allow_writes),
+    )
+    mcp.mount(server, namespace=NAMESPACE)

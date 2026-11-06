@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-11-05
+
+### Changed (breaking)
+- The backend tier now serves every operation of the backend's published API
+  description as one typed tool, `craft_suite_<operationId>`: 268 tools instead
+  of 9, including generation, upload and account operations
+  (CONN-CRAFT-SUITE-API-R007). The tools are generated with fastmcp's OpenAPI
+  provider from `api-spec/backend.openapi.json`, pinned by sha256 and repaired
+  deterministically by `scripts/generate_backend_tools.py`.
+- Every write needs `CRAFT_SUITE_API_ALLOW_WRITES` and a confirmation. Refusals
+  are typed (`BACKEND_NOT_CONFIGURED`, `WRITES_DISABLED`, unconfirmed), and every
+  write decision is audited on the `craft_suite_api.audit` logger
+  (CONN-CRAFT-SUITE-API-R008).
+- Reads no longer need write enablement or confirmation.
+
+### Removed
+- The hand-reviewed nine-operation contract and its runtime
+  (`openapi_*` modules, `craft_suite_api.api`, the source-evidence scripts and
+  their validation receipts). The nine reads keep their tool names.
 ## [0.5.3] - 2026-11-06
 
 ### Fixed

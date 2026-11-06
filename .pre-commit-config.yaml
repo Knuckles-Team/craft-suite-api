@@ -67,6 +67,12 @@ repos:
     language: system
     pass_filenames: false
     files: ^(content/|craft_suite_api/(skills|ontology|prompts)/|scripts/generate_app_content\.py$)
+  - id: backend-tools-drift
+    name: Generated backend API description drift gate
+    entry: uv run --frozen python scripts/generate_backend_tools.py --check
+    language: system
+    pass_filenames: false
+    files: ^(api-spec/|craft_suite_api/backend_openapi\.json$|scripts/generate_backend_tools\.py$)
   - id: pytest
     name: Generated connector contracts
     entry: python -m pytest tests -q

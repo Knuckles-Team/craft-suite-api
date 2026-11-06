@@ -10,3 +10,6 @@ Each task line reads `- [ ] T001 [P] [US1] <ID>-R012.4 description`. Order is pr
 - [ ] T004 [US1] CONN-CRAFT-SUITE-API-R004 Native content contracts.
 - [ ] T005 [US1] CONN-CRAFT-SUITE-API-R005 Withhold unscoped ingestion.
 - [ ] T006 [US1] CONN-CRAFT-SUITE-API-R006 Destructive-write confirmation.
+- [ ] T007 [US1] CONN-CRAFT-SUITE-API-R007 Every backend operation as one typed tool.
+- [ ] T008 [US1] CONN-CRAFT-SUITE-API-R008 Governed writes: typed refusals and audit.
+- [ ] T009 [US1] CONN-CRAFT-SUITE-API-R009 Hot-path proof.

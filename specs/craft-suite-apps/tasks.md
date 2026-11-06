@@ -2,7 +2,7 @@
 
 Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requirements.md](requirements.md).
 
-- [ ] T001 [US1] CONN-CRAFT-SUITE-API-APPS-R001 Tier 1 stays unchanged and degrades when unconfigured.
+- [ ] T001 [US1] CONN-CRAFT-SUITE-API-APPS-R001 The backend tier degrades when unconfigured.
 - [ ] T002 [US1] CONN-CRAFT-SUITE-API-APPS-R002 Declare the eleven app upstreams.
 - [ ] T003 [US1] CONN-CRAFT-SUITE-API-APPS-R003 Probe the app command-line tools for MCP support.
 - [ ] T004 [US1] CONN-CRAFT-SUITE-API-APPS-R004 Behavior: local deployment runs each app as a stdio child.

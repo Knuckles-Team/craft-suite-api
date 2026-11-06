@@ -32,7 +32,10 @@ async def _tier1_readiness() -> Readiness:
 
 
 connector = Connector(
-    instructions="Craft Suite connector; nine reviewed ArtCraft backend reads",
+    instructions=(
+        "Craft Suite connector: every backend API operation as one typed tool, "
+        "plus the suite apps as lazily loaded upstreams"
+    ),
     tools="craft_suite_api.mcp",
     upstreams=UPSTREAMS,
     readiness=_tier1_readiness,
@@ -41,7 +44,6 @@ connector = Connector(
 __all__: list[str] = ["connector"]
 
 CORE_MODULES = [
-    "craft_suite_api.api",
     "craft_suite_api.error_authority",
 ]
 

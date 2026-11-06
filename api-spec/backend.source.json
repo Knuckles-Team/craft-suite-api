@@ -1,0 +1,10 @@
+{
+  "document": "api-spec/backend.openapi.json",
+  "license_note": "The backend's published API description; the backend source is under its own source-available licence (not OSI). Only the interface description is used: no backend code is copied or run.",
+  "note": "sha256 is of the committed file: the published bytes plus one trailing newline (repository end-of-file rule).",
+  "operations": 268,
+  "published_sha256": "ebff0b4edbcdd1d37cf4a8f2192e287e29e9a5036cf73cb14310a68f5a6d2515",
+  "retrieved": "2026-11-05",
+  "sha256": "179b59e009b03c8e75801bd4506a5c07378ed2880ce65367ed349850c2cbd679",
+  "url": "https://storyteller-docs.netlify.app/api.json"
+}

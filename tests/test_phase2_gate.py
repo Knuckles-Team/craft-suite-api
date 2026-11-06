@@ -26,6 +26,7 @@ import pytest
 from fastmcp import Client
 from scion_sdk.mcp.upstreams.drift import fingerprint_tools
 
+from craft_suite_api.backend import operation_count
 from craft_suite_api.upstreams import (
     APPS,
     READ_ROOTS_SETTING,
@@ -33,6 +34,9 @@ from craft_suite_api.upstreams import (
     SandboxRoots,
     UpstreamDecl,
 )
+
+#: The initial list: every backend operation plus the four registry tools.
+INITIAL = operation_count() + 4
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R010")
 
@@ -93,22 +97,29 @@ def _baseline_fingerprint() -> str:
     return asyncio.run(probe())
 
 
+async def _expect_tools(client, expected: int) -> int:
+    count = len(await client.list_tools())
+    assert count == expected
+    return count
+
+
 async def _eleven_gate() -> dict:
     """One dying app, ten callable, and the drifted app reported drifted."""
     from craft_suite_api.mcp_server import build_server
 
     observations: dict = {}
     async with Client(build_server(command_args=[]), mode="legacy") as client:
-        # The thirteen-tool initial list; everything is lazy, nothing spawns.
-        assert len(await client.list_tools()) == 13
+        # The initial list (backend plus registry); every app is lazy, nothing spawns.
+        await _expect_tools(client, INITIAL)
 
         for app in APPS:
             result = await client.call_tool("registry_activate", {"namespace": app})
             assert result.is_error is False, app
 
-        # Thirteen base tools plus three per live app; the dead one holds none.
-        observations["tool_count"] = len(await client.list_tools())
-        assert observations["tool_count"] == 13 + 3 * (len(APPS) - 1)
+        # The initial tools plus three per live app; the dead one holds none.
+        observations["tool_count"] = await _expect_tools(
+            client, INITIAL + 3 * (len(APPS) - 1)
+        )
 
         result = await client.call_tool("registry_status", {})
         entries = {

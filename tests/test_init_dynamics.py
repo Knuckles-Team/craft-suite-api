@@ -15,7 +15,7 @@ def test_required_import_failure_is_not_hidden(monkeypatch):
     import_module = importlib.import_module
 
     def unavailable_core(name):
-        if name == "craft_suite_api.api":
+        if name == "craft_suite_api.error_authority":
             raise ImportError("core dependency unavailable")
         return import_module(name)
 
