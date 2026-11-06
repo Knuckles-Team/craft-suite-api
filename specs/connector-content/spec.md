@@ -52,6 +52,7 @@ A maintainer updates an app and sees what changed.
 - **FR-007**: Gate generated content against drift. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007`.
 - **FR-008**: Prove the pack imports cleanly. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
 - **FR-009**: Ship the proven business workflows as skills, agent prompts and ontology contracts. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
+- **FR-010**: The component lifecycle is described in the ontology by reuse (rollup). Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2`.
 
 ## Success Criteria
 
@@ -82,3 +83,4 @@ In scope: the rows of [requirements.md](requirements.md). The upstream registry 
 | FR-007 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007` | [plan.md](plan.md) | T-007 | [test-spec.md](test-spec.md) |
 | FR-008 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
 | FR-009 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009` | [plan.md](plan.md) | T-009 | [test-spec.md](test-spec.md) |
+| FR-010 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2` | [plan.md](plan.md) | T-010 | [test-spec.md](test-spec.md) |
