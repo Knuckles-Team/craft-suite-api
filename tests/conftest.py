@@ -1,48 +1,40 @@
-from contextlib import closing
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import httpx
 import pytest
-from scion_sdk.auth.static import api_key_auth
-
-from craft_suite_api.api import ApiClientSystem
-from craft_suite_api.openapi_client import ClientPolicy
 
 
 @pytest.fixture
-def mock_api_client():
-    client = MagicMock()
-    client.get_system_status.return_value = {"status": "OK"}
-    return client
+def backend(monkeypatch):
+    """Build the backend sub-server over a fake transport.
 
+    ``make(respond, allow_writes=..., configured=...)`` returns the
+    sub-server; ``respond`` receives every outbound ``httpx.Request``.
+    """
+    from craft_suite_api import auth
+    from craft_suite_api.backend import Gate, build_backend_server
 
-@pytest.fixture
-def synthetic_session_client(monkeypatch):
-    """Create a closing synthetic-session client with caller-owned HTTP replies."""
+    monkeypatch.setattr(auth, "load_config", lambda: None)
     monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "synthetic-session")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "env://CRAFT_SUITE_FIXTURE_SESSION")
     monkeypatch.setenv("ENABLE_DELEGATION", "false")
 
-    def create(respond, *, allow_writes):
-        return closing(
-            ApiClientSystem(
-                "https://craft.example.invalid",
-                api_key_auth("env://CRAFT_SUITE_FIXTURE_SESSION", header="session"),
-                credential_scheme="signed_session",
-                policy=ClientPolicy(allow_writes=allow_writes),
-                transport=httpx.MockTransport(respond),
-            )
+    def make(respond, *, allow_writes=False, configured=True):
+        if configured:
+            monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", ORIGIN)
+        else:
+            monkeypatch.delenv("CRAFT_SUITE_API_BASE_URL", raising=False)
+        settings = auth.backend_settings()
+        client = auth.build_client(settings, transport=httpx.MockTransport(respond))
+        return build_backend_server(
+            client, Gate(configured=configured, allow_writes=allow_writes)
         )
 
-    return create
+    yield make
+    auth.close_client()
 
 
-def native_tool(arguments):
-    """The per-operation tool name and its arguments for a contract call."""
-    from craft_suite_api.openapi_runtime import operation_tool_name
-
-    rest = {key: value for key, value in arguments.items() if key != "action"}
-    return operation_tool_name(arguments["action"]), rest
+ORIGIN = "https://craft.example.invalid"
 
 
 @pytest.fixture

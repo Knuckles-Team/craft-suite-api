@@ -18,7 +18,7 @@ An agent author connects to one server and works with photo, document and model 
 
 **Acceptance Scenarios**:
 
-1. **Given** the facade has started with no activation, **When** the agent lists tools, **Then** it sees the thirteen Tier 1 and registry tools only (`CONN-CRAFT-SUITE-API-APPS-R007`).
+1. **Given** the facade has started with no activation, **When** the agent lists tools, **Then** it sees the backend and registry tools only (`CONN-CRAFT-SUITE-API-APPS-R007`).
 2. **Given** a session, **When** it activates one app, **Then** the tools of that app appear as `<app>_<tool>` (`CONN-CRAFT-SUITE-API-APPS-R009`).
 
 ### User Story 2 - Run apps locally, remotely or on a desktop session (Priority: P2)
@@ -58,18 +58,18 @@ An operator runs an app tool through the gateway. The output appears in the file
 
 ## Requirements
 
-- **FR-001**: Tier 1 stays unchanged and degrades when unconfigured. Rows: `CONN-CRAFT-SUITE-API-APPS-R001`.
+- **FR-001**: The backend tier degrades when unconfigured. Rows: `CONN-CRAFT-SUITE-API-APPS-R001`.
 - **FR-002**: Declare the eleven app upstreams with fail-closed roots. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
 - **FR-003**: Probe the app command-line programs for MCP support. Rows: `CONN-CRAFT-SUITE-API-APPS-R003`.
 - **FR-004**: Support local, remote and bridge deployment. Rows: `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006`.
-- **FR-005**: Keep the initial tool list small. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
+- **FR-005**: Keep app tools out of the initial list. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
 - **FR-006**: Register the facade once and load one app at a time. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
 - **FR-008**: Exchange app inputs and outputs with configured sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R013`, `CONN-CRAFT-SUITE-API-APPS-R014`, `CONN-CRAFT-SUITE-API-APPS-R015`, `CONN-CRAFT-SUITE-API-APPS-R016`.
 - **FR-007**: Pass four phased acceptance gates. Rows: `CONN-CRAFT-SUITE-API-APPS-R009`, `CONN-CRAFT-SUITE-API-APPS-R010`, `CONN-CRAFT-SUITE-API-APPS-R011`, `CONN-CRAFT-SUITE-API-APPS-R012`.
 
 ## Success Criteria
 
-- **SC-001**: The first tool list holds exactly thirteen tools. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
+- **SC-001**: The first tool list holds the backend and registry tools and no app tool. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
 - **SC-002**: With roots unset, no root flag reaches any app process. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
 - **SC-003**: One failing app leaves ten apps callable. Rows: `CONN-CRAFT-SUITE-API-APPS-R010`.
 - **SC-004**: Loading one group loads only that app. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.

@@ -1,4 +1,4 @@
-"""CONN-CRAFT-SUITE-API-APPS-R007: the initial tool list stays small."""
+"""CONN-CRAFT-SUITE-API-APPS-R007: the initial list is the backend plus the registry."""
 
 from __future__ import annotations
 
@@ -11,24 +11,14 @@ from fastmcp import Client
 from scion_sdk.mcp.upstreams.activation import REGISTRY_TOOL_NAMES
 
 import craft_suite_api
+from craft_suite_api.backend import NAMESPACE, tool_names
 from craft_suite_api.mcp_server import build_server
 from craft_suite_api.upstreams import build_upstreams
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R007")
 
-TIER1 = frozenset(
-    {
-        "craft_suite_get_folder_handler",
-        "craft_suite_list_folders_handler",
-        "craft_suite_status_alert_handler",
-        "craft_suite_omni_gen_audio_models_handler",
-        "craft_suite_omni_gen_image_models_handler",
-        "craft_suite_omni_gen_mesh_models_handler",
-        "craft_suite_omni_gen_splat_models_handler",
-        "craft_suite_list_media_file_tags_handler",
-        "craft_suite_list_tags_handler",
-    }
-)
+#: Every backend operation, served eagerly; the apps stay lazy.
+BACKEND = frozenset(f"{NAMESPACE}_{name}" for name in tool_names().values())
 
 # The fixture CLI serves exactly these tools, namespaced by app.
 FIXTURE_TOOLS = ("read_demo", "write_demo", "ask_once")
@@ -69,10 +59,10 @@ def test_initial_list_is_tier1_plus_registry_only(
 
     async def scenario() -> None:
         async with Client(server) as client:
-            # A fresh session lists exactly thirteen tools...
+            # A fresh session lists the backend and registry tools only...
             tools = {tool.name for tool in await client.list_tools()}
-            assert tools == TIER1 | set(REGISTRY_TOOL_NAMES)
-            assert len(tools) == 13
+            assert tools == BACKEND | set(REGISTRY_TOOL_NAMES)
+            assert len(tools) == len(BACKEND) + len(REGISTRY_TOOL_NAMES)
             # ...and has started no app process.
             assert not argv_log.exists()
 
@@ -84,10 +74,10 @@ def test_initial_list_is_tier1_plus_registry_only(
                 "changed": True,
             }
             tools = {tool.name for tool in await client.list_tools()}
-            assert tools == (TIER1 | set(REGISTRY_TOOL_NAMES)) | {
+            assert tools == (BACKEND | set(REGISTRY_TOOL_NAMES)) | {
                 f"alpha_{name}" for name in FIXTURE_TOOLS
             }
-            assert len(tools) == 16
+            assert len(tools) == len(BACKEND) + len(REGISTRY_TOOL_NAMES) + 3
             assert not any(name.startswith("beta_") for name in tools)
 
     asyncio.run(scenario())

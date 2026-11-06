@@ -61,7 +61,7 @@ Tier 1 is the generated backend connector. The SDK registry owns the proxy, the 
 
 Namespacing: `<app>_<tool>`, one lowercase alphanumeric word for the app. The names `execute`, `save`, `export` and `screenshot` occur in several apps, so the prefix is required.
 
-Activation default: `lazy` for a direct client, so the first list holds thirteen tools. A deployment behind the gateway sets `SCION_UPSTREAM_ACTIVATION=active`, and the gateway load controls exposure.
+Activation default: `lazy` for a direct client, so the first list holds the backend and registry tools only. A deployment behind the gateway sets `SCION_UPSTREAM_ACTIVATION=active`, and the gateway load controls exposure.
 
 Roots: unset means deny. The read and write settings are separate, and the write roots never default to the read roots.
 

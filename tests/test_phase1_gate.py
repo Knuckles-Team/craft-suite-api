@@ -2,7 +2,7 @@
 
 Phase 1 declares photocraft, wordcraft and solidcraft only and proves,
 against the fixture app CLIs (tests/fixtures/fake_app_cli.py), all five of
-the spec: the thirteen-tool initial list, activation of one app through
+the spec: the initial list (backend plus registry), activation of one app through
 the served registry tool, a read call through the activated namespace, a
 write call whose elicitation reaches the client exactly once, and no root
 flag on the child command line while the root settings are unset. The
@@ -18,6 +18,7 @@ from dataclasses import replace
 
 import pytest
 
+from craft_suite_api.backend import NAMESPACE, tool_names
 from craft_suite_api.upstreams import (
     READ_ROOTS_SETTING,
     WRITE_ROOTS_SETTING,
@@ -26,19 +27,7 @@ from craft_suite_api.upstreams import (
 )
 
 PHASE1 = ("photocraft", "wordcraft", "solidcraft")
-TIER1 = frozenset(
-    {
-        "craft_suite_get_folder_handler",
-        "craft_suite_list_folders_handler",
-        "craft_suite_status_alert_handler",
-        "craft_suite_omni_gen_audio_models_handler",
-        "craft_suite_omni_gen_image_models_handler",
-        "craft_suite_omni_gen_mesh_models_handler",
-        "craft_suite_omni_gen_splat_models_handler",
-        "craft_suite_list_media_file_tags_handler",
-        "craft_suite_list_tags_handler",
-    }
-)
+TIER1 = frozenset(f"{NAMESPACE}_{name}" for name in tool_names().values())
 REGISTRY = frozenset(
     {
         "registry_list_namespaces",
@@ -111,7 +100,7 @@ async def _gate(elicited: list) -> dict:
         mode="legacy",
         elicitation_handler=_make_handler(elicited),
     ) as client:
-        # (a) the thirteen-tool initial list: nine Tier 1 plus four registry.
+        # (a) the initial list (backend plus registry): nine Tier 1 plus four registry.
         initial = {tool.name for tool in await client.list_tools()}
         observations["initial"] = initial
         assert initial == TIER1 | REGISTRY

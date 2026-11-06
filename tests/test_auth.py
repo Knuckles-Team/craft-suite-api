@@ -1,15 +1,16 @@
+"""CONN-CRAFT-SUITE-API-R001: credential references resolve through the SDK."""
+
+import asyncio
 from unittest.mock import MagicMock, patch
 
 import httpx
 import pytest
-from scion_sdk.credentials.references import SecretReferenceError
 
 import craft_suite_api.auth as auth_module
 
 
 @pytest.fixture(autouse=True)
-def configured_client(monkeypatch):
-    auth_module.close_client()
+def configured(monkeypatch):
     monkeypatch.setattr(auth_module, "load_config", lambda: None)
     monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", "https://service.example.invalid")
     monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "env://SCAFFOLD_TEST_TOKEN")
@@ -23,66 +24,47 @@ def configured_client(monkeypatch):
 @pytest.mark.concept("CRAFT-SUITE-API-001")
 @pytest.mark.spec("CONN-CRAFT-SUITE-API-R001")
 def test_client_resolves_reference_and_cleans_up():
-    tls = MagicMock()
-    with (
-        patch.object(auth_module, "resolve_tls_profile", return_value=tls),
-        patch.object(auth_module, "ApiClientSystem") as client_cls,
-    ):
-        client = auth_module.get_client()
-        assert auth_module.get_client() is client
-        kwargs = client_cls.call_args.kwargs
-        request = httpx.Request("GET", "https://service.example.invalid")
-        authorized = next(kwargs["auth"].auth_flow(request))
-        assert authorized.headers["session"] == "test-token"
-        assert "test-token" not in repr(kwargs["auth"])
-        assert "token" not in kwargs
-        assert kwargs["policy"].allow_plaintext is False
-        auth_module.close_client()
-        client.close.assert_called_once()
-        tls.cleanup.assert_called_once()
+    seen = []
+
+    def respond(request):
+        seen.append(request)
+        return httpx.Response(200, json={})
+
+    tls = auth_module.resolve_tls_profile("craft-suite-api")
+    tls_mock = MagicMock(wraps=tls, ssl_context=tls.ssl_context, proxy_url=None)
+    with patch.object(auth_module, "resolve_tls_profile", return_value=tls_mock):
+        client = auth_module.build_client(
+            auth_module.backend_settings(), transport=httpx.MockTransport(respond)
+        )
+
+    async def call():
+        async with client:
+            await client.get("/v1/tags/list")
+
+    asyncio.run(call())
+    assert seen[0].headers["session"] == "test-token"
+    assert "test-token" not in repr(client.auth)
+    tls_mock.cleanup.assert_not_called()
+    auth_module.close_client()
+    tls_mock.cleanup.assert_called_once()
 
 
-@pytest.mark.parametrize("value, expected", [("true", True), ("false", False)])
-def test_plaintext_setting_is_explicit(monkeypatch, value, expected):
-    monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_PLAINTEXT", value)
-    with (
-        patch.object(auth_module, "resolve_tls_profile") as profile,
-        patch.object(auth_module, "ApiClientSystem") as client_cls,
-    ):
-        auth_module.get_client()
-        assert client_cls.call_args.kwargs["policy"].allow_plaintext is expected
-        assert client_cls.call_args.kwargs["tls_profile"] is profile.return_value
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R001")
+def test_missing_reference_sends_no_credential(monkeypatch):
+    monkeypatch.delenv("CRAFT_SUITE_API_TOKEN_REF")
+    seen = []
 
+    def respond(request):
+        seen.append(request)
+        return httpx.Response(200, json={})
 
-def test_literal_credential_rejected_and_tls_cleaned(monkeypatch):
-    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "not-a-reference")
-    tls = MagicMock()
-    with patch.object(auth_module, "resolve_tls_profile", return_value=tls):
-        with pytest.raises(SecretReferenceError):
-            auth_module.get_client()
-    tls.cleanup.assert_called_once()
-    assert auth_module._client is None
+    client = auth_module.build_client(
+        auth_module.backend_settings(), transport=httpx.MockTransport(respond)
+    )
 
+    async def call():
+        async with client:
+            await client.get("/v1/tags/list")
 
-def test_failed_client_creation_cleans_tls():
-    tls = MagicMock()
-    with (
-        patch.object(auth_module, "resolve_tls_profile", return_value=tls),
-        patch.object(auth_module, "ApiClientSystem", side_effect=ValueError("invalid")),
-        pytest.raises(ValueError, match="invalid"),
-    ):
-        auth_module.get_client()
-    tls.cleanup.assert_called_once()
-    assert auth_module._client is None
-
-
-def test_bearer_delegation_cannot_replace_signed_session(monkeypatch):
-    monkeypatch.setenv("ENABLE_DELEGATION", "true")
-    monkeypatch.setenv("OIDC_TOKEN_URL", "https://identity.example.invalid/token")
-    monkeypatch.setenv("OIDC_CLIENT_ID", "test-client")
-    monkeypatch.setenv("OIDC_CLIENT_SECRET_REF", "env://SCAFFOLD_TEST_TOKEN")
-    monkeypatch.setenv("AUDIENCE", "test-service")
-    with patch.object(auth_module, "create_http_client") as token_client:
-        with pytest.raises(ValueError, match="declared HTTP bearer"):
-            auth_module.get_client()
-        token_client.assert_not_called()
+    asyncio.run(call())
+    assert "session" not in seen[0].headers

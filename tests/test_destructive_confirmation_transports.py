@@ -28,13 +28,12 @@ from fastmcp import Client
 from fastmcp.client.transports import StdioTransport, StreamableHttpTransport
 from fastmcp.server.auth.providers.jwt import RSAKeyPair
 
-from .test_source_contract import response_for
-
 ISSUER = "https://idp.example.invalid/realms/homelab"
 AUDIENCE = "agent-services"
-ACTION = "get_folder_handler"
+ACTION = "clear_media_file_tags_handler"
 TOOL = f"craft_suite_{ACTION}"
-ARGUMENTS = {"path": {"folder_token": "fixture_token"}}
+ARGUMENTS = {"media_file_token": "fixture_token"}
+RESPONSE = {"success": True, "removed_count": 0}
 CALL_TIMEOUT = 60
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-R006")
@@ -57,11 +56,11 @@ class _Upstream:
 
     def __init__(self) -> None:
         self.requests: list[str] = []
-        body = json.dumps(response_for(ACTION)).encode()
+        body = json.dumps(RESPONSE).encode()
         recorded = self.requests
 
         class Handler(BaseHTTPRequestHandler):
-            def do_GET(self) -> None:  # noqa: N802 - http.server API
+            def do_POST(self) -> None:  # noqa: N802 - http.server API
                 recorded.append(self.path)
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
@@ -221,7 +220,7 @@ async def _flow(open_client: Any, upstream: _Upstream, *, elicits: bool) -> None
         if elicits:
             written = await client.call_tool(TOOL, ARGUMENTS, raise_on_error=False)
             assert not written.is_error, written.content
-            assert written.structured_content["data"] == response_for(ACTION)
+            assert written.structured_content == RESPONSE
             assert len(upstream.requests) == 1
             return
         refused = await client.call_tool(TOOL, ARGUMENTS, raise_on_error=False)
@@ -233,8 +232,8 @@ async def _flow(open_client: Any, upstream: _Upstream, *, elicits: bool) -> None
             TOOL, {**ARGUMENTS, "confirm": True}, raise_on_error=False
         )
         assert not confirmed.is_error, confirmed.content
-        assert confirmed.structured_content["data"] == response_for(ACTION)
-        assert upstream.requests == ["/v1/folders/folder/fixture_token"], (
+        assert confirmed.structured_content == RESPONSE
+        assert upstream.requests == ["/v1/tags/media_file/clear/fixture_token"], (
             "confirm must not be forwarded upstream"
         )
 

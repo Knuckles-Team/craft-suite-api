@@ -46,7 +46,7 @@ async def _call(tool: str):
 def test_unconfigured_backend_lists_tools_and_refuses_typed(monkeypatch) -> None:
     monkeypatch.delenv("CRAFT_SUITE_API_BASE_URL", raising=False)
 
-    # The nine Tier 1 tools are still listed.
+    # The former Tier 1 reads are still listed.
     tools = asyncio.run(_listings())
     assert TIER1 <= tools
 
@@ -55,8 +55,9 @@ def test_unconfigured_backend_lists_tools_and_refuses_typed(monkeypatch) -> None
         result = asyncio.run(_call(tool))
         assert result.structured_content == {
             "cancelled": True,
-            "operation": tool.replace("craft_suite_", ""),
+            "operation": tool,
             "reason": BACKEND_NOT_CONFIGURED,
+            "write_class": "read",
         }
 
 
