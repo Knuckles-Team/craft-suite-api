@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2026-11-06
+
+### Fixed
+- Requires `scion-sdk>=0.8.2`: with the artifact exchange active, 0.8.1 appended the exchange input tree to the read roots of `filmcraft` and `cadcraft` (declared without a root flag), so the server refused to start (`UPSTREAM_DECL_INVALID`, CrashLoopBackOff). 0.8.2 leaves a flagless side alone (CONN-CRAFT-SUITE-API-APPS-R002).
+
 ## [0.5.2] - 2026-11-05
 
 ### Fixed
