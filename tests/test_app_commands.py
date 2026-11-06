@@ -94,6 +94,33 @@ def test_names_are_unique_and_bounded() -> None:
     assert len(long) <= MAX_NAME
 
 
+def test_listing_stays_within_a_gateway_response() -> None:
+    # A gateway reads tools/list as one response (8 MiB SSE cap); the largest
+    # registry (about 1000 commands) must stay far below its share of it.
+    entries = [
+        {
+            "id": f"cmd.n{i}",
+            "label": "x" * 40,
+            "params": "{" + "a?: " + "y" * 3000 + "}",
+        }
+        for i in range(1000)
+    ]
+    tools = build_command_tools(
+        "photocraft", DISPATCH["photocraft"], entries, PHOTO_RUN_SCHEMA
+    )
+    size = sum(
+        len(
+            json.dumps(
+                t.to_mcp_tool().model_dump(
+                    mode="json", by_alias=True, exclude_none=True
+                )
+            )
+        )
+        for t in tools
+    )
+    assert size < 1_500_000, size
+
+
 def test_schemas_carry_the_documented_parameters() -> None:
     entries = [
         {"id": "file.new", "label": "New", "params": "{width?: px, height?: px}"},
@@ -116,6 +143,11 @@ def test_schemas_carry_the_documented_parameters() -> None:
     assert set(new.parameters["properties"]) == {"width", "height", "wait"}
     assert "Params: {width?: px, height?: px}" in new.description
     assert "ns:photocraft" in new.tags
+    assert new.meta == {
+        "scion/upstream": {"namespace": "photocraft", "upstream": "photocraft"}
+    }
+    # Names only: the fragments live once, in the description.
+    assert new.parameters["properties"]["width"] == {}
     typed = tools["photocraft_cmd_comp_new"]
     assert typed.parameters["properties"]["name"] == {"type": "string"}
     assert typed.parameters["required"] == ["name"]

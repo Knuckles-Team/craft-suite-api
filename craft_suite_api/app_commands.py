@@ -33,6 +33,7 @@ from fastmcp.server.providers import Provider
 from fastmcp.server.transforms import Transform
 from fastmcp.tools import Tool, ToolResult
 from mcp.types import ToolAnnotations
+from scion_sdk.upstream_wire import UPSTREAM_META_KEY, UPSTREAM_META_NAMESPACE_KEY
 
 __all__ = [
     "APP_REGISTRY_UNREADABLE",
@@ -56,7 +57,9 @@ COMMAND_TOOL_INFIX = "cmd"
 #: The longest tool name served; longer names keep a stable hash suffix.
 MAX_NAME = 64
 #: The longest description served; the app's own docs are cut past it.
-MAX_DESCRIPTION = 2000
+MAX_DESCRIPTION = 1000
+#: A context argument's own description is cut past this many characters.
+MAX_CONTEXT_DESCRIPTION = 120
 LIST_TIMEOUT_S = 90.0
 
 
@@ -256,16 +259,29 @@ def _description(app: str, entry: dict[str, Any]) -> str:
     return text if len(text) <= MAX_DESCRIPTION else text[: MAX_DESCRIPTION - 1] + "…"
 
 
+def _context_spec(spec: Any) -> dict[str, Any]:
+    """A dispatch context argument, trimmed: its type and a short description."""
+    if not isinstance(spec, dict):
+        return {}
+    out = {k: spec[k] for k in ("type", "anyOf", "minimum") if k in spec}
+    description = str(spec.get("description") or "")
+    if description:
+        out["description"] = description[:MAX_CONTEXT_DESCRIPTION]
+    return out
+
+
 def _schema(entry: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     schema = entry.get("schema")
     if isinstance(schema, dict) and schema.get("type") == "object":
         props = dict(schema.get("properties") or {})
         required = list(schema.get("required") or [])
     else:
-        props = signature_properties(entry.get("params"))
+        # Names only: each fragment is already in the description's Params
+        # text, and repeating it per property would double the listing.
+        props = {key: {} for key in signature_properties(entry.get("params"))}
         required = []
     for key, spec in context.items():
-        props.setdefault(key, spec)
+        props.setdefault(key, _context_spec(spec))
     out: dict[str, Any] = {
         "type": "object",
         "properties": props,
@@ -276,14 +292,15 @@ def _schema(entry: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
-def _annotations(entry: dict[str, Any]) -> ToolAnnotations:
-    read_only = entry.get("mutates") is False
-    return ToolAnnotations(
-        title=str(entry.get("label") or entry["id"])[:120],
-        readOnlyHint=read_only,
-        destructiveHint=False if read_only else None,
-        openWorldHint=False,
-    )
+def _annotations(entry: dict[str, Any]) -> ToolAnnotations | None:
+    """Read-only hints only where the app marks a command as not mutating.
+
+    Unset hints keep the MCP defaults; the listing stays small enough for a
+    gateway to read in one response.
+    """
+    if entry.get("mutates") is False:
+        return ToolAnnotations(readOnlyHint=True, destructiveHint=False)
+    return None
 
 
 class CommandTool(Tool):
@@ -329,8 +346,16 @@ def build_command_tools(
                 description=_description(app, entry),
                 parameters=schema,
                 annotations=_annotations(entry),
-                tags={"app-command", f"ns:{app}"},
-                meta={"upstream": app, "command": entry["id"]},
+                title=str(entry.get("label") or entry["id"])[:80],
+                tags={f"ns:{app}"},
+                # The same group metadata the SDK stamps on the app's own tools,
+                # so a gateway loads and unloads them with their app.
+                meta={
+                    UPSTREAM_META_KEY: {
+                        UPSTREAM_META_NAMESPACE_KEY: app,
+                        "upstream": app,
+                    }
+                },
                 command_id=entry["id"],
                 dispatch_name=f"{app}_{dispatch.run_tool}",
                 id_arg=dispatch.id_arg,

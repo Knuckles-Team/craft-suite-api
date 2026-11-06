@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2026-11-06
+
+### Fixed
+- The full listing (about 9,000 tools) was 9.1 MB and exceeded the fleet
+  gateway's 8 MiB single-response limit, so the gateway could not read it.
+  Command tools now name their parameters once (the documentation stays in the
+  description, cut at 1000 characters), carry the SDK `scion/upstream` group
+  metadata, and set a read-only hint only where the app marks a command as not
+  mutating: the listing is about 6 MB (CONN-CRAFT-SUITE-API-APPS-R017).
+
 ## [0.7.0] - 2026-11-06
 
 ### Added
