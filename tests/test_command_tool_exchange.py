@@ -149,3 +149,19 @@ def test_a_failed_job_answers_an_error(exchange, monkeypatch) -> None:
     result = asyncio.run(scenario())
     assert result.is_error
     assert "I/O: denied" in result.content[0].text
+
+
+def test_only_real_output_paths_move_into_the_run() -> None:
+    from craft_suite_api.app_commands import output_path_args
+
+    assert output_path_args(
+        {
+            "output": "title-card.mp4",  # effectcraft renderQueue.add
+            "path": "work",  # photocraft: a vector path's name, not a file
+            "dir": "frames",
+            "outputDir": "fill",
+            "src": "exchange://objects/in/a.png",
+            "file": "/abs/lut.cube",
+            "size": 12,
+        }
+    ) == ("output", "dir", "outputDir")

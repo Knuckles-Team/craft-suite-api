@@ -64,8 +64,15 @@ WRITE_FLAG = "--automation-write-root"
 #: exchange, which stages them in the run directory.
 FLAGLESS_APPS = ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
 
-#: Apps whose root flags have other names than ``READ_FLAG``/``WRITE_FLAG``.
-ROOT_FLAGS = {"materialcraft": ("--read-root", "--write-root")}
+#: Apps whose root flags have other names than ``READ_FLAG``/``WRITE_FLAG``
+#: (verified against ``<app>-cli mcp --help``). solidcraft takes one
+#: ``--allow-path DIR`` per folder it may read or write, and silently ignores
+#: the automation flags, so without this its exports outside the folders of
+#: designs it opened or saved refused.
+ROOT_FLAGS = {
+    "materialcraft": ("--read-root", "--write-root"),
+    "solidcraft": ("--allow-path", "--allow-path"),
+}
 
 #: The arguments whose relative values land in the run's output directory
 #: (CONN-CRAFT-SUITE-API-APPS-R013). Every app writes beneath its write root.

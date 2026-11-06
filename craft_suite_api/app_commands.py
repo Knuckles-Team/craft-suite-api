@@ -594,6 +594,33 @@ def _find_job(listing: Any, job: Any) -> dict[str, Any] | None:
     )
 
 
+#: Command parameters that name an output file; a relative value with a file
+#: extension lands in the run folder. The same names also carry non-file
+#: values (photocraft's ``"path": "work"`` names a vector path), which have no
+#: extension and pass through unchanged.
+FILE_OUTPUT_ARGS = ("path", "out", "output", "outputPath", "outPath")
+#: Command parameters that name an output folder; a relative value lands in
+#: the run folder.
+DIR_OUTPUT_ARGS = ("dir", "out_dir", "outDir", "outputDir")
+
+
+def output_path_args(arguments: dict[str, Any]) -> tuple[str, ...]:
+    """The arguments of one call whose relative values are run output paths."""
+    from pathlib import PurePosixPath
+
+    names: list[str] = []
+    for key, value in arguments.items():
+        if not isinstance(value, str) or not value or "://" in value:
+            continue
+        if PurePosixPath(value).is_absolute():
+            continue
+        if key in DIR_OUTPUT_ARGS or (
+            key in FILE_OUTPUT_ARGS and PurePosixPath(value).suffix
+        ):
+            names.append(key)
+    return tuple(names)
+
+
 class CommandTool(Tool):
     """One registry command; a call runs the app's dispatch tool with it.
 
@@ -669,13 +696,11 @@ class CommandTool(Tool):
         from scion_sdk.exchange.run import ExchangeCall, exchange_call
         from scion_sdk.exchange.staging import ExchangeRunError
 
-        from .upstreams import EXCHANGE
-
         spec = ExchangeCall(
             namespace=self.app,
             tool=self.name,
             connector=runtime.connector,
-            path_args=EXCHANGE.path_args,
+            path_args=output_path_args(args),
             caller=_caller(),
         )
         try:
