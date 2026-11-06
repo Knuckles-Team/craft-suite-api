@@ -51,11 +51,13 @@ A maintainer updates an app and sees what changed.
 - **FR-006**: Generate content from live tool snapshots. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006`.
 - **FR-007**: Gate generated content against drift. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007`.
 - **FR-008**: Prove the pack imports cleanly. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
+- **FR-009**: Ship the proven business workflows as skills, agent prompts and ontology contracts. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
 
 ## Success Criteria
 
 - **SC-001**: Eleven app skills and eleven app ontology files exist. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R003`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`.
 - **SC-002**: The pack import reports no orphan class. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
+- **SC-004**: Every packaged ontology class reaches `bfo:Entity` through the core, and every agent prompt names only skills and tools its ontology links. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
 - **SC-003**: Two generator runs give identical bytes. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006`.
 
 ## Assumptions
@@ -79,3 +81,4 @@ In scope: the rows of [requirements.md](requirements.md). The upstream registry 
 | FR-006 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006` | [plan.md](plan.md) | T-006 | [test-spec.md](test-spec.md) |
 | FR-007 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007` | [plan.md](plan.md) | T-007 | [test-spec.md](test-spec.md) |
 | FR-008 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
+| FR-009 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009` | [plan.md](plan.md) | T-009 | [test-spec.md](test-spec.md) |

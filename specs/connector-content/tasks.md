@@ -12,3 +12,4 @@ Each task line reads `- [ ] T001 [P] [US1] <ID>-R012.4 description`. Order is pr
 - [ ] T006 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006 Content generator and tool snapshots.
 - [ ] T007 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007 Drift gate for generated content.
 - [ ] T008 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008 Hot-path proof: the packaged content imports cleanly and answers a class query.
+- [ ] T009 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009 Proven business workflows as skills, agent prompts and ontology contracts.

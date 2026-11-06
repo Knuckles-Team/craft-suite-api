@@ -1,0 +1,211 @@
+@prefix : <http://knuckles.team/kg#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ArtCraft business workflows: the tool-use contracts agents follow, the skills and
+# agent prompts that use them, and where their data lives. Every class extends a
+# core class by rdfs:subClassOf (the core is rooted under bfo:Entity); this module
+# imports nothing. Individuals live in artcraft-workflows.ttl.
+
+<http://knuckles.team/kg/artcraft/workflows-vocabulary> a owl:Ontology ;
+    rdfs:label "ArtCraft workflow vocabulary" ;
+    rdfs:comment "Classes and properties for proven ArtCraft business workflows, their tool-use contracts, skills, agent prompts and data locations." .
+
+# -- workflows and their contracts -------------------------------------------
+
+:CraftWorkflow a owl:Class ;
+    rdfs:label "ArtCraft workflow" ;
+    rdfs:comment "A proven business workflow run on one or more ArtCraft apps through the craft-suite-api connector." ;
+    rdfs:subClassOf :WorkflowDefinition .
+
+:ToolUseContract a owl:Class ;
+    rdfs:label "Tool-use contract" ;
+    rdfs:comment "The ordered tool calls, with their parameters, that carry out one workflow." ;
+    rdfs:subClassOf :APIContract .
+
+:ToolUseStep a owl:Class ;
+    rdfs:label "Tool-use step" ;
+    rdfs:comment "One tool call of a tool-use contract, at a fixed position." ;
+    rdfs:subClassOf :WorkflowStep .
+
+:ToolParameterBinding a owl:Class ;
+    rdfs:label "Tool parameter binding" ;
+    rdfs:comment "One parameter a step passes: its name and the value or value rule." ;
+    rdfs:subClassOf :ActionParameter .
+
+# -- data locations ------------------------------------------------------------
+
+:CraftDataLocation a owl:Class ;
+    rdfs:label "ArtCraft data location" ;
+    rdfs:comment "Where a workflow reads or writes data." ;
+    rdfs:subClassOf :StorageContainer .
+
+:ExchangeSink a owl:Class ;
+    rdfs:label "Artifact exchange sink" ;
+    rdfs:comment "A configured sink of the connector's artifact exchange: inputs are read as exchange://<sink>/<key> and every output is published there." ;
+    rdfs:subClassOf :CraftDataLocation .
+
+:BackendBucket a owl:Class ;
+    rdfs:label "Craft backend storage bucket" ;
+    rdfs:comment "A storage bucket of the craft backend (media files, generation results)." ;
+    rdfs:subClassOf :CraftDataLocation .
+
+:AppSession a owl:Class ;
+    rdfs:label "App session" ;
+    rdfs:comment "The pooled app process of one caller, which holds the open documents, projects and history between calls." ;
+    rdfs:subClassOf :CraftDataLocation .
+
+# -- outputs ---------------------------------------------------------------------
+
+:MarketingAsset a owl:Class ;
+    rdfs:label "Marketing asset" ;
+    rdfs:comment "A business asset a workflow produces: a graphic, photo, video, audio bed, deck, document or model." ;
+    rdfs:subClassOf :CreativeWork .
+
+:ProductPhoto a owl:Class ;
+    rdfs:label "Product photo" ;
+    rdfs:comment "An edited product photograph ready for a listing, ad or post." ;
+    rdfs:subClassOf :Photo .
+
+:PromoVideo a owl:Class ;
+    rdfs:label "Promotional video" ;
+    rdfs:comment "A short edited promotional video." ;
+    rdfs:subClassOf :Video .
+
+# -- skills, agent prompts and roles ---------------------------------------------
+
+:CraftSkill a owl:Class ;
+    rdfs:label "ArtCraft skill" ;
+    rdfs:comment "A packaged skill that walks one proven workflow." ;
+    rdfs:subClassOf :Skill .
+
+:CraftAgentPrompt a owl:Class ;
+    rdfs:label "ArtCraft agent prompt" ;
+    rdfs:comment "A packaged system prompt that defines an agent operating the connector or serving one business role." ;
+    rdfs:subClassOf :Prompt .
+
+:CraftBusinessRole a owl:Class ;
+    rdfs:label "ArtCraft business role" ;
+    rdfs:comment "A business role an agent fills with the ArtCraft suite, such as marketing asset producer." ;
+    rdfs:subClassOf :Role .
+
+# -- properties ------------------------------------------------------------------
+
+:hasToolUseContract a owl:ObjectProperty ;
+    rdfs:label "has tool-use contract" ;
+    rdfs:domain :CraftWorkflow ;
+    rdfs:range :ToolUseContract .
+
+:hasToolUseStep a owl:ObjectProperty ;
+    rdfs:label "has tool-use step" ;
+    rdfs:domain :ToolUseContract ;
+    rdfs:range :ToolUseStep .
+
+:stepOrder a owl:DatatypeProperty ;
+    rdfs:label "step order" ;
+    rdfs:comment "The 1-based position of a step in its contract." ;
+    rdfs:domain :ToolUseStep ;
+    rdfs:range xsd:integer .
+
+:stepToolName a owl:DatatypeProperty ;
+    rdfs:label "step tool name" ;
+    rdfs:comment "The served tool name the step calls, as tools/list names it." ;
+    rdfs:domain :ToolUseStep ;
+    rdfs:range xsd:string .
+
+:stepPurpose a owl:DatatypeProperty ;
+    rdfs:label "step purpose" ;
+    rdfs:domain :ToolUseStep ;
+    rdfs:range xsd:string .
+
+:hasParameterBinding a owl:ObjectProperty ;
+    rdfs:label "has parameter binding" ;
+    rdfs:domain :ToolUseStep ;
+    rdfs:range :ToolParameterBinding .
+
+:parameterName a owl:DatatypeProperty ;
+    rdfs:label "parameter name" ;
+    rdfs:domain :ToolParameterBinding ;
+    rdfs:range xsd:string .
+
+:parameterValue a owl:DatatypeProperty ;
+    rdfs:label "parameter value" ;
+    rdfs:comment "The value as JSON; ${name} marks a value the caller supplies or an earlier step returned." ;
+    rdfs:domain :ToolParameterBinding ;
+    rdfs:range xsd:string .
+
+:workflowApp a owl:ObjectProperty ;
+    rdfs:label "workflow app" ;
+    rdfs:comment "An ArtCraft app the workflow runs on." ;
+    rdfs:domain :CraftWorkflow ;
+    rdfs:range :App .
+
+:readsFrom a owl:ObjectProperty ;
+    rdfs:label "reads from" ;
+    rdfs:domain :CraftWorkflow ;
+    rdfs:range :CraftDataLocation .
+
+:writesTo a owl:ObjectProperty ;
+    rdfs:label "writes to" ;
+    rdfs:domain :CraftWorkflow ;
+    rdfs:range :CraftDataLocation .
+
+:producesAssetType a owl:ObjectProperty ;
+    rdfs:label "produces asset type" ;
+    rdfs:comment "The class of asset the workflow's output is." ;
+    rdfs:domain :CraftWorkflow .
+
+:outputFormat a owl:DatatypeProperty ;
+    rdfs:label "output format" ;
+    rdfs:comment "A file format the workflow writes (extension)." ;
+    rdfs:domain :CraftWorkflow ;
+    rdfs:range xsd:string .
+
+:locationReference a owl:DatatypeProperty ;
+    rdfs:label "location reference" ;
+    rdfs:comment "How an agent names data in the location, e.g. exchange://objects/<key>." ;
+    rdfs:domain :CraftDataLocation ;
+    rdfs:range xsd:string .
+
+:locationSetting a owl:DatatypeProperty ;
+    rdfs:label "location setting" ;
+    rdfs:comment "The operator setting that configures the location." ;
+    rdfs:domain :CraftDataLocation ;
+    rdfs:range xsd:string .
+
+:skillWalksWorkflow a owl:ObjectProperty ;
+    rdfs:label "skill walks workflow" ;
+    rdfs:domain :CraftSkill ;
+    rdfs:range :CraftWorkflow .
+
+:skillName a owl:DatatypeProperty ;
+    rdfs:label "skill name" ;
+    rdfs:comment "The packaged skill directory name (served as skill://<name>/SKILL.md)." ;
+    rdfs:range xsd:string .
+
+:promptName a owl:DatatypeProperty ;
+    rdfs:label "prompt name" ;
+    rdfs:comment "The served prompt name." ;
+    rdfs:domain :CraftAgentPrompt ;
+    rdfs:range xsd:string .
+
+:promptUsesSkill a owl:ObjectProperty ;
+    rdfs:label "prompt uses skill" ;
+    rdfs:domain :CraftAgentPrompt ;
+    rdfs:range :CraftSkill .
+
+:promptUsesToolName a owl:DatatypeProperty ;
+    rdfs:label "prompt uses tool name" ;
+    rdfs:domain :CraftAgentPrompt ;
+    rdfs:range xsd:string .
+
+:promptServesRole a owl:ObjectProperty ;
+    rdfs:label "prompt serves role" ;
+    rdfs:domain :CraftAgentPrompt ;
+    rdfs:range :CraftBusinessRole .
+
+:roleRunsWorkflow a owl:ObjectProperty ;
+    rdfs:label "role runs workflow" ;
+    rdfs:domain :CraftBusinessRole ;
+    rdfs:range :CraftWorkflow .
