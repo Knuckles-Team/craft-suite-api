@@ -221,3 +221,22 @@ def test_repairs_keep_json_bodies_and_open_response_enums():
     models = document["paths"]["/v1/omni_gen/models/image"]["get"]
     ref = models["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
     assert "enum" not in json.dumps(schemas[ref.rsplit("/", 1)[1]])
+
+
+# A live answer of the image model listing: quality options and a model the
+# published description's enums do not list.
+LIVE_IMAGE_MODELS = json.loads(
+    '{"success": true, "models": [{"model": "gpt_image_2p5_flare", "model_creator": "open_ai", "full_name": "GPT Image 2.5 Flare", "text_prompt_supported": true, "image_refs_supported": true, "aspect_ratio_options": ["auto", "square", "square_hd", "tall_three_by_four", "tall_nine_by_sixteen", "wide_four_by_three", "wide_sixteen_by_nine"], "aspect_ratio_default": "square", "aspect_ratio_default_when_editing": "auto", "resolution_options": ["one_k", "two_k", "three_k", "four_k"], "resolution_default": "one_k", "quality_options": ["auto", "max", "xhigh", "high", "medium", "low"], "default_quality": "high", "batch_size_min": 1, "batch_size_max": 4, "batch_size_default": 1}], "providers": [{"provider": "artcraft", "models": [{"model": "flux_1_dev"}, {"model": "flux_1_schnell"}, {"model": "flux_pro_1p1"}, {"model": "flux_pro_1p1_ultra"}, {"model": "gpt_image_1p5"}, {"model": "gpt_image_2"}, {"model": "gpt_image_2p5_flare"}, {"model": "gpt_image_2p5_sunburst"}, {"model": "seedream_4"}, {"model": "seedream_4p5"}, {"model": "seedream_5_lite"}, {"model": "seedream_5p0_pro"}, {"model": "seedream_5p0_pro_u"}, {"model": "nano_banana"}, {"model": "nano_banana_2"}, {"model": "nano_banana_pro"}]}]}'
+)
+
+
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R007")
+async def test_a_live_answer_outside_the_published_enums_passes(backend):
+    def respond(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=LIVE_IMAGE_MODELS)
+
+    server = backend(respond)
+    async with Client(server) as client:
+        result = await client.call_tool("omni_gen_image_models_handler", {})
+    assert not result.is_error
+    assert result.structured_content["models"][0]["quality_options"][0] == "auto"

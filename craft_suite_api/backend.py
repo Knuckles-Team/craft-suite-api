@@ -42,6 +42,7 @@ from .backend_catalog import (
     operation_id,
     tool_names,
 )
+from .backend_spec import strip_enums
 from .error_authority import BACKEND_CONFIG_INVALID, BACKEND_NOT_CONFIGURED
 
 __all__ = [
@@ -110,10 +111,15 @@ def _component(route: HTTPRoute, component: Any) -> None:
         parameters.setdefault("properties", {})[CONFIRM_PARAMETER] = CONFIRM_SCHEMA
         component.parameters = parameters
     if component.output_schema is not None:
-        output = {k: v for k, v in component.output_schema.items() if k != "$defs"}
+        # The live backend answers enum values its description lacks (a model's
+        # quality option "auto"); a closed enum would fail a good answer's
+        # output validation. Inputs keep their enums (R007).
+        schema = copy.deepcopy(component.output_schema)
+        strip_enums(schema)
+        output = {k: v for k, v in schema.items() if k != "$defs"}
         widened: dict[str, Any] = {"type": "object", "anyOf": [output, REFUSAL_SCHEMA]}
-        if "$defs" in component.output_schema:
-            widened["$defs"] = component.output_schema["$defs"]
+        if "$defs" in schema:
+            widened["$defs"] = schema["$defs"]
         component.output_schema = widened
 
 
