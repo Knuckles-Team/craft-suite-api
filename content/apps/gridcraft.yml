@@ -1,0 +1,31 @@
+app: gridcraft
+summary: GridCraft spreadsheets — workbooks, ranges, formulas, tables and charts.
+classes:
+  - name: Workbook
+    parent: Document
+    description: A spreadsheet workbook edited by GridCraft.
+  - name: CellRange
+    parent: Artifact
+    description: A range of cells inside a GridCraft workbook.
+functionality:
+  - name: edit_workbook
+    description: Open or start a workbook, write ranges and save it.
+    tools: [new_workbook, open_workbook, write_range, set_cell, save_workbook]
+    steps:
+      - Open the workbook or start a new one.
+      - Write the ranges or single cells.
+      - Save the workbook.
+  - name: analyse_data
+    description: Read ranges, evaluate formulas and add tables and charts.
+    tools: [read_range, evaluate_formula, create_table, sort_range, insert_chart]
+    steps:
+      - Read the source range.
+      - Evaluate the formulas.
+      - Add a table, sort it and chart it.
+  - name: run_commands
+    description: Look up engine commands and spreadsheet functions and run commands.
+    tools: [list_commands, list_functions, execute_command, inspect_workbook]
+    steps:
+      - Look up the commands or functions.
+      - Run the command.
+      - Inspect the workbook to verify.

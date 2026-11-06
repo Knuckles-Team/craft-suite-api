@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-11-06
+
+### Added
+- Every app engine command is its own tool, `<app>_cmd_<command id>`: the
+  apps' command registries (7,866 commands across fifteen apps; lightcraft
+  already serves one tool per command) are read from the installed binaries at
+  serve time. Each tool documents the app's own parameters and forwards to the
+  app's dispatch tool, which is no longer listed (CONN-CRAFT-SUITE-API-APPS-R017).
+- Five more apps are declared as upstreams: designcraft, gridcraft, lightcraft,
+  materialcraft and texturecraft, with their content tier (skills, ontologies,
+  prompts) (CONN-CRAFT-SUITE-API-APPS-R002).
+
+### Fixed
+- An unusable backend setting (a path in the origin, plaintext without the
+  opt-in, an unresolvable credential or TLS profile) no longer stops the server:
+  every backend tool answers the typed refusal `BACKEND_CONFIG_INVALID` and
+  readiness reports `invalid` (CONN-CRAFT-SUITE-API-APPS-R001).
+
 ## [0.6.0] - 2026-11-05
 
 ### Changed (breaking)

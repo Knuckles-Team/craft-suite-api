@@ -4,7 +4,7 @@ Governing spec: [spec.md](spec.md). Rows: [requirements.md](requirements.md).
 
 ## Summary
 
-The connector declares eleven upstreams and the SDK registry serves them. This plan covers the ArtCraft declarations, the root settings, the deployment overlays, the probe and the four acceptance gates. The registry, the pool, the health report and the drift check are SDK rows (`SCION-CONNECTOR-CONTROL-R914`). The gateway group load is an Arbora row (`ARBORA-FLEET-R061`).
+The connector declares sixteen upstreams and the SDK registry serves them. This plan covers the ArtCraft declarations, the root settings, the deployment overlays, the probe and the four acceptance gates. The registry, the pool, the health report and the drift check are SDK rows (`SCION-CONNECTOR-CONTROL-R914`). The gateway group load is an Arbora row (`ARBORA-FLEET-R061`).
 
 ## Technical Context
 
@@ -29,7 +29,7 @@ The connector declares eleven upstreams and the SDK registry serves them. This p
 ## Project Structure
 
 ```text
-craft_suite_api/upstreams.py          new       eleven UpstreamDecl values
+craft_suite_api/upstreams.py          new       sixteen UpstreamDecl values
 craft_suite_api/__init__.py           existing  Connector(upstreams=UPSTREAMS)
 craft_suite_api/error_authority.py    existing  gains BackendNotConfigured
 craft_suite_api/auth.py               existing  get_client raises it
@@ -41,6 +41,8 @@ docs/fleet-deployment.md              new       gateway settings
 tests/fixtures/fake_app_cli.py        new       fixture app command-line program
 docs/exchange.example.json            new       two exchange sinks (R014)
 tests/test_artifact_exchange.py       new       R013 to R016 proofs
+craft_suite_api/app_commands.py       new       R017 one tool per app engine command
+tests/test_app_commands.py            new       R017 proofs
 ```
 
 ## Phase 0: Research
@@ -78,7 +80,7 @@ The SDK exchange owns staging, inputs, publication, links and lineage. This conn
 | Phase | Scope | Row |
 |---|---|---|
 | 1 | Facade MVP with photocraft, wordcraft and solidcraft over stdio | `CONN-CRAFT-SUITE-API-APPS-R009` |
-| 2 | All eleven apps, remote mode, bridge mode, failure isolation | `CONN-CRAFT-SUITE-API-APPS-R010` |
+| 2 | All sixteen apps, remote mode, bridge mode, failure isolation | `CONN-CRAFT-SUITE-API-APPS-R010` |
 | 3 | Content tier with the drift gate | `CONN-CRAFT-SUITE-API-APPS-R011` |
 | 4 | Gateway integration: coverage, group load, pins | `CONN-CRAFT-SUITE-API-APPS-R012` |
 

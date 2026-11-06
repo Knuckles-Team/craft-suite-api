@@ -71,3 +71,39 @@ def test_readiness_reports_not_configured_and_stays_ready(monkeypatch) -> None:
     probe = asyncio.run(_tier1_readiness())
     assert probe.ready is True
     assert probe.detail == {"backend": "configured"}
+
+
+@pytest.mark.parametrize(
+    ("url", "plaintext"),
+    [
+        ("https://craft.example.invalid/with/a/path", "false"),
+        ("http://craft.example.invalid", "false"),
+    ],
+)
+def test_unusable_backend_setting_starts_and_refuses_typed(
+    monkeypatch, url, plaintext
+) -> None:
+    from craft_suite_api.error_authority import BACKEND_CONFIG_INVALID
+    from craft_suite_api.mcp import BACKEND_STATE
+
+    monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", url)
+    monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_PLAINTEXT", plaintext)
+    monkeypatch.setenv("CRAFT_SUITE_FIXTURE_SESSION", "synthetic-session")
+    monkeypatch.setenv("CRAFT_SUITE_API_TOKEN_REF", "env://CRAFT_SUITE_FIXTURE_SESSION")
+    monkeypatch.setenv("ENABLE_DELEGATION", "false")
+    try:
+        # The server builds and lists the backend tools.
+        tools = asyncio.run(_listings())
+        assert TIER1 <= tools
+        result = asyncio.run(_call("craft_suite_list_tags_handler"))
+        assert result.structured_content == {
+            "cancelled": True,
+            "operation": "craft_suite_list_tags_handler",
+            "reason": BACKEND_CONFIG_INVALID,
+            "write_class": "read",
+        }
+        probe = asyncio.run(_tier1_readiness())
+        assert probe.ready is True
+        assert probe.detail == {"backend": "invalid", "code": BACKEND_CONFIG_INVALID}
+    finally:
+        BACKEND_STATE.clear()

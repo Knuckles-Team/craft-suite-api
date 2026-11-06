@@ -21,7 +21,7 @@ EXAMPLE = ROOT / "docs" / "exchange.example.json"
 
 @pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R013")
 def test_every_app_declares_the_exchange_binding() -> None:
-    assert len(UPSTREAMS) == len(APPS) == 11
+    assert len(UPSTREAMS) == len(APPS) == 16
     for decl in UPSTREAMS:
         assert decl.exchange is not None
         assert decl.exchange.path_args == ("path", "dir", "out", "out_dir")

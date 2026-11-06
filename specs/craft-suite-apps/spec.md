@@ -59,25 +59,26 @@ An operator runs an app tool through the gateway. The output appears in the file
 ## Requirements
 
 - **FR-001**: The backend tier degrades when unconfigured. Rows: `CONN-CRAFT-SUITE-API-APPS-R001`.
-- **FR-002**: Declare the eleven app upstreams with fail-closed roots. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
+- **FR-002**: Declare every app upstream with fail-closed roots. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
 - **FR-003**: Probe the app command-line programs for MCP support. Rows: `CONN-CRAFT-SUITE-API-APPS-R003`.
 - **FR-004**: Support local, remote and bridge deployment. Rows: `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006`.
 - **FR-005**: Keep app tools out of the initial list. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
 - **FR-006**: Register the facade once and load one app at a time. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
 - **FR-008**: Exchange app inputs and outputs with configured sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R013`, `CONN-CRAFT-SUITE-API-APPS-R014`, `CONN-CRAFT-SUITE-API-APPS-R015`, `CONN-CRAFT-SUITE-API-APPS-R016`.
+- **FR-009**: Serve every app engine command as its own tool. Rows: `CONN-CRAFT-SUITE-API-APPS-R017`.
 - **FR-007**: Pass four phased acceptance gates. Rows: `CONN-CRAFT-SUITE-API-APPS-R009`, `CONN-CRAFT-SUITE-API-APPS-R010`, `CONN-CRAFT-SUITE-API-APPS-R011`, `CONN-CRAFT-SUITE-API-APPS-R012`.
 
 ## Success Criteria
 
 - **SC-001**: The first tool list holds the backend and registry tools and no app tool. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
 - **SC-002**: With roots unset, no root flag reaches any app process. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
-- **SC-003**: One failing app leaves ten apps callable. Rows: `CONN-CRAFT-SUITE-API-APPS-R010`.
+- **SC-003**: One failing app leaves the other apps callable. Rows: `CONN-CRAFT-SUITE-API-APPS-R010`.
 - **SC-004**: Loading one group loads only that app. Rows: `CONN-CRAFT-SUITE-API-APPS-R008`.
 - **SC-005**: One app call with an exchange input lands its output in both sinks. Rows: `CONN-CRAFT-SUITE-API-APPS-R015`.
 
 ## Assumptions
 
-- The app command-line programs expose `mcp` as probed on the host: eleven of fourteen do, and lightcraft, designcraft and gridcraft are re-probed on app updates.
+- The app command-line programs expose `mcp` as probed in the image: all sixteen do; the probe finds any new vendor app on update.
 - The SDK registry rows (`SCION-CONNECTOR-CONTROL-R914`) land before the rows here that depend on them.
 - The remote topology is supplied by the operator. This repository ships no host names.
 
@@ -96,4 +97,5 @@ In scope: the rows of [requirements.md](requirements.md). Out of scope: the regi
 | FR-005 | `CONN-CRAFT-SUITE-API-APPS-R007` | [plan.md](plan.md) | T-007 | [test-spec.md](test-spec.md) |
 | FR-006 | `CONN-CRAFT-SUITE-API-APPS-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
 | FR-008 | `CONN-CRAFT-SUITE-API-APPS-R013` to `CONN-CRAFT-SUITE-API-APPS-R016` | [plan.md](plan.md) | T-013 to T-016 | [test-spec.md](test-spec.md) |
+| FR-009 | `CONN-CRAFT-SUITE-API-APPS-R017` | [plan.md](plan.md) | T-017 | [test-spec.md](test-spec.md) |
 | FR-007 | `CONN-CRAFT-SUITE-API-APPS-R009` to `CONN-CRAFT-SUITE-API-APPS-R012` | [plan.md](plan.md) | T-009 to T-012 | [test-spec.md](test-spec.md) |

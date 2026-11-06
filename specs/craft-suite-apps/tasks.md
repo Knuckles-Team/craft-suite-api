@@ -3,7 +3,7 @@
 Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requirements.md](requirements.md).
 
 - [ ] T001 [US1] CONN-CRAFT-SUITE-API-APPS-R001 The backend tier degrades when unconfigured.
-- [ ] T002 [US1] CONN-CRAFT-SUITE-API-APPS-R002 Declare the eleven app upstreams.
+- [ ] T002 [US1] CONN-CRAFT-SUITE-API-APPS-R002 Declare every app upstream.
 - [ ] T003 [US1] CONN-CRAFT-SUITE-API-APPS-R003 Probe the app command-line tools for MCP support.
 - [ ] T004 [US1] CONN-CRAFT-SUITE-API-APPS-R004 Behavior: local deployment runs each app as a stdio child.
 - [ ] T005 [US1] CONN-CRAFT-SUITE-API-APPS-R005 Behavior: remote deployment reaches an app over streamable HTTP.
@@ -18,3 +18,4 @@ Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requireme
 - [ ] T014 [US4] CONN-CRAFT-SUITE-API-APPS-R014 Deliver outputs to an object store and a file share.
 - [ ] T015 [US4] CONN-CRAFT-SUITE-API-APPS-R015 Hot-path proof: an app call takes an exchange input and publishes its output.
 - [ ] T016 [P] [US4] CONN-CRAFT-SUITE-API-APPS-R016 Skills tell the agent how to pass inputs and find outputs.
+- [ ] T017 [US1] CONN-CRAFT-SUITE-API-APPS-R017 Every app engine command is its own tool.

@@ -20,11 +20,18 @@ async def _tier1_readiness() -> Readiness:
     exception escapes, so a bad or missing configuration reads
     ``not_configured`` instead of failing the probe.
     """
+    from .mcp import BACKEND_STATE
+
+    if BACKEND_STATE.get("backend") == "invalid":
+        return Readiness(ready=True, detail=dict(BACKEND_STATE))
     try:
         load_config()
         configured = bool(setting("CRAFT_SUITE_API_BASE_URL", ""))
     except ConfigurationError:
-        configured = False
+        return Readiness(
+            ready=True,
+            detail={"backend": "invalid", "code": "BACKEND_CONFIG_INVALID"},
+        )
     return Readiness(
         ready=True,
         detail={"backend": "configured" if configured else "not_configured"},
@@ -34,7 +41,8 @@ async def _tier1_readiness() -> Readiness:
 connector = Connector(
     instructions=(
         "Craft Suite connector: every backend API operation as one typed tool, "
-        "plus the suite apps as lazily loaded upstreams"
+        "the suite apps as upstreams, and every app engine command as its own "
+        "tool (<app>_cmd_<command>)"
     ),
     tools="craft_suite_api.mcp",
     upstreams=UPSTREAMS,

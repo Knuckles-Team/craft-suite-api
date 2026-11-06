@@ -1,0 +1,33 @@
+app: designcraft
+summary: DesignCraft page layout — documents, stories, placed images, pages and exports.
+classes:
+  - name: LayoutDocument
+    parent: Document
+    description: A page layout document produced by DesignCraft.
+  - name: LayoutStory
+    parent: Artifact
+    description: A text story threaded through frames of a DesignCraft document.
+functionality:
+  - name: lay_out_document
+    description: Start a document, place images and set story text.
+    tools: [new_document, place_image, set_story_text, save_document]
+    steps:
+      - Start the document from a preset.
+      - Place the images.
+      - Set the story text.
+      - Save the document.
+  - name: inspect_document
+    description: Open a document and read its pages and stories.
+    tools: [open_document, inspect_document, get_story, render_page]
+    steps:
+      - Open the document.
+      - Read the page and frame tree.
+      - Read the story text.
+      - Render a page to verify.
+  - name: run_commands
+    description: Look up engine commands and run them, alone or in a batch.
+    tools: [list_commands, execute, batch, export_png]
+    steps:
+      - Look up the commands.
+      - Run them in one batch where possible.
+      - Export a page to verify.

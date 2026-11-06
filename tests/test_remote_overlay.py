@@ -21,14 +21,14 @@ EXAMPLE = Path(__file__).resolve().parents[1] / "docs" / "remote-upstreams.examp
 def test_example_overlay_validates_and_switches_one_app_to_http(
     monkeypatch, tmp_path
 ) -> None:
-    # The shipped example overlay validates against the eleven declarations:
+    # The shipped example overlay validates against the sixteen declarations:
     # one app becomes http, ten stay stdio, and the http declaration is clean
     # of the stdio transport fields.
     merged = merge_overlay(UPSTREAMS, overlay_file=EXAMPLE, disabled=())
-    assert len(merged) == 11
+    assert len(merged) == 16
     by_name = {decl.name: decl for decl in merged}
     assert sum(decl.kind == "http" for decl in merged) == 1
-    assert sum(decl.kind == "stdio" for decl in merged) == 10
+    assert sum(decl.kind == "stdio" for decl in merged) == 15
     remote = by_name["photocraft"]
     assert remote.kind == "http"
     assert remote.url == "https://apps.example.invalid/photocraft/mcp"
@@ -60,7 +60,7 @@ def test_example_overlay_validates_and_switches_one_app_to_http(
         }
 
     served = asyncio.run(statuses())
-    assert len(served) == 11
+    assert len(served) == 16
     assert served["photocraft"]["kind"] == "http"
     assert {
         entry["kind"] for entry in served.values() if entry["namespace"] != "photocraft"

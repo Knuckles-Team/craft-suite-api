@@ -42,9 +42,10 @@ from .backend_catalog import (
     operation_id,
     tool_names,
 )
-from .error_authority import BACKEND_NOT_CONFIGURED
+from .error_authority import BACKEND_CONFIG_INVALID, BACKEND_NOT_CONFIGURED
 
 __all__ = [
+    "BACKEND_CONFIG_INVALID",
     "CLASS_KEY",
     "CONFIRM_PARAMETER",
     "NAMESPACE",
@@ -146,6 +147,9 @@ class Gate:
 
     configured: bool
     allow_writes: bool
+    #: The refusal code every call answers with; set when the settings are
+    #: present but unusable (``BACKEND_CONFIG_INVALID``).
+    refusal: str | None = None
 
 
 class BackendGovernance(Middleware):
@@ -154,6 +158,7 @@ class BackendGovernance(Middleware):
     def __init__(self, gate: Gate) -> None:
         self.configured = gate.configured
         self.allow_writes = gate.allow_writes
+        self.refusal = gate.refusal
 
     async def on_call_tool(
         self,
@@ -167,6 +172,8 @@ class BackendGovernance(Middleware):
             return await call_next(context)
         arguments = dict(context.message.arguments or {})
         confirm = arguments.pop(CONFIRM_PARAMETER, False) is True
+        if self.refusal is not None:
+            return _refusal(name, self.refusal, klass)
         if not self.configured:
             return _refusal(name, BACKEND_NOT_CONFIGURED, klass)
         if klass == "read":

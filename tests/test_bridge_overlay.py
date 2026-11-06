@@ -72,7 +72,7 @@ def test_example_bridge_overlay_validates_and_remote_address_refuses(
         }
 
     served = asyncio.run(statuses())
-    assert len(served) == 11
+    assert len(served) == len(UPSTREAMS) == 16
     assert served["figcraft"]["kind"] == "bridge"
     assert {entry["state"] for entry in served.values()} == {"inactive"}
 

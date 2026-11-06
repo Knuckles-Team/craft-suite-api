@@ -1,0 +1,33 @@
+app: materialcraft
+summary: MaterialCraft node-based materials — packages, graphs, nodes, renders and output exports.
+classes:
+  - name: MaterialPackage
+    parent: Document
+    description: A material package holding MaterialCraft graphs.
+  - name: MaterialGraph
+    parent: Artifact
+    description: A node graph inside a MaterialCraft package.
+functionality:
+  - name: build_material
+    description: Start a graph, add and connect nodes and set parameters.
+    tools: [graph_new, library_list, node_add, node_connect, node_param]
+    steps:
+      - Start a graph from a template.
+      - Look up the node library.
+      - Add and connect the nodes.
+      - Set the node parameters.
+  - name: export_material
+    description: Open a package, render the material and export its outputs.
+    tools: [package_open, view_render, outputs_export, package_save]
+    steps:
+      - Open the package.
+      - Render the material to verify.
+      - Export the outputs.
+      - Save the package.
+  - name: run_commands
+    description: Look up engine commands and run them, alone or in a batch.
+    tools: [command_list, command_run, command_batch, session_inspect]
+    steps:
+      - Look up the commands.
+      - Run them.
+      - Inspect the session to verify.

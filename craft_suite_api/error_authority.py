@@ -14,6 +14,10 @@ from .problem_details import (
 
 #: The refusal a Tier 1 call answers with while the backend is not configured.
 BACKEND_NOT_CONFIGURED = "BACKEND_NOT_CONFIGURED"
+#: The refusal every Tier 1 call answers with while the backend settings are
+#: set but unusable (a malformed origin, plaintext without the opt-in, an
+#: unresolvable credential or TLS profile). The server still starts.
+BACKEND_CONFIG_INVALID = "BACKEND_CONFIG_INVALID"
 
 
 class BackendNotConfigured(RuntimeError):
