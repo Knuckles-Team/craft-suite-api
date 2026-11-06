@@ -22,7 +22,14 @@ import json
 from importlib import resources
 from typing import Any
 
-__all__ = ["CLASS_KEY", "normalize", "pinned_source", "served_document", "write_class"]
+__all__ = [
+    "CLASS_KEY",
+    "normalize",
+    "pinned_source",
+    "served_document",
+    "strip_enums",
+    "write_class",
+]
 
 #: The vendor extension that carries an operation's governance class.
 CLASS_KEY = "x-craft-suite-class"
@@ -221,14 +228,15 @@ def _schema_closure(roots: set[str], schemas: dict) -> set[str]:
     return seen
 
 
-def _strip_enums(value) -> None:
+def strip_enums(value) -> None:
+    """Remove every ``enum`` constraint in a schema, in place."""
     if isinstance(value, dict):
         value.pop("enum", None)
         for item in value.values():
-            _strip_enums(item)
+            strip_enums(item)
     elif isinstance(value, list):
         for item in value:
-            _strip_enums(item)
+            strip_enums(item)
 
 
 def _open_response_enums(document: dict) -> None:
@@ -251,10 +259,10 @@ def _open_response_enums(document: dict) -> None:
             references(operation.get("parameters", []), requests)
             references(operation.get("responses", {}), responses)
             for response in operation.get("responses", {}).values():
-                _strip_enums(response.get("content", {}))
+                strip_enums(response.get("content", {}))
     request_side = _schema_closure(requests, schemas)
     for name in _schema_closure(responses, schemas) - request_side:
-        _strip_enums(schemas[name])
+        strip_enums(schemas[name])
 
 
 def pinned_source() -> tuple[bytes, dict[str, Any]]:
