@@ -49,22 +49,18 @@ unavailable.
 {"name":"craft_suite_omni_gen_image_models_handler","arguments":{}}
 ```
 
-## Provenance and regeneration
+## Provenance
 
-`api-spec/backend.openapi.json` is the backend's published API description,
-kept byte for byte and pinned by sha256 in `api-spec/backend.source.json`.
-`scripts/generate_backend_tools.py` repairs its known defects deterministically
-(missing references, untyped parameters, multipart upload bodies, the session
-scheme) and writes `craft_suite_api/backend_openapi.json`, which ships with the
-package. The backend source is under its own source-available licence: only the
-interface description is used. To take a new description, replace the pinned
-file, update the sha256 and run:
-
-```bash
-python scripts/generate_backend_tools.py
-python scripts/generate_backend_tools.py --check
-python -m pytest tests -q
-```
+`craft_suite_api/api_spec/backend.openapi.json` is the backend's published API
+description, kept byte for byte and pinned by sha256 in
+`craft_suite_api/api_spec/backend.source.json`. Both ship in the package. When
+the server first builds the backend tools, `craft_suite_api/backend_spec.py`
+checks the pin and repairs the document's known defects in memory (missing
+references, untyped parameters, multipart upload bodies, the session scheme).
+Nothing generated is committed and there is no regenerate step. The backend
+source is under its own source-available licence: only the interface
+description is used. To take a new description, replace the pinned file,
+update the sha256 and run `python -m pytest tests -q`.
 
 ## Validation boundary
 

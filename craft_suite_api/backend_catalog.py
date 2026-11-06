@@ -1,11 +1,9 @@
-"""The generated backend description and the names derived from it (R007)."""
+"""The served backend description and the names derived from it (R007)."""
 
 from __future__ import annotations
 
 import hashlib
-import json
 from functools import cache
-from importlib import resources
 from typing import Any
 
 __all__ = [
@@ -19,15 +17,17 @@ __all__ = [
     "tool_names",
 ]
 
+from .backend_spec import CLASS_KEY
+
 NAMESPACE = "craft_suite"
-CLASS_KEY = "x-craft-suite-class"
 
 
 @cache
 def backend_document() -> dict[str, Any]:
-    """The generated backend description, packaged with the connector."""
-    text = resources.files(__package__).joinpath("backend_openapi.json").read_text()
-    return json.loads(text)
+    """The backend description, repaired from the pinned document at first use."""
+    from .backend_spec import served_document
+
+    return served_document()
 
 
 def operation_count() -> int:

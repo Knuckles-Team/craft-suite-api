@@ -28,10 +28,9 @@ The connector serves every backend API operation as one typed tool. The backend 
 ## Project Structure
 
 ```text
-api-spec/backend.openapi.json  new (pinned published description)
-api-spec/backend.source.json  new (url, sha256, licence note)
-scripts/generate_backend_tools.py  new
-craft_suite_api/backend_openapi.json  new (generated)
+craft_suite_api/api_spec/backend.openapi.json  pinned published description (package data)
+craft_suite_api/api_spec/backend.source.json  url, sha256, licence note (package data)
+craft_suite_api/backend_spec.py  pin check and in-memory repair at first use
 craft_suite_api/backend.py  new
 craft_suite_api/auth.py  existing
 craft_suite_api/mcp/__init__.py  existing
@@ -47,7 +46,7 @@ See [research.md](research.md): the operation counts, the licences, the absence 
 
 ### Implementation units
 
-- `scripts/generate_backend_tools.py`: sha256 check and deterministic repair of the description.
+- `craft_suite_api/backend_spec.py`: sha256 check and deterministic in-memory repair of the description.
 - `craft_suite_api/backend.py`: the provider, the name map, the governance middleware and the audit log.
 - `craft_suite_api/auth.py`: the governed async client, the credential reference and the response bound.
 - `craft_suite_api/mcp/__init__.py`: the one registrar that mounts the backend sub-server.
@@ -62,7 +61,7 @@ Graph ingestion is withheld until a tenant/source-scoped mapping and complete re
 ### Content and contracts
 
 The server serves package prompts, skills, ontology, and `connector_manifest.yml` through native MCP primitives.
-`backend_openapi.json` ships as package data. `scripts/generate_backend_tools.py --check` fails on a stale copy.
+The pinned description ships as package data and is repaired at first use; nothing generated is committed.
 
 ### Dependencies and decisions
 
@@ -94,7 +93,7 @@ None. The constitution check passed.
 
 ## Build contract
 
-The repository pre-commit hooks apply: `spec-standard`, `spec-status`, `ruff-format`, `content-drift`, `backend-tools-drift`. Each row names its proving test. No suppression and no duplicate implementation.
+The repository pre-commit hooks apply: `spec-standard`, `spec-status`, `ruff-format`, `content-drift`. Each row names its proving test. No suppression and no duplicate implementation.
 
 ## Production caller chain
 
@@ -104,7 +103,7 @@ The repository pre-commit hooks apply: `spec-standard`, `spec-status`, `ruff-for
 4. `CONN-CRAFT-SUITE-API-R004`: the SDK `build_server` serves the packaged `skills/`, `ontology/` and `prompts/` directories with no content argument.
 5. `CONN-CRAFT-SUITE-API-R005`: no tool or entry point reaches an ingestion path, because `craft_suite_api.kg_ingest` and `craft_suite_api.api` are absent from the package.
 6. `CONN-CRAFT-SUITE-API-R006`: a write call reaches `BackendGovernance._write`, which calls the SDK `ctx_confirm_destructive` before the request is sent.
-7. `CONN-CRAFT-SUITE-API-R007`: `build_backend_server` passes `backend_openapi.json` and `tool_names` to the OpenAPI provider.
+7. `CONN-CRAFT-SUITE-API-R007`: `build_backend_server` passes the description `served_document` repairs from the pinned source and `tool_names` to the OpenAPI provider.
 8. `CONN-CRAFT-SUITE-API-R008`: `BackendGovernance.on_call_tool` refuses, confirms, decodes upload parts and audits.
 9. `CONN-CRAFT-SUITE-API-R009`: a read passes `on_call_tool` untouched and the provider sends it once.
 

@@ -10,6 +10,7 @@ import base64
 import json
 import logging
 import time
+from pathlib import Path
 
 import httpx
 import pytest
@@ -64,10 +65,17 @@ async def test_every_operation_is_one_typed_tool(backend):
 
 
 @pytest.mark.spec("CONN-CRAFT-SUITE-API-R007")
-def test_generated_document_is_current_and_pinned():
-    from scripts.generate_backend_tools import main
+def test_served_document_is_built_from_the_pinned_source():
+    import hashlib
 
-    assert main(["--check"]) == 0
+    from craft_suite_api.backend_spec import pinned_source
+
+    # Nothing generated is committed: the served description is repaired from
+    # the shipped published document at first use, after its pin is checked.
+    package = Path(__file__).resolve().parents[1] / "craft_suite_api"
+    assert not (package / "backend_openapi.json").exists()
+    data, provenance = pinned_source()
+    assert hashlib.sha256(data).hexdigest() == provenance["sha256"]
     document = backend_document()
     assert "servers" not in document
     assert document["components"]["securitySchemes"]["signed_session"]["name"] == (

@@ -21,12 +21,13 @@ def test_image_installs_the_published_wheel_only():
         "pyproject.toml",
         "README.md",
         "LICENSE",
-        "craft_suite_api/backend_openapi.json",
+        "craft_suite_api/api_spec/backend.openapi.json",
+        "craft_suite_api/api_spec/backend.source.json",
     ]:
         assert (ROOT / name).is_file()
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text())
     assert (
-        "backend_openapi.json"
+        "api_spec/*.json"
         in metadata["tool"]["setuptools"]["package-data"]["craft_suite_api"]
     )
     config = configparser.ConfigParser(interpolation=None)

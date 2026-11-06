@@ -13,7 +13,7 @@ The shared pipelines repository owns quality gates and delivery rendering.
 
 Component: Connector integration
 References: [Connector SDK](https://github.com/Knuckles-Team/scion-sdk/blob/5babc4cc48ad73928468b243842f219f51e2cca1/README.md)
-Code: ../../craft_suite_api/auth.py ../../craft_suite_api/backend.py ../../craft_suite_api/backend_openapi.json ../../craft_suite_api/mcp_server.py ../../craft_suite_api/mcp/__init__.py ../../scripts/generate_backend_tools.py ../../api-spec/backend.source.json ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../tests/test_backend_tools.py
+Code: ../../craft_suite_api/auth.py ../../craft_suite_api/backend.py ../../craft_suite_api/backend_spec.py ../../craft_suite_api/backend_catalog.py ../../craft_suite_api/mcp_server.py ../../craft_suite_api/mcp/__init__.py ../../craft_suite_api/api_spec/backend.source.json ../../tests/test_auth.py ../../tests/test_api_wrapper.py ../../tests/test_artcraft_mcp_validation.py ../../tests/test_backend_tools.py
 
 ## Non-goals
 

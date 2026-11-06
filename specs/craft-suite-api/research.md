@@ -4,7 +4,7 @@ This file records what rows R007 to R009 rely on. It describes capabilities, not
 
 ## Capabilities of the backend
 
-- The backend publishes one machine-readable API description (OpenAPI 3.1). The pinned copy, `api-spec/backend.openapi.json`, describes 268 operations: 92 reads (GET) and 176 writes (160 POST, 6 PUT, 10 DELETE). Every operation has a unique operation id.
+- The backend publishes one machine-readable API description (OpenAPI 3.1). The pinned copy, `craft_suite_api/api_spec/backend.openapi.json`, describes 268 operations: 92 reads (GET) and 176 writes (160 POST, 6 PUT, 10 DELETE). Every operation has a unique operation id.
 - The writes are 62 generation operations, 24 uploads, 21 account and session operations, 10 moderation operations and 59 other changes, such as folders, tags, bookmarks and ratings.
 - The backend publishes no MCP server of its own. Its MCP routes only create, list, refresh and revoke MCP session credentials, which makes them account operations.
 - The suite's desktop apps do publish MCP servers. The connector already mounts them as lazily loaded upstreams (`CONN-CRAFT-SUITE-API-APPS-R002`).

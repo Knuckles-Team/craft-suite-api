@@ -73,7 +73,7 @@ dev = [
 ]
 
 [tool.setuptools.package-data]
-craft_suite_api = [ "backend_openapi.json", "mcp_config.json", "prompts/**", "skills/**", "ontology/**", "connectors/**", ]
+craft_suite_api = [ "api_spec/*.json", "mcp_config.json", "prompts/**", "skills/**", "ontology/**", "connectors/**", ]
 
 [tool.ruff.lint]
 select = [ "E", "F", "I", "UP", "B",]
