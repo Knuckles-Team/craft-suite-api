@@ -183,10 +183,78 @@ def normalize(document: dict) -> dict:
                 p.get("in") == "path" and p.get("name") == "request"
                 for p in operation.get("parameters", [])
             ):
-                _repair_upload(operation, schemas)
+                if _has_json_body(operation):
+                    # The bogus `request` parameter repeats the JSON body: drop it.
+                    _drop_request_parameter(operation)
+                else:
+                    _repair_upload(operation, schemas)
             _repair_parameters(operation)
             operation[CLASS_KEY] = write_class(method, path)
+    _open_response_enums(document)
     return document
+
+
+def _has_json_body(operation: dict) -> bool:
+    content = operation.get("requestBody", {}).get("content", {})
+    return "application/json" in content
+
+
+def _drop_request_parameter(operation: dict) -> None:
+    operation["parameters"] = [
+        p
+        for p in operation.get("parameters", [])
+        if not (p.get("in") == "path" and p.get("name") == "request")
+    ]
+
+
+def _schema_closure(roots: set[str], schemas: dict) -> set[str]:
+    seen: set[str] = set()
+    todo = list(roots)
+    while todo:
+        name = todo.pop()
+        if name in seen or name not in schemas:
+            continue
+        seen.add(name)
+        found: set[str] = set()
+        references(schemas[name], found)
+        todo.extend(found - seen)
+    return seen
+
+
+def _strip_enums(value) -> None:
+    if isinstance(value, dict):
+        value.pop("enum", None)
+        for item in value.values():
+            _strip_enums(item)
+    elif isinstance(value, list):
+        for item in value:
+            _strip_enums(item)
+
+
+def _open_response_enums(document: dict) -> None:
+    """Drop ``enum`` from the schemas only responses use.
+
+    The live backend answers values its published description does not list
+    (``quality_options: "auto"``, the model ``wan_3p0``), so a closed enum on a
+    response fails output validation for a good answer. Request schemas keep
+    their enums.
+    """
+    schemas = document["components"]["schemas"]
+    requests: set[str] = set()
+    responses: set[str] = set()
+    for item in document["paths"].values():
+        for method in METHODS:
+            operation = item.get(method)
+            if operation is None:
+                continue
+            references(operation.get("requestBody", {}), requests)
+            references(operation.get("parameters", []), requests)
+            references(operation.get("responses", {}), responses)
+            for response in operation.get("responses", {}).values():
+                _strip_enums(response.get("content", {}))
+    request_side = _schema_closure(requests, schemas)
+    for name in _schema_closure(responses, schemas) - request_side:
+        _strip_enums(schemas[name])
 
 
 def pinned_source() -> tuple[bytes, dict[str, Any]]:

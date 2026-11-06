@@ -205,3 +205,19 @@ async def test_hot_path_read_reaches_the_exact_route_with_the_session(backend):
     assert request.headers["session"] == "synthetic-session"
     assert json.loads(json.dumps(result.structured_content)) == TAGS
     assert elapsed < 1.0
+
+
+@pytest.mark.spec("CONN-CRAFT-SUITE-API-R007")
+def test_repairs_keep_json_bodies_and_open_response_enums():
+    document = backend_document()
+    flux = document["paths"]["/v1/generate/image/flux_1_schnell_text_to_image"]["post"]
+    # A bogus `request` path parameter beside a JSON body is dropped; the
+    # operation is not mistaken for a multipart upload.
+    assert [p["name"] for p in flux.get("parameters", [])] == []
+    assert list(flux["requestBody"]["content"]) == ["application/json"]
+    # Response-only schemas carry no closed enum: the live backend answers
+    # values the published description does not list.
+    schemas = document["components"]["schemas"]
+    models = document["paths"]["/v1/omni_gen/models/image"]["get"]
+    ref = models["responses"]["200"]["content"]["application/json"]["schema"]["$ref"]
+    assert "enum" not in json.dumps(schemas[ref.rsplit("/", 1)[1]])

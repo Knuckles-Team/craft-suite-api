@@ -622,6 +622,41 @@ def output_path_args(arguments: dict[str, Any]) -> tuple[str, ...]:
     return tuple(names)
 
 
+#: Apps that take every file path relative to their read or write root and
+#: refuse an absolute one (``path rejected (absolute)``).
+ROOT_RELATIVE_APPS = frozenset({"materialcraft", "texturecraft"})
+
+
+def root_relative(arguments: dict[str, Any], runtime: Any) -> dict[str, Any]:
+    """``arguments`` with exchange paths made relative to their tree's root.
+
+    The exchange hands an app absolute paths inside its input tree (staged
+    inputs) and output tree (run outputs); those trees are the app's read and
+    write roots, so the app gets the same files as root-relative paths.
+    """
+    from pathlib import PurePosixPath
+
+    from scion_sdk.exchange.staging import input_tree, output_tree
+
+    roots = [
+        PurePosixPath(str(tree(runtime.settings.staging_root)))
+        for tree in (output_tree, input_tree)
+    ]
+
+    def one(value: Any) -> Any:
+        if isinstance(value, list):
+            return [one(item) for item in value]
+        if not isinstance(value, str) or not value.startswith("/"):
+            return value
+        path = PurePosixPath(value)
+        for root in roots:
+            if path.is_relative_to(root):
+                return path.relative_to(root).as_posix() or "."
+        return value
+
+    return {key: one(value) for key, value in arguments.items()}
+
+
 class CommandTool(Tool):
     """One registry command; a call runs the app's dispatch tool with it.
 
@@ -645,6 +680,9 @@ class CommandTool(Tool):
     async def _forward(
         self, ctx: Any, context: dict[str, Any], params: dict[str, Any]
     ) -> Any:
+        runtime = _exchange_runtime()
+        if runtime is not None and self.app in ROOT_RELATIVE_APPS:
+            params = root_relative(params, runtime)
         forwarded = {**context, self.id_arg: self.command_id, self.params_arg: params}
         result = await ctx.fastmcp.call_tool(self.dispatch_name, forwarded)
         return await self._await_job(ctx, context, result)
@@ -1038,10 +1076,27 @@ class AppCommandProvider(Provider):
 
 @functools.cache
 def _output_paths_tool_class() -> Any:
+    from fastmcp.server.providers.proxy import ProxyTool
     from scion_sdk.mcp.upstreams.exchange import ExchangeProxyTool
 
-    class OutputPathsProxyTool(ExchangeProxyTool):
-        """An app's own tool whose exchange moves only real output paths."""
+    class RootRelativeProxyTool(ProxyTool):
+        """Hands a root-relative app the exchange's paths relative to its roots."""
+
+        async def run(self, arguments: dict[str, Any], context: Any = None) -> Any:
+            decl = getattr(self, "_exchange_decl", None)
+            runtime = getattr(self, "_exchange_runtime", None)
+            if decl is not None and runtime is not None:
+                if decl.name in ROOT_RELATIVE_APPS:
+                    arguments = root_relative(dict(arguments or {}), runtime)
+            return await super().run(arguments, context)
+
+    class OutputPathsProxyTool(ExchangeProxyTool, RootRelativeProxyTool):
+        """An app's own tool whose exchange moves only real output paths.
+
+        Its method order puts ``RootRelativeProxyTool`` between the SDK's
+        forwarding tool and the proxy, so the prepared arguments are made
+        root-relative right before the call reaches the app.
+        """
 
         _call_path_args: tuple[str, ...] = ()
 

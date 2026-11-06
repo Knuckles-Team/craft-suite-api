@@ -192,3 +192,27 @@ def test_app_tools_keep_non_file_paths(exchange) -> None:
     assert wrapped._spec().path_args == ()
     wrapped._call_path_args = app_commands.output_path_args({"path": "frame.png"})
     assert wrapped._spec().path_args == ("path",)
+
+
+def test_root_relative_apps_get_paths_relative_to_their_roots(exchange) -> None:
+    from craft_suite_api.app_commands import ROOT_RELATIVE_APPS, root_relative
+
+    runtime = app_commands._exchange_runtime()
+    staging = exchange / "staging"
+    assert {"materialcraft", "texturecraft"} <= ROOT_RELATIVE_APPS
+    assert root_relative(
+        {
+            "dir": str(staging / "out" / "materialcraft" / "run-3" / "metal"),
+            "path": str(staging / "in" / "texturecraft" / "run-3" / "shade.glb"),
+            "paths": [str(staging / "out" / "x" / "a.png")],
+            "name": "keep",
+            "other": "/elsewhere/file.png",
+        },
+        runtime,
+    ) == {
+        "dir": "materialcraft/run-3/metal",
+        "path": "texturecraft/run-3/shade.glb",
+        "paths": ["x/a.png"],
+        "name": "keep",
+        "other": "/elsewhere/file.png",
+    }
