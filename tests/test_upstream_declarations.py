@@ -71,3 +71,20 @@ def test_eleven_apps_declared_with_roots_fail_closed(monkeypatch) -> None:
         assert "--automation-write-root" in command
         assert command.count("--automation-read-root") == 1
         assert command.count("--automation-write-root") == 1
+
+
+def test_flagless_apps_survive_exchange_binding(tmp_path) -> None:
+    # With the artifact exchange bound, a flagless app keeps empty roots:
+    # scion-sdk 0.8.1 appended the staging tree and refused to start.
+    from scion_sdk.mcp.upstreams.exchange import ExchangeRuntime, bind_exchange_roots
+
+    class _Settings:
+        staging_root = tmp_path
+
+    runtime = ExchangeRuntime(_Settings(), None, "craft-suite-api")  # type: ignore[arg-type]
+    for decl in build_upstreams():
+        bound = bind_exchange_roots(decl, runtime)
+        if decl.name in FLAGLESS_APPS:
+            assert bound.sandbox.read == () and bound.sandbox.write == ()
+        else:
+            assert bound.sandbox.read and bound.sandbox.write
