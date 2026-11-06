@@ -22,3 +22,8 @@ Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requireme
 - [ ] T018 [US1] CONN-CRAFT-SUITE-API-APPS-R018 Each app warms on its own; startup never blocks.
 - [ ] T019 [US1] CONN-CRAFT-SUITE-API-APPS-R019 Command tool schemas are typed from the apps' parameter documentation.
 - [ ] T020 [US4] CONN-CRAFT-SUITE-API-APPS-R020 Command tools run their arguments through the exchange and await background jobs.
+- [ ] T021 [US1] CONN-CRAFT-SUITE-API-APPS-R018.1 Delete the local readiness probe; the SDK ConnectorLifecycle owns the state.
+- [ ] T022 [US1] CONN-CRAFT-SUITE-API-APPS-R018.2 Supply probes only: the backend and each app report a result, never a state.
+- [ ] T023 [US1] CONN-CRAFT-SUITE-API-APPS-R018.3 Map the warm-up and backend outcomes onto the SDK lifecycle states.
+- [ ] T024 [US1] CONN-CRAFT-SUITE-API-APPS-R018.4 Wiring and hot-path proof: a broken backend never reports ready.
+- [ ] T025 [US1] CONN-CRAFT-SUITE-API-APPS-R001.1 Backend readiness detail comes from the backend lifecycle.

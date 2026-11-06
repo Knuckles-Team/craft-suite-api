@@ -91,6 +91,21 @@ The SDK exchange owns staging, inputs, publication, links and lineage. This conn
 
 Run `pipelines-hook spec-standard`, `pipelines-hook spec-status` and `ste-staged` on the spec directory. Phase gates run offline against fixture programs.
 
+### Readiness by lifecycle (CONN-CRAFT-SUITE-API-APPS-R018.1 to R018.4)
+
+The connector holds no readiness vocabulary. It supplies probe results and the SDK `ConnectorLifecycle` machine of `SCION-CONNECTOR-CONTROL-R914` decides the state of the backend and of each of the sixteen upstreams.
+
+| Component outcome | Lifecycle state |
+|---|---|
+| App registry still loading | pre-proof state |
+| App registry loaded | Ready |
+| App registry unreadable, retry pending | Backoff |
+| App registry unreadable after three retries | Degraded |
+| Backend setting empty | unconfigured state |
+| Backend setting unusable | Degraded, code `BACKEND_CONFIG_INVALID` |
+
+`/ready` keeps the rule that one failed app never holds the server unready. The detail now names each upstream with its lifecycle state, so a broken component is visible.
+
 ## Phase 2: Task approach
 
 Order the work producer first. The SDK rows `SCION-CONNECTOR-CONTROL-R914.1` to `SCION-CONNECTOR-CONTROL-R914.5` land before `CONN-CRAFT-SUITE-API-APPS-R002`. The gateway row `ARBORA-FLEET-R061` lands before `CONN-CRAFT-SUITE-API-APPS-R008`. The phase gates land last, one after each group of rows.
@@ -114,6 +129,8 @@ Repository commands: `pre-commit run --all-files`, then `uv run pytest tests`. N
 ## Production caller chain
 
 Entry point: the `scion_sdk.connector` entry point calls `run` and `build_server`, which call `_serve_hooks` (in the `scion-sdk` package, module `scion_sdk._connector_serve`, line 97). `_serve_hooks` calls `attach_upstreams` with `connector.upstreams` from `craft_suite_api/__init__.py`. Tier 1 reaches the backend through `get_client` (`craft_suite_api/auth.py:70`). Obsolete paths to delete: none.
+
+Row `CONN-CRAFT-SUITE-API-APPS-R018.1` to `R018.4`: the `scion_sdk.connector` entry point loads `craft_suite_api:connector`; the SDK supervisor calls `backend_probe` and `app_probe` in `craft_suite_api/probes.py`, feeds the results to the `ConnectorLifecycle` instance of each component, and `/ready` renders their states.
 
 ## Cross-repo seams
 

@@ -60,6 +60,10 @@ Authored text is separate from generated text. Authors edit `content/apps/<app>.
 
 Run `pipelines-hook spec-standard`, `pipelines-hook spec-status` and `ste-staged` on the spec directory. The offline drift gate runs in pre-commit and CI.
 
+### Lifecycle by reuse (CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010)
+
+The lifecycle machine belongs to the scion-sdk ConnectorLifecycle pack. This connector declares no machine class. It types its app and backend individuals with the SDK classes and states in skills how to read a component that is not ready. The test lists the pack classes, so a state class declared here fails the build.
+
 ## Phase 2: Task approach
 
 Order the work producer first: the core pack classes, then the generator, then the three renderers, then the drift gate, then the import proof.
@@ -83,6 +87,8 @@ Repository commands: `pre-commit run --all-files`, then `uv run pytest tests`. N
 ## Production caller chain
 
 Entry point: `build_server` (`craft_suite_api/mcp_server.py`) calls the SDK `build_server`, which lists the packaged content directories. The generator is a development command and has no run-time caller. Obsolete paths to delete: the stub classes in `artcraft.ttl`.
+
+Row `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`: the packaged ontology is served as `ontology://` resources and imported by the pack import; the lifecycle states it points at come from the SDK pack; the skills are served by the SDK default content registration.
 
 ## Cross-repo seams
 
