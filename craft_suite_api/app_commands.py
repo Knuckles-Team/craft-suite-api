@@ -41,6 +41,18 @@ from mcp.types import ToolAnnotations
 from mcp_types.version import MODERN_PROTOCOL_VERSIONS
 from scion_sdk.upstream_wire import UPSTREAM_META_KEY, UPSTREAM_META_NAMESPACE_KEY
 
+from .lifecycle import (
+    BACKOFF,
+    BACKOFF_AFTER,
+    CYCLE_FAIL,
+    CYCLE_OK,
+    DEGRADED,
+    READY,
+    REGISTRY_LOADED,
+    WARMING,
+    Component,
+)
+
 __all__ = [
     "APP_REGISTRY_UNREADABLE",
     "APP_WARMING",
@@ -65,7 +77,6 @@ APP_REGISTRY_UNREADABLE = "APP_REGISTRY_UNREADABLE"
 #: A call to a command of an app whose registry is still loading (retryable).
 APP_WARMING = "APP_WARMING"
 
-WARMING, READY, FAILED = "warming", "ready", "failed"
 #: How long a call to a warming app waits for that app before refusing.
 WARMUP_WAIT_S = 20.0
 #: The base delay before a failed registry load is retried (grows linearly).
@@ -827,62 +838,102 @@ async def _read_registry(
 
 
 class AppWarmup:
-    """Each app's registry state, as the readiness probe and the calls read it.
+    """Each app's lifecycle record, as the readiness probe and the calls read it.
 
-    ``warming`` until the first load attempt settles, then ``ready`` (its
-    tools are served) or ``failed`` (it serves none and is retried in the
-    background). Every state change is an :class:`asyncio.Event` per app, so
-    a call can wait on one app without waiting on the others
-    (CONN-CRAFT-SUITE-API-APPS-R018).
+    Every app is one component of the lifecycle machine in
+    :mod:`craft_suite_api.lifecycle`: ``warming`` until the first load attempt
+    settles, then ``Ready`` (its tools are served), ``Degraded`` (unreadable,
+    retried in the background) or ``Backoff`` (the retries are used up). The
+    only writers of an app's state are :meth:`settle_ok` and
+    :meth:`settle_failed`, and both go through ``lifecycle.transition``
+    (CONN-CRAFT-SUITE-API-APPS-R018.1, R018.3). Every state change is an
+    :class:`asyncio.Event` per app, so a call can wait on one app without
+    waiting on the others (CONN-CRAFT-SUITE-API-APPS-R018).
     """
 
     def __init__(self, apps: Sequence[str]) -> None:
-        self.states: dict[str, str] = dict.fromkeys(apps, WARMING)
+        self.components: dict[str, Component] = {a: Component(a) for a in apps}
+        for component in self.components.values():
+            component.apply(REGISTRY_LOADED)  # activate: Unconfigured -> warming
         self.counts: dict[str, int] = {}
         self.started = time.monotonic()
         self.settled_at: dict[str, float] = {}
         self._events: dict[str, asyncio.Event] = {}
 
+    @property
+    def states(self) -> dict[str, str]:
+        return {app: c.state for app, c in self.components.items()}
+
     def _event(self, app: str) -> asyncio.Event:
         if app not in self._events:
             self._events[app] = asyncio.Event()
-            if self.states.get(app) != WARMING:
+            if self.components[app].state != WARMING:
                 self._events[app].set()
         return self._events[app]
 
-    def settle(self, app: str, state: str, count: int) -> None:
-        self.states[app] = state
+    def _settled(self, app: str, count: int) -> None:
         self.counts[app] = count
         self.settled_at.setdefault(app, round(time.monotonic() - self.started, 3))
         self._event(app).set()
 
+    def settle_ok(self, app: str, count: int) -> None:
+        self.components[app].apply(CYCLE_OK)
+        self._settled(app, count)
+
+    def settle_failed(self, app: str, *, exhausted: bool) -> None:
+        """One failed load: warming to Degraded, and Backoff once retries are used."""
+        component = self.components[app]
+        failures = component.failures + 1
+        if component.state == WARMING:
+            component.apply(CYCLE_FAIL, code=APP_REGISTRY_UNREADABLE, failures=1)
+        component.failures = failures
+        if exhausted and component.state == DEGRADED:
+            component.apply(
+                CYCLE_FAIL, code=APP_REGISTRY_UNREADABLE, failures=BACKOFF_AFTER
+            )
+            component.failures = failures
+        self._settled(app, 0)
+
     async def wait(self, app: str, timeout_s: float) -> str:
         """The app's state after waiting at most ``timeout_s`` for it to settle."""
-        if self.states.get(app) == WARMING and timeout_s > 0:
+        component = self.components.get(app)
+        if component is None:
+            return DEGRADED
+        if component.state == WARMING and timeout_s > 0:
             with contextlib.suppress(TimeoutError):
                 await asyncio.wait_for(self._event(app).wait(), timeout_s)
-        return self.states.get(app, FAILED)
+        return component.state
 
     @property
     def settled(self) -> bool:
-        return all(state != WARMING for state in self.states.values())
+        return all(c.state != WARMING for c in self.components.values())
 
     def readiness_detail(self) -> dict[str, Any]:
-        """Scalar fields for ``/ready``; the server is ready once every app settled."""
+        """Scalar fields for ``/ready``: every app's state, counts derived from them.
 
-        def named(state: str) -> str:
-            return ",".join(sorted(a for a, s in self.states.items() if s == state))
+        The server is ready once no app is ``warming``; a Degraded or Backoff
+        app is visible here and never holds the pod out of service
+        (CONN-CRAFT-SUITE-API-APPS-R018.5).
+        """
 
-        return {
-            "apps_ready": sum(1 for s in self.states.values() if s == READY),
+        def named(*states: str) -> str:
+            return ",".join(
+                sorted(a for a, c in self.components.items() if c.state in states)
+            )
+
+        detail: dict[str, Any] = {
+            "apps_ready": sum(1 for c in self.components.values() if c.state == READY),
             "apps_warming": named(WARMING),
-            "apps_failed": named(FAILED),
+            "apps_failed": named(DEGRADED, BACKOFF),
             "app_command_tools": sum(self.counts.values()),
             # Seconds from server start until the last app settled (None: warming).
             "apps_settled_s": max(self.settled_at.values(), default=0.0)
             if self.settled
             else None,
         }
+        for app, c in sorted(self.components.items()):
+            detail[f"state_{app}"] = c.state
+        return detail
 
 
 #: The live warm-up state of the running server (``None`` before it serves).
@@ -1016,7 +1067,7 @@ class AppCommandProvider(Provider):
             if tools:
                 for tool in tools:
                     self._tools[tool.name] = tool
-                self.warmup.settle(app, READY, len(tools))
+                self.warmup.settle_ok(app, len(tools))
                 _logger.info(
                     "app %s ready: %d command tools after %.1f s",
                     app,
@@ -1026,7 +1077,7 @@ class AppCommandProvider(Provider):
                 if self.tracker is not None:
                     await self.tracker.notify_tools_changed()
                 return
-            self.warmup.settle(app, FAILED, 0)
+            self.warmup.settle_failed(app, exhausted=attempt >= self.retries)
             if attempt < self.retries:
                 await asyncio.sleep(self.retry_s * (attempt + 1))
 
@@ -1069,7 +1120,7 @@ class AppCommandProvider(Provider):
             return self._tools[name]
         if state == WARMING:
             return _refusal_tool(name, app, APP_WARMING, self.retry_s / 3 or 1.0)
-        if state == FAILED:
+        if state in (DEGRADED, BACKOFF):
             return _refusal_tool(name, app, APP_REGISTRY_UNREADABLE, self.retry_s)
         return None
 

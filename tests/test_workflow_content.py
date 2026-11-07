@@ -148,3 +148,50 @@ def test_agent_prompts_are_complete_definitions_linked_in_the_ontology() -> None
         assert set(document["tools"]) == linked_tools, name
         for tool in linked_tools:
             assert f"`{tool}`" in directive, (name, tool)
+
+
+def test_pack_declares_no_lifecycle_state_classes_of_its_own() -> None:
+    """CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1: reuse, never redeclare."""
+    pack = _pack_graph()
+    names = {
+        str(c).rsplit("#", 1)[-1].lower() for c in pack.subjects(RDF.type, OWL.Class)
+    }
+    for word in (
+        "warming",
+        "ready",
+        "degraded",
+        "backoff",
+        "stopped",
+        "unconfigured",
+        "transition",
+        "lifecycle",
+    ):
+        assert not any(word in n for n in names), word
+    assert (URIRef(KG + "lifecycleState"), RDF.type, OWL.ObjectProperty) in pack
+    assert (None, OWL.imports, CORE_IRI) not in pack
+
+
+def test_every_app_skill_states_the_not_ready_refusals_and_retry() -> None:
+    """CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2."""
+    skills = sorted((PACKAGE / "skills").glob("*/SKILL.md"))
+    skills = [s for s in skills if s.parent.name != "artcraft-starter"]
+    assert len(skills) == 32
+    for path in skills:
+        text = path.read_text(encoding="utf-8")
+        for needle in (
+            "APP_WARMING",
+            "APP_REGISTRY_UNREADABLE",
+            "retry_after_s",
+            "Backoff",
+        ):
+            assert needle in text, (path.parent.name, needle)
+    prompt = (PACKAGE / "prompts" / "craft-suite-operator.json").read_text(
+        encoding="utf-8"
+    )
+    for needle in (
+        "APP_WARMING",
+        "APP_REGISTRY_UNREADABLE",
+        "retry_after_s",
+        "Backoff",
+    ):
+        assert needle in prompt

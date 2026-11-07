@@ -69,12 +69,16 @@ def test_readiness_reports_not_configured_and_stays_ready(monkeypatch) -> None:
     monkeypatch.delenv("CRAFT_SUITE_API_BASE_URL", raising=False)
     probe = asyncio.run(_tier1_readiness())
     assert probe.ready is True
-    assert probe.detail == {"backend": "not_configured"}
+    assert probe.detail == {
+        "backend": "not_configured",
+        "state_backend": "Unconfigured",
+        "code": "BACKEND_NOT_CONFIGURED",
+    }
 
     monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", "https://service.example.invalid")
     probe = asyncio.run(_tier1_readiness())
     assert probe.ready is True
-    assert probe.detail == {"backend": "configured"}
+    assert probe.detail == {"backend": "configured", "state_backend": "Ready"}
 
 
 @pytest.mark.parametrize(
@@ -88,7 +92,7 @@ def test_unusable_backend_setting_starts_and_refuses_typed(
     monkeypatch, url, plaintext
 ) -> None:
     from craft_suite_api.error_authority import BACKEND_CONFIG_INVALID
-    from craft_suite_api.mcp import BACKEND_STATE
+    from craft_suite_api.lifecycle import BACKEND, UNCONFIGURED
 
     monkeypatch.setenv("CRAFT_SUITE_API_BASE_URL", url)
     monkeypatch.setenv("CRAFT_SUITE_API_ALLOW_PLAINTEXT", plaintext)
@@ -108,9 +112,49 @@ def test_unusable_backend_setting_starts_and_refuses_typed(
         }
         probe = asyncio.run(_tier1_readiness())
         assert probe.ready is True
-        assert {k: probe.detail[k] for k in ("backend", "code")} == {
+        assert {k: probe.detail[k] for k in ("backend", "code", "state_backend")} == {
             "backend": "invalid",
             "code": BACKEND_CONFIG_INVALID,
+            "state_backend": "Degraded",
         }
     finally:
-        BACKEND_STATE.clear()
+        BACKEND.state, BACKEND.code = UNCONFIGURED, ""
+
+
+@pytest.mark.parametrize(
+    ("case", "env", "view", "state"),
+    [
+        ("unconfigured", {}, "not_configured", "Unconfigured"),
+        (
+            "invalid",
+            {"CRAFT_SUITE_API_BASE_URL": "http://x.invalid"},
+            "invalid",
+            "Degraded",
+        ),
+        (
+            "configured",
+            {"CRAFT_SUITE_API_BASE_URL": "https://x.invalid"},
+            "configured",
+            "Ready",
+        ),
+    ],
+    ids=lambda v: v if isinstance(v, str) and v.isalpha() else None,
+)
+def test_backend_detail_is_rendered_from_the_lifecycle_state(
+    monkeypatch, case, env, view, state
+) -> None:
+    from craft_suite_api import app_commands
+    from craft_suite_api.lifecycle import BACKEND, UNCONFIGURED, record_backend
+
+    monkeypatch.setattr(app_commands, "WARMUP", None)
+    monkeypatch.delenv("CRAFT_SUITE_API_BASE_URL", raising=False)
+    for key, value in env.items():
+        monkeypatch.setenv(key, value)
+    try:
+        if case == "invalid":
+            record_backend(configured=False, invalid_code="BACKEND_CONFIG_INVALID")
+        probe = asyncio.run(_tier1_readiness())
+        assert probe.detail["backend"] == view
+        assert probe.detail["state_backend"] == state
+    finally:
+        BACKEND.state, BACKEND.code = UNCONFIGURED, ""

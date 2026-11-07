@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.2] - 2026-11-06
+
+### Added
+- Each app's warm-up lifecycle is an explicit machine
+  (`craft_suite_api/lifecycle.py`): `Unconfigured`, `warming`, `Ready`,
+  `Degraded`, `Backoff`, `Stopped`, one `transition` function, typed refusal
+  `LIFECYCLE_TRANSITION_REFUSED`. The backend is a component of the same machine.
+  `/ready` stays ready once no component is `warming`, and its detail lists
+  `state_backend` and `state_<app>` (CONN-CRAFT-SUITE-API-APPS-R018.1 to R018.5,
+  R001.1). The failed-app retry loop and graceful startup are unchanged.
+- Probes (`craft_suite_api/probes.py`) return results, never states.
+- Skills and the operator prompt state how to read an app that is not ready
+  (CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1, R010.2).
+
+### Removed
+- `BACKEND_STATE` (the second source of backend state).
+
+### Includes
+- 0.8.1's fix (backend output schemas without closed enums).
+
 ## [0.8.1] - 2026-11-06
 
 ### Fixed

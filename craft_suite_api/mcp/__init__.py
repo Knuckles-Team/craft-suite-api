@@ -22,16 +22,12 @@ from ..app_commands import (
 from ..auth import PLACEHOLDER_ORIGIN, backend_settings, build_client
 from ..backend import NAMESPACE, Gate, build_backend_server
 from ..error_authority import BACKEND_CONFIG_INVALID
+from ..lifecycle import record_backend
 from ..upstreams import UPSTREAMS
 
-__all__ = ["BACKEND_STATE", "register_app_command_tools", "register_backend_tools"]
+__all__ = ["register_app_command_tools", "register_backend_tools"]
 
 _logger = logging.getLogger(__name__)
-
-#: The backend tier as the readiness probe reports it: ``configured``,
-#: ``not_configured`` or ``invalid`` (set when the tools are registered).
-BACKEND_STATE: dict[str, str] = {}
-
 
 def _backend_gate():
     """The client and gate; unusable settings give a refusing gate, never a raise."""
@@ -43,14 +39,12 @@ def _backend_gate():
     except (ConfigurationError, ValueError, OSError, RuntimeError, LookupError) as exc:
         # The cause names the bad setting's rule, never a credential value.
         _logger.warning("%s: backend tools refuse: %s", BACKEND_CONFIG_INVALID, exc)
-        BACKEND_STATE["backend"] = "invalid"
-        BACKEND_STATE["code"] = BACKEND_CONFIG_INVALID
+        record_backend(configured=False, invalid_code=BACKEND_CONFIG_INVALID)
         gate = Gate(
             configured=False, allow_writes=False, refusal=BACKEND_CONFIG_INVALID
         )
         return httpx.AsyncClient(base_url=PLACEHOLDER_ORIGIN), gate
-    BACKEND_STATE["backend"] = "configured" if settings.configured else "not_configured"
-    BACKEND_STATE.pop("code", None)
+    record_backend(configured=settings.configured)
     return client, Gate(
         configured=settings.configured, allow_writes=settings.allow_writes
     )

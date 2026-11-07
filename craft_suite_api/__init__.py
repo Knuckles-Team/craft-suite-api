@@ -14,35 +14,34 @@ from .upstreams import UPSTREAMS
 
 
 async def _tier1_readiness() -> Readiness:
-    """The Tier 1 backend state; an unconfigured backend never unseats the server.
+    """The component lifecycle as ``/ready`` serves it.
 
-    ``detail`` reports the configuration only: no request is made and no
-    exception escapes, so a bad or missing configuration reads
-    ``not_configured`` instead of failing the probe.
+    Ready once no component is ``warming`` (CONN-CRAFT-SUITE-API-APPS-R018.5):
+    a Degraded, Backoff or Unconfigured component never unseats the server, and
+    the detail names the backend's and every app's lifecycle state. No request
+    is made and no exception escapes: a bad or missing configuration reads
+    ``not_configured`` or ``invalid`` (R001.1).
     """
     from . import app_commands
-    from .mcp import BACKEND_STATE
+    from .lifecycle import BACKEND, DEGRADED, backend_view, record_backend
 
     warmup = app_commands.WARMUP
     apps = warmup.readiness_detail() if warmup is not None else {}
-    # Ready once every app's registry has settled (loaded or failed): a
-    # rolling update keeps the previous pod serving until then, and one
-    # failed app never holds readiness (CONN-CRAFT-SUITE-API-APPS-R018).
     warm = warmup is None or warmup.settled
-    if BACKEND_STATE.get("backend") == "invalid":
-        return Readiness(ready=warm, detail={**BACKEND_STATE, **apps})
-    try:
-        load_config()
-        configured = bool(setting("CRAFT_SUITE_API_BASE_URL", ""))
-    except ConfigurationError:
-        return Readiness(
-            ready=warm,
-            detail={"backend": "invalid", "code": "BACKEND_CONFIG_INVALID", **apps},
-        )
-    return Readiness(
-        ready=warm,
-        detail={"backend": "configured" if configured else "not_configured", **apps},
-    )
+    if BACKEND.state != DEGRADED:
+        # The backend probe: the configuration outcome as a lifecycle event.
+        try:
+            load_config()
+            record_backend(configured=bool(setting("CRAFT_SUITE_API_BASE_URL", "")))
+        except ConfigurationError:
+            record_backend(configured=False, invalid_code="BACKEND_CONFIG_INVALID")
+    detail: dict[str, object] = {
+        "backend": backend_view(),
+        "state_backend": BACKEND.state,
+    }
+    if BACKEND.code:
+        detail["code"] = BACKEND.code
+    return Readiness(ready=warm, detail={**detail, **apps})
 
 
 connector = Connector(
