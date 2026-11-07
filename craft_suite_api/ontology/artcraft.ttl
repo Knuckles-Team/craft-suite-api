@@ -56,3 +56,8 @@
 <http://knuckles.team/kg/artcraft> a owl:Ontology ;
     rdfs:label "ArtCraft Ontology" ;
     rdfs:comment "ArtCraft suite pack classes federated into the KG hub." .
+
+:lifecycleState a owl:ObjectProperty ;
+    rdfs:label "lifecycle state" ;
+    rdfs:comment "The lifecycle state of an app or of the backend component; the state classes come from the scion-sdk connector lifecycle pack." ;
+    rdfs:domain :App .

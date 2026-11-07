@@ -97,7 +97,7 @@ def test_listing_answers_at_once_and_each_app_lands_with_list_changed(
             # The listing never waits for the warming app.
             assert time.monotonic() - started < 1.0
             for _ in range(50):
-                if provider.warmup.states["photocraft"] == "ready":
+                if provider.warmup.states["photocraft"] == "Ready":
                     break
                 await asyncio.sleep(0.01)
             first = {t.name for t in await client.list_tools()}
@@ -166,9 +166,9 @@ def test_one_failed_app_never_blocks_the_others_and_is_retried(monkeypatch) -> N
                     break
                 await asyncio.sleep(0.01)
             assert provider.warmup.states == {
-                "photocraft": "ready",
-                "filmcraft": "ready",
-                "pdfcraft": "failed",
+                "photocraft": "Ready",
+                "filmcraft": "Ready",
+                "pdfcraft": "Degraded",
             }
             refused = await client.call_tool(
                 "pdfcraft_cmd_file_new", {}, raise_on_error=False
@@ -178,10 +178,10 @@ def test_one_failed_app_never_blocks_the_others_and_is_retried(monkeypatch) -> N
             assert refused.structured_content["retryable"] is True
             # The background retry loads it.
             for _ in range(200):
-                if provider.warmup.states["pdfcraft"] == "ready":
+                if provider.warmup.states["pdfcraft"] == "Ready":
                     break
                 await asyncio.sleep(0.01)
-            assert provider.warmup.states["pdfcraft"] == "ready"
+            assert provider.warmup.states["pdfcraft"] == "Ready"
             assert fake.reads["pdfcraft"] == 2
             names = {t.name for t in await client.list_tools()}
             assert "pdfcraft_cmd_file_new" in names
@@ -199,7 +199,7 @@ def test_readiness_waits_for_every_app_to_settle(monkeypatch) -> None:
         async with Client(server) as client:
             await client.list_tools()
             for _ in range(100):
-                if provider.warmup.states["pdfcraft"] == "failed":
+                if provider.warmup.states["pdfcraft"] == "Backoff":
                     break
                 await asyncio.sleep(0.01)
             warming = await _tier1_readiness()

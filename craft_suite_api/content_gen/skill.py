@@ -55,6 +55,15 @@ def render_skill(source: AppSource, snapshot: ToolSnapshot) -> str:
         "relative path such as `out.png`: it lands in this run's folder, and "
         "after the call the result links each output in every configured sink.",
         "",
+        "## When the app is not ready",
+        "",
+        "An app is `warming` while its command registry loads, `Ready` when it "
+        "serves, `Degraded` after a failed load and `Backoff` once its retries "
+        "are used. A call to a `warming` app answers the retryable refusal "
+        "`APP_WARMING`; a call to a `Degraded` or `Backoff` app answers the "
+        "retryable refusal `APP_REGISTRY_UNREADABLE`. Retry after `retry_after_s`; "
+        "a `Backoff` app needs an operator.",
+        "",
         "## Tools",
         "",
         "| Tool | What it does |",
