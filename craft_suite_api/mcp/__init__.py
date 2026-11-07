@@ -29,6 +29,7 @@ __all__ = ["register_app_command_tools", "register_backend_tools"]
 
 _logger = logging.getLogger(__name__)
 
+
 def _backend_gate():
     """The client and gate; unusable settings give a refusing gate, never a raise."""
     import httpx
