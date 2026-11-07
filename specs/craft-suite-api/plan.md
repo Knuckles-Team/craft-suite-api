@@ -83,6 +83,16 @@ Source tests do not authorize release, deployment, or external effects.
 - Writes are proven against a fake transport. Live writes need the operator switch and a credential.
 - A future upstream description can add or rename operations. The coverage test counts against the generated document, so a regeneration moves both.
 
+### Adoption of scion-sdk 0.10.0 (CONN-CRAFT-SUITE-API-R010)
+
+- Owner. This repository, the import lines named in `CONN-CRAFT-SUITE-API-R010`. The paths belong to scion-sdk.
+- Cohesion. The import edits, the pin and the lock change together and sit in one change.
+- Dependency direction. The connector imports public modules of the SDK units; no import points to a private module.
+- Interface depth. The connector uses the public surface only.
+- Special cases. None. Every removed path takes the same replacement, with no alias.
+- State. None.
+- Environment. None. The pin is package metadata, not environment code.
+
 ## Phase 2: Task approach
 
 `tasks.md` holds one task line per row, producer first.
