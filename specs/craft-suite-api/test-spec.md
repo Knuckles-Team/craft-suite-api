@@ -19,3 +19,9 @@ Native content listing needs a connector-owned integration test before the conte
 | `CONN-CRAFT-SUITE-API-R009` | `tests/test_backend_tools.py::test_hot_path_read_reaches_the_exact_route_with_the_session` must observe one request to `/v1/tags/list` with the `session` header and a structured result equal to the response, in under one second. |
 
 The owner must retain failure evidence and use canonical lifecycle tooling to regenerate `status.json`.
+
+## Adoption of scion-sdk 0.10.0 (`CONN-CRAFT-SUITE-API-R010`)
+
+| Requirement | Test | Observation |
+|---|---|---|
+| `CONN-CRAFT-SUITE-API-R010` | `tests/test_scion_sdk_0_10_imports.py::test_every_scion_sdk_import_resolves_on_the_pinned_release` | Every `scion_sdk` import resolves on the pinned release; a removed path fails the test. |
