@@ -373,5 +373,41 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [
+    "wordcraft-press-release",
+    "pdfcraft-stamp-and-brand",
+    "gridcraft-price-list",
+    "deckcraft-product-pitch"
+  ],
+  "tools": [
+    "wordcraft_new_document",
+    "wordcraft_cmd_para_heading1",
+    "wordcraft_type_text",
+    "wordcraft_cmd_text_newParagraph",
+    "wordcraft_cmd_para_style",
+    "wordcraft_cmd_insert_picture",
+    "wordcraft_get_text",
+    "wordcraft_save_document",
+    "pdfcraft_doc_open",
+    "pdfcraft_doc_watermark",
+    "pdfcraft_doc_header_footer",
+    "pdfcraft_doc_set_info",
+    "pdfcraft_doc_info",
+    "pdfcraft_doc_save",
+    "gridcraft_new_workbook",
+    "gridcraft_write_range",
+    "gridcraft_format_range",
+    "gridcraft_insert_chart",
+    "gridcraft_read_range",
+    "gridcraft_save_workbook",
+    "deckcraft_new_presentation",
+    "deckcraft_inspect_slide",
+    "deckcraft_set_text",
+    "deckcraft_add_slide",
+    "deckcraft_add_text_box",
+    "deckcraft_insert_picture",
+    "deckcraft_inspect_document",
+    "deckcraft_export"
+  ]
 }

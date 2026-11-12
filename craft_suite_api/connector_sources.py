@@ -8,9 +8,18 @@ from __future__ import annotations
 
 from typing import Any
 
+from scion_sdk.ingest.live_declaration import source_meta
+
 CONNECTOR: str = "craft-suite-api"
 
-SOURCES: tuple[Any, ...] = ()
+SOURCES: tuple[Any, ...] = (
+    source_meta(
+        tool="registry_list_namespaces",
+        source_id="craft-app-namespaces",
+        record_type="ArtcraftResource",
+        id_field="namespace",
+    ),
+)
 
 SCHEMA_MAPPINGS: dict[str, Any] = {
     "ArtcraftResource": {

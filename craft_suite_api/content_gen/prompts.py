@@ -86,6 +86,18 @@ def _prompt(
         "skills": [],
         "tools": namespaced,
         "requires_namespace": app,
+        "agent": {
+            "kind": "business-role",
+            "business_role": "craft-suite administrator",
+            "tools": ["registry_activate", "registry_status"],
+            "skills": [app],
+            "data": {"reads": ["craft-media-library"], "writes": []},
+            "guardrails": {
+                "approval_required": [],
+                "never": ["expose a credential or a secret value"],
+            },
+            "outputs": ["a summary of each action taken and its result"],
+        },
     }
 
 

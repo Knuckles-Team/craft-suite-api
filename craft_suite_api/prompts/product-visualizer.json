@@ -373,5 +373,40 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [
+    "solidcraft-product-model",
+    "cadcraft-product-drawing",
+    "materialcraft-product-material",
+    "texturecraft-texture-product"
+  ],
+  "tools": [
+    "solidcraft_new_design",
+    "solidcraft_batch",
+    "solidcraft_measure",
+    "solidcraft_export",
+    "solidcraft_screenshot",
+    "solidcraft_save",
+    "cadcraft_new_drawing",
+    "cadcraft_cmd_layer_new",
+    "cadcraft_cmd_pline",
+    "cadcraft_cmd_dimlinear",
+    "cadcraft_cmd_text",
+    "cadcraft_cmd_zoom_extents",
+    "cadcraft_inspect_drawing",
+    "cadcraft_save",
+    "cadcraft_render",
+    "materialcraft_graph_new",
+    "materialcraft_command_batch",
+    "materialcraft_node_add",
+    "materialcraft_node_connect",
+    "materialcraft_outputs_export",
+    "materialcraft_view_render",
+    "texturecraft_mesh_import",
+    "texturecraft_paint_stroke",
+    "texturecraft_viewport_render",
+    "texturecraft_textures_export",
+    "texturecraft_mesh_export",
+    "texturecraft_project_save"
+  ]
 }

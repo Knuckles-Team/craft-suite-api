@@ -373,5 +373,28 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [
+    "vectorcraft-logo-banner",
+    "designcraft-social-post",
+    "figcraft-ad-banner"
+  ],
+  "tools": [
+    "vectorcraft_cmd_file_new",
+    "vectorcraft_draw_shape",
+    "vectorcraft_add_text",
+    "vectorcraft_export",
+    "designcraft_new_document",
+    "designcraft_cmd_frame_create",
+    "designcraft_cmd_object_color",
+    "designcraft_place_image",
+    "designcraft_cmd_text_selectStory",
+    "designcraft_cmd_type_char",
+    "designcraft_cmd_text_exitToFrame",
+    "designcraft_export_png",
+    "figcraft_cmd_file_new",
+    "figcraft_create_node",
+    "figcraft_cmd_image_place",
+    "figcraft_export"
+  ]
 }

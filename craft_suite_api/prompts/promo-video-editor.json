@@ -373,5 +373,33 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [
+    "filmcraft-cut-promo-video",
+    "effectcraft-title-card",
+    "soundcraft-promo-audio-bed"
+  ],
+  "tools": [
+    "filmcraft_cmd_file_newProject",
+    "filmcraft_cmd_file_import",
+    "filmcraft_cmd_file_newSequenceFromClip",
+    "filmcraft_cmd_timeline_trim",
+    "filmcraft_cmd_graphics_newText",
+    "filmcraft_sequence_inspect",
+    "filmcraft_cmd_file_exportMedia",
+    "effectcraft_cmd_file_newProject",
+    "effectcraft_cmd_comp_new",
+    "effectcraft_cmd_layer_newSolid",
+    "effectcraft_cmd_layer_newText",
+    "effectcraft_add_keyframe",
+    "effectcraft_cmd_renderQueue_add",
+    "effectcraft_cmd_renderQueue_render",
+    "effectcraft_cmd_comp_saveFrameAs",
+    "effectcraft_cmd_file_exportLottie",
+    "soundcraft_new_session",
+    "soundcraft_import_audio",
+    "soundcraft_cmd_clip_gain",
+    "soundcraft_cmd_edit_fades_create",
+    "soundcraft_bounce_mix"
+  ]
 }

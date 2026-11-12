@@ -364,5 +364,13 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [],
+  "tools": [
+    "craft_suite_list_tags_handler",
+    "craft_suite_list_folders_handler",
+    "craft_suite_get_folder_handler",
+    "craft_suite_omni_gen_image_models_handler",
+    "craft_suite_status_alert_handler"
+  ]
 }

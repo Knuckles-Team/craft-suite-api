@@ -70,7 +70,7 @@ def test_pack_classes_extend_core_and_import_nothing() -> None:
         "AppTool": "Tool",
         "UseCase": "Task",
     }.items():
-        node = URIRef(KG + name)
+        node = URIRef(KG.replace('core#', 'connector/craft-common#') + name)
         assert node in subs, f":{name} is not declared"
         assert _reaches_core(node, CORE_NAMES, subs), (
             f":{name} does not reach a core class"

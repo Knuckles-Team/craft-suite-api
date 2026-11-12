@@ -373,5 +373,41 @@
       "registry_list_namespaces",
       "registry_status"
     ]
-  }
+  },
+  "skills": [
+    "photocraft-edit-product-photo",
+    "designcraft-social-post",
+    "lightcraft-develop-product-photo",
+    "figcraft-ad-banner"
+  ],
+  "tools": [
+    "photocraft_doc_open",
+    "photocraft_cmd_image_crop",
+    "photocraft_cmd_image_imageSize",
+    "photocraft_cmd_image_adjustments_exposure",
+    "photocraft_cmd_image_adjustments_hueSaturation",
+    "photocraft_cmd_type_create",
+    "photocraft_cmd_layer_flattenImage",
+    "photocraft_doc_export",
+    "photocraft_doc_close",
+    "designcraft_new_document",
+    "designcraft_cmd_frame_create",
+    "designcraft_cmd_object_color",
+    "designcraft_place_image",
+    "designcraft_cmd_text_selectStory",
+    "designcraft_cmd_type_char",
+    "designcraft_cmd_text_exitToFrame",
+    "designcraft_export_png",
+    "lightcraft_import",
+    "lightcraft_query_photos",
+    "lightcraft_select_photos",
+    "lightcraft_set_develop",
+    "lightcraft_cmd_develop_wb",
+    "lightcraft_crop",
+    "lightcraft_export",
+    "figcraft_cmd_file_new",
+    "figcraft_create_node",
+    "figcraft_cmd_image_place",
+    "figcraft_export"
+  ]
 }
