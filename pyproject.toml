@@ -9,7 +9,7 @@ description = "Craft suite API connector and MCP server; current ArtCraft backen
 readme = "README.md"
 classifiers = [ "Development Status :: 4 - Beta", "License :: OSI Approved :: MIT License", "Environment :: Console", "Operating System :: POSIX :: Linux", "Programming Language :: Python :: 3",]
 requires-python = ">=3.12, <3.15"
-dependencies = [ "rfc3986-validator>=0.1.1,<0.2", "rfc3339-validator>=0.1.4,<0.2", "jsonschema>=4.26.0,<5", "regex>=2026.9.29", "scion-sdk[mcp]>=0.10.1,<0.11",]
+dependencies = [ "rfc3986-validator>=0.1.1,<0.2", "rfc3339-validator>=0.1.4,<0.2", "jsonschema>=4.26.0,<5", "regex>=2026.9.29", "scion-sdk[mcp]>=0.11.0,<0.12",]
 [[project.authors]]
 name = "Repository Maintainers"
 email = "maintainers@knuckles.team"
@@ -18,8 +18,8 @@ email = "maintainers@knuckles.team"
 text = "MIT"
 
 [project.optional-dependencies]
-mcp = [ "scion-sdk[mcp,storage-s3]>=0.10.1,<0.11",]
-all = [ "scion-sdk[mcp,storage-s3]>=0.10.1,<0.11",]
+mcp = [ "scion-sdk[mcp,storage-s3]>=0.11.0,<0.12",]
+all = [ "scion-sdk[mcp,storage-s3]>=0.11.0,<0.12",]
 test = [
     "pytest-xdist>=3.8.0", "pytest", "pytest-asyncio", "pytest-cov",
     "rdflib>=7.0.0,<8",]
@@ -31,7 +31,7 @@ craft-suite-probe = "craft_suite_api.probe:main"
 
 # Fleet contribution (CONCEPT:OS-5.52 / AU-KG.ontology.federation-provider-leg): advertise this
 # package's skills, prompts, OWL/RDF ontology, and source-connector presets so
-# scion-sdk discovers + federates them without importing this package's agent code.
+# scion-sdk>=0.11.0,<0.12 discovers + federates them without importing this package's agent code.
 [project.entry-points."scion_sdk.prompt_providers"]
 craft-suite-api = "craft_suite_api.prompts"
 

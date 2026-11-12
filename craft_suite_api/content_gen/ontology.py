@@ -19,7 +19,7 @@ from craft_suite_api.content_gen.sources import (
     ToolSnapshot,
 )
 
-_KG = "http://knuckles.team/kg"
+_KG = "https://knuckles-team.github.io/ontology/core"
 _CORE_IRI = f"{_KG}/artcraft"
 
 
@@ -46,7 +46,7 @@ def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
     """The Turtle text of ``artcraft-<app>.ttl`` for one app."""
     app = source.app
     lines = [
-        "@prefix : <http://knuckles.team/kg#> .",
+        "@prefix : <https://knuckles-team.github.io/ontology/core#> .",
         f"@prefix app: <{_iri(app)}#> .",
         "@prefix owl: <http://www.w3.org/2002/07/owl#> .",
         "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .",

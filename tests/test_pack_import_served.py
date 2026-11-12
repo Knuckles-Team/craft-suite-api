@@ -32,7 +32,8 @@ pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008")
 
 #: The packaged connector's fleet name and ontology namespace.
 CONNECTOR = "craft-suite-api"
-KG = "http://knuckles.team/kg#"
+KG = "https://knuckles-team.github.io/ontology/core#"
+CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
 
 #: One loopback tenant/principal for the import authority.
 TENANT = "phase4:tenant"

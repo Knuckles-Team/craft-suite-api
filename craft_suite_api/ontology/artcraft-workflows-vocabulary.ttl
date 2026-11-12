@@ -1,4 +1,5 @@
-@prefix : <http://knuckles.team/kg#> .
+@prefix : <https://knuckles-team.github.io/ontology/connector/craft-common#> .
+@prefix core: <https://knuckles-team.github.io/ontology/core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -8,7 +9,7 @@
 # core class by rdfs:subClassOf (the core is rooted under bfo:Entity); this module
 # imports nothing. Individuals live in artcraft-workflows.ttl.
 
-<http://knuckles.team/kg/artcraft/workflows-vocabulary> a owl:Ontology ;
+<https://knuckles-team.github.io/ontology/connector/craft-common/workflows-vocabulary> a owl:Ontology ;
     rdfs:label "ArtCraft workflow vocabulary" ;
     rdfs:comment "Classes and properties for proven ArtCraft business workflows, their tool-use contracts, skills, agent prompts and data locations." .
 
@@ -17,29 +18,29 @@
 :CraftWorkflow a owl:Class ;
     rdfs:label "ArtCraft workflow" ;
     rdfs:comment "A proven business workflow run on one or more ArtCraft apps through the craft-suite-api connector." ;
-    rdfs:subClassOf :WorkflowDefinition .
+    rdfs:subClassOf core:WorkflowDefinition .
 
 :ToolUseContract a owl:Class ;
     rdfs:label "Tool-use contract" ;
     rdfs:comment "The ordered tool calls, with their parameters, that carry out one workflow." ;
-    rdfs:subClassOf :APIContract .
+    rdfs:subClassOf core:APIContract .
 
 :ToolUseStep a owl:Class ;
     rdfs:label "Tool-use step" ;
     rdfs:comment "One tool call of a tool-use contract, at a fixed position." ;
-    rdfs:subClassOf :WorkflowStep .
+    rdfs:subClassOf core:WorkflowStep .
 
 :ToolParameterBinding a owl:Class ;
     rdfs:label "Tool parameter binding" ;
     rdfs:comment "One parameter a step passes: its name and the value or value rule." ;
-    rdfs:subClassOf :ActionParameter .
+    rdfs:subClassOf core:ActionParameter .
 
 # -- data locations ------------------------------------------------------------
 
 :CraftDataLocation a owl:Class ;
     rdfs:label "ArtCraft data location" ;
     rdfs:comment "Where a workflow reads or writes data." ;
-    rdfs:subClassOf :StorageContainer .
+    rdfs:subClassOf core:StorageContainer .
 
 :ExchangeSink a owl:Class ;
     rdfs:label "Artifact exchange sink" ;
@@ -61,34 +62,34 @@
 :MarketingAsset a owl:Class ;
     rdfs:label "Marketing asset" ;
     rdfs:comment "A business asset a workflow produces: a graphic, photo, video, audio bed, deck, document or model." ;
-    rdfs:subClassOf :CreativeWork .
+    rdfs:subClassOf core:CreativeWork .
 
 :ProductPhoto a owl:Class ;
     rdfs:label "Product photo" ;
     rdfs:comment "An edited product photograph ready for a listing, ad or post." ;
-    rdfs:subClassOf :Photo .
+    rdfs:subClassOf core:Photo .
 
 :PromoVideo a owl:Class ;
     rdfs:label "Promotional video" ;
     rdfs:comment "A short edited promotional video." ;
-    rdfs:subClassOf :Video .
+    rdfs:subClassOf core:Video .
 
 # -- skills, agent prompts and roles ---------------------------------------------
 
 :CraftSkill a owl:Class ;
     rdfs:label "ArtCraft skill" ;
     rdfs:comment "A packaged skill that walks one proven workflow." ;
-    rdfs:subClassOf :Skill .
+    rdfs:subClassOf core:Skill .
 
 :CraftAgentPrompt a owl:Class ;
     rdfs:label "ArtCraft agent prompt" ;
     rdfs:comment "A packaged system prompt that defines an agent operating the connector or serving one business role." ;
-    rdfs:subClassOf :Prompt .
+    rdfs:subClassOf core:Prompt .
 
 :CraftBusinessRole a owl:Class ;
     rdfs:label "ArtCraft business role" ;
     rdfs:comment "A business role an agent fills with the ArtCraft suite, such as marketing asset producer." ;
-    rdfs:subClassOf :Role .
+    rdfs:subClassOf core:Role .
 
 # -- properties ------------------------------------------------------------------
 

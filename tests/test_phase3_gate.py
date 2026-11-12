@@ -49,8 +49,9 @@ PACKAGE = REPO / "craft_suite_api"
 CORE_ONTOLOGY = PACKAGE / "ontology" / "artcraft.ttl"
 
 CONNECTOR = "craft-suite-api"
-CORE_IRI = "http://knuckles.team/kg/artcraft"
-KG = "http://knuckles.team/kg#"
+CORE_IRI = "https://knuckles-team.github.io/ontology/connector/craft-common"
+KG = "https://knuckles-team.github.io/ontology/core#"
+CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
 
 #: The engine's top-level classes. The engine ontology is served by the
 #: engine itself, so the in-process orphan proof treats these as roots:

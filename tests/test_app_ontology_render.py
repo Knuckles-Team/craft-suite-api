@@ -30,7 +30,7 @@ APPS = (
     "deckcraft",
     "cadcraft",
 )
-KG = "http://knuckles.team/kg"
+KG = "https://knuckles-team.github.io/ontology/core"
 KG_NS = KG + "#"
 CORE_NAMES = frozenset(
     {"Application", "Tool", "Task", "CreativeWork", "Document", "Artifact"}

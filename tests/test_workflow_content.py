@@ -22,8 +22,9 @@ from rdflib import OWL, RDF, RDFS, URIRef
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009")
 
 PACKAGE = Path(list(importlib.import_module("craft_suite_api").__path__)[0])
-KG = "http://knuckles.team/kg#"
-CORE_IRI = URIRef("http://knuckles.team/kg/core")
+KG = "https://knuckles-team.github.io/ontology/core#"
+CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
+CORE_IRI = URIRef("https://knuckles-team.github.io/ontology/connector/core")
 BFO_ENTITY = URIRef("http://purl.obolibrary.org/obo/BFO_0000001")
 TOOL_NAME = re.compile(r"^[a-z]+craft_[A-Za-z0-9_]+$|^craft_suite_[A-Za-z0-9_]+$")
 
@@ -62,29 +63,29 @@ def test_every_packaged_class_rolls_up_to_core_without_importing_it() -> None:
         assert "kg/core>" not in path.read_text(encoding="utf-8"), path.name
     union = _core_graph() + pack
     classes = set(pack.subjects(RDF.type, OWL.Class))
-    assert URIRef(KG + "CraftWorkflow") in classes
+    assert URIRef(CONNECTOR_NS + "CraftWorkflow") in classes
     unrooted = sorted(str(c) for c in classes if not _reaches_entity(c, union))
     assert unrooted == [], f"classes with no rdfs:subClassOf path to core: {unrooted}"
 
 
 def _workflows(graph: rdflib.Graph) -> dict[str, dict]:
     out: dict[str, dict] = {}
-    for workflow in graph.subjects(RDF.type, URIRef(KG + "CraftWorkflow")):
-        contract = graph.value(workflow, URIRef(KG + "hasToolUseContract"))
+    for workflow in graph.subjects(RDF.type, URIRef(CONNECTOR_NS + "CraftWorkflow")):
+        contract = graph.value(workflow, URIRef(CONNECTOR_NS + "hasToolUseContract"))
         steps = sorted(
             (
-                int(graph.value(step, URIRef(KG + "stepOrder"))),
-                str(graph.value(step, URIRef(KG + "stepToolName"))),
+                int(graph.value(step, URIRef(CONNECTOR_NS + "stepOrder"))),
+                str(graph.value(step, URIRef(CONNECTOR_NS + "stepToolName"))),
             )
-            for step in graph.objects(contract, URIRef(KG + "hasToolUseStep"))
+            for step in graph.objects(contract, URIRef(CONNECTOR_NS + "hasToolUseStep"))
         )
         out[str(workflow)] = {
             "steps": steps,
             "skills": {
-                str(graph.value(skill, URIRef(KG + "skillName")))
-                for skill in graph.subjects(URIRef(KG + "skillWalksWorkflow"), workflow)
+                str(graph.value(skill, URIRef(CONNECTOR_NS + "skillName")))
+                for skill in graph.subjects(URIRef(CONNECTOR_NS + "skillWalksWorkflow"), workflow)
             },
-            "writes": set(graph.objects(workflow, URIRef(KG + "writesTo"))),
+            "writes": set(graph.objects(workflow, URIRef(CONNECTOR_NS + "writesTo"))),
         }
     return out
 
@@ -112,12 +113,12 @@ def test_each_workflow_has_an_ordered_contract_a_skill_and_a_data_location() -> 
 
 def test_agent_prompts_are_complete_definitions_linked_in_the_ontology() -> None:
     graph = _pack_graph()
-    prompts = list(graph.subjects(RDF.type, URIRef(KG + "CraftAgentPrompt")))
-    names = {str(graph.value(p, URIRef(KG + "promptName"))) for p in prompts}
+    prompts = list(graph.subjects(RDF.type, URIRef(CONNECTOR_NS + "CraftAgentPrompt")))
+    names = {str(graph.value(p, URIRef(CONNECTOR_NS + "promptName"))) for p in prompts}
     assert "craft-suite-operator" in names
     assert {"marketing-asset-producer", "promo-video-editor", "brand-designer"} <= names
     for prompt in prompts:
-        name = str(graph.value(prompt, URIRef(KG + "promptName")))
+        name = str(graph.value(prompt, URIRef(CONNECTOR_NS + "promptName")))
         document = json.loads(
             (PACKAGE / "prompts" / f"{name}.json").read_text(encoding="utf-8")
         )
@@ -134,8 +135,8 @@ def test_agent_prompts_are_complete_definitions_linked_in_the_ontology() -> None
         ):
             assert f"## {section}" in directive, (name, section)
         linked_skills = {
-            str(graph.value(skill, URIRef(KG + "skillName")))
-            for skill in graph.objects(prompt, URIRef(KG + "promptUsesSkill"))
+            str(graph.value(skill, URIRef(CONNECTOR_NS + "skillName")))
+            for skill in graph.objects(prompt, URIRef(CONNECTOR_NS + "promptUsesSkill"))
         }
         assert linked_skills, name
         assert set(document["skills"]) == linked_skills, name
@@ -143,7 +144,7 @@ def test_agent_prompts_are_complete_definitions_linked_in_the_ontology() -> None
             assert f"`{skill}`" in directive, (name, skill)
             assert (PACKAGE / "skills" / skill / "SKILL.md").is_file(), skill
         linked_tools = {
-            str(t) for t in graph.objects(prompt, URIRef(KG + "promptUsesToolName"))
+            str(t) for t in graph.objects(prompt, URIRef(CONNECTOR_NS + "promptUsesToolName"))
         }
         assert set(document["tools"]) == linked_tools, name
         for tool in linked_tools:
@@ -167,7 +168,7 @@ def test_pack_declares_no_lifecycle_state_classes_of_its_own() -> None:
         "lifecycle",
     ):
         assert not any(word in n for n in names), word
-    assert (URIRef(KG + "lifecycleState"), RDF.type, OWL.ObjectProperty) in pack
+    assert (URIRef(CONNECTOR_NS + "lifecycleState"), RDF.type, OWL.ObjectProperty) in pack
     assert (None, OWL.imports, CORE_IRI) not in pack
 
 

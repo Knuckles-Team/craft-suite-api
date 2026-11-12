@@ -10,7 +10,8 @@ import rdflib
 from rdflib import RDFS, URIRef
 
 PACKAGE = "craft_suite_api"
-KG = "http://knuckles.team/kg#"
+KG = "https://knuckles-team.github.io/ontology/core#"
+CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
 CORE_NAMES = frozenset(
     {"Application", "Tool", "Task", "CreativeWork", "Document", "Artifact"}
 )
