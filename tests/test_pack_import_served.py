@@ -9,7 +9,7 @@ warning (no ``ONTOLOGY_ORPHAN``), and the class queries over
 
 The served path needs the engine server binary (``medulla[server]``,
 resolved by ``medulla.server_binary.resolve_server_binary``; the
-deployment name is ``epistemic-graph-server``). Without it the test skips
+deployment name is ``medulla-server``). Without it the test skips
 with a clear reason: the in-process native engine exposes no
 ``ConnectorPack`` operation, so the import can only be proven served.
 """
@@ -58,7 +58,7 @@ def _engine_binary() -> str | None:
         except Exception:  # ServerBinaryNotFoundError
             pass
     # The deployment name of the same binary.
-    for name in ("epistemic-graph-server", "medulla-server"):
+    for name in ("medulla-server", "medulla-server"):
         found = shutil.which(name)
         if found is not None:
             return found
@@ -96,7 +96,7 @@ async def loopback_engine(tmp_path):
     if binary is None:
         pytest.skip(
             "the medulla server binary (medulla[server], e.g. "
-            "epistemic-graph-server) is not installed; the served "
+            "medulla-server) is not installed; the served "
             "ConnectorPack.Import path needs a loopback engine"
         )
 

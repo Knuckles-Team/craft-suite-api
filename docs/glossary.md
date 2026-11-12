@@ -22,7 +22,7 @@ Chat and voice entrypoints hosted and supervised by Arbora. The adapter registry
 
 The agent control plane for orchestration, workflows, evaluation, and agent skills.
 
-## Epistemic Graph
+## Medulla
 
 The durable multimodal knowledge and reasoning engine for graph data, evidence, and provenance.
 

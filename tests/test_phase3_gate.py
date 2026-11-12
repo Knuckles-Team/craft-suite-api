@@ -163,7 +163,7 @@ def _engine_binary() -> str | None:
             return resolve_server_binary()
         except Exception:  # ServerBinaryNotFoundError
             pass
-    for name in ("epistemic-graph-server", "medulla-server"):
+    for name in ("medulla-server", "medulla-server"):
         found = shutil.which(name)
         if found is not None:
             return found
@@ -347,7 +347,7 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
     if binary is None:
         pytest.skip(
             "served pack import not proven: the medulla server binary "
-            "(medulla[server], e.g. epistemic-graph-server) is not "
+            "(medulla[server], e.g. medulla-server) is not "
             "installed; the in-process native engine exposes no "
             "ConnectorPack operation, so the import can only be "
             "proven served."
