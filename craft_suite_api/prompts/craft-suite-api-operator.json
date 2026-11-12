@@ -1,7 +1,9 @@
 {
   "agent": {
     "data": {
-      "reads": [],
+      "reads": [
+        "craft-media-library"
+      ],
       "writes": []
     },
     "guardrails": {

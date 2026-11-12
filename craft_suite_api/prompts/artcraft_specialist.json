@@ -29,7 +29,9 @@
   "agent": {
     "business_role": "craft-suite administrator",
     "data": {
-      "reads": [],
+      "reads": [
+        "craft-media-library"
+      ],
       "writes": []
     },
     "guardrails": {

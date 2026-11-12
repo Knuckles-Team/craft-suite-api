@@ -5,6 +5,7 @@ Drafted by ``python -m scion_sdk.testing.surface_draft complete``; edit freely.
 
 from scion_sdk.surface_contracts import (
     BusinessRole,
+    DataLocation,
     Refusal,
     SurfaceLink,
     ToolStep,
@@ -13404,7 +13405,15 @@ LINKS = (
     ),
 )
 
-LOCATIONS = ()
+LOCATIONS = (
+    DataLocation(
+        name="craft-media-library",
+        holds=("ArtcraftResource",),
+        instance="CRAFT_SUITE_API_BASE_URL",
+        read_tool="craft_suite_list_media_files_handler",
+        federation_key="token",
+    ),
+)
 
 ROLES = (
     BusinessRole(
