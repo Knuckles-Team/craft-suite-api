@@ -7582,9 +7582,7 @@ LINKS = (
             "craft_suite_omni_api_image_generate_handler",
             "craft_suite_omni_gen_image_models_handler",
         ),
-        prompts=(
-            "artcraft_specialist",
-        ),
+        prompts=("artcraft_specialist",),
     ),
     SurfaceLink(
         task="brand-designer",
@@ -7862,39 +7860,31 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "brand-designer",
-        ),
+        prompts=("brand-designer",),
     ),
     SurfaceLink(
         task="cadcraft-create_drawing",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "cadcraft-create_drawing",
-        ),
+        prompts=("cadcraft-create_drawing",),
     ),
     SurfaceLink(
         task="cadcraft-query_drawing",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "cadcraft-query_drawing",
-        ),
+        prompts=("cadcraft-query_drawing",),
     ),
     SurfaceLink(
         task="cadcraft-script_drawing",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "cadcraft-script_drawing",
-        ),
+        prompts=("cadcraft-script_drawing",),
     ),
     SurfaceLink(
-        task="craft-suite-api-craft-suite-administrator",
+        task="artcraft_specialist",
         tools=(
             "craft_suite_add_media_file_tags_handler",
             "craft_suite_batch_get_inference_job_status_handler",
@@ -8169,9 +8159,7 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "craft-suite-api-craft-suite-administrator",
-        ),
+        prompts=("artcraft_specialist",),
     ),
     SurfaceLink(
         task="craft-suite-api-operator",
@@ -8449,9 +8437,7 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "craft-suite-api-operator",
-        ),
+        prompts=("craft-suite-api-operator",),
     ),
     SurfaceLink(
         task="craft-suite-operator",
@@ -8729,198 +8715,154 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "craft-suite-operator",
-        ),
+        prompts=("craft-suite-operator",),
     ),
     SurfaceLink(
         task="deckcraft-build_deck",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "deckcraft-build_deck",
-        ),
+        prompts=("deckcraft-build_deck",),
     ),
     SurfaceLink(
         task="deckcraft-export_deck",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "deckcraft-export_deck",
-        ),
+        prompts=("deckcraft-export_deck",),
     ),
     SurfaceLink(
         task="deckcraft-insert_content",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "deckcraft-insert_content",
-        ),
+        prompts=("deckcraft-insert_content",),
     ),
     SurfaceLink(
         task="designcraft-inspect_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "designcraft-inspect_document",
-        ),
+        prompts=("designcraft-inspect_document",),
     ),
     SurfaceLink(
         task="designcraft-lay_out_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "designcraft-lay_out_document",
-        ),
+        prompts=("designcraft-lay_out_document",),
     ),
     SurfaceLink(
         task="designcraft-run_commands",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "designcraft-run_commands",
-        ),
+        prompts=("designcraft-run_commands",),
     ),
     SurfaceLink(
         task="effectcraft-build_composition",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "effectcraft-build_composition",
-        ),
+        prompts=("effectcraft-build_composition",),
     ),
     SurfaceLink(
         task="effectcraft-keyframe_property",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "effectcraft-keyframe_property",
-        ),
+        prompts=("effectcraft-keyframe_property",),
     ),
     SurfaceLink(
         task="effectcraft-script_project",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "effectcraft-script_project",
-        ),
+        prompts=("effectcraft-script_project",),
     ),
     SurfaceLink(
         task="figcraft-batch_edits",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "figcraft-batch_edits",
-        ),
+        prompts=("figcraft-batch_edits",),
     ),
     SurfaceLink(
         task="figcraft-create_figure",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "figcraft-create_figure",
-        ),
+        prompts=("figcraft-create_figure",),
     ),
     SurfaceLink(
         task="figcraft-edit_layers",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "figcraft-edit_layers",
-        ),
+        prompts=("figcraft-edit_layers",),
     ),
     SurfaceLink(
         task="filmcraft-import_and_sequence",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "filmcraft-import_and_sequence",
-        ),
+        prompts=("filmcraft-import_and_sequence",),
     ),
     SurfaceLink(
         task="filmcraft-inspect_project",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "filmcraft-inspect_project",
-        ),
+        prompts=("filmcraft-inspect_project",),
     ),
     SurfaceLink(
         task="filmcraft-trim_sequence",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "filmcraft-trim_sequence",
-        ),
+        prompts=("filmcraft-trim_sequence",),
     ),
     SurfaceLink(
         task="gridcraft-analyse_data",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "gridcraft-analyse_data",
-        ),
+        prompts=("gridcraft-analyse_data",),
     ),
     SurfaceLink(
         task="gridcraft-edit_workbook",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "gridcraft-edit_workbook",
-        ),
+        prompts=("gridcraft-edit_workbook",),
     ),
     SurfaceLink(
         task="gridcraft-run_commands",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "gridcraft-run_commands",
-        ),
+        prompts=("gridcraft-run_commands",),
     ),
     SurfaceLink(
         task="lightcraft-develop_photo",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "lightcraft-develop_photo",
-        ),
+        prompts=("lightcraft-develop_photo",),
     ),
     SurfaceLink(
         task="lightcraft-query_library",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "lightcraft-query_library",
-        ),
+        prompts=("lightcraft-query_library",),
     ),
     SurfaceLink(
         task="lightcraft-run_commands",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "lightcraft-run_commands",
-        ),
+        prompts=("lightcraft-run_commands",),
     ),
     SurfaceLink(
         task="marketing-asset-producer",
@@ -9198,117 +9140,91 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "marketing-asset-producer",
-        ),
+        prompts=("marketing-asset-producer",),
     ),
     SurfaceLink(
         task="materialcraft-build_material",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "materialcraft-build_material",
-        ),
+        prompts=("materialcraft-build_material",),
     ),
     SurfaceLink(
         task="materialcraft-export_material",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "materialcraft-export_material",
-        ),
+        prompts=("materialcraft-export_material",),
     ),
     SurfaceLink(
         task="materialcraft-run_commands",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "materialcraft-run_commands",
-        ),
+        prompts=("materialcraft-run_commands",),
     ),
     SurfaceLink(
         task="pdfcraft-add_bookmarks",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-add_bookmarks",
-        ),
+        prompts=("pdfcraft-add_bookmarks",),
     ),
     SurfaceLink(
         task="pdfcraft-edit_pdf",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-edit_pdf",
-        ),
+        prompts=("pdfcraft-edit_pdf",),
     ),
     SurfaceLink(
         task="pdfcraft-extract_content",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-extract_content",
-        ),
+        prompts=("pdfcraft-extract_content",),
     ),
     SurfaceLink(
         task="pdfcraft-fill_form",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-fill_form",
-        ),
+        prompts=("pdfcraft-fill_form",),
     ),
     SurfaceLink(
         task="pdfcraft-recognize_scans",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-recognize_scans",
-        ),
+        prompts=("pdfcraft-recognize_scans",),
     ),
     SurfaceLink(
         task="pdfcraft-redact_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "pdfcraft-redact_document",
-        ),
+        prompts=("pdfcraft-redact_document",),
     ),
     SurfaceLink(
         task="photocraft-edit_image",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "photocraft-edit_image",
-        ),
+        prompts=("photocraft-edit_image",),
     ),
     SurfaceLink(
         task="photocraft-export_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "photocraft-export_document",
-        ),
+        prompts=("photocraft-export_document",),
     ),
     SurfaceLink(
         task="photocraft-inspect_session",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "photocraft-inspect_session",
-        ),
+        prompts=("photocraft-inspect_session",),
     ),
     SurfaceLink(
         task="product-visualizer",
@@ -9586,9 +9502,7 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "product-visualizer",
-        ),
+        prompts=("product-visualizer",),
     ),
     SurfaceLink(
         task="promo-video-editor",
@@ -9866,9 +9780,7 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "promo-video-editor",
-        ),
+        prompts=("promo-video-editor",),
     ),
     SurfaceLink(
         task="sales-collateral-producer",
@@ -10146,144 +10058,112 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        prompts=(
-            "sales-collateral-producer",
-        ),
+        prompts=("sales-collateral-producer",),
     ),
     SurfaceLink(
         task="solidcraft-export_model",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "solidcraft-export_model",
-        ),
+        prompts=("solidcraft-export_model",),
     ),
     SurfaceLink(
         task="solidcraft-model_body",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "solidcraft-model_body",
-        ),
+        prompts=("solidcraft-model_body",),
     ),
     SurfaceLink(
         task="solidcraft-parameterize_design",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "solidcraft-parameterize_design",
-        ),
+        prompts=("solidcraft-parameterize_design",),
     ),
     SurfaceLink(
         task="soundcraft-edit_session",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "soundcraft-edit_session",
-        ),
+        prompts=("soundcraft-edit_session",),
     ),
     SurfaceLink(
         task="soundcraft-import_and_save",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "soundcraft-import_and_save",
-        ),
+        prompts=("soundcraft-import_and_save",),
     ),
     SurfaceLink(
         task="soundcraft-mix_session",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "soundcraft-mix_session",
-        ),
+        prompts=("soundcraft-mix_session",),
     ),
     SurfaceLink(
         task="texturecraft-export_textures",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "texturecraft-export_textures",
-        ),
+        prompts=("texturecraft-export_textures",),
     ),
     SurfaceLink(
         task="texturecraft-paint_mesh",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "texturecraft-paint_mesh",
-        ),
+        prompts=("texturecraft-paint_mesh",),
     ),
     SurfaceLink(
         task="texturecraft-run_commands",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "texturecraft-run_commands",
-        ),
+        prompts=("texturecraft-run_commands",),
     ),
     SurfaceLink(
         task="vectorcraft-create_illustration",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "vectorcraft-create_illustration",
-        ),
+        prompts=("vectorcraft-create_illustration",),
     ),
     SurfaceLink(
         task="vectorcraft-edit_selection",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "vectorcraft-edit_selection",
-        ),
+        prompts=("vectorcraft-edit_selection",),
     ),
     SurfaceLink(
         task="vectorcraft-export_artwork",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "vectorcraft-export_artwork",
-        ),
+        prompts=("vectorcraft-export_artwork",),
     ),
     SurfaceLink(
         task="wordcraft-format_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "wordcraft-format_document",
-        ),
+        prompts=("wordcraft-format_document",),
     ),
     SurfaceLink(
         task="wordcraft-open_and_review",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "wordcraft-open_and_review",
-        ),
+        prompts=("wordcraft-open_and_review",),
     ),
     SurfaceLink(
         task="wordcraft-write_document",
         tools=(
             "registry_activate",
         ),
-        prompts=(
-            "wordcraft-write_document",
-        ),
+        prompts=("wordcraft-write_document",),
     ),
     SurfaceLink(
         task="artcraft-starter",
