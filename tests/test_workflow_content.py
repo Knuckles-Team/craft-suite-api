@@ -83,7 +83,9 @@ def _workflows(graph: rdflib.Graph) -> dict[str, dict]:
             "steps": steps,
             "skills": {
                 str(graph.value(skill, URIRef(CONNECTOR_NS + "skillName")))
-                for skill in graph.subjects(URIRef(CONNECTOR_NS + "skillWalksWorkflow"), workflow)
+                for skill in graph.subjects(
+                    URIRef(CONNECTOR_NS + "skillWalksWorkflow"), workflow
+                )
             },
             "writes": set(graph.objects(workflow, URIRef(CONNECTOR_NS + "writesTo"))),
         }
@@ -144,7 +146,8 @@ def test_agent_prompts_are_complete_definitions_linked_in_the_ontology() -> None
             assert f"`{skill}`" in directive, (name, skill)
             assert (PACKAGE / "skills" / skill / "SKILL.md").is_file(), skill
         linked_tools = {
-            str(t) for t in graph.objects(prompt, URIRef(CONNECTOR_NS + "promptUsesToolName"))
+            str(t)
+            for t in graph.objects(prompt, URIRef(CONNECTOR_NS + "promptUsesToolName"))
         }
         assert set(document["tools"]) == linked_tools, name
         for tool in linked_tools:
@@ -168,7 +171,11 @@ def test_pack_declares_no_lifecycle_state_classes_of_its_own() -> None:
         "lifecycle",
     ):
         assert not any(word in n for n in names), word
-    assert (URIRef(CONNECTOR_NS + "lifecycleState"), RDF.type, OWL.ObjectProperty) in pack
+    assert (
+        URIRef(CONNECTOR_NS + "lifecycleState"),
+        RDF.type,
+        OWL.ObjectProperty,
+    ) in pack
     assert (None, OWL.imports, CORE_IRI) not in pack
 
 

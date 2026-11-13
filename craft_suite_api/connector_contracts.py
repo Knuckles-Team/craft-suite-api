@@ -24,9 +24,7 @@ CONTRACTS = (
                     "maybe_tags_list",
                     "media_file_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -45,12 +43,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_batch_get_inference_job_status_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -69,12 +63,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_batch_get_media_files_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -93,12 +83,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_batch_get_prompts_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -117,12 +103,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_batch_get_user_bookmarks_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -141,12 +123,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_batch_get_user_rating_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -172,9 +150,7 @@ CONTRACTS = (
                     "source_video_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -198,9 +174,7 @@ CONTRACTS = (
                     "folder_token",
                     "media_file_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -224,9 +198,7 @@ CONTRACTS = (
                     "folder_token",
                     "subfolder_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -251,9 +223,7 @@ CONTRACTS = (
                     "maybe_tags_list",
                     "media_file_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -276,9 +246,7 @@ CONTRACTS = (
                     "confirm",
                     "media_file_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -303,9 +271,7 @@ CONTRACTS = (
                     "media_file_tokens",
                     "source_folder",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -329,9 +295,7 @@ CONTRACTS = (
                     "folder_token",
                     "media_file_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -355,9 +319,7 @@ CONTRACTS = (
                     "folder_token",
                     "subfolder_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -382,9 +344,7 @@ CONTRACTS = (
                     "maybe_tags_list",
                     "media_file_tokens",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -412,9 +372,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -442,9 +400,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -472,9 +428,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -498,9 +452,7 @@ CONTRACTS = (
                     "maybe_animation_type",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -524,9 +476,7 @@ CONTRACTS = (
                     "engine_category",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -550,9 +500,7 @@ CONTRACTS = (
                     "creator_set_visibility",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -576,9 +524,7 @@ CONTRACTS = (
                     "password",
                     "password_confirmation",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -601,9 +547,7 @@ CONTRACTS = (
                     "confirm",
                     "media_file_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -627,9 +571,7 @@ CONTRACTS = (
                     "folder_token",
                     "maybe_color_code",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -653,9 +595,7 @@ CONTRACTS = (
                     "folder_token",
                     "maybe_media_file_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -686,9 +626,7 @@ CONTRACTS = (
                     "signup_source",
                     "username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -712,9 +650,7 @@ CONTRACTS = (
                     "maybe_description",
                     "name",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -740,9 +676,7 @@ CONTRACTS = (
                     "number_of_keys",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -769,9 +703,7 @@ CONTRACTS = (
                     "model",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -797,9 +729,7 @@ CONTRACTS = (
                     "entity_type",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -823,9 +753,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -850,9 +778,7 @@ CONTRACTS = (
                     "maybe_parent_folder_token",
                     "name",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -877,9 +803,7 @@ CONTRACTS = (
                     "maybe_mcp_client_vendor",
                     "maybe_mcp_client_version",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -912,9 +836,7 @@ CONTRACTS = (
                     "positive_prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -937,9 +859,7 @@ CONTRACTS = (
                     "code",
                     "confirm",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -963,9 +883,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -988,9 +906,7 @@ CONTRACTS = (
                     "api_key_token",
                     "confirm",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1017,9 +933,7 @@ CONTRACTS = (
                     "character_token",
                     "confirm",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1047,9 +961,7 @@ CONTRACTS = (
                     "confirm",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1073,9 +985,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1102,9 +1012,7 @@ CONTRACTS = (
                     "confirm",
                     "folder_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1131,9 +1039,7 @@ CONTRACTS = (
                     "confirm",
                     "token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1158,9 +1064,7 @@ CONTRACTS = (
                     "path",
                     "set_delete",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1187,9 +1091,7 @@ CONTRACTS = (
                     "confirm",
                     "token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1216,9 +1118,7 @@ CONTRACTS = (
                     "confirm",
                     "tag_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1246,9 +1146,7 @@ CONTRACTS = (
                     "confirm",
                     "user_bookmark_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1277,9 +1175,7 @@ CONTRACTS = (
                     "path",
                     "set_delete",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1302,12 +1198,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_dismiss_finished_session_jobs_handler",
-                params=(
-                    "confirm",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("confirm",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1331,9 +1223,7 @@ CONTRACTS = (
                     "is_distributed",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1357,9 +1247,7 @@ CONTRACTS = (
                     "note",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1384,9 +1272,7 @@ CONTRACTS = (
                     "updated_description",
                     "updated_name",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1409,9 +1295,7 @@ CONTRACTS = (
                     "confirm",
                     "email_address",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1434,9 +1318,7 @@ CONTRACTS = (
                     "confirm",
                     "display_name",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1464,9 +1346,7 @@ CONTRACTS = (
                     "remove_watermark",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1490,9 +1370,7 @@ CONTRACTS = (
                     "media_file_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1520,9 +1398,7 @@ CONTRACTS = (
                     "maybe_title",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1541,12 +1417,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_enqueue_infer_tts_handler",
-                params=(
-                    "confirm",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("confirm",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1575,9 +1447,7 @@ CONTRACTS = (
                     "used_webcam",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1623,9 +1493,7 @@ CONTRACTS = (
                     "use_upscaler",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1669,9 +1537,7 @@ CONTRACTS = (
                     "use_upscaler",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1717,9 +1583,7 @@ CONTRACTS = (
                     "use_upscaler",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1748,9 +1612,7 @@ CONTRACTS = (
                     "quality",
                     "resolution",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1780,9 +1642,7 @@ CONTRACTS = (
                     "resolution",
                     "video_batch_count",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1811,9 +1671,7 @@ CONTRACTS = (
                     "vertical_angle",
                     "zoom",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1840,9 +1698,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1869,9 +1725,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1897,9 +1751,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1926,9 +1778,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1954,9 +1804,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -1982,9 +1830,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2010,9 +1856,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2038,9 +1882,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2067,9 +1909,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2101,9 +1941,7 @@ CONTRACTS = (
                     "right_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2127,9 +1965,7 @@ CONTRACTS = (
                     "media_file_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2153,9 +1989,7 @@ CONTRACTS = (
                     "media_file_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2183,9 +2017,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2212,9 +2044,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2242,9 +2072,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2273,9 +2101,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2302,9 +2128,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2331,9 +2155,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2362,9 +2184,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2393,9 +2213,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2420,9 +2238,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2447,9 +2263,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2468,12 +2282,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_api_key_handler",
-                params=(
-                    "api_key_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("api_key_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2492,9 +2302,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_app_state_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2513,12 +2321,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_character_handler",
-                params=(
-                    "character_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("character_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2537,12 +2341,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_folder_handler",
-                params=(
-                    "folder_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("folder_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2561,12 +2361,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_inference_job_status_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2589,9 +2385,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2610,12 +2404,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_media_file_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2634,12 +2424,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_profile_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2658,12 +2444,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_prompt_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2682,12 +2464,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_session_credits_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2706,12 +2484,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_session_subscription_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2730,9 +2504,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_unified_queue_stats_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2755,9 +2527,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2776,12 +2546,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_get_weight_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2808,9 +2574,7 @@ CONTRACTS = (
                     "maybe_referral_url",
                     "maybe_referral_username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2838,9 +2602,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2872,9 +2634,7 @@ CONTRACTS = (
                     "quality",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2903,9 +2663,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2934,9 +2692,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2966,9 +2722,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -2998,9 +2752,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3019,9 +2771,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_active_user_subscriptions_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3044,9 +2794,7 @@ CONTRACTS = (
                     "limit",
                     "offset",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3073,9 +2821,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3102,9 +2848,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3131,9 +2875,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3152,12 +2894,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_characters_handler",
-                params=(
-                    "cursor",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("cursor",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3176,12 +2914,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_comments_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3210,9 +2944,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3239,9 +2971,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3265,9 +2995,7 @@ CONTRACTS = (
                     "folder_token",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3290,9 +3018,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3315,9 +3041,7 @@ CONTRACTS = (
                     "limit",
                     "offset",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3336,12 +3060,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_media_file_tags_handler",
-                params=(
-                    "media_file_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("media_file_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3366,9 +3086,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3387,12 +3105,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_media_files_by_job_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3420,9 +3134,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3451,9 +3163,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3477,9 +3187,7 @@ CONTRACTS = (
                     "limit",
                     "tag_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3503,9 +3211,7 @@ CONTRACTS = (
                     "filter_media_class",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3524,9 +3230,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_pinned_media_files_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3545,9 +3249,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_pinned_weights_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3566,9 +3268,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_referral_codes_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3591,9 +3291,7 @@ CONTRACTS = (
                     "exclude_states",
                     "include_states",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3618,9 +3316,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3646,9 +3342,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3673,9 +3367,7 @@ CONTRACTS = (
                     "page_size",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3699,9 +3391,7 @@ CONTRACTS = (
                     "folder_token",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3724,9 +3414,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3749,9 +3437,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3774,9 +3460,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3799,9 +3483,7 @@ CONTRACTS = (
                     "entity_token",
                     "entity_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3830,9 +3512,7 @@ CONTRACTS = (
                     "sort_ascending",
                     "username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3851,12 +3531,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_user_jobs_handler",
-                params=(
-                    "user_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("user_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3875,12 +3551,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_user_wallets_handler",
-                params=(
-                    "user_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("user_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3899,12 +3571,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_list_wallet_ledger_entries_by_wallet_handler",
-                params=(
-                    "wallet_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("wallet_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3931,9 +3599,7 @@ CONTRACTS = (
                     "path",
                     "sort_ascending",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -3961,9 +3627,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4007,9 +3671,7 @@ CONTRACTS = (
                     "video_generation_count",
                     "video_page_prompt_count",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4033,9 +3695,7 @@ CONTRACTS = (
                     "maybe_last_action",
                     "maybe_log_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4058,9 +3718,7 @@ CONTRACTS = (
                     "confirm",
                     "maybe_referral_url",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4084,9 +3742,7 @@ CONTRACTS = (
                     "password",
                     "username_or_email",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4105,12 +3761,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_logout_handler",
-                params=(
-                    "confirm",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("confirm",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4138,9 +3790,7 @@ CONTRACTS = (
                     "maybe_internal_debugging_failure_reason",
                     "maybe_user_failure_reason",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4169,9 +3819,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4196,9 +3844,7 @@ CONTRACTS = (
                     "mod_notes",
                     "username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4217,12 +3863,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderation_get_job_by_token_handler",
-                params=(
-                    "token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4246,9 +3888,7 @@ CONTRACTS = (
                     "limit",
                     "severities",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4271,9 +3911,7 @@ CONTRACTS = (
                     "limit",
                     "token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4297,9 +3935,7 @@ CONTRACTS = (
                     "limit",
                     "user_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4324,9 +3960,7 @@ CONTRACTS = (
                     "title",
                     "urgency",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4350,9 +3984,7 @@ CONTRACTS = (
                     "credits",
                     "wallet_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4376,9 +4008,7 @@ CONTRACTS = (
                     "new_email",
                     "user_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4402,9 +4032,7 @@ CONTRACTS = (
                     "payments_namespace",
                     "user_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4428,9 +4056,7 @@ CONTRACTS = (
                     "confirm",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4449,12 +4075,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_get_token_info_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4477,9 +4099,7 @@ CONTRACTS = (
                     "payments_namespace",
                     "user_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4498,12 +4118,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_get_user_stripe_customer_ids_handler",
-                params=(
-                    "user_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("user_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4522,12 +4138,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_get_wallet_handler",
-                params=(
-                    "wallet_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("wallet_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4546,12 +4158,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_get_wallet_ledger_entry_handler",
-                params=(
-                    "wallet_ledger_entry_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("wallet_ledger_entry_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4570,9 +4178,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_list_all_available_user_feature_fla_75302d",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4591,9 +4197,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_list_databox_dashboards_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4617,9 +4221,7 @@ CONTRACTS = (
                     "limit",
                     "username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4642,9 +4244,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4667,9 +4267,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4692,9 +4290,7 @@ CONTRACTS = (
                     "confirm",
                     "id_cursor",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4718,9 +4314,7 @@ CONTRACTS = (
                     "payments_namespace",
                     "window",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4739,12 +4333,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_moderator_list_user_feature_flags_handler",
-                params=(
-                    "username_or_token",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("username_or_token",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4768,9 +4358,7 @@ CONTRACTS = (
                     "limit",
                     "username",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4793,9 +4381,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4818,9 +4404,7 @@ CONTRACTS = (
                     "cursor",
                     "limit",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4843,9 +4427,7 @@ CONTRACTS = (
                     "offset",
                     "payments_namespace",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4868,9 +4450,7 @@ CONTRACTS = (
                     "confirm",
                     "id_cursor",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4893,9 +4473,7 @@ CONTRACTS = (
                     "offset",
                     "payments_namespace",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4919,9 +4497,7 @@ CONTRACTS = (
                     "payments_namespace",
                     "window",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4946,9 +4522,7 @@ CONTRACTS = (
                     "payments_namespace",
                     "user_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4971,9 +4545,7 @@ CONTRACTS = (
                     "confirm",
                     "stripe_customer_id",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -4996,9 +4568,7 @@ CONTRACTS = (
                     "confirm",
                     "search",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5024,9 +4594,7 @@ CONTRACTS = (
                     "username",
                     "username_email_or_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5054,9 +4622,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5083,9 +4649,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5113,9 +4677,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5140,9 +4702,7 @@ CONTRACTS = (
                     "model",
                     "worker_hostname",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5161,12 +4721,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_api_batch_get_job_status_handler",
-                params=(
-                    "tokens",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("tokens",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5185,12 +4741,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_api_get_job_status_handler",
-                params=(
-                    "path",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("path",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5224,9 +4776,7 @@ CONTRACTS = (
                     "quality",
                     "resolution",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5270,9 +4820,7 @@ CONTRACTS = (
                     "start_frame_image_url",
                     "video_batch_count",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5309,9 +4857,7 @@ CONTRACTS = (
                     "style_prompt",
                     "volume",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5348,9 +4894,7 @@ CONTRACTS = (
                     "style_prompt",
                     "volume",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5369,9 +4913,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_gen_audio_models_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5404,9 +4946,7 @@ CONTRACTS = (
                     "quality",
                     "resolution",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5439,9 +4979,7 @@ CONTRACTS = (
                     "quality",
                     "resolution",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5460,12 +4998,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_gen_image_models_handler",
-                params=(
-                    "provider",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("provider",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5503,9 +5037,7 @@ CONTRACTS = (
                     "right_image_media_token",
                     "texture_quality",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5543,9 +5075,7 @@ CONTRACTS = (
                     "right_image_media_token",
                     "texture_quality",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5564,9 +5094,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_gen_mesh_models_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5595,9 +5123,7 @@ CONTRACTS = (
                     "reference_image_media_tokens",
                     "reference_video_media_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5626,9 +5152,7 @@ CONTRACTS = (
                     "reference_image_media_tokens",
                     "reference_video_media_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5647,9 +5171,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_gen_splat_models_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5689,9 +5211,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "video_batch_count",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5731,9 +5251,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "video_batch_count",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5752,12 +5270,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_omni_gen_video_models_handler",
-                params=(
-                    "provider",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("provider",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5784,9 +5298,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5816,9 +5328,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5851,9 +5361,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5883,9 +5391,7 @@ CONTRACTS = (
                     "vertical_angle",
                     "zoom",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5913,9 +5419,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5938,9 +5442,7 @@ CONTRACTS = (
                     "beta_key",
                     "confirm",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5963,9 +5465,7 @@ CONTRACTS = (
                     "confirm",
                     "private_refresh_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -5989,9 +5489,7 @@ CONTRACTS = (
                     "media_file_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6015,9 +5513,7 @@ CONTRACTS = (
                     "folder_token",
                     "new_name",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6041,9 +5537,7 @@ CONTRACTS = (
                     "name",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6067,9 +5561,7 @@ CONTRACTS = (
                     "new_tag_value",
                     "tag_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6088,12 +5580,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_revoke_mcp_session_handler",
-                params=(
-                    "confirm",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("confirm",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6118,9 +5606,7 @@ CONTRACTS = (
                     "filter_media_type",
                     "search_term",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6147,9 +5633,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6178,9 +5662,7 @@ CONTRACTS = (
                     "weight_category",
                     "weight_type",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6205,9 +5687,7 @@ CONTRACTS = (
                     "filter_media_type",
                     "search_term",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6237,9 +5717,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6273,9 +5751,7 @@ CONTRACTS = (
                     "start_frame_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6300,9 +5776,7 @@ CONTRACTS = (
                     "prompt",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6321,9 +5795,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_session_info_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6342,9 +5814,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_session_token_info_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6368,9 +5838,7 @@ CONTRACTS = (
                     "cover_image_media_file_token",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6395,9 +5863,7 @@ CONTRACTS = (
                     "maybe_tags_list",
                     "media_file_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6421,9 +5887,7 @@ CONTRACTS = (
                     "cover_image_media_file_token",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6448,9 +5912,7 @@ CONTRACTS = (
                     "entity_type",
                     "rating_value",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6478,9 +5940,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6508,9 +5968,7 @@ CONTRACTS = (
                     "resolution",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6534,9 +5992,7 @@ CONTRACTS = (
                     "folder_token",
                     "has_star",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6555,9 +6011,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="craft_suite_status_alert_handler",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6580,9 +6034,7 @@ CONTRACTS = (
                     "internal_plan_key",
                     "maybe_tolt_referral",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6605,9 +6057,7 @@ CONTRACTS = (
                     "confirm",
                     "path",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6635,9 +6085,7 @@ CONTRACTS = (
                     "confirm",
                     "maybe_description",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6662,9 +6110,7 @@ CONTRACTS = (
                     "job_status",
                     "job_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6692,9 +6138,7 @@ CONTRACTS = (
                     "title",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6721,9 +6165,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6753,9 +6195,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6783,9 +6223,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6811,9 +6249,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6843,9 +6279,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6871,9 +6305,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6899,9 +6331,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6927,9 +6357,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6962,9 +6390,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -6990,9 +6416,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7021,9 +6445,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7048,9 +6470,7 @@ CONTRACTS = (
                     "path",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7076,9 +6496,7 @@ CONTRACTS = (
                     "maybe_title",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7106,9 +6524,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7135,9 +6551,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7165,9 +6579,7 @@ CONTRACTS = (
                     "maybe_visibility",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7192,9 +6604,7 @@ CONTRACTS = (
                     "path",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7219,9 +6629,7 @@ CONTRACTS = (
                     "path",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7246,9 +6654,7 @@ CONTRACTS = (
                     "path",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7273,9 +6679,7 @@ CONTRACTS = (
                     "path",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7303,9 +6707,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7339,9 +6741,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7375,9 +6775,7 @@ CONTRACTS = (
                     "start_frame_image_media_token",
                     "uuid_idempotency_token",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7410,9 +6808,7 @@ CONTRACTS = (
                     "uploaded_video_token",
                     "was_scammed",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7440,9 +6836,7 @@ CONTRACTS = (
                     "uuid_idempotency_token",
                     "visibility",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7466,9 +6860,7 @@ CONTRACTS = (
                     "file",
                     "maybe_filename",
                 ),
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7487,12 +6879,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="registry_activate",
-                params=(
-                    "namespace",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("namespace",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7511,12 +6899,8 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="registry_deactivate",
-                params=(
-                    "namespace",
-                ),
-                result=(
-                    "result",
-                ),
+                params=("namespace",),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7535,9 +6919,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="registry_list_namespaces",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7556,9 +6938,7 @@ CONTRACTS = (
         steps=(
             ToolStep(
                 tool="registry_status",
-                result=(
-                    "result",
-                ),
+                result=("result",),
                 refusals=(
                     Refusal(
                         code="ACCESS_DENIED",
@@ -7864,23 +7244,17 @@ LINKS = (
     ),
     SurfaceLink(
         task="cadcraft-create_drawing",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("cadcraft-create_drawing",),
     ),
     SurfaceLink(
         task="cadcraft-query_drawing",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("cadcraft-query_drawing",),
     ),
     SurfaceLink(
         task="cadcraft-script_drawing",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("cadcraft-script_drawing",),
     ),
     SurfaceLink(
@@ -8719,149 +8093,107 @@ LINKS = (
     ),
     SurfaceLink(
         task="deckcraft-build_deck",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("deckcraft-build_deck",),
     ),
     SurfaceLink(
         task="deckcraft-export_deck",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("deckcraft-export_deck",),
     ),
     SurfaceLink(
         task="deckcraft-insert_content",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("deckcraft-insert_content",),
     ),
     SurfaceLink(
         task="designcraft-inspect_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("designcraft-inspect_document",),
     ),
     SurfaceLink(
         task="designcraft-lay_out_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("designcraft-lay_out_document",),
     ),
     SurfaceLink(
         task="designcraft-run_commands",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("designcraft-run_commands",),
     ),
     SurfaceLink(
         task="effectcraft-build_composition",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("effectcraft-build_composition",),
     ),
     SurfaceLink(
         task="effectcraft-keyframe_property",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("effectcraft-keyframe_property",),
     ),
     SurfaceLink(
         task="effectcraft-script_project",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("effectcraft-script_project",),
     ),
     SurfaceLink(
         task="figcraft-batch_edits",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("figcraft-batch_edits",),
     ),
     SurfaceLink(
         task="figcraft-create_figure",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("figcraft-create_figure",),
     ),
     SurfaceLink(
         task="figcraft-edit_layers",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("figcraft-edit_layers",),
     ),
     SurfaceLink(
         task="filmcraft-import_and_sequence",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("filmcraft-import_and_sequence",),
     ),
     SurfaceLink(
         task="filmcraft-inspect_project",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("filmcraft-inspect_project",),
     ),
     SurfaceLink(
         task="filmcraft-trim_sequence",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("filmcraft-trim_sequence",),
     ),
     SurfaceLink(
         task="gridcraft-analyse_data",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("gridcraft-analyse_data",),
     ),
     SurfaceLink(
         task="gridcraft-edit_workbook",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("gridcraft-edit_workbook",),
     ),
     SurfaceLink(
         task="gridcraft-run_commands",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("gridcraft-run_commands",),
     ),
     SurfaceLink(
         task="lightcraft-develop_photo",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("lightcraft-develop_photo",),
     ),
     SurfaceLink(
         task="lightcraft-query_library",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("lightcraft-query_library",),
     ),
     SurfaceLink(
         task="lightcraft-run_commands",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("lightcraft-run_commands",),
     ),
     SurfaceLink(
@@ -9144,86 +8476,62 @@ LINKS = (
     ),
     SurfaceLink(
         task="materialcraft-build_material",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("materialcraft-build_material",),
     ),
     SurfaceLink(
         task="materialcraft-export_material",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("materialcraft-export_material",),
     ),
     SurfaceLink(
         task="materialcraft-run_commands",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("materialcraft-run_commands",),
     ),
     SurfaceLink(
         task="pdfcraft-add_bookmarks",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-add_bookmarks",),
     ),
     SurfaceLink(
         task="pdfcraft-edit_pdf",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-edit_pdf",),
     ),
     SurfaceLink(
         task="pdfcraft-extract_content",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-extract_content",),
     ),
     SurfaceLink(
         task="pdfcraft-fill_form",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-fill_form",),
     ),
     SurfaceLink(
         task="pdfcraft-recognize_scans",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-recognize_scans",),
     ),
     SurfaceLink(
         task="pdfcraft-redact_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("pdfcraft-redact_document",),
     ),
     SurfaceLink(
         task="photocraft-edit_image",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("photocraft-edit_image",),
     ),
     SurfaceLink(
         task="photocraft-export_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("photocraft-export_document",),
     ),
     SurfaceLink(
         task="photocraft-inspect_session",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("photocraft-inspect_session",),
     ),
     SurfaceLink(
@@ -10062,107 +9370,77 @@ LINKS = (
     ),
     SurfaceLink(
         task="solidcraft-export_model",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("solidcraft-export_model",),
     ),
     SurfaceLink(
         task="solidcraft-model_body",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("solidcraft-model_body",),
     ),
     SurfaceLink(
         task="solidcraft-parameterize_design",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("solidcraft-parameterize_design",),
     ),
     SurfaceLink(
         task="soundcraft-edit_session",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("soundcraft-edit_session",),
     ),
     SurfaceLink(
         task="soundcraft-import_and_save",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("soundcraft-import_and_save",),
     ),
     SurfaceLink(
         task="soundcraft-mix_session",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("soundcraft-mix_session",),
     ),
     SurfaceLink(
         task="texturecraft-export_textures",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("texturecraft-export_textures",),
     ),
     SurfaceLink(
         task="texturecraft-paint_mesh",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("texturecraft-paint_mesh",),
     ),
     SurfaceLink(
         task="texturecraft-run_commands",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("texturecraft-run_commands",),
     ),
     SurfaceLink(
         task="vectorcraft-create_illustration",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("vectorcraft-create_illustration",),
     ),
     SurfaceLink(
         task="vectorcraft-edit_selection",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("vectorcraft-edit_selection",),
     ),
     SurfaceLink(
         task="vectorcraft-export_artwork",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("vectorcraft-export_artwork",),
     ),
     SurfaceLink(
         task="wordcraft-format_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("wordcraft-format_document",),
     ),
     SurfaceLink(
         task="wordcraft-open_and_review",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("wordcraft-open_and_review",),
     ),
     SurfaceLink(
         task="wordcraft-write_document",
-        tools=(
-            "registry_activate",
-        ),
+        tools=("registry_activate",),
         prompts=("wordcraft-write_document",),
     ),
     SurfaceLink(
@@ -10173,18 +9451,12 @@ LINKS = (
             "craft_suite_omni_gen_mesh_models_handler",
             "craft_suite_omni_gen_splat_models_handler",
         ),
-        skills=(
-            "artcraft-starter",
-        ),
+        skills=("artcraft-starter",),
     ),
     SurfaceLink(
         task="cadcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "cadcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("cadcraft",),
     ),
     SurfaceLink(
         task="cadcraft-product-drawing",
@@ -10462,18 +9734,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "cadcraft-product-drawing",
-        ),
+        skills=("cadcraft-product-drawing",),
     ),
     SurfaceLink(
         task="deckcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "deckcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("deckcraft",),
     ),
     SurfaceLink(
         task="deckcraft-product-pitch",
@@ -10751,36 +10017,22 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "deckcraft-product-pitch",
-        ),
+        skills=("deckcraft-product-pitch",),
     ),
     SurfaceLink(
         task="designcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "designcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("designcraft",),
     ),
     SurfaceLink(
         task="designcraft-social-post",
-        tools=(
-            "craft_suite_search_model_weights_http_post_handler",
-        ),
-        skills=(
-            "designcraft-social-post",
-        ),
+        tools=("craft_suite_search_model_weights_http_post_handler",),
+        skills=("designcraft-social-post",),
     ),
     SurfaceLink(
         task="effectcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "effectcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("effectcraft",),
     ),
     SurfaceLink(
         task="effectcraft-title-card",
@@ -11058,18 +10310,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "effectcraft-title-card",
-        ),
+        skills=("effectcraft-title-card",),
     ),
     SurfaceLink(
         task="figcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "figcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("figcraft",),
     ),
     SurfaceLink(
         task="figcraft-ad-banner",
@@ -11347,18 +10593,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "figcraft-ad-banner",
-        ),
+        skills=("figcraft-ad-banner",),
     ),
     SurfaceLink(
         task="filmcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "filmcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("filmcraft",),
     ),
     SurfaceLink(
         task="filmcraft-cut-promo-video",
@@ -11398,18 +10638,12 @@ LINKS = (
             "craft_suite_video_info_read_info_handler",
             "craft_suite_video_info_upload_handler",
         ),
-        skills=(
-            "filmcraft-cut-promo-video",
-        ),
+        skills=("filmcraft-cut-promo-video",),
     ),
     SurfaceLink(
         task="gridcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "gridcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("gridcraft",),
     ),
     SurfaceLink(
         task="gridcraft-price-list",
@@ -11471,18 +10705,12 @@ LINKS = (
             "craft_suite_moderator_top_users_list_handler",
             "registry_list_namespaces",
         ),
-        skills=(
-            "gridcraft-price-list",
-        ),
+        skills=("gridcraft-price-list",),
     ),
     SurfaceLink(
         task="lightcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "lightcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("lightcraft",),
     ),
     SurfaceLink(
         task="lightcraft-develop-product-photo",
@@ -11760,18 +10988,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "lightcraft-develop-product-photo",
-        ),
+        skills=("lightcraft-develop-product-photo",),
     ),
     SurfaceLink(
         task="materialcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "materialcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("materialcraft",),
     ),
     SurfaceLink(
         task="materialcraft-product-material",
@@ -12049,18 +11271,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "materialcraft-product-material",
-        ),
+        skills=("materialcraft-product-material",),
     ),
     SurfaceLink(
         task="pdfcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "pdfcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("pdfcraft",),
     ),
     SurfaceLink(
         task="pdfcraft-stamp-and-brand",
@@ -12338,18 +11554,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "pdfcraft-stamp-and-brand",
-        ),
+        skills=("pdfcraft-stamp-and-brand",),
     ),
     SurfaceLink(
         task="photocraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "photocraft",
-        ),
+        tools=("registry_activate",),
+        skills=("photocraft",),
     ),
     SurfaceLink(
         task="photocraft-edit-product-photo",
@@ -12369,18 +11579,12 @@ LINKS = (
             "craft_suite_qwen_edit_image_handler",
             "craft_suite_seededit_3_edit_image_handler",
         ),
-        skills=(
-            "photocraft-edit-product-photo",
-        ),
+        skills=("photocraft-edit-product-photo",),
     ),
     SurfaceLink(
         task="solidcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "solidcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("solidcraft",),
     ),
     SurfaceLink(
         task="solidcraft-product-model",
@@ -12390,18 +11594,12 @@ LINKS = (
             "craft_suite_search_model_weights_http_post_handler",
             "craft_suite_set_model_weight_cover_image_handler",
         ),
-        skills=(
-            "solidcraft-product-model",
-        ),
+        skills=("solidcraft-product-model",),
     ),
     SurfaceLink(
         task="soundcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "soundcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("soundcraft",),
     ),
     SurfaceLink(
         task="soundcraft-promo-audio-bed",
@@ -12412,18 +11610,12 @@ LINKS = (
             "craft_suite_omni_upload_audio_media_file_handler",
             "craft_suite_upload_audio_media_file_handler",
         ),
-        skills=(
-            "soundcraft-promo-audio-bed",
-        ),
+        skills=("soundcraft-promo-audio-bed",),
     ),
     SurfaceLink(
         task="texturecraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "texturecraft",
-        ),
+        tools=("registry_activate",),
+        skills=("texturecraft",),
     ),
     SurfaceLink(
         task="texturecraft-texture-product",
@@ -12701,18 +11893,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "texturecraft-texture-product",
-        ),
+        skills=("texturecraft-texture-product",),
     ),
     SurfaceLink(
         task="vectorcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "vectorcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("vectorcraft",),
     ),
     SurfaceLink(
         task="vectorcraft-logo-banner",
@@ -12990,18 +12176,12 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "vectorcraft-logo-banner",
-        ),
+        skills=("vectorcraft-logo-banner",),
     ),
     SurfaceLink(
         task="wordcraft",
-        tools=(
-            "registry_activate",
-        ),
-        skills=(
-            "wordcraft",
-        ),
+        tools=("registry_activate",),
+        skills=("wordcraft",),
     ),
     SurfaceLink(
         task="wordcraft-press-release",
@@ -13279,9 +12459,7 @@ LINKS = (
             "registry_list_namespaces",
             "registry_status",
         ),
-        skills=(
-            "wordcraft-press-release",
-        ),
+        skills=("wordcraft-press-release",),
     ),
 )
 

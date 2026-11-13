@@ -111,7 +111,9 @@ def build_client(
                 allow_plaintext=settings.allow_plaintext,
                 timeout=TIMEOUT_S,
             ),
-            transport=transport, async_=True)
+            transport=transport,
+            async_=True,
+        )
         client.follow_redirects = False
         client.event_hooks["response"].append(bound_response)
         _resources = resources.pop_all()

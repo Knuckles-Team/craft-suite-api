@@ -70,7 +70,7 @@ def test_pack_classes_extend_core_and_import_nothing() -> None:
         "AppTool": "Tool",
         "UseCase": "Task",
     }.items():
-        node = URIRef(KG.replace('core#', 'connector/craft-common#') + name)
+        node = URIRef(KG.replace("core#", "connector/craft-common#") + name)
         assert node in subs, f":{name} is not declared"
         assert _reaches_core(node, CORE_NAMES, subs), (
             f":{name} does not reach a core class"
@@ -89,7 +89,7 @@ def test_pack_classes_extend_core_and_import_nothing() -> None:
     from rdflib import RDF as _RDF
 
     for prop in ("ofApp", "forApp", "usesToolName", "appNamespace", "appVersion"):
-        node = URIRef(KG.replace('core#', 'connector/craft-common#') + prop)
+        node = URIRef(KG.replace("core#", "connector/craft-common#") + prop)
         types = [str(t) for t in graph.objects(node, _RDF.type)]
         assert any("Property" in t for t in types), (
             f":{prop} is not declared as a property (types={types})"
