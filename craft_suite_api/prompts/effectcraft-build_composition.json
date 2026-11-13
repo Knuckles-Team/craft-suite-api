@@ -33,5 +33,31 @@
     "effectcraft_add_effect",
     "effectcraft_render_frame"
   ],
-  "requires_namespace": "effectcraft"
+  "requires_namespace": "effectcraft",
+  "agent": {
+    "kind": "business-role",
+    "business_role": "craft-suite administrator",
+    "tools": [
+      "registry_activate",
+      "registry_status"
+    ],
+    "skills": [
+      "effectcraft"
+    ],
+    "data": {
+      "reads": [
+        "craft-media-library"
+      ],
+      "writes": []
+    },
+    "guardrails": {
+      "approval_required": [],
+      "never": [
+        "expose a credential or a secret value"
+      ]
+    },
+    "outputs": [
+      "a summary of each action taken and its result"
+    ]
+  }
 }

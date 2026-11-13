@@ -34,5 +34,31 @@
     "gridcraft_set_cell",
     "gridcraft_save_workbook"
   ],
-  "requires_namespace": "gridcraft"
+  "requires_namespace": "gridcraft",
+  "agent": {
+    "kind": "business-role",
+    "business_role": "craft-suite administrator",
+    "tools": [
+      "registry_activate",
+      "registry_status"
+    ],
+    "skills": [
+      "gridcraft"
+    ],
+    "data": {
+      "reads": [
+        "craft-media-library"
+      ],
+      "writes": []
+    },
+    "guardrails": {
+      "approval_required": [],
+      "never": [
+        "expose a credential or a secret value"
+      ]
+    },
+    "outputs": [
+      "a summary of each action taken and its result"
+    ]
+  }
 }

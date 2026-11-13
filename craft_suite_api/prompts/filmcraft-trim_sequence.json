@@ -32,5 +32,31 @@
     "filmcraft_command_run",
     "filmcraft_render_frame"
   ],
-  "requires_namespace": "filmcraft"
+  "requires_namespace": "filmcraft",
+  "agent": {
+    "kind": "business-role",
+    "business_role": "craft-suite administrator",
+    "tools": [
+      "registry_activate",
+      "registry_status"
+    ],
+    "skills": [
+      "filmcraft"
+    ],
+    "data": {
+      "reads": [
+        "craft-media-library"
+      ],
+      "writes": []
+    },
+    "guardrails": {
+      "approval_required": [],
+      "never": [
+        "expose a credential or a secret value"
+      ]
+    },
+    "outputs": [
+      "a summary of each action taken and its result"
+    ]
+  }
 }

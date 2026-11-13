@@ -49,8 +49,9 @@ PACKAGE = REPO / "craft_suite_api"
 CORE_ONTOLOGY = PACKAGE / "ontology" / "artcraft.ttl"
 
 CONNECTOR = "craft-suite-api"
-CORE_IRI = "http://knuckles.team/kg/artcraft"
-KG = "http://knuckles.team/kg#"
+CORE_IRI = "https://knuckles-team.github.io/ontology/connector/craft-common"
+KG = "https://knuckles-team.github.io/ontology/core#"
+CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
 
 #: The engine's top-level classes. The engine ontology is served by the
 #: engine itself, so the in-process orphan proof treats these as roots:
@@ -163,7 +164,7 @@ def _engine_binary() -> str | None:
             return resolve_server_binary()
         except Exception:  # ServerBinaryNotFoundError
             pass
-    for name in ("epistemic-graph-server", "medulla-server"):
+    for name in ("medulla-server", "medulla-server"):
         found = shutil.which(name)
         if found is not None:
             return found
@@ -347,7 +348,7 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
     if binary is None:
         pytest.skip(
             "served pack import not proven: the medulla server binary "
-            "(medulla[server], e.g. epistemic-graph-server) is not "
+            "(medulla[server], e.g. medulla-server) is not "
             "installed; the in-process native engine exposes no "
             "ConnectorPack operation, so the import can only be "
             "proven served."

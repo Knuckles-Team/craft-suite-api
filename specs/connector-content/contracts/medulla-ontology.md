@@ -7,7 +7,7 @@ Counterpart: medulla `specs/typed-packs-and-catalog/requirements.md`, rows `MEDU
 
 ## Wire shape
 
-The pack carries the ontology files as Turtle entries. No file declares `owl:imports` of the core ontology. Each class has an `rdfs:subClassOf` path to a core class: `:App` to `:Application`, `:AppTool` to `:Tool`, `:UseCase` to `:Task`. App domain classes extend `:CreativeWork`, `:Document`, `:Artifact`, `:App` or `:AppTool`. A per-app file may import the sibling pack ontology `http://knuckles.team/kg/artcraft` only.
+The pack carries the ontology files as Turtle entries. No file declares `owl:imports` of the core ontology. Each class has an `rdfs:subClassOf` path to a core class: `:App` to `:Application`, `:AppTool` to `:Tool`, `:UseCase` to `:Task`. App domain classes extend `:CreativeWork`, `:Document`, `:Artifact`, `:App` or `:AppTool`. A per-app file may import the sibling pack ontology `https://knuckles-team.github.io/ontology/connector/craft-common` only.
 
 ## Refusal codes
 

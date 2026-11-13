@@ -31,5 +31,31 @@
     "soundcraft_import_audio",
     "soundcraft_save_session"
   ],
-  "requires_namespace": "soundcraft"
+  "requires_namespace": "soundcraft",
+  "agent": {
+    "kind": "business-role",
+    "business_role": "craft-suite administrator",
+    "tools": [
+      "registry_activate",
+      "registry_status"
+    ],
+    "skills": [
+      "soundcraft"
+    ],
+    "data": {
+      "reads": [
+        "craft-media-library"
+      ],
+      "writes": []
+    },
+    "guardrails": {
+      "approval_required": [],
+      "never": [
+        "expose a credential or a secret value"
+      ]
+    },
+    "outputs": [
+      "a summary of each action taken and its result"
+    ]
+  }
 }

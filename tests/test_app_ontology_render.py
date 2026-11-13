@@ -30,8 +30,8 @@ APPS = (
     "deckcraft",
     "cadcraft",
 )
-KG = "http://knuckles.team/kg"
-KG_NS = KG + "#"
+KG = "https://knuckles-team.github.io/ontology/connector"
+KG_NS = KG + "/craft-common#"
 CORE_NAMES = frozenset(
     {"Application", "Tool", "Task", "CreativeWork", "Document", "Artifact"}
 )
@@ -73,14 +73,14 @@ def test_each_app_file_extends_core_and_unknown_parent_refuses() -> None:
         graph.parse(data=text, format="turtle")
 
         # The ontology node carries the app IRI and imports only the sibling.
-        ontology = URIRef(f"{KG}/artcraft/{app}")
-        assert (ontology, OWL.imports, URIRef(f"{KG}/artcraft")) in graph
+        ontology = URIRef(f"{KG}/{app}")
+        assert (ontology, OWL.imports, URIRef(f"{KG}/craft-common")) in graph
         assert (
             len(
                 [
                     target
                     for target in graph.objects(ontology, OWL.imports)
-                    if str(target) != f"{KG}/artcraft"
+                    if str(target) != f"{KG}/craft-common"
                 ]
             )
             == 0

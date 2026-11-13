@@ -33,5 +33,31 @@
     "photocraft_doc_export_layers",
     "photocraft_jobs_list"
   ],
-  "requires_namespace": "photocraft"
+  "requires_namespace": "photocraft",
+  "agent": {
+    "kind": "business-role",
+    "business_role": "craft-suite administrator",
+    "tools": [
+      "registry_activate",
+      "registry_status"
+    ],
+    "skills": [
+      "photocraft"
+    ],
+    "data": {
+      "reads": [
+        "craft-media-library"
+      ],
+      "writes": []
+    },
+    "guardrails": {
+      "approval_required": [],
+      "never": [
+        "expose a credential or a secret value"
+      ]
+    },
+    "outputs": [
+      "a summary of each action taken and its result"
+    ]
+  }
 }
