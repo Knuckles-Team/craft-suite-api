@@ -54,6 +54,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `designcraft-lay_out_document` — Start a document, place images and set story text.
-- `designcraft-inspect_document` — Open a document and read its pages and stories.
-- `designcraft-run_commands` — Look up engine commands and run them, alone or in a batch.
+- `designcraft-lay-out-document` — Start a document, place images and set story text.
+- `designcraft-inspect-document` — Open a document and read its pages and stories.
+- `designcraft-run-commands` — Look up engine commands and run them, alone or in a batch.

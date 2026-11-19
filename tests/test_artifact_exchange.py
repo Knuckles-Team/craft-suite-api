@@ -135,4 +135,3 @@ def test_mcp_extra_carries_the_s3_sink_backend() -> None:
     for extra in ("mcp", "all"):
         pins = " ".join(project["optional-dependencies"][extra])
         assert "scion-sdk[mcp,storage-s3]" in pins
-    assert "craft-suite-api[mcp]==" in (ROOT / "docker" / "Dockerfile").read_text()

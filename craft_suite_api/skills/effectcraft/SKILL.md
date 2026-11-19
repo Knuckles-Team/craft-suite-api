@@ -55,6 +55,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `effectcraft-build_composition` — Open a project, inspect a composition and add effects.
-- `effectcraft-keyframe_property` — Read a property and animate it with keyframes.
-- `effectcraft-script_project` — Drive the project through commands and scripts.
+- `effectcraft-build-composition` — Open a project, inspect a composition and add effects.
+- `effectcraft-keyframe-property` — Read a property and animate it with keyframes.
+- `effectcraft-script-project` — Drive the project through commands and scripts.

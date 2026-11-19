@@ -14,7 +14,7 @@ import httpx
 from scion_sdk.auth.delegation import DelegatedTokenAuth, DelegationSettings
 from scion_sdk.auth.static import api_key_auth
 from scion_sdk.config import load_config, setting
-from scion_sdk.http.client import create_async_http_client, create_http_client
+from scion_sdk.http.client import build_http_client
 from scion_sdk.http.options import HttpClientOptions
 from scion_sdk.http.retry import RetryPolicy
 from scion_sdk.tls.resolve import resolve_tls_profile
@@ -75,7 +75,7 @@ def _auth(settings: BackendSettings, resources: ExitStack) -> httpx.Auth | None:
     if delegation.enabled:
         token_tls = resolve_tls_profile("oidc")
         resources.callback(token_tls.cleanup)
-        token_client = create_http_client(
+        token_client = build_http_client(
             HttpClientOptions(base_url=delegation.token_endpoint, tls=token_tls)
         )
         resources.callback(token_client.close)
@@ -102,7 +102,7 @@ def build_client(
         _check_origin(settings, credentialed=auth is not None)
         tls = resolve_tls_profile("craft-suite-api")
         resources.callback(tls.cleanup)
-        client = create_async_http_client(
+        client = build_http_client(
             HttpClientOptions(
                 base_url=settings.base_url,
                 auth=auth,
@@ -112,6 +112,7 @@ def build_client(
                 timeout=TIMEOUT_S,
             ),
             transport=transport,
+            async_=True,
         )
         client.follow_redirects = False
         client.event_hooks["response"].append(bound_response)

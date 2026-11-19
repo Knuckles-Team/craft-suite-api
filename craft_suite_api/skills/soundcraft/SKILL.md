@@ -45,6 +45,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `soundcraft-mix_session` — Start a session, inspect the tracks and bounce the mix.
-- `soundcraft-import_and_save` — Import audio onto the session and save it.
-- `soundcraft-edit_session` — Run session commands and review the result.
+- `soundcraft-mix-session` — Start a session, inspect the tracks and bounce the mix.
+- `soundcraft-import-and-save` — Import audio onto the session and save it.
+- `soundcraft-edit-session` — Run session commands and review the result.

@@ -54,6 +54,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `photocraft-edit_image` — Open an image, inspect it, run engine commands and save the result.
-- `photocraft-export_document` — Export the active document or its layers to files.
-- `photocraft-inspect_session` — Survey the open documents of the running session.
+- `photocraft-edit-image` — Open an image, inspect it, run engine commands and save the result.
+- `photocraft-export-document` — Export the active document or its layers to files.
+- `photocraft-inspect-session` — Survey the open documents of the running session.

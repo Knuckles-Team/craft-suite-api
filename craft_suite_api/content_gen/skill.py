@@ -76,9 +76,9 @@ def render_skill(source: AppSource, snapshot: ToolSnapshot) -> str:
         lines += ["", "## Functionalities", ""]
         for func in source.functionalities:
             lines.append(
-                f"- `{app}-{func.name}` — {func.description}"
+                f"- `{app}-{func.name.replace('_', '-')}` — {func.description}"
                 if func.description
-                else f"- `{app}-{func.name}`"
+                else f"- `{app}-{func.name.replace('_', '-')}`"
             )
     lines.append("")
     return "\n".join(lines)

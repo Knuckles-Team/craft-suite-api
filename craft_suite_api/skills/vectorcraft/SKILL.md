@@ -61,6 +61,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `vectorcraft-create_illustration` — Draw shapes and paths, paint them and save the document.
-- `vectorcraft-edit_selection` — Combine, transform and undo edits on the selection.
-- `vectorcraft-export_artwork` — Export the document and check the rendered result.
+- `vectorcraft-create-illustration` — Draw shapes and paths, paint them and save the document.
+- `vectorcraft-edit-selection` — Combine, transform and undo edits on the selection.
+- `vectorcraft-export-artwork` — Export the document and check the rendered result.

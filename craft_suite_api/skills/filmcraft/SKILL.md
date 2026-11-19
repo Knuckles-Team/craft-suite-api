@@ -45,6 +45,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `filmcraft-import_and_sequence` — Import media and lay it into a sequence.
-- `filmcraft-trim_sequence` — Run timeline commands and check the rendered frame.
-- `filmcraft-inspect_project` — Read the project, sequence and document state.
+- `filmcraft-import-and-sequence` — Import media and lay it into a sequence.
+- `filmcraft-trim-sequence` — Run timeline commands and check the rendered frame.
+- `filmcraft-inspect-project` — Read the project, sequence and document state.

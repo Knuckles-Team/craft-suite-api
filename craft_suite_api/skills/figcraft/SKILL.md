@@ -47,6 +47,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `figcraft-create_figure` — Create layers, set their properties and save the document.
-- `figcraft-edit_layers` — Read, select and restyle layers of an open document.
-- `figcraft-batch_edits` — Apply several edits as one undo step and review them.
+- `figcraft-create-figure` — Create layers, set their properties and save the document.
+- `figcraft-edit-layers` — Read, select and restyle layers of an open document.
+- `figcraft-batch-edits` — Apply several edits as one undo step and review them.

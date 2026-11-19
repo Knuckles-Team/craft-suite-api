@@ -1,1 +1,1 @@
-scion-sdk[mcp]>=0.8.2,<0.9
+scion-sdk[mcp]>=0.11.1,<0.12

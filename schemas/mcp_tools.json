@@ -1,5 +1,5 @@
 {
-  "algorithm": "agent-connector-sdk:mcp-tool-contract-compat:v2",
+  "algorithm": "scion-sdk:mcp-tool-contract-compat:v2",
   "tools": {
     "craft_suite_get_folder_handler": {
       "compatibility_sha256": "a0ba248dbd186baaecefed03000a9f7572eaca382487c86234c67e76014fec6f",

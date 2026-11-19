@@ -1,4 +1,5 @@
-@prefix : <http://knuckles.team/kg#> .
+@prefix : <https://knuckles-team.github.io/ontology/connector/craft-common#> .
+@prefix core: <https://knuckles-team.github.io/ontology/core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -11,17 +12,17 @@
 :App a owl:Class ;
     rdfs:label "ArtCraft App" ;
     rdfs:comment "One ArtCraft suite application served as an upstream MCP server." ;
-    rdfs:subClassOf :Application .
+    rdfs:subClassOf core:Application .
 
 :AppTool a owl:Class ;
     rdfs:label "ArtCraft App Tool" ;
     rdfs:comment "One tool exposed by an ArtCraft app on its MCP surface." ;
-    rdfs:subClassOf :Tool .
+    rdfs:subClassOf core:Tool .
 
 :UseCase a owl:Class ;
     rdfs:label "ArtCraft Use Case" ;
     rdfs:comment "An authored task of an ArtCraft app, walking an ordered set of app tools." ;
-    rdfs:subClassOf :Task .
+    rdfs:subClassOf core:Task .
 
 :ofApp a owl:ObjectProperty ;
     rdfs:label "of app" ;
@@ -53,7 +54,7 @@
     rdfs:domain :App ;
     rdfs:range xsd:string .
 
-<http://knuckles.team/kg/artcraft> a owl:Ontology ;
+<https://knuckles-team.github.io/ontology/connector/craft-common> a owl:Ontology ;
     rdfs:label "ArtCraft Ontology" ;
     rdfs:comment "ArtCraft suite pack classes federated into the KG hub." .
 
