@@ -24,10 +24,12 @@ green.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import importlib
 import importlib.metadata
 import io
 import json
+import os
 import shutil
 import signal
 import subprocess
@@ -193,6 +195,26 @@ async def _wait_for_engine(process: subprocess.Popen, socket_path: Path) -> obje
     raise AssertionError("the loopback engine did not serve its socket in time")
 
 
+async def _sparql_once_projected(client: object, query: str) -> list[dict[str, object]]:
+    """Run ``query`` once the imported pack's graph projection is visible.
+
+    An import commits at once, but the engine projects the pack's ontology
+    asynchronously; until it applies, a read that requires the pack abstains
+    with ``PACK_NOT_IMPORTED``.
+    """
+    from medulla.client import EngineResponseError
+
+    deadline = time.monotonic() + 120.0
+    while True:
+        try:
+            return await client.rdf.sparql(query, requires_packs=[CONNECTOR])
+        except EngineResponseError as error:
+            if "PACK_NOT_IMPORTED" not in str(error):
+                raise
+            assert time.monotonic() < deadline, str(error)
+            await asyncio.sleep(0.5)
+
+
 async def _served_import(engine_path: str, pack: object, tmp_path: Path) -> None:
     """The served ConnectorPack.Import plus the two class queries of R008."""
     from medulla.generated._shared import (
@@ -212,18 +234,29 @@ async def _served_import(engine_path: str, pack: object, tmp_path: Path) -> None
             str(socket_path),
             "--persist-dir",
             str(persist_dir),
+            "--auth-mode",
+            "none",
         ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         start_new_session=True,
+        # The no-auth engine verifies every request as ``anonymous``; bind
+        # that principal as this connector's pack importer.
+        env={
+            **os.environ,
+            "MEDULLA_CONNECTOR_PACK_IMPORTERS": f"{CONNECTOR}=principal:sha256:"
+            + hashlib.sha256(b"anonymous").hexdigest(),
+        },
     )
     client = None
     try:
         client = await _wait_for_engine(process, socket_path)
 
         zero_digest = "0" * 64
-        principal = "phase3:person"
-        tenant = "phase3:tenant"
+        principal = "anonymous"
+        # The no-auth loopback engine verifies every request as its isolated
+        # ``local`` tenant; the pack context must name that tenant.
+        tenant = "local"
 
         async def authority(_connector: str) -> tuple[object, object]:
             """One deterministic loopback authority for the import."""
@@ -267,11 +300,12 @@ async def _served_import(engine_path: str, pack: object, tmp_path: Path) -> None
 
         # The class queries over the served graph reach the new subclasses.
         for parent, child in (("Application", "App"), ("Task", "UseCase")):
-            rows = await client.rdf.sparql(
+            rows = await _sparql_once_projected(
+                client,
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-                f"SELECT DISTINCT ?child WHERE {{ ?child rdfs:subClassOf <{KG}{parent}> }}"
+                f"SELECT DISTINCT ?child WHERE {{ ?child rdfs:subClassOf <{KG}{parent}> }}",
             )
-            assert f"{KG}{child}" in {row["child"] for row in rows}
+            assert f"{CONNECTOR_NS}{child}" in {row["child"] for row in rows}
     finally:
         if client is not None:
             await client.close()

@@ -16,8 +16,10 @@ with a clear reason: the in-process native engine exposes no
 
 from __future__ import annotations
 
+import hashlib
 import importlib
 import importlib.metadata
+import os
 import shutil
 import signal
 import subprocess
@@ -28,6 +30,8 @@ from typing import Any
 
 import pytest
 
+from craft_suite_api.upstreams import APPS
+
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008")
 
 #: The packaged connector's fleet name and ontology namespace.
@@ -35,9 +39,17 @@ CONNECTOR = "craft-suite-api"
 KG = "https://knuckles-team.github.io/ontology/core#"
 CONNECTOR_NS = "https://knuckles-team.github.io/ontology/connector/craft-common#"
 
-#: One loopback tenant/principal for the import authority.
-TENANT = "phase4:tenant"
-PRINCIPAL = "phase4:person"
+#: The import authority's tenant. The loopback engine runs in explicit
+#: no-auth mode, whose verified request tenant is its isolated ``local``
+#: namespace; the engine refuses a pack whose context names another tenant.
+TENANT = "local"
+#: The principal the no-auth engine verifies every request as; the engine
+#: authorizes a pack import only for the connector's bound importer.
+PRINCIPAL = "anonymous"
+#: The deployment's importer binding for this connector, by persistence id.
+IMPORTERS = (
+    f"{CONNECTOR}=principal:sha256:" + hashlib.sha256(PRINCIPAL.encode()).hexdigest()
+)
 
 #: The two class queries of the spec row: each core class must reach the
 #: pack's new subclass.
@@ -105,10 +117,19 @@ async def loopback_engine(tmp_path):
     persist_dir = tmp_path / "persist"
     persist_dir.mkdir()
     process = subprocess.Popen(
-        [binary, "--socket-path", str(socket_path), "--persist-dir", str(persist_dir)],
+        [
+            binary,
+            "--socket-path",
+            str(socket_path),
+            "--persist-dir",
+            str(persist_dir),
+            "--auth-mode",
+            "none",
+        ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         start_new_session=True,
+        env={**os.environ, "MEDULLA_CONNECTOR_PACK_IMPORTERS": IMPORTERS},
     )
     client = None
     try:
@@ -178,18 +199,47 @@ async def _import_served(client: Any, pack: Any) -> Any:
     return await sink.import_pack(pack)
 
 
+async def _sparql_once_projected(client: Any, query: str) -> list[dict[str, Any]]:
+    """Run ``query`` once the imported pack's graph projection is visible.
+
+    An import commits at once, but the engine projects the pack's ontology
+    asynchronously; until it applies, a read that requires the pack abstains
+    with ``PACK_NOT_IMPORTED``.
+    """
+    import asyncio
+
+    from medulla.client import EngineResponseError
+
+    deadline = time.monotonic() + 120.0
+    while True:
+        try:
+            return await client.rdf.sparql(query, requires_packs=[CONNECTOR])
+        except EngineResponseError as error:
+            if "PACK_NOT_IMPORTED" not in str(error):
+                raise
+            assert time.monotonic() < deadline, str(error)
+            await asyncio.sleep(0.5)
+
+
 async def test_pack_imports_without_orphans_and_class_query_reaches_subclasses(
     loopback_engine,
 ) -> None:
     """T-008: the receipt holds no ontology warning; the class queries reach the subclasses."""
     pack = await _pack()
 
-    # The pack holds the core ontology, the eleven app ontologies, the
-    # twelve skills and the prompts of the packaged content.
+    # The pack holds the core ontology, one ontology per app, the two
+    # workflow modules and the SDK-derived contracts ontology; the starter
+    # skill, one skill per app and one per proven workflow; and the prompts.
+    package = Path(importlib.import_module("craft_suite_api").__file__).parent
+    workflow_skills = [
+        path
+        for path in (package / "skills").glob("*-*/SKILL.md")
+        if path.parent.name != "artcraft-starter"
+    ]
     kinds = Counter(entry.kind.value for entry in pack.archive.entries)
-    assert kinds["ontology"] == 12
-    assert kinds["skill"] == 12
-    assert kinds["prompt"] >= 11
+    assert kinds["ontology"] == 1 + len(APPS) + 2 + 1
+    assert kinds["skill"] == 1 + len(APPS) + len(workflow_skills)
+    assert kinds["prompt"] >= len(APPS)
 
     result = await _import_served(loopback_engine, pack)
 
@@ -210,9 +260,10 @@ async def test_pack_imports_without_orphans_and_class_query_reaches_subclasses(
     # The class queries over the served graph reach the new subclasses.
     rows_by_parent = {}
     for parent, child in CLASS_QUERIES:
-        rows = await loopback_engine.rdf.sparql(
+        rows = await _sparql_once_projected(
+            loopback_engine,
             "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-            f"SELECT DISTINCT ?child WHERE {{ ?child rdfs:subClassOf <{KG}{parent}> }}"
+            f"SELECT DISTINCT ?child WHERE {{ ?child rdfs:subClassOf <{KG}{parent}> }}",
         )
         rows_by_parent[parent] = {row["child"] for row in rows}
-        assert f"{KG}{child}" in rows_by_parent[parent]
+        assert f"{CONNECTOR_NS}{child}" in rows_by_parent[parent]
