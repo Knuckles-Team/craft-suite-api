@@ -45,6 +45,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `wordcraft-write_document` — Start a document, type content and save it.
-- `wordcraft-format_document` — Inspect the document structure and apply formatting commands.
-- `wordcraft-open_and_review` — Open an existing document, read its text and save changes.
+- `wordcraft-write-document` — Start a document, type content and save it.
+- `wordcraft-format-document` — Inspect the document structure and apply formatting commands.
+- `wordcraft-open-and-review` — Open an existing document, read its text and save changes.

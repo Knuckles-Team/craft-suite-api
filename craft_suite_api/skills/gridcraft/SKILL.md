@@ -50,6 +50,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `gridcraft-edit_workbook` — Open or start a workbook, write ranges and save it.
-- `gridcraft-analyse_data` — Read ranges, evaluate formulas and add tables and charts.
-- `gridcraft-run_commands` — Look up engine commands and spreadsheet functions and run commands.
+- `gridcraft-edit-workbook` — Open or start a workbook, write ranges and save it.
+- `gridcraft-analyse-data` — Read ranges, evaluate formulas and add tables and charts.
+- `gridcraft-run-commands` — Look up engine commands and spreadsheet functions and run commands.

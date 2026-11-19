@@ -40,6 +40,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `cadcraft-create_drawing` — Start a drawing, run drafting commands and render it.
-- `cadcraft-query_drawing` — Inspect a drawing and query its entities and texts.
-- `cadcraft-script_drawing` — Drive the command line with a script and save the result.
+- `cadcraft-create-drawing` — Start a drawing, run drafting commands and render it.
+- `cadcraft-query-drawing` — Inspect a drawing and query its entities and texts.
+- `cadcraft-script-drawing` — Drive the command line with a script and save the result.

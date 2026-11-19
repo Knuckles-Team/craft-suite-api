@@ -428,6 +428,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `lightcraft-develop_photo` — Import a photo, adjust its develop settings and export it.
-- `lightcraft-query_library` — Find and select photos in the library.
-- `lightcraft-run_commands` — Look up engine commands and run them.
+- `lightcraft-develop-photo` — Import a photo, adjust its develop settings and export it.
+- `lightcraft-query-library` — Find and select photos in the library.
+- `lightcraft-run-commands` — Look up engine commands and run them.

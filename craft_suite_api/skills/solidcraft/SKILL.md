@@ -49,6 +49,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `solidcraft-model_body` — Start a design, run modeling commands and look at the result.
-- `solidcraft-parameterize_design` — Add parameters to a design and verify their effect.
-- `solidcraft-export_model` — Measure a design and export its bodies.
+- `solidcraft-model-body` — Start a design, run modeling commands and look at the result.
+- `solidcraft-parameterize-design` — Add parameters to a design and verify their effect.
+- `solidcraft-export-model` — Measure a design and export its bodies.

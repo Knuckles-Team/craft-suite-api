@@ -212,9 +212,9 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `pdfcraft-edit_pdf` — Inspect a PDF, run engine commands on it and check the render.
-- `pdfcraft-fill_form` — Detect, fill and reset the fields of a PDF form.
-- `pdfcraft-redact_document` — Mark, apply and audit redactions in a document.
-- `pdfcraft-extract_content` — Extract text and pages from a document.
-- `pdfcraft-add_bookmarks` — Build and adjust the bookmark outline of a document.
-- `pdfcraft-recognize_scans` — Run OCR on scanned pages and read the recognized text.
+- `pdfcraft-edit-pdf` — Inspect a PDF, run engine commands on it and check the render.
+- `pdfcraft-fill-form` — Detect, fill and reset the fields of a PDF form.
+- `pdfcraft-redact-document` — Mark, apply and audit redactions in a document.
+- `pdfcraft-extract-content` — Extract text and pages from a document.
+- `pdfcraft-add-bookmarks` — Build and adjust the bookmark outline of a document.
+- `pdfcraft-recognize-scans` — Run OCR on scanned pages and read the recognized text.

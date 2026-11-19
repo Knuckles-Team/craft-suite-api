@@ -50,7 +50,7 @@ def test_prompt_per_functionality_names_only_snapshot_tools() -> None:
         # One prompt per functionality, named <app>-<functionality>.json.
         assert len(rendered) == len(source.functionalities)
         for func in source.functionalities:
-            name = f"{app}-{func.name}.json"
+            name = f"{app}-{func.name.replace('_', '-')}.json"
             assert name in rendered
             prompt = json.loads(rendered[name])
 

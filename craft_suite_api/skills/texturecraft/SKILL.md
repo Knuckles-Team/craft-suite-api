@@ -50,6 +50,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `texturecraft-paint_mesh` — Start a project from a mesh, bake its maps and paint it.
-- `texturecraft-export_textures` — Open a project, render the viewport and export the textures.
-- `texturecraft-run_commands` — Look up engine commands and run them, alone or in a batch.
+- `texturecraft-paint-mesh` — Start a project from a mesh, bake its maps and paint it.
+- `texturecraft-export-textures` — Open a project, render the viewport and export the textures.
+- `texturecraft-run-commands` — Look up engine commands and run them, alone or in a batch.

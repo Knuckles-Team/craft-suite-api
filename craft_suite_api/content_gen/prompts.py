@@ -1,7 +1,7 @@
 """Render the prompt packs of one app (CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R005).
 
 A pure function to JSON text, one prompt per functionality, reusing the key
-set of ``artcraft_specialist.json`` plus ``requires_namespace``. Each prompt
+set of ``artcraft-specialist.json`` plus ``requires_namespace``. Each prompt
 tells the model to activate the namespace first and names only tools the
 snapshot lists.
 """
@@ -56,7 +56,7 @@ def _prompt(
         "Report a refusal payload when a tool refuses; never retry past a refusal."
     )
     return {
-        "task": f"{app}-{functionality.name}",
+        "task": f"{app}-{functionality.name}".replace("_", "-"),
         "type": "prompt",
         "schema_version": "1.0",
         "prompt_version": "0.1.0",
@@ -106,7 +106,7 @@ def render_prompts(source: AppSource, snapshot: ToolSnapshot) -> Mapping[str, st
     rendered: dict[str, str] = {}
     for functionality in source.functionalities:
         _check_tools(source.app, functionality.tools, snapshot)
-        name = f"{source.app}-{functionality.name}.json"
+        name = f"{source.app}-{functionality.name}.json".replace("_", "-")
         rendered[name] = (
             json.dumps(
                 _prompt(source, functionality, snapshot),

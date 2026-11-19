@@ -53,6 +53,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `deckcraft-build_deck` — Start a presentation, add slides and text, then save.
-- `deckcraft-insert_content` — Add shapes, charts and tables to the current slide.
-- `deckcraft-export_deck` — Render a slide, check it, and export the deck.
+- `deckcraft-build-deck` — Start a presentation, add slides and text, then save.
+- `deckcraft-insert-content` — Add shapes, charts and tables to the current slide.
+- `deckcraft-export-deck` — Render a slide, check it, and export the deck.

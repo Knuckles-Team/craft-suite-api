@@ -47,6 +47,6 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 
 ## Functionalities
 
-- `materialcraft-build_material` — Start a graph, add and connect nodes and set parameters.
-- `materialcraft-export_material` — Open a package, render the material and export its outputs.
-- `materialcraft-run_commands` — Look up engine commands and run them, alone or in a batch.
+- `materialcraft-build-material` — Start a graph, add and connect nodes and set parameters.
+- `materialcraft-export-material` — Open a package, render the material and export its outputs.
+- `materialcraft-run-commands` — Look up engine commands and run them, alone or in a batch.
