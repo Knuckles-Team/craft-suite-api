@@ -6,7 +6,7 @@
   "prompt_version": "1.0.0",
   "source": "craft-suite-api",
   "description": "Cuts short promotional videos from the business's clips: trims, titles and exports MP4s for social and web.",
-  "ontology_class": "http://knuckles.team/kg/artcraft/workflows#role_promo_video_editor",
+  "ontology_class": "https://knuckles-team.github.io/ontology/connector/craft-suite-api/workflows#role_promo_video_editor",
   "metadata": {
     "topic": "ArtCraft",
     "tone": "practical and precise",

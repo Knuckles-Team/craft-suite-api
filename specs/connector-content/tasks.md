@@ -16,3 +16,4 @@ Each task line reads `- [ ] T001 [P] [US1] <ID>-R012.4 description`. Order is pr
 - [ ] T010 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010 The component lifecycle is described in the ontology by reuse (rollup).
 - [ ] T011 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1 Apps and the backend point at the SDK lifecycle classes and declare none.
 - [ ] T012 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2 Skills and prompts state how to read an app that is not ready.
+- [x] T013 [US1] CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011 Pack extends only the core ontology.

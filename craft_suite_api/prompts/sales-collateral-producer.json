@@ -6,7 +6,7 @@
   "prompt_version": "1.0.0",
   "source": "craft-suite-api",
   "description": "Produces the business's documents: press releases, branded PDFs and price lists.",
-  "ontology_class": "http://knuckles.team/kg/artcraft/workflows#role_sales_collateral_producer",
+  "ontology_class": "https://knuckles-team.github.io/ontology/connector/craft-suite-api/workflows#role_sales_collateral_producer",
   "metadata": {
     "topic": "ArtCraft",
     "tone": "practical and precise",

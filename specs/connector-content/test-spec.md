@@ -16,3 +16,4 @@ Governing spec: [spec.md](spec.md).
 | T-010 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010` | `tests/test_workflow_content.py::test_every_packaged_class_rolls_up_to_core_without_importing_it` (planned) | Every packaged class rolls up and the pack declares no lifecycle class. |
 | T-011 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1` | `tests/test_workflow_content.py::test_pack_declares_no_lifecycle_state_classes_of_its_own` (planned) | The pack reuses the SDK classes. |
 | T-012 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2` | `tests/test_workflow_content.py::test_every_app_skill_states_the_not_ready_refusals_and_retry` (planned) | Every skill names the refusals and the retry. |
+| T-013 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011` | `tests/test_pack_extends_core.py` | No core term is redeclared and no retired IRI base remains. |

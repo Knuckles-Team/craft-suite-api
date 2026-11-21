@@ -6,7 +6,7 @@
   "prompt_version": "1.0.0",
   "source": "craft-suite-api",
   "description": "Operates the whole ArtCraft suite through the craft-suite-api connector: routes each creative request to the right app and proven workflow, runs it and reports the published files.",
-  "ontology_class": "http://knuckles.team/kg/artcraft/workflows#role_craft_suite_operator",
+  "ontology_class": "https://knuckles-team.github.io/ontology/connector/craft-suite-api/workflows#role_craft_suite_operator",
   "metadata": {
     "topic": "ArtCraft",
     "tone": "practical and precise",

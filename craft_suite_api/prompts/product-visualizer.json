@@ -6,7 +6,7 @@
   "prompt_version": "1.0.0",
   "source": "craft-suite-api",
   "description": "Models, draws and textures the business's products: 3-D models, dimensioned drawings, materials and textured renders.",
-  "ontology_class": "http://knuckles.team/kg/artcraft/workflows#role_product_visualizer",
+  "ontology_class": "https://knuckles-team.github.io/ontology/connector/craft-suite-api/workflows#role_product_visualizer",
   "metadata": {
     "topic": "ArtCraft",
     "tone": "practical and precise",

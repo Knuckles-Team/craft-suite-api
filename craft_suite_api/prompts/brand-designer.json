@@ -6,7 +6,7 @@
   "prompt_version": "1.0.0",
   "source": "craft-suite-api",
   "description": "Designs brand graphics: logos, social tiles and layouts in the brand's colours and type.",
-  "ontology_class": "http://knuckles.team/kg/artcraft/workflows#role_brand_designer",
+  "ontology_class": "https://knuckles-team.github.io/ontology/connector/craft-suite-api/workflows#role_brand_designer",
   "metadata": {
     "topic": "ArtCraft",
     "tone": "practical and precise",
