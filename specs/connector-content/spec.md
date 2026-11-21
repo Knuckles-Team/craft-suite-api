@@ -34,12 +34,14 @@ A maintainer updates an app and sees what changed.
 
 1. **Given** a changed tool schema, **When** the live gate runs, **Then** it names the changed tool (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007`).
 2. **Given** an edited generated file, **When** CI runs the offline gate, **Then** it fails with the file name (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R007`).
+7. **Given** the connector is configured, **When** the behaviour of row `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011` (pack extends only the core ontology) is exercised, **Then** no core class or property is redeclared and no retired IRI base remains. Test: `tests/test_pack_extends_core.py::test_pack_declares_no_core_term`.
 
 ### Edge Cases
 
 - A functionality names a tool that the snapshot lacks: generation fails (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R005`).
 - A snapshot tool belongs to no functionality: the report lists it and the skill table still shows it (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R005`).
 - An app has a source file and no snapshot: generation fails (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006`).
+- If `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011` is not met, its proving test fails: pack extends only the core ontology.
 
 ## Requirements
 
@@ -53,6 +55,7 @@ A maintainer updates an app and sees what changed.
 - **FR-008**: Prove the pack imports cleanly. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
 - **FR-009**: Ship the proven business workflows as skills, agent prompts and ontology contracts. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
 - **FR-010**: The component lifecycle is described in the ontology by reuse (rollup). Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2`.
+- **FR-011**: Pack extends only the core ontology. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011`.
 
 ## Success Criteria
 
@@ -60,6 +63,7 @@ A maintainer updates an app and sees what changed.
 - **SC-002**: The pack import reports no orphan class. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
 - **SC-004**: Every packaged ontology class reaches `bfo:Entity` through the core, and every agent prompt names only skills and tools its ontology links. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
 - **SC-003**: Two generator runs give identical bytes. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006`.
+- **SC-011**: No pack term redeclares a core term and no retired IRI base remains. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011`.
 
 ## Assumptions
 
@@ -84,3 +88,4 @@ In scope: the rows of [requirements.md](requirements.md). The upstream registry 
 | FR-008 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008` | [plan.md](plan.md) | T-008 | [test-spec.md](test-spec.md) |
 | FR-009 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009` | [plan.md](plan.md) | T-009 | [test-spec.md](test-spec.md) |
 | FR-010 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2` | [plan.md](plan.md) | T-010 | [test-spec.md](test-spec.md) |
+| FR-011 | `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R011` | [plan.md](plan.md) | T-013 | [test-spec.md](test-spec.md) |

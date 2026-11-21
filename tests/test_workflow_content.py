@@ -22,8 +22,10 @@ from rdflib import OWL, RDF, RDFS, URIRef
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009")
 
 PACKAGE = Path(list(importlib.import_module("craft_suite_api").__path__)[0])
-KG = "http://knuckles.team/kg#"
-CORE_IRI = URIRef("http://knuckles.team/kg/core")
+KG = "https://knuckles-team.github.io/ontology/connector/craft-suite-api#"
+CORE_IRI = URIRef(
+    "https://knuckles-team.github.io/ontology/connector/craft-suite-api/core"
+)
 BFO_ENTITY = URIRef("http://purl.obolibrary.org/obo/BFO_0000001")
 TOOL_NAME = re.compile(r"^[a-z]+craft_[A-Za-z0-9_]+$|^craft_suite_[A-Za-z0-9_]+$")
 
@@ -167,7 +169,11 @@ def test_pack_declares_no_lifecycle_state_classes_of_its_own() -> None:
         "lifecycle",
     ):
         assert not any(word in n for n in names), word
-    assert (URIRef(KG + "lifecycleState"), RDF.type, OWL.ObjectProperty) in pack
+    assert (
+        URIRef("https://knuckles-team.github.io/ontology/core#lifecycleState"),
+        RDF.type,
+        OWL.ObjectProperty,
+    ) not in pack
     assert (None, OWL.imports, CORE_IRI) not in pack
 
 

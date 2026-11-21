@@ -19,12 +19,18 @@ from craft_suite_api.content_gen.sources import (
     ToolSnapshot,
 )
 
-_KG = "http://knuckles.team/kg"
-_CORE_IRI = f"{_KG}/artcraft"
+_KG = "https://knuckles-team.github.io/ontology/connector/craft-suite-api"
+_CORE_IRI = _KG
+_PACK_PARENTS = frozenset({"App", "AppTool"})
 
 
 def _iri(app: str) -> str:
-    return f"{_KG}/artcraft/{app}"
+    return f"{_KG}/{app}"
+
+
+def _parent_ref(parent: str) -> str:
+    """The prefixed name of a parent: pack classes use ``:``, core classes ``core:``."""
+    return f"{':' if parent in _PACK_PARENTS else 'core:'}{parent}"
 
 
 def _tool_ref(app: str, tool: str) -> str:
@@ -46,7 +52,8 @@ def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
     """The Turtle text of ``artcraft-<app>.ttl`` for one app."""
     app = source.app
     lines = [
-        "@prefix : <http://knuckles.team/kg#> .",
+        "@prefix core: <https://knuckles-team.github.io/ontology/core#> .",
+        f"@prefix : <{_KG}#> .",
         f"@prefix app: <{_iri(app)}#> .",
         "@prefix owl: <http://www.w3.org/2002/07/owl#> .",
         "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .",
@@ -71,7 +78,7 @@ def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
         lines.append(f'    rdfs:label "{cls.name}" ;')
         if cls.description:
             lines.append(f'    rdfs:comment "{cls.description}" ;')
-        lines.append(f"    rdfs:subClassOf :{cls.parent} .")
+        lines.append(f"    rdfs:subClassOf {_parent_ref(cls.parent)} .")
         lines.append("")
     for func in source.functionalities:
         _check_tools(app, func.tools, snapshot)
