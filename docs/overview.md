@@ -5,16 +5,27 @@
 
 ## Description
 
-ArtCraft backend API connector and MCP server
+MCP connector for the ArtCraft suite: every operation of the ArtCraft backend
+API served as one typed tool, and the suite's nineteen desktop apps served as
+lazily activated MCP upstreams, each with its own content tier (skill,
+ontology and per-functionality prompts).
 
 ## Architecture
 
-This project follows the standardized agent-package pattern:
-
-- **Modular Design**: split into `api/` (client mixins) and `mcp/` (action-routed
-  tool modules) for cleaner organization.
-- **Dynamic Tool Registration**: action-routed dynamic tool tags, strictly
-  lowercase, each togglable with a `*TOOL` environment flag.
+- **Backend tools**: one typed tool per backend operation
+  (`craft_suite_<operationId>`), generated from the backend's published API
+  description; reads are annotated read-only, writes pass the operator switch
+  and a confirmation.
+- **App upstreams**: the nineteen app CLIs as pooled stdio children behind the
+  SDK's upstream registry; a namespace activates on demand and its tools are
+  served as `<namespace>_<tool>` (one app, `craft-anything`, is served under
+  the hyphen-free namespace `craftanything`).
+- **Command tools**: every app engine command its own tool
+  (`<app>_cmd_<command>`), warmed per app at server start.
+- **Content tier**: per-app ontology modules, skills and prompts packaged
+  with the connector and checked for drift offline.
+- **Lifecycle**: one state machine per component (backend, per app) that the
+  `/ready` probe serves: warming, ready, degraded, backoff, unconfigured.
 
 ## Concept Registry
 

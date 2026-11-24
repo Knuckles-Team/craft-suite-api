@@ -102,11 +102,12 @@ class Dispatch:
     ``id_arg``/``params_arg`` are the run tool's argument names. ``list_args``
     asks the listing for the richest form the app offers. An app whose own
     MCP already serves one tool per command has ``generate=False``: only its
-    dispatch tools are hidden.
+    dispatch tools are hidden. An app whose MCP serves typed tools with no
+    dispatch pair names no ``run_tool`` and hides nothing.
     """
 
     list_tool: str
-    run_tool: str
+    run_tool: str | None = None
     id_arg: str = "id"
     params_arg: str = "params"
     list_args: dict[str, Any] = field(default_factory=dict)
@@ -115,6 +116,8 @@ class Dispatch:
 
     @property
     def dispatch_tools(self) -> tuple[str, ...]:
+        if self.run_tool is None:
+            return self.hidden
         return (self.run_tool, *self.hidden)
 
 
@@ -145,6 +148,14 @@ DISPATCH: dict[str, Dispatch] = {
     ),
     "materialcraft": _ID,
     "texturecraft": _ID,
+    # anicraft's own MCP tools already carry the app prefix, so the
+    # namespaced dispatch names are doubled (anicraft_anicraft_run).
+    "anicraft": Dispatch("anicraft_commands", "anicraft_run", id_arg="command"),
+    # craft-anything serves typed tools (its Essentials plus toolset-managed
+    # groups) with no command registry behind a dispatch pair: no command
+    # tools are generated and no tool is hidden.
+    "craft-anything": Dispatch("list_toolsets", generate=False),
+    "mailcraft": Dispatch("list_commands", "execute", id_arg="command"),
 }
 
 # figcraft lists text lines: ``id[*] — label {params}`` (``*`` = undoable).

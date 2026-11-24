@@ -35,12 +35,22 @@ class Functionality:
 
 @dataclass(frozen=True)
 class AppSource:
-    """The authored half of an app's content: ``content/apps/<app>.yml``."""
+    """The authored half of an app's content: ``content/apps/<app>.yml``.
+
+    ``namespace`` is the served namespace the tool names carry; it defaults
+    to the app name, which every app's own name serves as.
+    """
 
     app: str
     summary: str
     classes: tuple[AppClass, ...]
     functionalities: tuple[Functionality, ...]
+    namespace: str | None = None
+
+    @property
+    def served_namespace(self) -> str:
+        """The namespace the generated content names in tool references."""
+        return self.namespace or self.app
 
 
 @dataclass(frozen=True)
@@ -94,6 +104,7 @@ def load_app_source(path: Path) -> AppSource:
         summary=str(document.get("summary", "")).strip(),
         classes=classes,
         functionalities=functionalities,
+        namespace=str(document["namespace"]) if document.get("namespace") else None,
     )
 
 

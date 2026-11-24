@@ -1,0 +1,1276 @@
+{
+  "app": "craft-anything",
+  "version": "0.6.1",
+  "tools": [
+    {
+      "name": "assets_image_generate",
+      "description": "Make a picture with fal.ai (Nano Banana Pro) and save it as a PNG inside app/: a texture, a sky or background, an icon, a title screen or concept art. shape: square (1024x1024, default), wide (1024x576) or tall (576x1024). Costs about $0.15, counted against the project's asset budget. Describe original designs in the original's style; never ask for recognisable characters, logos or brand artwork. Returns where it was saved, the cost and the budget left.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "prompt": {
+            "description": "What to draw, in detail (subject, style, colours, lighting).",
+            "type": "string"
+          },
+          "save_as": {
+            "description": "Where to save it, relative to app/, ending in .png (e.g. Assets/Textures/crate.png).",
+            "type": "string"
+          },
+          "shape": {
+            "default": null,
+            "description": "square (default), wide or tall.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "prompt",
+          "save_as"
+        ],
+        "title": "ImageParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "assets_model_generate",
+      "description": "Make a game-ready, low-poly 3D model (GLB) with fal.ai (Tripo P1) and save it inside app/. Give a prompt (a picture is made first, then turned into the model) or an image (a web address, or a picture inside the project such as reference/picture-1.png). faces caps the face count (48 to 20000, default 3000): about 500-1500 for small props and pickups, 2000-5000 for weapons, furniture and vehicles, 6000-15000 for main characters; fewer faces run faster, so use the fewest that still look right. textured (default true) gives colours and surfaces. A textured model costs $0.50 plus $0.15 for the picture, counted against the project's asset budget; it takes a minute or two. Describe one original object per model; never ask for recognisable characters, logos or brand artwork. Returns where it was saved, the cost and the budget left.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "faces": {
+            "default": null,
+            "description": "Most faces the model may have, 48 to 20000 (default 3000). Fewer faces run faster.",
+            "format": "uint32",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "image": {
+            "default": "",
+            "description": "A picture to turn into the model: a web address, or a picture inside the project.",
+            "type": "string"
+          },
+          "prompt": {
+            "default": "",
+            "description": "What to make: one object, described in detail. Used when no image is given.",
+            "type": "string"
+          },
+          "save_as": {
+            "description": "Where to save it, relative to app/, ending in .glb (e.g. Assets/Models/crate.glb).",
+            "type": "string"
+          },
+          "textured": {
+            "default": null,
+            "description": "Colours and surfaces (default true); false makes a plain grey model for $0.40 instead of $0.50.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "save_as"
+        ],
+        "title": "ModelParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_action_approve",
+      "description": "Permission check for a coding agent's action (tool name and input). Edits inside the workspace's app folder and common build commands are allowed; dev servers are refused with a hint; anything else asks the person. Returns {behavior: allow, updatedInput} or {behavior: deny, message}.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "description": "The shape coding agents send for a permission check.",
+        "properties": {
+          "input": {
+            "default": null,
+            "description": "The tool's input, passed back unchanged when allowed."
+          },
+          "tool_name": {
+            "description": "The agent's tool, e.g. `Bash`, `Write`, `WebFetch`.",
+            "type": "string"
+          },
+          "tool_use_id": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "tool_name"
+        ],
+        "title": "ApproveParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_brief_write",
+      "description": "Set the investigation brief: the question, purpose, targets, constraints and what 'done' means. Write it before the first analysis call on a new question.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "constraints": {
+            "default": [],
+            "description": "Constraints (clean room, no running the target, time budget\u2026).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "done_when": {
+            "default": null,
+            "description": "What a finished answer looks like.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "purpose": {
+            "default": null,
+            "description": "Why the user is asking (interoperability, security review, learning\u2026).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "question": {
+            "description": "The question being answered, in one or two sentences.",
+            "type": "string"
+          },
+          "targets": {
+            "default": [],
+            "description": "Targets involved (paths, packages, URLs).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "BriefParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_evidence_browse",
+      "description": "View part of a stored (or inline) evidence record: the summary, one part, one row of a list, a page of a list's rows (optionally only the rows matching given field values, cut to chosen fields, with the field names listed), or a part of a function dossier (pseudocode, assembly, basic_blocks, callers, callees, flow_*\u2026), with coverage and next_offset. Nothing is analysed again.",
+      "input_schema": {
+        "$defs": {
+          "RecordSource": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "description": "Evidence already recorded in this session or project.",
+                "properties": {
+                  "evidence_id": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "const": "saved",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "evidence_id"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "description": "A full evidence record passed inline.",
+                "properties": {
+                  "evidence": true,
+                  "kind": {
+                    "const": "inline",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "evidence"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "Show": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "description": "The record without its result.",
+                "properties": {
+                  "kind": {
+                    "const": "summary",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "description": "One named part of the result (e.g. mitigations, linkage).",
+                "properties": {
+                  "kind": {
+                    "const": "part",
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "name"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "description": "One row of a list: by index, or the first whose name/address equals `pick`.",
+                "properties": {
+                  "kind": {
+                    "const": "row",
+                    "type": "string"
+                  },
+                  "list": {
+                    "type": "string"
+                  },
+                  "pick": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "list",
+                  "pick"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "description": "A page of a list (sections, symbols, functions\u2026).",
+                "properties": {
+                  "field_names": {
+                    "default": false,
+                    "description": "Also list the field names of the matching rows, to see what to match or pick.",
+                    "type": "boolean"
+                  },
+                  "fields": {
+                    "default": [],
+                    "description": "Return only these fields of each row (`a.b` reaches inside); a row without one leaves it out.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "kind": {
+                    "const": "rows",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 64,
+                    "format": "uint",
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "list": {
+                    "type": "string"
+                  },
+                  "matching": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "description": "Keep only the rows whose fields equal these values, e.g. `{\"kind\": \"require\", \"path\":\n[\"main.js\", \"preload.js\"]}`: every field must match, a list means any of its values,\n`a.b` reaches inside a row and null matches a field the row doesn't have.",
+                    "type": "object"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "description": "Counts matching rows when `matching` is given.",
+                    "format": "uint",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "list"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "description": "A part of a native function dossier (pseudocode, assembly, basic_blocks, callers, callees,\nincoming_references, outgoing_references, unresolved_calls, referenced_strings,\nreferenced_names, native_api, flow_summary, flow_nodes,\nflow_edges, flow_effects, flow_parameters, flow_parameter_uses,\ncomments, function). Text facets page by UTF-16 units.",
+                "properties": {
+                  "kind": {
+                    "const": "function-part",
+                    "type": "string"
+                  },
+                  "limit": {
+                    "default": 64,
+                    "format": "uint",
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "format": "uint",
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "name"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "show": {
+            "$ref": "#/$defs/Show",
+            "description": "What part of it to show."
+          },
+          "source": {
+            "$ref": "#/$defs/RecordSource",
+            "description": "Where the evidence comes from."
+          }
+        },
+        "required": [
+          "source",
+          "show"
+        ],
+        "title": "ShowParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_evidence_export",
+      "description": "Write every evidence record and unknown to a JSON bundle file.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "overwrite": {
+            "default": false,
+            "type": "boolean"
+          },
+          "path": {
+            "description": "Absolute path of the bundle file to write.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "title": "ExportParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_evidence_import",
+      "description": "Load a bundle written by core_evidence_export. Tampered records are rejected.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "description": "Absolute path of a bundle file.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "title": "ImportParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_evidence_show",
+      "description": "All evidence recorded in this session (detail=summary for a compact list; filter by operation or evidence_id).",
+      "input_schema": {
+        "$defs": {
+          "Detail": {
+            "enum": [
+              "complete",
+              "summary"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/Detail"
+          },
+          "evidence_id": {
+            "default": null,
+            "description": "Only this record.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operation": {
+            "default": null,
+            "description": "Only records produced by this operation.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "BundleParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_finding_edit",
+      "description": "Correct a recorded finding without changing its id. Requires a statement and existing evidence ids; pass based_on_revision to refuse a stale investigation update.",
+      "input_schema": {
+        "$defs": {
+          "ConfidenceParam": {
+            "enum": [
+              "observed",
+              "derived",
+              "inferred"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "based_on_revision": {
+            "default": null,
+            "description": "The investigation revision read before editing; a stale revision is refused.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConfidenceParam"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Omit to keep the finding's current confidence."
+          },
+          "evidence_ids": {
+            "description": "Evidence ids that establish the corrected answer (at least one).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "finding_id": {
+            "description": "An existing finding id from core_investigation_show.",
+            "type": "string"
+          },
+          "statement": {
+            "description": "The corrected settled answer.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding_id",
+          "statement",
+          "evidence_ids"
+        ],
+        "title": "EditFindingParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_finding_record",
+      "description": "Record a settled answer. Requires at least one evidence id; every id is checked against the ledger. Findings are the source for reports.",
+      "input_schema": {
+        "$defs": {
+          "ConfidenceParam": {
+            "enum": [
+              "observed",
+              "derived",
+              "inferred"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "$ref": "#/$defs/ConfidenceParam",
+            "description": "observed (read directly), derived (computed from observations) or inferred (best guess)."
+          },
+          "evidence_ids": {
+            "description": "Evidence ids that establish it (at least one).",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "statement": {
+            "description": "The settled answer, in one or two sentences.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "statement",
+          "evidence_ids"
+        ],
+        "title": "FindingParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_handoff_write",
+      "description": "Rewrite the handoff note: where we are, what's next, traps to avoid. Write it at the end of every turn so the next turn (or agent) resumes without re-deriving.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "description": "Where we are, what's next, and traps to avoid. Replaces the previous handoff.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "HandoffParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_hypothesis_record",
+      "description": "Record a claim being tested, ideally with the prediction that would confirm or refute it, plus any supporting/contradicting evidence ids.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "claim": {
+            "description": "The claim being tested.",
+            "type": "string"
+          },
+          "evidence_against": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "evidence_for": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "prediction": {
+            "default": null,
+            "description": "What we expect to observe if the claim is true.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "claim"
+        ],
+        "title": "HypothesisParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_hypothesis_update",
+      "description": "Change a hypothesis's status (testing/supported/refuted/abandoned) and attach supporting or contradicting evidence ids and notes.",
+      "input_schema": {
+        "$defs": {
+          "HypothesisStatus": {
+            "enum": [
+              "testing",
+              "supported",
+              "refuted",
+              "abandoned"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "add_contradicting_evidence_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "add_supporting_evidence_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "hypothesis_id": {
+            "type": "string"
+          },
+          "note": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/HypothesisStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "hypothesis_id"
+        ],
+        "title": "UpdateHypothesisParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_investigation_show",
+      "description": "The working memory of this investigation: brief, plan with step status, hypotheses, findings (with evidence ids) and the latest handoff. Read it first when starting or resuming.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_journal_read",
+      "description": "Page through the project's append-only journal (tool calls, model turns, consents, errors), filtered by day, kind or tool. Needs an open project.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "day": {
+            "default": null,
+            "description": "Day to read (`YYYY-MM-DD`); the latest day when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "default": null,
+            "description": "Only entries of this kind (`tool_call`, `model_turn`, `consent`, `user_message`, `error`\u2026).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "limit": {
+            "default": null,
+            "description": "At most 500; default 50.",
+            "format": "uint",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "offset": {
+            "default": 0,
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "tool": {
+            "default": null,
+            "description": "Only calls of this tool.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "JournalParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_person_ask",
+      "description": "Ask the person a question in the app and wait for the answer: a short question, up to six suggested answers shown as buttons, and optionally a typed reply. Use it when a choice changes the result (scope, style, which feature first) and you can't decide from the evidence. Returns the answer text, or a note to continue with your best judgement if nobody answers within 30 minutes.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "allow_text": {
+            "default": true,
+            "description": "Accept a typed answer too (default true).",
+            "type": "boolean"
+          },
+          "choices": {
+            "default": [],
+            "description": "Up to six short suggested answers, best first.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "context": {
+            "default": "",
+            "description": "One or two sentences of context shown under the question.",
+            "type": "string"
+          },
+          "question": {
+            "description": "The question, in plain words.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "AskParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_plan_update",
+      "description": "Replace the plan with a numbered list of steps, each todo/doing/done/blocked with a short why. Pass based_on_revision to avoid overwriting someone else's update.",
+      "input_schema": {
+        "$defs": {
+          "PlanStep": {
+            "properties": {
+              "status": {
+                "$ref": "#/$defs/StepStatus",
+                "default": "todo"
+              },
+              "title": {
+                "type": "string"
+              },
+              "why": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "title"
+            ],
+            "type": "object"
+          },
+          "StepStatus": {
+            "enum": [
+              "todo",
+              "doing",
+              "done",
+              "blocked"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "based_on_revision": {
+            "default": null,
+            "description": "The revision your change is based on (from core_investigation_show); omit to overwrite.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "steps": {
+            "description": "The whole plan, in order (replaces the previous one).",
+            "items": {
+              "$ref": "#/$defs/PlanStep"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "title": "PlanParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_report_save",
+      "description": "Save a report a client composed (Markdown, HTML or plain text) to an absolute path the person chose. Only .md, .html, .htm or .txt files.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "description": "Where to save it: an absolute path ending in .md, .html, .htm or .txt.",
+            "type": "string"
+          },
+          "text": {
+            "description": "The report's text.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "text"
+        ],
+        "title": "SaveParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_report_write",
+      "description": "Turn the investigation (brief, plan, findings, hypotheses, handoff) and the evidence ledger into a readable report: what we looked at, what we found (each finding with its plain-English summary, confidence and cited evidence), open questions, and how it was done. format=markdown (default) or html. With an absolute path it writes the file (WRITES_FILESYSTEM); otherwise it returns the text.",
+      "input_schema": {
+        "$defs": {
+          "ReportFormat": {
+            "enum": [
+              "markdown",
+              "html"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "format": {
+            "$ref": "#/$defs/ReportFormat",
+            "default": "markdown",
+            "description": "markdown (default) or html. HTML is a self-contained styled page."
+          },
+          "include_evidence": {
+            "default": true,
+            "description": "Include the full evidence ledger as an appendix (default true). Findings always cite ids.",
+            "type": "boolean"
+          },
+          "path": {
+            "default": null,
+            "description": "Absolute path to write the report to. When omitted the text is returned instead.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "ReportParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_session_show",
+      "description": "What's open, which target is active, Clean room or Deep mode, evidence and unknown counts, version.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_target_close",
+      "description": "Close the active target (or the one named). Evidence stays in the project.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "target_id": {
+            "default": null,
+            "description": "Target to close; the active one when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "CloseParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_target_select",
+      "description": "Make another open target the active one.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "target_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "target_id"
+        ],
+        "title": "SelectParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_targets_list",
+      "description": "Every open target with its id, kind and sha256.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_unknown_add",
+      "description": "Record something not yet known, with what would settle it.",
+      "input_schema": {
+        "$defs": {
+          "SeverityParam": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "default": "general",
+            "type": "string"
+          },
+          "evidence_against": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "evidence_for": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "probes": {
+            "default": [],
+            "description": "What would settle it.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "question": {
+            "type": "string"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SeverityParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "RecordUnknownParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_unknown_edit",
+      "description": "Change an unknown's status, evidence or resolution. Pass based_on_revision; a stale revision gives stale_revision.",
+      "input_schema": {
+        "$defs": {
+          "SeverityParam": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string"
+          },
+          "UnknownStatusParam": {
+            "description": "Mirrors [`UnknownStatus`] for the schema.",
+            "enum": [
+              "open",
+              "investigating",
+              "blocked",
+              "contradicted",
+              "resolved"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "based_on_revision": {
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "evidence_against": {
+            "default": null,
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "evidence_for": {
+            "default": null,
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "probes": {
+            "default": null,
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "array",
+              "null"
+            ]
+          },
+          "resolution": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SeverityParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnknownStatusParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unknown_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unknown_id",
+          "based_on_revision"
+        ],
+        "title": "UpdateUnknownParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_unknown_verify",
+      "description": "Check that a resolved unknown has a resolution and cites evidence that exists and is intact.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "unknown_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unknown_id"
+        ],
+        "title": "UnknownIdParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_unknowns_show",
+      "description": "Recorded unknowns, filtered by status, severity or domain.",
+      "input_schema": {
+        "$defs": {
+          "SeverityParam": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string"
+          },
+          "UnknownStatusParam": {
+            "description": "Mirrors [`UnknownStatus`] for the schema.",
+            "enum": [
+              "open",
+              "investigating",
+              "blocked",
+              "contradicted",
+              "resolved"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "domain": {
+            "default": null,
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SeverityParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnknownStatusParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "ListUnknownsParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "enable_toolset",
+      "description": "Add a group of tools to this connection's tool list (the list then changes). Use list_toolsets to see what each group covers.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "toolset": {
+            "description": "Toolset id, or \"all\".",
+            "enum": [
+              "core",
+              "native",
+              "apple",
+              "formats",
+              "managed",
+              "android",
+              "java",
+              "adb",
+              "browser",
+              "javascript",
+              "runtime",
+              "frida",
+              "application",
+              "database",
+              "projects",
+              "setup",
+              "build",
+              "all"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "toolset"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "list_toolsets",
+      "description": "List the groups of tools (native code, Android, web, Electron, runtime\u2026) with how many tools each has and whether it is enabled in this connection.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "rebuild_check",
+      "description": "For the builder: test the project's current build against the original now, with the same checks Craft Anything runs after each turn (a website's likeness at each width with the padding, colour, font and layout differences; an app's or game's picture against the original's; whether it builds; the mechanics sheet; credits). The project's running build answers it, so the builder can fix what it lists and check again before replying. Not counted as a round. project defaults to the project this tool server works for.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "project": {
+            "default": null,
+            "description": "The project's folder; default: the project this tool server was started for.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "wait_minutes": {
+            "default": 35,
+            "description": "Longest wait for the result, in minutes (1..=60, default 35): a website with several pages\nor a game's engine build takes a few minutes, and the run stops a check at 30.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "title": "CheckParams",
+        "type": "object"
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-"""CONN-CRAFT-SUITE-API-APPS-R002: sixteen app upstreams, with roots that fail closed."""
+"""CONN-CRAFT-SUITE-API-APPS-R002: nineteen app upstreams, with roots that fail closed."""
 
 from __future__ import annotations
 
@@ -8,6 +8,7 @@ from scion_sdk.mcp.upstreams.stdio import build_stdio_command
 from craft_suite_api.upstreams import (
     APPS,
     FLAGLESS_APPS,
+    NAMESPACES,
     READ_ROOTS_SETTING,
     ROOT_FLAGS,
     UPSTREAMS,
@@ -19,11 +20,16 @@ pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R002")
 
 
 def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
-    # Sixteen declarations, one per app, with unique namespaces.
-    assert len(UPSTREAMS) == 16
+    # Nineteen declarations, one per app, with unique namespaces.
+    assert len(UPSTREAMS) == 19
     assert set(decl.name for decl in UPSTREAMS) == set(APPS)
     namespaces = [decl.effective_namespace for decl in UPSTREAMS]
-    assert len(set(namespaces)) == 16
+    assert len(set(namespaces)) == 19
+    # The app name that holds a hyphen names a different namespace.
+    assert [
+        decl.effective_namespace for decl in UPSTREAMS if decl.name == "craft-anything"
+    ] == ["craftanything"]
+    assert NAMESPACES == {"craft-anything": "craftanything"}
 
     # Every declaration is a stdio child of <app>-cli mcp.
     for decl in UPSTREAMS:
@@ -41,7 +47,14 @@ def test_every_app_declared_with_roots_fail_closed(monkeypatch) -> None:
             )
             assert decl.sandbox.read_flag == read_flag
             assert decl.sandbox.write_flag == write_flag
-    assert FLAGLESS_APPS == ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
+    assert FLAGLESS_APPS == (
+        "filmcraft",
+        "cadcraft",
+        "gridcraft",
+        "lightcraft",
+        "craft-anything",
+        "mailcraft",
+    )
     assert ROOT_FLAGS == {
         "materialcraft": ("--read-root", "--write-root"),
         "solidcraft": ("--allow-path", "--allow-path"),

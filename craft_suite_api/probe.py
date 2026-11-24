@@ -23,8 +23,10 @@ from scion_sdk.config import setting
 
 from .upstreams import APPS
 
-#: The names the suite may declare later, re-probed on every run.
-REPROBED = ("lightcraft", "designcraft", "gridcraft")
+#: The not-yet-declared names, re-probed on every run. None as of the
+#: nineteen-app probe: every app the vendor ships with an ``mcp`` subcommand
+#: is declared. Add a name here when the vendor ships a candidate.
+REPROBED = ()
 
 #: A binary the suite expects but the host does not carry.
 APP_CLI_NOT_FOUND = "APP_CLI_NOT_FOUND"

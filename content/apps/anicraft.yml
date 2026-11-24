@@ -1,0 +1,31 @@
+app: anicraft
+summary: AniCraft headless animation — timeline documents, keyframed scenes and layers, command scripts and frame renders as PNG.
+classes:
+  - name: AnimationDocument
+    parent: CreativeWork
+    description: An AniCraft animation document (.anicraft), with its stage, scenes, layers, keyframes and library symbols.
+functionality:
+  - name: inspect_document
+    description: Read the open document, its stage size, frame rate, scenes, layers, keyframes and the current selection.
+    tools: [anicraft_document, anicraft_commands]
+    steps:
+      - Read the document structure and the current frame.
+      - List the commands anicraft_run accepts, with their params.
+  - name: run_command
+    description: Run one engine command with its params and inspect the result.
+    tools: [anicraft_commands, anicraft_run]
+    steps:
+      - Find the command id and its params in the command list.
+      - Run the command with its params.
+  - name: run_script
+    description: Run a sequence of commands in order, one result per step.
+    tools: [anicraft_commands, anicraft_run_script]
+    steps:
+      - Compose the ordered command steps with their params.
+      - Run the script; it stops at the first error.
+  - name: render_frame
+    description: Render a frame of the current scene as a PNG, exactly as exported.
+    tools: [anicraft_document, anicraft_render]
+    steps:
+      - Pick the frame (0-based) and the scale.
+      - Render the frame as a PNG picture.

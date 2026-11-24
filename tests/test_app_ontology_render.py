@@ -15,21 +15,9 @@ from craft_suite_api.content_gen.sources import (
     AppSource,
     ToolSnapshot,
 )
+from craft_suite_api.upstreams import APPS
 
 REPO = Path(__file__).resolve().parent.parent
-APPS = (
-    "photocraft",
-    "wordcraft",
-    "pdfcraft",
-    "solidcraft",
-    "vectorcraft",
-    "figcraft",
-    "effectcraft",
-    "filmcraft",
-    "soundcraft",
-    "deckcraft",
-    "cadcraft",
-)
 KG = "http://knuckles.team/kg"
 KG_NS = KG + "#"
 CORE_NAMES = frozenset(
@@ -68,6 +56,7 @@ def test_each_app_file_extends_core_and_unknown_parent_refuses() -> None:
 
     for app in APPS:
         source, snapshot = _load(app)
+        ns = source.namespace or app
         text = render_ontology(source, snapshot)
         graph = rdflib.Graph()
         graph.parse(data=text, format="turtle")
@@ -91,7 +80,7 @@ def test_each_app_file_extends_core_and_unknown_parent_refuses() -> None:
         assert len(app_individual) == 1
         node = app_individual[0]
         assert list(graph.objects(node, URIRef(KG_NS + "appNamespace"))) == [
-            rdflib.Literal(app)
+            rdflib.Literal(ns)
         ]
         assert list(graph.objects(node, URIRef(KG_NS + "appVersion"))) == [
             rdflib.Literal(snapshot.version)
@@ -115,7 +104,7 @@ def test_each_app_file_extends_core_and_unknown_parent_refuses() -> None:
                 str(value)
                 for value in graph.objects(use_case, URIRef(KG_NS + "usesToolName"))
             ]
-            assert tools == [f"{app}_{tool}" for tool in func.tools]
+            assert tools == [f"{ns}_{tool}" for tool in func.tools]
 
     # A class naming another parent refuses.
     source, snapshot = _load("cadcraft")

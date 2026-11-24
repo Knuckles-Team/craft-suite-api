@@ -16,21 +16,9 @@ from craft_suite_api.content_gen.sources import (
     load_app_source,
     load_snapshot,
 )
+from craft_suite_api.upstreams import APPS
 
 REPO = Path(__file__).resolve().parent.parent
-APPS = (
-    "photocraft",
-    "wordcraft",
-    "pdfcraft",
-    "solidcraft",
-    "vectorcraft",
-    "figcraft",
-    "effectcraft",
-    "filmcraft",
-    "soundcraft",
-    "deckcraft",
-    "cadcraft",
-)
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R005")
 
@@ -45,6 +33,7 @@ def _load(app: str) -> tuple[AppSource, ToolSnapshot]:
 def test_prompt_per_functionality_names_only_snapshot_tools() -> None:
     for app in APPS:
         source, snapshot = _load(app)
+        ns = source.namespace or app
         rendered = render_prompts(source, snapshot)
 
         # One prompt per functionality, named <app>-<functionality>.json.
@@ -55,15 +44,15 @@ def test_prompt_per_functionality_names_only_snapshot_tools() -> None:
             prompt = json.loads(rendered[name])
 
             # It names only snapshot tools, all namespaced.
-            assert prompt["tools"] == [f"{app}_{t}" for t in func.tools]
+            assert prompt["tools"] == [f"{ns}_{t}" for t in func.tools]
             for tool in prompt["tools"]:
                 assert tool.split("_", 1)[1] in snapshot.names()
 
-            # It sets requires_namespace to the app and tells the model to
-            # activate the namespace first.
-            assert prompt["requires_namespace"] == app
+            # It sets requires_namespace to the served namespace and tells
+            # the model to activate it first.
+            assert prompt["requires_namespace"] == ns
             assert "registry_activate" in prompt["instructions"]["core_directive"]
-            assert f"`{app}`" in prompt["instructions"]["core_directive"]
+            assert f"`{ns}`" in prompt["instructions"]["core_directive"]
 
     # A functionality naming a tool absent from the snapshot refuses.
     source, snapshot = _load("cadcraft")

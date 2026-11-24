@@ -4,7 +4,7 @@ Governing spec: [spec.md](spec.md). Rows: [requirements.md](requirements.md).
 
 ## Summary
 
-The connector declares sixteen upstreams and the SDK registry serves them. This plan covers the ArtCraft declarations, the root settings, the deployment overlays, the probe and the four acceptance gates. The registry, the pool, the health report and the drift check are SDK rows (`SCION-CONNECTOR-CONTROL-R914`). The gateway group load is an Arbora row (`ARBORA-FLEET-R061`).
+The connector declares nineteen upstreams and the SDK registry serves them. This plan covers the ArtCraft declarations, the root settings, the deployment overlays, the probe and the four acceptance gates. The registry, the pool, the health report and the drift check are SDK rows (`SCION-CONNECTOR-CONTROL-R914`). The gateway group load is an Arbora row (`ARBORA-FLEET-R061`).
 
 ## Technical Context
 
@@ -16,7 +16,7 @@ The connector declares sixteen upstreams and the SDK registry serves them. This 
 - **Project Type**: connector (MCP server)
 - **Performance Goals**: N/A
 - **Constraints**: the SDK owns the registry, the lifecycle and the drift check; the connector reimplements none of them
-- **Scale/Scope**: 12 rows, 11 upstream declarations
+- **Scale/Scope**: 19 upstream declarations
 
 ## Constitution Check
 
@@ -29,7 +29,7 @@ The connector declares sixteen upstreams and the SDK registry serves them. This 
 ## Project Structure
 
 ```text
-craft_suite_api/upstreams.py          new       sixteen UpstreamDecl values
+craft_suite_api/upstreams.py          new       nineteen UpstreamDecl values
 craft_suite_api/__init__.py           existing  Connector(upstreams=UPSTREAMS)
 craft_suite_api/error_authority.py    existing  gains BackendNotConfigured
 craft_suite_api/auth.py               existing  get_client raises it
@@ -74,6 +74,16 @@ Lifecycle: pooled stdio children, owned by the SDK (`SCION-CONNECTOR-CONTROL-R91
 
 Remote and bridge modes: operator overlays only. The repository ships examples with placeholder values.
 
+### Design answers
+
+- Owner: This repository declares the upstreams, the dispatch and the content. The registry, the pool, the lifecycle machine and the drift check are `scion-sdk` (`SCION-CONNECTOR-CONTROL-R914`, `R917`); group load is arbora (`ARBORA-FLEET-R061`).
+- Cohesion: one file per concern — `upstreams.py` (declarations), `app_commands.py` (dispatch, command tools, warm-up), `probe.py` (suite discovery), `content_gen` (the content tier). Each is one unit the connector imports.
+- Dependency direction: `craft_suite_api` depends on `scion_sdk` (registry, lifecycle, exchange) and never the reverse; the app CLIs are external processes reached over stdio, not imported.
+- Interface depth: the direct client sees thirteen tools (nine Tier 1 reads plus four registry tools); namespaced app tools appear only after activation, and command tools warm per app.
+- Special cases: `craft-anything` is served under the hyphen-free namespace `craftanything`; `mailcraft` and `craft-anything` are flagless; `lightcraft` is `generate=False`.
+- State: the connector holds no readiness state; the SDK lifecycle machine holds each component's state, which this repository only reads for `/ready` and the refusals.
+- Environment: the sandbox roots come from the read/write settings (deny by default); the pool and activation caps come from the SDK settings.
+
 ### Artifact exchange (R013 to R016)
 
 The SDK exchange owns staging, inputs, publication, links and lineage. This connector adds one binding per app, one example settings file and one skill paragraph. The output rule fits the apps: each app writes beneath its write root, and a relative path resolves inside it. The SDK rewrites that path into the run's output directory. An absolute path still passes to the app, and the app's roots govern it.
@@ -83,7 +93,7 @@ The SDK exchange owns staging, inputs, publication, links and lineage. This conn
 | Phase | Scope | Row |
 |---|---|---|
 | 1 | Facade MVP with photocraft, wordcraft and solidcraft over stdio | `CONN-CRAFT-SUITE-API-APPS-R009` |
-| 2 | All sixteen apps, remote mode, bridge mode, failure isolation | `CONN-CRAFT-SUITE-API-APPS-R010` |
+| 2 | All nineteen apps, remote mode, bridge mode, failure isolation | `CONN-CRAFT-SUITE-API-APPS-R010` |
 | 3 | Content tier with the drift gate | `CONN-CRAFT-SUITE-API-APPS-R011` |
 | 4 | Gateway integration: coverage, group load, pins | `CONN-CRAFT-SUITE-API-APPS-R012` |
 
@@ -93,7 +103,7 @@ Run `pipelines-hook spec-standard`, `pipelines-hook spec-status` and `ste-staged
 
 ### Readiness by lifecycle (CONN-CRAFT-SUITE-API-APPS-R018.1 to R018.5)
 
-The connector holds no readiness vocabulary. It supplies probe results, and the SDK connector lifecycle machine (`SCION-CONNECTOR-CONTROL-R917`, per upstream `R917.6`) decides the state of the backend and of each of the sixteen upstreams.
+The connector holds no readiness vocabulary. It supplies probe results, and the SDK connector lifecycle machine (`SCION-CONNECTOR-CONTROL-R917`, per upstream `R917.6`) decides the state of the backend and of each of the nineteen upstreams.
 
 Machine. The SDK declares it once. States: `Unconfigured`, `warming`, `Ready`, `Degraded`, `Backoff`, `Stopped` (terminal). The pre-proof state is named `warming` by owner decision. The one transition function is `scion_sdk/connector_lifecycle.py::transition`, owned by scion-sdk. An illegal event raises `LifecycleTransitionRefused` (`LIFECYCLE_TRANSITION_REFUSED`). The state field is `UpstreamStatus.state` (`scion_sdk/mcp/upstreams/model.py`) for an upstream and `RunnerHealth.lifecycle_state` for the backend. The ontology classes live in the SDK pack `scion_sdk/ontology/connector_lifecycle.ttl` and roll up to the medulla core classes; this repository declares none and adds only the `lifecycleState` property (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.1`).
 

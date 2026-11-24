@@ -45,6 +45,7 @@ def _check_tools(app: str, tools, snapshot: ToolSnapshot) -> None:
 def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
     """The Turtle text of ``artcraft-<app>.ttl`` for one app."""
     app = source.app
+    ns = source.served_namespace
     lines = [
         "@prefix : <http://knuckles.team/kg#> .",
         f"@prefix app: <{_iri(app)}#> .",
@@ -57,7 +58,7 @@ def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
         f"    owl:imports <{_CORE_IRI}> .",
         "",
         "app:app a :App ;",
-        f'    :appNamespace "{app}" ;',
+        f'    :appNamespace "{ns}" ;',
         f'    :appVersion "{snapshot.version}" .',
         "",
     ]
@@ -78,7 +79,7 @@ def render_ontology(source: AppSource, snapshot: ToolSnapshot) -> str:
         lines.append(f"app:use_case_{_slug(func.name)} a :UseCase ;")
         lines.append("    :forApp app:app ;")
         for tool in func.tools:
-            lines.append(f'    :usesToolName "{_tool_ref(app, tool)}" ;')
+            lines.append(f'    :usesToolName "{_tool_ref(ns, tool)}" ;')
         lines[-1] = lines[-1].rstrip(" ;") + " ."
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"

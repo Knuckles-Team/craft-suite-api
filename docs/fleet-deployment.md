@@ -13,6 +13,14 @@ SCION_UPSTREAM_ACTIVATION=active
 SCION_UPSTREAMS_FILE=/etc/craft-suite/upstreams.toml
 ```
 
+The suite holds nineteen apps. The SDK's defaults serve the old sixteen-app
+era: the active-namespace cap starts at four and the stdio process pool at
+sixteen, so a deployment that keeps every namespace active must raise both,
+for example `SCION_UPSTREAMS_MAX_ACTIVE_NAMESPACES=19` and
+`SCION_UPSTREAMS_MAX_PROCESSES=19`. Beyond the pool's cap, a late namespace
+activates but cannot spawn: it reports `unavailable` until an older child is
+idle.
+
 The connector's existing `connectors` entry in the org manifest is what the
 gateway coverage gate (`ARBORA-FLEET-R060`) counts; the facade adds no
 additional manifest entries.

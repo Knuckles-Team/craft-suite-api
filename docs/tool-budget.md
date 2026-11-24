@@ -1,7 +1,7 @@
 # Tool budget and activation
 
-The facade serves the eleven ArtCraft app CLIs as pooled stdio children behind
-one connector server. A direct client sees a small surface first and
+The facade serves the nineteen ArtCraft app CLIs as pooled stdio children
+behind one connector server. A direct client sees a small surface first and
 activates an app only when it works on one (CONN-CRAFT-SUITE-API-APPS-R007).
 
 ## What the first list holds
@@ -18,29 +18,37 @@ inactive until it is activated.
 
 ## Why activation is per app
 
-The suite carries about four hundred tools across the eleven apps; the
-largest app exposes about 180. Listing all of them up front would crowd out
-the Tier 1 surface and every model context. Activation reveals one app at a
-time, and the SDK knob `max_active_namespaces` (starting value 4) caps how
-many stay revealed at once.
+The suite carries about nine hundred and fifty tools across the nineteen
+apps; the largest app exposes about four hundred. Listing all of them up
+front would crowd out the Tier 1 surface and every model context. Activation
+reveals one app at a time, and the SDK knob `max_active_namespaces` (starting
+value 4) caps how many stay revealed at once.
 
 | App | Tool count |
 |---|---|
-| photocraft | 26 |
-| wordcraft | 17 |
-| pdfcraft | 183 |
-| solidcraft | 21 |
-| vectorcraft | 33 |
-| figcraft | 19 |
-| effectcraft | 27 |
-| filmcraft | 17 |
-| soundcraft | 17 |
-| deckcraft | 25 |
+| anicraft | 5 |
 | cadcraft | 12 |
+| craft-anything | 30 |
+| deckcraft | 25 |
+| designcraft | 26 |
+| effectcraft | 27 |
+| figcraft | 19 |
+| filmcraft | 17 |
+| gridcraft | 22 |
+| lightcraft | 400 |
+| mailcraft | 20 |
+| materialcraft | 19 |
+| pdfcraft | 184 |
+| photocraft | 26 |
+| solidcraft | 21 |
+| soundcraft | 17 |
+| texturecraft | 22 |
+| vectorcraft | 33 |
+| wordcraft | 17 |
 
 ## The activation steps
 
-1. `registry_list_namespaces` — the eleven namespaces and their states.
+1. `registry_list_namespaces` — the nineteen namespaces and their states.
 2. `registry_activate` with one namespace (for example `photocraft`) — the
    app starts on first use and its tools appear as `photocraft_<tool>`.
 3. Work with the namespaced tools; a tool call never crosses a namespace.

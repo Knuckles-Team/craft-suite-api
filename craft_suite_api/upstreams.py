@@ -22,6 +22,7 @@ __all__ = [
     "APPS",
     "FLAGLESS_APPS",
     "ROOT_FLAGS",
+    "NAMESPACES",
     "EXCHANGE",
     "READ_ROOTS_SETTING",
     "WRITE_ROOTS_SETTING",
@@ -30,7 +31,8 @@ __all__ = [
     "root_paths",
 ]
 
-#: The apps that expose an ``mcp`` subcommand, as of the last probe.
+#: The apps that expose an ``mcp`` subcommand, as of the last probe: the
+#: vendor suite in full (nineteen apps).
 APPS = (
     "photocraft",
     "wordcraft",
@@ -48,6 +50,9 @@ APPS = (
     "lightcraft",
     "materialcraft",
     "texturecraft",
+    "anicraft",
+    "craft-anything",
+    "mailcraft",
 )
 
 READ_ROOTS_SETTING = "CRAFT_SUITE_READ_ROOTS"
@@ -57,12 +62,19 @@ READ_FLAG = "--automation-read-root"
 WRITE_FLAG = "--automation-write-root"
 
 #: Apps whose ``mcp`` subcommand has no filesystem-root flags (verified
-#: against ``<app>-cli mcp --help`` in the shipped image). They take no root
+#: against ``<app>-cli mcp`` on the shipped binaries). They take no root
 #: flag, so the operator's root settings cannot reach them and the SDK passes
 #: nothing. Their file access is bounded by the container, not by a flag;
 #: calls that carry a ``path`` argument still run through the artifact
 #: exchange, which stages them in the run directory.
-FLAGLESS_APPS = ("filmcraft", "cadcraft", "gridcraft", "lightcraft")
+FLAGLESS_APPS = (
+    "filmcraft",
+    "cadcraft",
+    "gridcraft",
+    "lightcraft",
+    "craft-anything",
+    "mailcraft",
+)
 
 #: Apps whose root flags have other names than ``READ_FLAG``/``WRITE_FLAG``
 #: (verified against ``<app>-cli mcp --help``). solidcraft takes one
@@ -73,6 +85,12 @@ ROOT_FLAGS = {
     "materialcraft": ("--read-root", "--write-root"),
     "solidcraft": ("--allow-path", "--allow-path"),
 }
+
+#: Apps whose name cannot serve as their own namespace: the SDK namespace
+#: must match ``^[a-z][a-z0-9]{1,23}$`` and ``craft-anything`` holds a
+#: hyphen, so it is declared under the namespace ``craftanything`` (the
+#: served tool names, the ``ns:`` tag and the exchange folder follow it).
+NAMESPACES = {"craft-anything": "craftanything"}
 
 #: The arguments whose relative values land in the run's output directory
 #: (CONN-CRAFT-SUITE-API-APPS-R013). Every app writes beneath its write root.
@@ -110,6 +128,7 @@ def _declare(app: str, read: tuple[str, ...], write: tuple[str, ...]) -> Upstrea
         )
     return UpstreamDecl(
         name=app,
+        namespace=NAMESPACES.get(app),
         kind="stdio",
         command=f"{app}-cli",
         args=("mcp",),

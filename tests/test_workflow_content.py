@@ -173,9 +173,13 @@ def test_pack_declares_no_lifecycle_state_classes_of_its_own() -> None:
 
 def test_every_app_skill_states_the_not_ready_refusals_and_retry() -> None:
     """CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R010.2."""
+    from craft_suite_api.upstreams import APPS
+
     skills = sorted((PACKAGE / "skills").glob("*/SKILL.md"))
     skills = [s for s in skills if s.parent.name != "artcraft-starter"]
-    assert len(skills) == 32
+    # One skill per declared app, plus the sixteen proven workflow skills.
+    assert len(skills) == len(APPS) + 16
+    assert set(APPS) <= {s.parent.name for s in skills}
     for path in skills:
         text = path.read_text(encoding="utf-8")
         for needle in (

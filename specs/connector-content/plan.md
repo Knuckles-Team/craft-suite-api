@@ -29,8 +29,8 @@ Governing spec: [spec.md](spec.md). Rows: [requirements.md](requirements.md).
 
 ```text
 craft_suite_api/ontology/artcraft.ttl           existing  rewritten: App, AppTool, UseCase
-craft_suite_api/ontology/artcraft-<app>.ttl     new       generated, eleven files
-craft_suite_api/skills/<app>/SKILL.md           new       generated, eleven files
+craft_suite_api/ontology/artcraft-<app>.ttl     new       generated, one per declared app
+craft_suite_api/skills/<app>/SKILL.md           new       generated, one per declared app
 craft_suite_api/prompts/<app>-<functionality>.json  new   generated
 craft_suite_api/content_gen/                    new       render_ontology, render_skill, render_prompts
 scripts/generate_app_content.py                 new       --check, --write, --refresh, --live
@@ -55,6 +55,16 @@ The ontology is layered, not copied. One core pack file holds `:App`, `:AppTool`
 A pack file never imports the core ontology. It extends core classes with `rdfs:subClassOf`, as the engine requires.
 
 Authored text is separate from generated text. Authors edit `content/apps/<app>.yml`. The generator owns everything under `craft_suite_api/` that it writes.
+
+### Design answers
+
+- Owner: This repository generates the per-app content (ontology, skills, prompts) from the authored sources in `content/apps/`. The core classes are owned by the engine's core ontology, which the app modules extend but never import.
+- Cohesion: one generator module (`content_gen/`) owns every render, and one offline gate (`scripts/generate_app_content.py --check`) owns drift; the authored sources are the only authoring surface.
+- Dependency direction: the generators read the authored sources and the captured snapshots; the served pack reads the generated files. Nothing generated depends on a live app.
+- Interface depth: per app, one ontology file, one skill and one prompt per functionality; the served surface is one `ConnectorPack.Import` plus two class queries.
+- Special cases: `craft-anything` renders under its served namespace `craftanything`; every generated tool name carries that namespace, not the hyphenated app name.
+- State: the generator holds none; drift is a pure function of the authored sources and the committed generated files, recomputed at every gate.
+- Environment: no environment variables; the gate is offline, and only `--refresh` touches the app CLIs.
 
 ### Quality and release gates
 

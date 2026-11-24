@@ -21,6 +21,7 @@ nav:
   - Deployment: deployment.md
   - Fleet deployment: fleet-deployment.md
   - Tool budget: tool-budget.md
+  - Onboarding a new app: onboarding-new-app.md
   - Usage (API / CLI / MCP): usage.md
   - Backing Platform (ArtCraft): platform.md
   - Concepts: concepts.md

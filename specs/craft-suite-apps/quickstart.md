@@ -11,7 +11,7 @@ Run the proof of each row from a fresh checkout after `uv sync`. Each command ex
 - CONN-CRAFT-SUITE-API-APPS-R007: `uv run pytest tests/test_tool_budget.py::test_initial_list_is_tier1_plus_registry_only -q`
 - CONN-CRAFT-SUITE-API-APPS-R008: `uv run pytest tests/test_phase4_gate.py::test_arbora_loads_and_unloads_one_app_group -q`
 - CONN-CRAFT-SUITE-API-APPS-R009: `uv run pytest tests/test_phase1_gate.py::test_three_app_mvp_with_fixture_clis -q`
-- CONN-CRAFT-SUITE-API-APPS-R010: `uv run pytest tests/test_phase2_gate.py::test_eleven_upstreams_isolated_failure_and_overlays -q`
+- CONN-CRAFT-SUITE-API-APPS-R010: `uv run pytest tests/test_phase2_gate.py::test_all_upstreams_isolated_failure_and_overlays -q`
 - CONN-CRAFT-SUITE-API-APPS-R011: `uv run pytest tests/test_phase3_gate.py::test_all_apps_have_content_and_pack_imports_clean -q`
 - CONN-CRAFT-SUITE-API-APPS-R012: `uv run pytest tests/test_phase4_gate.py::test_coverage_passes_and_pin_survives_restart -q`
 - CONN-CRAFT-SUITE-API-APPS-R013: `uv run pytest tests/test_artifact_exchange.py::test_every_app_declares_the_exchange_binding -q`

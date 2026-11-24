@@ -1,0 +1,94 @@
+{
+  "app": "anicraft",
+  "version": "0.2.1",
+  "tools": [
+    {
+      "name": "anicraft_commands",
+      "description": "Lists the commands anicraft_run accepts: id, label, menu, shortcut, a summary of their params, and whether they change the document. Optionally only those whose id or label contains `filter`.",
+      "input_schema": {
+        "properties": {
+          "filter": {
+            "description": "Words to look for in the id or label, e.g. \"tween\" or \"export\".",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "anicraft_document",
+      "description": "The open document: stage size and frame rate, scenes, the current scene's layers and keyframes, library symbols, and the current scene, frame, layer and selection.",
+      "input_schema": {
+        "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "anicraft_render",
+      "description": "A frame of the current scene as a PNG picture, exactly as exported. `frame` is 0-based (default: the current frame); `scale` defaults to 0.5 of the stage size.",
+      "input_schema": {
+        "properties": {
+          "frame": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "scale": {
+            "exclusiveMinimum": 0,
+            "maximum": 4,
+            "type": "number"
+          }
+        },
+        "type": "object"
+      }
+    },
+    {
+      "name": "anicraft_run",
+      "description": "Runs one command (see anicraft_commands) with its params and returns its result, plus the document revision and current frame. Commands that would lose work or replace a file need \"confirm\": true in params.",
+      "input_schema": {
+        "properties": {
+          "command": {
+            "description": "Command id, e.g. \"draw.rect\".",
+            "type": "string"
+          },
+          "params": {
+            "description": "The command's params, e.g. {\"x\": 10, \"y\": 10, \"w\": 50, \"h\": 50}.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "command"
+        ],
+        "type": "object"
+      }
+    },
+    {
+      "name": "anicraft_run_script",
+      "description": "Runs commands in order and returns each result. Stops at the first error and says which step failed; the steps before it stay done (undo them with edit.undo).",
+      "input_schema": {
+        "properties": {
+          "steps": {
+            "items": {
+              "properties": {
+                "command": {
+                  "type": "string"
+                },
+                "params": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "command"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "type": "object"
+      }
+    }
+  ]
+}
