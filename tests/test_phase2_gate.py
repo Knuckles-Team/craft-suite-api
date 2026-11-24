@@ -1,10 +1,10 @@
 """CONN-CRAFT-SUITE-API-APPS-R010: phase 2 gate — full registry, remote and bridge.
 
-Phase 2 enables all eleven declarations and proves the three halves of the
+Phase 2 enables all nineteen declarations and proves the three halves of the
 spec, against the fixture app CLIs (tests/fixtures/fake_app_cli.py):
 
 - one app that dies at spawn (filmcraft) shows ``unavailable`` while the
-  other ten stay callable under the default ``warn`` strategy;
+  other eighteen stay callable under the default ``warn`` strategy;
 - the example overlays of R005 and R006 switch one app's transport mode on
   the served registry: the remote example as shipped (photocraft goes
   ``http``) and the bridge example's shape (figcraft goes ``bridge``);
@@ -29,6 +29,7 @@ from scion_sdk.mcp.upstreams.drift import fingerprint_tools
 from craft_suite_api.backend import operation_count
 from craft_suite_api.upstreams import (
     APPS,
+    NAMESPACES,
     READ_ROOTS_SETTING,
     WRITE_ROOTS_SETTING,
     SandboxRoots,
@@ -51,7 +52,7 @@ DRIFT_APP = "effectcraft"
 
 
 def _fixture_upstreams(baseline_fingerprint: str) -> tuple[UpstreamDecl, ...]:
-    """All eleven declarations against the fixture CLIs: lazy, rootless.
+    """All nineteen declarations against the fixture CLIs: lazy, rootless.
 
     The drifted app pins the non-drift baseline fingerprint, so the extra
     parameter of its ``read_demo`` is the drift the registry must report.
@@ -59,6 +60,7 @@ def _fixture_upstreams(baseline_fingerprint: str) -> tuple[UpstreamDecl, ...]:
     return tuple(
         UpstreamDecl(
             name=app,
+            namespace=NAMESPACES.get(app),
             kind="stdio",
             command=f"{app}-cli",
             args=("mcp",),
@@ -103,8 +105,8 @@ async def _expect_tools(client, expected: int) -> int:
     return count
 
 
-async def _eleven_gate() -> dict:
-    """One dying app, ten callable, and the drifted app reported drifted."""
+async def _full_gate() -> dict:
+    """One dying app, eighteen callable, and the drifted app reported drifted."""
     from craft_suite_api.mcp_server import build_server
 
     observations: dict = {}
@@ -113,7 +115,9 @@ async def _eleven_gate() -> dict:
         await _expect_tools(client, INITIAL)
 
         for app in APPS:
-            result = await client.call_tool("registry_activate", {"namespace": app})
+            result = await client.call_tool(
+                "registry_activate", {"namespace": NAMESPACES.get(app) or app}
+            )
             assert result.is_error is False, app
 
         # The initial tools plus three per live app; the dead one holds none.
@@ -135,12 +139,14 @@ async def _eleven_gate() -> dict:
             name for name, entry in entries.items() if entry["state"] == "ready"
         } == (set(APPS) - {DIE_APP, DRIFT_APP})
 
-        # The ten live apps (including the drifted one) stay callable under
-        # the default warn strategy.
+        # The eighteen live apps (including the drifted one) stay callable
+        # under the default warn strategy.
         for app in APPS:
             if app == DIE_APP:
                 continue
-            result = await client.call_tool(f"{app}_read_demo", {"value": app})
+            result = await client.call_tool(
+                f"{NAMESPACES.get(app) or app}_read_demo", {"value": app}
+            )
             assert result.is_error is False, app
             assert result.structured_content["value"] == app
     return observations
@@ -165,7 +171,7 @@ def _served_kinds() -> dict[str, str]:
     return asyncio.run(kinds())
 
 
-def test_eleven_upstreams_isolated_failure_and_overlays(
+def test_all_upstreams_isolated_failure_and_overlays(
     app_cli_factory, monkeypatch
 ) -> None:
     # Hygiene: no root grants, no disabled list, no pre-activation, no
@@ -180,17 +186,17 @@ def test_eleven_upstreams_isolated_failure_and_overlays(
         monkeypatch.delenv(var, raising=False)
 
     # (b) the remote example overlay, exactly as shipped: one app goes
-    # http, ten stay stdio.
+    # http, eighteen stay stdio.
     monkeypatch.setenv("SCION_UPSTREAMS_FILE", str(REMOTE_EXAMPLE))
     kinds = _served_kinds()
-    assert len(kinds) == len(APPS) == 16
+    assert len(kinds) == len(APPS) == 19
     assert kinds["photocraft"] == "http"
     assert {name: kind for name, kind in kinds.items() if name != "photocraft"} == {
         name: "stdio" for name in APPS if name != "photocraft"
     }
 
     # (b) the bridge example, exactly as shipped: figcraft goes bridge,
-    # ten stay stdio; the entry holds a loopback address and a token
+    # eighteen stay stdio; the entry holds a loopback address and a token
     # reference, never a token value.
     entry = tomllib.loads(BRIDGE_EXAMPLE.read_text(encoding="utf-8"))["upstream"][0]
     assert entry["name"] == "figcraft"
@@ -205,15 +211,18 @@ def test_eleven_upstreams_isolated_failure_and_overlays(
     }
     monkeypatch.delenv("SCION_UPSTREAMS_FILE")
 
-    # (a) + (c) the eleven fixture apps: one dies, one drifts, ten callable.
+    # (a) + (c) the nineteen fixture apps: one dies, one drifts,
+    # eighteen callable.
     app_cli_factory(DIE_APP, die=True)
     app_cli_factory(DRIFT_APP, drift=True)
     for app in APPS:
         if app not in (DIE_APP, DRIFT_APP):
             app_cli_factory(app)
 
-    # Activate all eleven: the default cap of four namespaces is raised.
+    # Activate all nineteen: the default cap of four namespaces and the pool's
+    # default of sixteen processes (the sixteen-app era) are both raised.
     monkeypatch.setenv("SCION_UPSTREAMS_MAX_ACTIVE_NAMESPACES", str(len(APPS)))
+    monkeypatch.setenv("SCION_UPSTREAMS_MAX_PROCESSES", str(len(APPS)))
     monkeypatch.setenv("SCION_UPSTREAMS_CONNECT_TIMEOUT_S", "5")
 
     import craft_suite_api
@@ -227,7 +236,7 @@ def test_eleven_upstreams_isolated_failure_and_overlays(
         ),
     )
 
-    observations = asyncio.run(_eleven_gate())
+    observations = asyncio.run(_full_gate())
     assert observations["states"] == {
         **{app: "ready" for app in APPS if app not in (DIE_APP, DRIFT_APP)},
         DIE_APP: "unavailable",

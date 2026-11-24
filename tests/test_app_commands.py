@@ -36,8 +36,14 @@ def test_every_declared_app_has_a_dispatch_entry() -> None:
     assert "photocraft_command_run" in hidden
     assert "wordcraft_execute" in hidden
     assert "lightcraft_run_command" in hidden
+    assert "anicraft_anicraft_run" in hidden
     # lightcraft's own MCP already serves one tool per command.
     assert DISPATCH["lightcraft"].generate is False
+    # craft-anything serves typed tools with no dispatch pair: nothing
+    # generated, nothing hidden.
+    assert DISPATCH["craft-anything"].generate is False
+    assert DISPATCH["craft-anything"].dispatch_tools == ()
+    assert "craft-anything_" not in " ".join(hidden)
 
 
 def test_registry_forms_parse() -> None:

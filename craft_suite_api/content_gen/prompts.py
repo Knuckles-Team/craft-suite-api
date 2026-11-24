@@ -32,11 +32,12 @@ def _prompt(
     source: AppSource, functionality, snapshot: ToolSnapshot
 ) -> dict[str, object]:
     app = source.app
-    namespaced = [f"{app}_{tool}" for tool in functionality.tools]
+    ns = source.served_namespace
+    namespaced = [f"{ns}_{tool}" for tool in functionality.tools]
     directive = (
         f"Use only the {app} upstream of the craft-suite-api connector. "
-        f"Activate the namespace `{app}` with registry_activate first; every "
-        f"tool below is namespaced {app}_<tool>. "
+        f"Activate the namespace `{ns}` with registry_activate first; every "
+        f"tool below is namespaced {ns}_<tool>. "
     )
     if namespaced:
         directive += (
@@ -78,14 +79,14 @@ def _prompt(
         "instructions": {
             "core_directive": directive,
             "quality_checklist": [
-                f"the namespace {app} was activated before the first tool call",
+                f"the namespace {ns} was activated before the first tool call",
                 "every tool named in this prompt exists in the app snapshot",
                 "refusals are reported to the operator, never retried silently",
             ],
         },
         "skills": [],
         "tools": namespaced,
-        "requires_namespace": app,
+        "requires_namespace": ns,
     }
 
 

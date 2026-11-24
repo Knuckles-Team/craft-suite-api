@@ -7,7 +7,7 @@ Counterpart: scion-sdk `specs/scion-connector-control/contracts/upstream-registr
 
 ## Wire shape
 
-The connector sets `Connector.upstreams` to eleven `UpstreamDecl` values. Each value has `kind` `stdio`, `command` `<app>-cli`, `args` `("mcp",)` and a `sandbox` with the flags `--automation-read-root` and `--automation-write-root`. The roots come from the settings `CRAFT_SUITE_READ_ROOTS` and `CRAFT_SUITE_WRITE_ROOTS`. An operator overlay named by `SCION_UPSTREAMS_FILE` switches an app to `http` or `bridge`.
+The connector sets `Connector.upstreams` to nineteen `UpstreamDecl` values. Each value has `kind` `stdio`, `command` `<app>-cli`, `args` `("mcp",)` and a `sandbox` with the flags `--automation-read-root` and `--automation-write-root`; `craft-anything` names the namespace `craftanything` (the SDK namespace may hold no hyphen), and the flagless apps name no root flag. The roots come from the settings `CRAFT_SUITE_READ_ROOTS` and `CRAFT_SUITE_WRITE_ROOTS`. An operator overlay named by `SCION_UPSTREAMS_FILE` switches an app to `http` or `bridge`.
 
 The SDK serves proxied tools as `<app>_<tool>` with the tag `ns:<app>` and the metadata key `scion/upstream`.
 

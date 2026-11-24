@@ -15,21 +15,9 @@ from craft_suite_api.content_gen.sources import (
     load_app_source,
     load_snapshot,
 )
+from craft_suite_api.upstreams import APPS
 
 REPO = Path(__file__).resolve().parent.parent
-APPS = (
-    "photocraft",
-    "wordcraft",
-    "pdfcraft",
-    "solidcraft",
-    "vectorcraft",
-    "figcraft",
-    "effectcraft",
-    "filmcraft",
-    "soundcraft",
-    "deckcraft",
-    "cadcraft",
-)
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004")
 
@@ -44,6 +32,7 @@ def _load(app: str) -> tuple[AppSource, ToolSnapshot]:
 def test_skill_lists_every_snapshot_tool_and_refuses_unknown_tool() -> None:
     for app in APPS:
         source, snapshot = _load(app)
+        ns = source.namespace or app
         text = render_skill(source, snapshot)
 
         # Front matter holds name and description.
@@ -53,14 +42,14 @@ def test_skill_lists_every_snapshot_tool_and_refuses_unknown_tool() -> None:
 
         # Every snapshot tool appears exactly once, namespaced.
         for tool in snapshot.tools:
-            pattern = f"`{app}_{tool.name}`"
+            pattern = f"`{ns}_{tool.name}`"
             assert text.count(pattern) == 1, (
                 f"{app}: {tool.name} listed {text.count(pattern)} times"
             )
 
         # The activation step names the registry tool and the namespace.
         assert "registry_activate" in text
-        assert f"namespace `{app}`" in text
+        assert f"namespace `{ns}`" in text
 
         # An authored tool missing from the snapshot refuses.
         bad_source = AppSource(

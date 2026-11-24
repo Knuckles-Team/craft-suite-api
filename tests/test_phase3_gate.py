@@ -1,6 +1,6 @@
 """CONN-CRAFT-SUITE-API-APPS-R011: phase 3 gate — content tier, clean import.
 
-Phase 3 proves the content tier for all eleven apps, calling the checks of
+Phase 3 proves the content tier for all nineteen apps, calling the checks of
 the content rows and adding no content logic:
 
 - ``artcraft-<app>.ttl``, ``<app>/SKILL.md`` and at least one
@@ -8,8 +8,9 @@ the content rows and adding no content logic:
   app and every prompt requires the app's namespace (R003 to R005);
 - the offline drift gate (``scripts/generate_app_content.py --check``) is
   green on the committed content (R007);
-- the pack built from the packaged content holds the twelve ontologies,
-  the twelve skills, a prompt per app and the resource surface, and each
+- the pack built from the packaged content holds the core ontology, one
+  app ontology per declared app, the app and workflow skills, a prompt per
+  app functionality and the resource surface, and each
   app ontology imports the core module only, redeclares no core IRI and
   lets every declared class walk up to the engine's core hierarchy (the
   in-process half of R008's orphan proof).
@@ -40,7 +41,7 @@ import pytest
 import rdflib
 from rdflib import OWL, RDF, RDFS
 
-from craft_suite_api.upstreams import APPS
+from craft_suite_api.upstreams import APPS, NAMESPACES
 
 pytestmark = pytest.mark.spec("CONN-CRAFT-SUITE-API-APPS-R011")
 
@@ -293,10 +294,9 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
         prompts = sorted((PACKAGE / "prompts").glob(f"{app}-*.json"))
         assert prompts, f"{app}: no prompt file"
         for prompt in prompts:
-            assert (
-                json.loads(prompt.read_text(encoding="utf-8"))["requires_namespace"]
-                == app
-            )
+            assert json.loads(prompt.read_text(encoding="utf-8"))[
+                "requires_namespace"
+            ] == (NAMESPACES.get(app) or app)
 
     # (2) R007: the offline drift gate is green on the committed content.
     code, out = _run_check()
@@ -315,7 +315,7 @@ def test_all_apps_have_content_and_pack_imports_clean(tmp_path) -> None:
     workflow_skills = {
         path.parent.name
         for path in (PACKAGE / "skills").glob("*-*/SKILL.md")
-        if path.parent.name != "artcraft-starter"
+        if path.parent.name not in APPS and path.parent.name != "artcraft-starter"
     }
     assert workflow_skills
     assert kinds["ontology"] == 1 + len(APPS) + len(workflow_modules)

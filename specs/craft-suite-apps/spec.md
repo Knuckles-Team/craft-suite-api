@@ -82,7 +82,7 @@ An operator runs an app tool through the gateway. The output appears in the file
 
 ## Assumptions
 
-- The app command-line programs expose `mcp` as probed in the image: all sixteen do; the probe finds any new vendor app on update.
+- The app command-line programs expose `mcp` as probed in the image: all nineteen do; the probe finds any new vendor app on update.
 - The SDK registry rows (`SCION-CONNECTOR-CONTROL-R914`) land before the rows here that depend on them.
 - The remote topology is supplied by the operator. This repository ships no host names.
 

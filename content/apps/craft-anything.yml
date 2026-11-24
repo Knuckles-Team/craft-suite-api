@@ -1,0 +1,29 @@
+app: craft-anything
+namespace: craftanything
+summary: Craft Anything coding-agent investigation — targets, evidence, findings, hypotheses, unknowns and reports over native code, Android, web, Electron and runtime targets.
+classes:
+  - name: Investigation
+    parent: CreativeWork
+    description: A Craft Anything investigation project, holding the brief, plan, open targets, evidence, findings and the append-only journal.
+functionality:
+  - name: open_investigation
+    description: Set the investigation brief, plan the steps and manage the open targets.
+    tools: [core_brief_write, core_plan_update, core_targets_list, core_target_select, core_investigation_show]
+    steps:
+      - Set the question, purpose, targets and constraints.
+      - Replace the plan with numbered steps, each todo, doing, done or blocked.
+      - Track the open targets and make one active.
+  - name: gather_evidence
+    description: Browse and record evidence, track unknowns and record settled findings.
+    tools: [core_evidence_show, core_evidence_browse, core_unknowns_show, core_unknown_add, core_finding_record]
+    steps:
+      - Record a finding against at least one evidence id.
+      - Track each unknown and what would settle it.
+      - Check a resolved unknown against its cited evidence.
+  - name: write_report
+    description: Turn the investigation into a report, save it and hand off the next session.
+    tools: [core_report_write, core_report_save, core_handoff_write]
+    steps:
+      - Generate the report from the brief, plan, findings and hypotheses.
+      - Save it in the requested format.
+      - Rewrite the handoff note: where we are, what is next, the traps.

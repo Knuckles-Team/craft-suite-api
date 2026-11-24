@@ -166,7 +166,7 @@ def test_three_app_mvp_with_fixture_clis(
     monkeypatch.setenv(
         "SCION_UPSTREAMS_INHERIT_ENV", "PATH,HOME,LANG,FAKE_APP_CLI_ARGV_FILE"
     )
-    # Phase 1 declares three apps only; serve them, not the eleven import-time
+    # Phase 1 declares three apps only; serve them, not the import-time
     # declarations, so the fixture CLIs on the PATH are what get spawned.
     import craft_suite_api
 

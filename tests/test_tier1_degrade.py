@@ -110,6 +110,12 @@ def test_unusable_backend_setting_starts_and_refuses_typed(
             "reason": BACKEND_CONFIG_INVALID,
             "write_class": "read",
         }
+        # R001 is about the backend: the app warm-up state is the R018
+        # tests' ground, and this test's per-call servers never let their
+        # warm-up tasks settle.
+        from craft_suite_api import app_commands
+
+        monkeypatch.setattr(app_commands, "WARMUP", None)
         probe = asyncio.run(_tier1_readiness())
         assert probe.ready is True
         assert {k: probe.detail[k] for k in ("backend", "code", "state_backend")} == {

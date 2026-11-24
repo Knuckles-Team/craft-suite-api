@@ -183,12 +183,18 @@ async def test_pack_imports_without_orphans_and_class_query_reaches_subclasses(
     """T-008: the receipt holds no ontology warning; the class queries reach the subclasses."""
     pack = await _pack()
 
-    # The pack holds the core ontology, the eleven app ontologies, the
-    # twelve skills and the prompts of the packaged content.
+    # The pack holds the core ontology, one app ontology per declared app,
+    # the app and workflow skills and the prompts of the packaged content.
+    import craft_suite_api
+    from craft_suite_api.upstreams import APPS
+
+    root = Path(list(craft_suite_api.__path__)[0])
+    skill_count = len(list(root.joinpath("skills").glob("*/SKILL.md")))
+    prompt_count = len(list(root.joinpath("prompts").glob("*.json")))
     kinds = Counter(entry.kind.value for entry in pack.archive.entries)
-    assert kinds["ontology"] == 12
-    assert kinds["skill"] == 12
-    assert kinds["prompt"] >= 11
+    assert kinds["ontology"] == 1 + len(APPS)
+    assert kinds["skill"] == skill_count
+    assert kinds["prompt"] == prompt_count
 
     result = await _import_served(loopback_engine, pack)
 

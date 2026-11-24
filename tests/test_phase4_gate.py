@@ -41,7 +41,8 @@ import pytest
 from fastmcp import Client, FastMCP
 from scion_sdk.upstream_wire import UPSTREAM_META_KEY, UPSTREAM_META_NAMESPACE_KEY
 
-#: The eleven declared apps (CONN-CRAFT-SUITE-API-APPS-R002).
+#: The gate's fixture apps: the CLIs the fixture PATH carries, the rest of
+#: the declared suite (CONN-CRAFT-SUITE-API-APPS-R002) stays unspawned.
 APPS = (
     "photocraft",
     "wordcraft",
@@ -367,7 +368,7 @@ async def loopback_gateway(tmp_path, app_cli_factory, monkeypatch) -> _LoopbackG
 
     # The facade, deployed exactly as docs/fleet-deployment.md describes:
     # fixture app CLIs on the PATH (never the real CLIs), every namespace
-    # active, so the one server's tools/list holds all eleven apps' tools.
+    # active, so the one server's tools/list holds all nineteen apps' tools.
     monkeypatch.setenv("SCION_UPSTREAM_ACTIVATION", "active")
     for app in APPS:
         app_cli_factory(app)

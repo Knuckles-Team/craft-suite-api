@@ -14,7 +14,7 @@ An agent lists the server's resources and reads the skill of one app before it a
 
 **Acceptance Scenarios**:
 
-1. **Given** the default server, **When** the client lists `skill://` resources, **Then** it sees one skill for each of the eleven apps (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`).
+1. **Given** the default server, **When** the client lists `skill://` resources, **Then** it sees one skill for each of the nineteen apps (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`).
 2. **Given** a skill, **When** the agent reads its tool table, **Then** every tool is named `<app>_<tool>` and exists in the app snapshot (`CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`).
 
 ### User Story 2 - Ask the graph about apps and use cases (Priority: P2)
@@ -56,7 +56,7 @@ A maintainer updates an app and sees what changed.
 
 ## Success Criteria
 
-- **SC-001**: Eleven app skills and eleven app ontology files exist. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R003`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`.
+- **SC-001**: Nineteen app skills and nineteen app ontology files exist. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R003`, `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R004`.
 - **SC-002**: The pack import reports no orphan class. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R008`.
 - **SC-004**: Every packaged ontology class reaches `bfo:Entity` through the core, and every agent prompt names only skills and tools its ontology links. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R009`.
 - **SC-003**: Two generator runs give identical bytes. Rows: `CONN-CRAFT-SUITE-API-CONNECTOR-CONTENT-R006`.

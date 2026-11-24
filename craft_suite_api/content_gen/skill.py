@@ -28,6 +28,7 @@ def _check_tools(app: str, tools, snapshot: ToolSnapshot) -> None:
 def render_skill(source: AppSource, snapshot: ToolSnapshot) -> str:
     """The Markdown text of ``skills/<app>/SKILL.md`` for one app."""
     app = source.app
+    ns = source.served_namespace
     for func in source.functionalities:
         _check_tools(app, func.tools, snapshot)
     lines = [
@@ -44,8 +45,8 @@ def render_skill(source: AppSource, snapshot: ToolSnapshot) -> str:
         "",
         "## Activation",
         "",
-        f"Call `registry_activate` with the namespace `{app}` before using any "
-        f"`{app}_*` tool.",
+        f"Call `registry_activate` with the namespace `{ns}` before using any "
+        f"`{ns}_*` tool.",
         "",
         "## Files in and out",
         "",
@@ -71,7 +72,7 @@ def render_skill(source: AppSource, snapshot: ToolSnapshot) -> str:
     ]
     for tool in snapshot.tools:
         sentence = first_sentence(tool.description) or tool.name
-        lines.append(f"| `{app}_{tool.name}` | {sentence} |")
+        lines.append(f"| `{ns}_{tool.name}` | {sentence} |")
     if source.functionalities:
         lines += ["", "## Functionalities", ""]
         for func in source.functionalities:

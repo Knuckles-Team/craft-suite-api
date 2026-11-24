@@ -1,0 +1,33 @@
+app: mailcraft
+summary: MailCraft mail client — mailboxes, folders, messages, contacts, calendar and tasks in a .mailcraft mailbox; read, write and send mail.
+classes:
+  - name: Mailbox
+    parent: Document
+    description: A MailCraft mailbox (.mailcraft), holding accounts, folders, messages, contacts, events and tasks.
+functionality:
+  - name: open_mailbox
+    description: Open a mailbox file or start from the sample mailbox, and inspect what it holds.
+    tools: [open_mailbox, status, inspect_mailbox, list_folders]
+    steps:
+      - Open the .mailcraft file, or start from the sample mailbox.
+      - Check that the mailbox is open.
+      - Inspect the accounts and the folder tree with unread counts.
+  - name: read_messages
+    description: List a folder's messages and read one in full.
+    tools: [list_folders, list_messages, read_message]
+    steps:
+      - Find the folder in the tree.
+      - List its messages, newest first, optionally narrowed by search.
+      - Read the message in full: sender, recipients, body and attachments.
+  - name: send_message
+    description: Write and send a new message from an account.
+    tools: [list_contacts, send_message]
+    steps:
+      - Look up the recipient among the contacts.
+      - Write and send the message.
+  - name: save_mailbox
+    description: Save the mailbox back to a .mailcraft file.
+    tools: [save_mailbox, inspect_mailbox]
+    steps:
+      - Inspect what the mailbox holds.
+      - Save it to a .mailcraft file.
