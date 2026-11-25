@@ -59,7 +59,7 @@ An operator runs an app tool through the gateway. The output appears in the file
 ## Requirements
 
 - **FR-001**: The backend tier degrades when unconfigured. Rows: `CONN-CRAFT-SUITE-API-APPS-R001`, `CONN-CRAFT-SUITE-API-APPS-R001.1`.
-- **FR-002**: Declare every app upstream with fail-closed roots. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`.
+- **FR-002**: Declare every app upstream with fail-closed roots and per-app consent flags. Rows: `CONN-CRAFT-SUITE-API-APPS-R002`, `CONN-CRAFT-SUITE-API-APPS-R021`.
 - **FR-003**: Probe the app command-line programs for MCP support. Rows: `CONN-CRAFT-SUITE-API-APPS-R003`.
 - **FR-004**: Support local, remote and bridge deployment. Rows: `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006`.
 - **FR-005**: Keep app tools out of the initial list. Rows: `CONN-CRAFT-SUITE-API-APPS-R007`.
@@ -95,7 +95,7 @@ In scope: the rows of [requirements.md](requirements.md). Out of scope: the regi
 | Label | Rows | Design section | Test ID | Evidence |
 |---|---|---|---|---|
 | FR-001 | `CONN-CRAFT-SUITE-API-APPS-R001`, `CONN-CRAFT-SUITE-API-APPS-R001.1` | [plan.md](plan.md) | T-001 | [test-spec.md](test-spec.md) |
-| FR-002 | `CONN-CRAFT-SUITE-API-APPS-R002` | [plan.md](plan.md) | T-002 | [test-spec.md](test-spec.md) |
+| FR-002 | `CONN-CRAFT-SUITE-API-APPS-R002`, `CONN-CRAFT-SUITE-API-APPS-R021` | [plan.md](plan.md) | T-002, T-021 | [test-spec.md](test-spec.md) |
 | FR-003 | `CONN-CRAFT-SUITE-API-APPS-R003` | [plan.md](plan.md) | T-003 | [test-spec.md](test-spec.md) |
 | FR-004 | `CONN-CRAFT-SUITE-API-APPS-R004`, `CONN-CRAFT-SUITE-API-APPS-R005`, `CONN-CRAFT-SUITE-API-APPS-R006` | [plan.md](plan.md) | T-004 to T-006 | [test-spec.md](test-spec.md) |
 | FR-005 | `CONN-CRAFT-SUITE-API-APPS-R007` | [plan.md](plan.md) | T-007 | [test-spec.md](test-spec.md) |

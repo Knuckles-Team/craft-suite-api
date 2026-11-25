@@ -112,6 +112,164 @@
       }
     },
     {
+      "name": "core_archive_extract",
+      "description": "Extract every regular file of a ZIP/APK/IPA/JAR or ASAR (plus its .asar.unpacked files) into a fresh private temporary folder chosen by Craft Anything, and return its path. Bounded size and count; entries that would escape the folder are refused.",
+      "input_schema": {
+        "$defs": {
+          "IntegrityPolicy": {
+            "oneOf": [
+              {
+                "const": "fail",
+                "description": "Stop with an error when a recorded hash or checksum does not match the content.",
+                "type": "string"
+              },
+              {
+                "const": "continue",
+                "description": "Record mismatches as contradictions and keep going.",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "if_tampered": {
+            "$ref": "#/$defs/IntegrityPolicy",
+            "description": "What to do when an ASAR integrity hash or ZIP CRC does not match."
+          },
+          "max_bytes": {
+            "default": 4294967296,
+            "description": "Most bytes written in total.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "max_files": {
+            "default": 100000,
+            "description": "Most files written.",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "default": null,
+            "description": "Absolute path of the ZIP/APK/IPA/JAR or ASAR. Defaults to the active target.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "ExtractArtifactParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_archive_show",
+      "description": "Content-addressed inventory of a ZIP/APK/IPA/JAR, Electron ASAR, app bundle or folder: every file with size, kind, role and sha256; nested archives opened to a bounded depth; ASAR integrity hashes and ZIP CRCs checked. Paged (offset/limit).",
+      "input_schema": {
+        "$defs": {
+          "IntegrityPolicy": {
+            "oneOf": [
+              {
+                "const": "fail",
+                "description": "Stop with an error when a recorded hash or checksum does not match the content.",
+                "type": "string"
+              },
+              {
+                "const": "continue",
+                "description": "Record mismatches as contradictions and keep going.",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "if_tampered": {
+            "$ref": "#/$defs/IntegrityPolicy",
+            "description": "What to do when an ASAR integrity hash or ZIP CRC does not match."
+          },
+          "limit": {
+            "default": 500,
+            "description": "Entries per page (1\u201320000).",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "max_depth": {
+            "default": 3,
+            "description": "How deep nested archives are opened (0\u20136).",
+            "format": "uint32",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "max_entries": {
+            "default": 200000,
+            "description": "Most entries listed in total.",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "max_total_bytes": {
+            "default": 4294967296,
+            "description": "Most bytes read and hashed in total.",
+            "format": "uint64",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "First entry of the page.",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "default": null,
+            "description": "Absolute path of the archive, app bundle or folder. Defaults to the active target.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "InspectArtifactParams",
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_archives_compare",
+      "description": "Compare two archives, app bundles or folders file by file: added, removed, changed (by sha256) and moved files. Inputs are absolute paths or core_archive_show evidence.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "left": {
+            "description": "The older artifact: an absolute path, or core_archive_show evidence (inline or {\"kind\":\"saved\",\"evidence_id\":\u2026})."
+          },
+          "max_rows": {
+            "default": 500,
+            "description": "Most rows per list.",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "right": {
+            "description": "The newer artifact, in the same forms."
+          }
+        },
+        "required": [
+          "left",
+          "right"
+        ],
+        "title": "CompareArtifactsParams",
+        "type": "object"
+      }
+    },
+    {
       "name": "core_brief_write",
       "description": "Set the investigation brief: the question, purpose, targets, constraints and what 'done' means. Write it before the first analysis call on a new question.",
       "input_schema": {
@@ -447,6 +605,38 @@
       }
     },
     {
+      "name": "core_feature_find",
+      "description": "Literal text \u2192 matching strings, functions and imports \u2192 the code that uses them \u2192 the functions involved.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "case_sensitive": {
+            "default": false,
+            "description": "Match case exactly (default false).",
+            "type": "boolean"
+          },
+          "document": {
+            "default": null,
+            "description": "Open target (document) to use; the active one when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "query": {
+            "description": "Text to look for (e.g. a label or message you see in the app).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "TraceFeatureParams",
+        "type": "object"
+      }
+    },
+    {
       "name": "core_finding_edit",
       "description": "Correct a recorded finding without changing its id. Requires a statement and existing evidence ids; pass based_on_revision to refuse a stale investigation update.",
       "input_schema": {
@@ -733,6 +923,41 @@
       }
     },
     {
+      "name": "core_overview_show",
+      "description": "One-page summary of a program: format, architecture, entry, segments, counts of functions/strings/imports/exports, libraries, hardening, toolchain hints. detail=summary keeps the full record and returns counts plus a reference to page with core_evidence_browse.",
+      "input_schema": {
+        "$defs": {
+          "Detail": {
+            "description": "The uniform summary-first detail control (see the module docs). `complete` is the default and\nreturns the full evidence record; `summary` returns a compact, pageable view.",
+            "enum": [
+              "complete",
+              "summary"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/Detail",
+            "default": "complete",
+            "description": "complete (default) returns the full record; summary returns counts plus a reference to page\nwith core_evidence_browse."
+          },
+          "document": {
+            "default": null,
+            "description": "Open target (document) to use; the active one when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "OverviewParams",
+        "type": "object"
+      }
+    },
+    {
       "name": "core_person_ask",
       "description": "Ask the person a question in the app and wait for the answer: a short question, up to six suggested answers shown as buttons, and optionally a typed reply. Use it when a choice changes the result (scope, style, which feature first) and you can't decide from the evidence. Returns the answer text, or a note to continue with your best judgement if nobody answers within 30 minutes.",
       "input_schema": {
@@ -926,6 +1151,57 @@
       }
     },
     {
+      "name": "core_target_open",
+      "description": "Open a file, app bundle or folder as the active target. Detects what it is from its contents. For raw machine code pass format=raw-binary with architecture and entry_point.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "architecture": {
+            "default": null,
+            "description": "Required with raw-binary: x86, x86_64, arm, arm64.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "entry_point": {
+            "default": null,
+            "description": "Required with raw-binary: load/entry address (0x-hex).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "format": {
+            "default": null,
+            "description": "Force a format: `raw-binary` or `dos-com`.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "language_id": {
+            "default": null,
+            "description": "Optional Deep-mode processor pin: a Ghidra language id such as `RISCV:LE:64:RV64GC`,\n`PowerPC:BE:32:default`, `6502:LE:16:default`, `MIPS:BE:32:default` or `ARM:LE:32:v7`.\nTakes effect only in Deep mode (Ghidra); it lets Deep target processors the built-in\nclean-room engine doesn't cover, and overrides the `ghidra.language_id` setting for this\ntarget. Ignored in Clean room.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "path": {
+            "description": "Absolute path to a file, app bundle or folder.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "title": "OpenParams",
+        "type": "object"
+      }
+    },
+    {
       "name": "core_target_select",
       "description": "Make another open target the active one.",
       "input_schema": {
@@ -944,11 +1220,65 @@
       }
     },
     {
+      "name": "core_target_triage",
+      "description": "Say what a file is in plain English (format, OS, architecture, language/toolchain hints such as Go, Rust, .NET, Electron, Flutter, Delphi, packers) and which toolsets and tools to use next. Uses the active target unless path is given.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "default": null,
+            "description": "Absolute path of a file or folder; the active target when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "TriageParams",
+        "type": "object"
+      }
+    },
+    {
       "name": "core_targets_list",
       "description": "Every open target with its id, kind and sha256.",
       "input_schema": {
         "additionalProperties": false,
         "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "core_text_read",
+      "description": "Read a text file (a script, Markdown, settings, a log) as text: an absolute path, or the active target. Paged by lines with offset/limit (200 lines by default, at most 2000, and at most 256 KiB of text a page; coverage gives the next offset). Reads UTF-8, and UTF-16 with a byte-order mark; bytes that aren't valid text show as U+FFFD and are counted. A file with a zero byte in its first 8 KiB is refused as binary (use core_target_triage or native_bytes_find). A line longer than 256 KiB comes cut to its start. Files up to 64 MiB. Nothing is run.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 200,
+            "description": "Most lines to show (1 to 2000).",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "First line to show, counted from 0.",
+            "format": "uint",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "default": null,
+            "description": "Absolute path of the file; the active target when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "title": "TextReadParams",
         "type": "object"
       }
     },
@@ -1242,6 +1572,48 @@
       "input_schema": {
         "additionalProperties": false,
         "properties": {},
+        "type": "object"
+      }
+    },
+    {
+      "name": "native_function_study",
+      "description": "Everything about one function in one record: facts, pseudo-C, assembly, basic blocks, callers, callees, references, strings, unresolved calls, API boundary and register value flow. Page through big facets with core_evidence_browse; detail=summary returns counts plus a reference first.",
+      "input_schema": {
+        "$defs": {
+          "Detail": {
+            "description": "The uniform summary-first detail control (see the module docs). `complete` is the default and\nreturns the full evidence record; `summary` returns a compact, pageable view.",
+            "enum": [
+              "complete",
+              "summary"
+            ],
+            "type": "string"
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/Detail",
+            "default": "complete",
+            "description": "complete (default) returns the full dossier; summary returns counts plus a reference to page\nbig facets (assembly, callers\u2026) with core_evidence_browse."
+          },
+          "document": {
+            "default": null,
+            "description": "Open target (document) to use; the active one when omitted.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "function": {
+            "description": "Function name or address.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "function"
+        ],
+        "title": "FunctionParams",
         "type": "object"
       }
     },

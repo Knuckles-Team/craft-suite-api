@@ -28,3 +28,4 @@ Governing spec: [spec.md](spec.md). Design: [plan.md](plan.md). Rows: [requireme
 - [ ] T024 [US1] CONN-CRAFT-SUITE-API-APPS-R018.5 The ready answer follows the warming state and shows every lifecycle state.
 - [ ] T025 [US1] CONN-CRAFT-SUITE-API-APPS-R018.4 Wiring and hot-path proof: a broken backend never reports ready.
 - [ ] T026 [US1] CONN-CRAFT-SUITE-API-APPS-R001.1 Backend readiness detail comes from the backend lifecycle.
+- [ ] T027 [US1] CONN-CRAFT-SUITE-API-APPS-R021 Per-app consent flags join the mcp command.

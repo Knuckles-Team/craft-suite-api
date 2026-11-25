@@ -73,6 +73,11 @@
     rdfs:comment "A short edited promotional video." ;
     rdfs:subClassOf :Video .
 
+:InvestigationReport a owl:Class ;
+    rdfs:label "Investigation report" ;
+    rdfs:comment "A report that answers a brief's question, grounded in the evidence ledger of the investigation that produced it." ;
+    rdfs:subClassOf :CreativeWork .
+
 # -- skills, agent prompts and roles ---------------------------------------------
 
 :CraftSkill a owl:Class ;

@@ -80,10 +80,34 @@ FLAGLESS_APPS = (
 #: (verified against ``<app>-cli mcp --help``). solidcraft takes one
 #: ``--allow-path DIR`` per folder it may read or write, and silently ignores
 #: the automation flags, so without this its exports outside the folders of
-#: designs it opened or saved refused.
+#: designs it opened or saved refused. (mailcraft has a ``--files DIR`` mode,
+#: but its default is the data mode: agents pass and receive file content as
+#: base64 and never name files on the host, so no root flag is declared.)
 ROOT_FLAGS = {
     "materialcraft": ("--read-root", "--write-root"),
     "solidcraft": ("--allow-path", "--allow-path"),
+}
+
+#: Fixed extra arguments beside the ``mcp`` subcommand, per app. mailcraft
+#: gates its power classes behind ``--allow`` (verified against the shipped
+#: binary): headless, everything the owner has not allowed is refused, so
+#: without ``mailbox`` the agent cannot open, inspect or save a mailbox
+#: file, and without ``send`` it cannot write out a message (a send still
+#: needs the per-call ``confirmed`` flag and a real account). The other
+#: classes (delete, accounts, settings, input) stay refused: permanent
+#: deletion, credential changes and live-app input are not part of the
+#: headless suite. craft-anything keeps its target-reading tools
+#: (``core_target_open``, ``core_target_triage``, ``core_text_read``, …)
+#: behind Deep mode (verified against the shipped binary: 30 served tools
+#: without the flag, 39 with it); without it the investigation workflow
+#: cannot look at a target and records no evidence, so findings could never
+#: be grounded. ``--deep`` is read-only (the target's code, files and page
+#: source; nothing runs), so it is the right consent for the headless
+#: suite — ``--allow-run`` (tools that run code or change a device) is
+#: deliberately not passed.
+EXTRA_ARGS = {
+    "mailcraft": ("--allow", "mailbox,send"),
+    "craft-anything": ("--deep",),
 }
 
 #: Apps whose name cannot serve as their own namespace: the SDK namespace
@@ -131,7 +155,7 @@ def _declare(app: str, read: tuple[str, ...], write: tuple[str, ...]) -> Upstrea
         namespace=NAMESPACES.get(app),
         kind="stdio",
         command=f"{app}-cli",
-        args=("mcp",),
+        args=("mcp", *EXTRA_ARGS.get(app, ())),
         sandbox=sandbox,
         exchange=EXCHANGE,
     )

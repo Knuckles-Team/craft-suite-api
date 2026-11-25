@@ -25,7 +25,9 @@ PACKAGE = Path(list(importlib.import_module("craft_suite_api").__path__)[0])
 KG = "http://knuckles.team/kg#"
 CORE_IRI = URIRef("http://knuckles.team/kg/core")
 BFO_ENTITY = URIRef("http://purl.obolibrary.org/obo/BFO_0000001")
-TOOL_NAME = re.compile(r"^[a-z]+craft_[A-Za-z0-9_]+$|^craft_suite_[A-Za-z0-9_]+$")
+TOOL_NAME = re.compile(
+    r"^[a-z]+craft_[A-Za-z0-9_]+$|^craftanything_[A-Za-z0-9_]+$|^craft_suite_[A-Za-z0-9_]+$"
+)
 
 
 def _core_graph() -> rdflib.Graph:
@@ -177,8 +179,8 @@ def test_every_app_skill_states_the_not_ready_refusals_and_retry() -> None:
 
     skills = sorted((PACKAGE / "skills").glob("*/SKILL.md"))
     skills = [s for s in skills if s.parent.name != "artcraft-starter"]
-    # One skill per declared app, plus the sixteen proven workflow skills.
-    assert len(skills) == len(APPS) + 16
+    # One skill per declared app, plus the nineteen proven workflow skills.
+    assert len(skills) == len(APPS) + 19
     assert set(APPS) <= {s.parent.name for s in skills}
     for path in skills:
         text = path.read_text(encoding="utf-8")

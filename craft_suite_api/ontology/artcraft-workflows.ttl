@@ -38,6 +38,16 @@ wf:backend_public_gc_bucket a :BackendBucket ;
     rdfs:comment "Media files and generation results of the craft backend, reached through the craft_suite_* tools." ;
     :locationSetting "GC_ENABLED_PUBLIC_BUCKET_NAME" .
 
+wf:anicraft_session a :AppSession ;
+    rdfs:label "anicraft session" ;
+    rdfs:comment "The caller's pooled anicraft process: the open animation document (stage, scenes, layers, keyframes) persists between calls of one caller." ;
+    :locationReference "anicraft (per caller)" .
+
+wf:craftanything_session a :AppSession ;
+    rdfs:label "craft-anything session" ;
+    rdfs:comment "The caller's pooled craft-anything process: the investigation (brief, plan, evidence ledger, findings, unknowns, handoff) persists between calls of one caller." ;
+    :locationReference "craft-anything (per caller)" .
+
 wf:cadcraft_session a :AppSession ;
     rdfs:label "cadcraft session" ;
     rdfs:comment "The caller's pooled cadcraft process: open documents and projects persist between calls of one caller." ;
@@ -77,6 +87,11 @@ wf:lightcraft_session a :AppSession ;
     rdfs:label "lightcraft session" ;
     rdfs:comment "The caller's pooled lightcraft process: open documents and projects persist between calls of one caller." ;
     :locationReference "lightcraft (per caller)" .
+
+wf:mailcraft_session a :AppSession ;
+    rdfs:label "mailcraft session" ;
+    rdfs:comment "The caller's pooled mailcraft process: the open mailbox (accounts, folders, messages, contacts) persists between calls of one caller." ;
+    :locationReference "mailcraft (per caller)" .
 
 wf:materialcraft_session a :AppSession ;
     rdfs:label "materialcraft session" ;
@@ -3339,6 +3354,412 @@ wf:skill_texturecraft_texture_product a :CraftSkill ;
     :skillName "texturecraft-texture-product" ;
     :skillWalksWorkflow wf:texturecraft_texture_product .
 
+wf:anicraft_compose_frame a :CraftWorkflow ;
+    rdfs:label "Compose an animation frame" ;
+    rdfs:comment "Set a stage, draw a rounded rectangle and an ellipse on it, check the document, preview the frame, and export it as a published PNG." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/anicraft#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:anicraft_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:anicraft_session ;
+    :outputFormat "png" ;
+    :producesAssetType :MarketingAsset ;
+    :hasToolUseContract wf:anicraft_compose_frame_contract .
+
+wf:anicraft_compose_frame_contract a :ToolUseContract ;
+    rdfs:label "Compose an animation frame contract" ;
+    :hasToolUseStep wf:anicraft_compose_frame_step1 ;
+    :hasToolUseStep wf:anicraft_compose_frame_step2 ;
+    :hasToolUseStep wf:anicraft_compose_frame_step3 ;
+    :hasToolUseStep wf:anicraft_compose_frame_step4 ;
+    :hasToolUseStep wf:anicraft_compose_frame_step5 ;
+    :hasToolUseStep wf:anicraft_compose_frame_step6 .
+
+wf:anicraft_compose_frame_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "anicraft_cmd_doc_set_stage" ;
+    :stepPurpose "Set the stage size and frame rate; the dark background is the frame's base." ;
+    :hasParameterBinding wf:anicraft_compose_frame_step1_p1 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step1_p2 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step1_p3 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step1_p4 .
+
+wf:anicraft_compose_frame_step1_p1 a :ToolParameterBinding ;
+    :parameterName "width" ;
+    :parameterValue "1280" .
+
+wf:anicraft_compose_frame_step1_p2 a :ToolParameterBinding ;
+    :parameterName "height" ;
+    :parameterValue "720" .
+
+wf:anicraft_compose_frame_step1_p3 a :ToolParameterBinding ;
+    :parameterName "fps" ;
+    :parameterValue "24" .
+
+wf:anicraft_compose_frame_step1_p4 a :ToolParameterBinding ;
+    :parameterName "background" ;
+    :parameterValue "\"#101418\"" .
+
+wf:anicraft_compose_frame_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "anicraft_cmd_draw_rect" ;
+    :stepPurpose "Draw the first shape: a teal rounded rectangle (x,y is the top-left corner; radius in px)." ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p1 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p2 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p3 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p4 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p5 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p6 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p7 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step2_p8 .
+
+wf:anicraft_compose_frame_step2_p1 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "140" .
+
+wf:anicraft_compose_frame_step2_p2 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "180" .
+
+wf:anicraft_compose_frame_step2_p3 a :ToolParameterBinding ;
+    :parameterName "w" ;
+    :parameterValue "420" .
+
+wf:anicraft_compose_frame_step2_p4 a :ToolParameterBinding ;
+    :parameterName "h" ;
+    :parameterValue "260" .
+
+wf:anicraft_compose_frame_step2_p5 a :ToolParameterBinding ;
+    :parameterName "radius" ;
+    :parameterValue "36" .
+
+wf:anicraft_compose_frame_step2_p6 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#3dd6c3\"" .
+
+wf:anicraft_compose_frame_step2_p7 a :ToolParameterBinding ;
+    :parameterName "stroke" ;
+    :parameterValue "\"#0b1f24\"" .
+
+wf:anicraft_compose_frame_step2_p8 a :ToolParameterBinding ;
+    :parameterName "stroke_width" ;
+    :parameterValue "6" .
+
+wf:anicraft_compose_frame_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "anicraft_cmd_draw_ellipse" ;
+    :stepPurpose "Draw the second shape: a gold circle beside the rectangle." ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p1 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p2 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p3 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p4 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p5 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p6 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step3_p7 .
+
+wf:anicraft_compose_frame_step3_p1 a :ToolParameterBinding ;
+    :parameterName "x" ;
+    :parameterValue "760" .
+
+wf:anicraft_compose_frame_step3_p2 a :ToolParameterBinding ;
+    :parameterName "y" ;
+    :parameterValue "300" .
+
+wf:anicraft_compose_frame_step3_p3 a :ToolParameterBinding ;
+    :parameterName "w" ;
+    :parameterValue "300" .
+
+wf:anicraft_compose_frame_step3_p4 a :ToolParameterBinding ;
+    :parameterName "h" ;
+    :parameterValue "300" .
+
+wf:anicraft_compose_frame_step3_p5 a :ToolParameterBinding ;
+    :parameterName "fill" ;
+    :parameterValue "\"#f4b942\"" .
+
+wf:anicraft_compose_frame_step3_p6 a :ToolParameterBinding ;
+    :parameterName "stroke" ;
+    :parameterValue "\"#3a2a08\"" .
+
+wf:anicraft_compose_frame_step3_p7 a :ToolParameterBinding ;
+    :parameterName "stroke_width" ;
+    :parameterValue "6" .
+
+wf:anicraft_compose_frame_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "anicraft_anicraft_document" ;
+    :stepPurpose "Read the open document: stage, scenes, layers and keyframes — confirm the shapes landed before rendering." .
+
+wf:anicraft_compose_frame_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "anicraft_anicraft_render" ;
+    :stepPurpose "Render frame 0 as a PNG picture in the result, exactly as exported — the quick preview before publishing." ;
+    :hasParameterBinding wf:anicraft_compose_frame_step5_p1 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step5_p2 .
+
+wf:anicraft_compose_frame_step5_p1 a :ToolParameterBinding ;
+    :parameterName "frame" ;
+    :parameterValue "0" .
+
+wf:anicraft_compose_frame_step5_p2 a :ToolParameterBinding ;
+    :parameterName "scale" ;
+    :parameterValue "1.0" .
+
+wf:anicraft_compose_frame_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "anicraft_cmd_file_export_png" ;
+    :stepPurpose "Export the same frame to a file; the relative path lands in the run folder and is published to every sink." ;
+    :hasParameterBinding wf:anicraft_compose_frame_step6_p1 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step6_p2 ;
+    :hasParameterBinding wf:anicraft_compose_frame_step6_p3 .
+
+wf:anicraft_compose_frame_step6_p1 a :ToolParameterBinding ;
+    :parameterName "frame" ;
+    :parameterValue "0" .
+
+wf:anicraft_compose_frame_step6_p2 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"animation-frame-0.png\"" .
+
+wf:anicraft_compose_frame_step6_p3 a :ToolParameterBinding ;
+    :parameterName "scale" ;
+    :parameterValue "1.0" .
+
+wf:skill_anicraft_compose_frame a :CraftSkill ;
+    rdfs:label "Compose an animation frame" ;
+    :skillName "anicraft-compose-frame" ;
+    :skillWalksWorkflow wf:anicraft_compose_frame .
+
+wf:craftanything_investigate_target a :CraftWorkflow ;
+    rdfs:label "Investigate a target" ;
+    rdfs:comment "Write the brief and plan, triage and read the target, ground a finding in the evidence ledger, and publish the investigation report." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/craft-anything#app> ;
+    :readsFrom wf:exchange_objects ;
+    :readsFrom wf:craftanything_session ;
+    :writesTo wf:exchange_objects ;
+    :writesTo wf:exchange_files ;
+    :writesTo wf:craftanything_session ;
+    :outputFormat "md" ;
+    :producesAssetType :InvestigationReport ;
+    :hasToolUseContract wf:craftanything_investigate_target_contract .
+
+wf:craftanything_investigate_target_contract a :ToolUseContract ;
+    rdfs:label "Investigate a target contract" ;
+    :hasToolUseStep wf:craftanything_investigate_target_step1 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step2 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step3 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step4 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step5 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step6 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step7 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step8 ;
+    :hasToolUseStep wf:craftanything_investigate_target_step9 .
+
+wf:craftanything_investigate_target_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "craftanything_core_brief_write" ;
+    :stepPurpose "Set the investigation brief before the first analysis call; the target is named here." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step1_p1 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step1_p2 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step1_p3 .
+
+wf:craftanything_investigate_target_step1_p1 a :ToolParameterBinding ;
+    :parameterName "question" ;
+    :parameterValue "\"${question}\"" .
+
+wf:craftanything_investigate_target_step1_p2 a :ToolParameterBinding ;
+    :parameterName "targets" ;
+    :parameterValue "[\"${target}\"]" .
+
+wf:craftanything_investigate_target_step1_p3 a :ToolParameterBinding ;
+    :parameterName "done_when" ;
+    :parameterValue "\"${done_when}\"" .
+
+wf:craftanything_investigate_target_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "craftanything_core_plan_update" ;
+    :stepPurpose "Replace the plan with the steps; each step carries a title, a status and a short why." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step2_p1 .
+
+wf:craftanything_investigate_target_step2_p1 a :ToolParameterBinding ;
+    :parameterName "steps" ;
+    :parameterValue "[{\"title\": \"Read the target\", \"status\": \"doing\", \"why\": \"The brief's answer lives in the target\"}, {\"title\": \"Record the finding\", \"status\": \"todo\", \"why\": \"Grounded in the evidence ledger\"}, {\"title\": \"Write and save the report\", \"status\": \"todo\", \"why\": \"The done-when criteria\"}]" .
+
+wf:craftanything_investigate_target_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "craftanything_core_target_triage" ;
+    :stepPurpose "Open the target and take a first look: kind, size, a SHA-256 and the recommended next tools — the first evidence entry." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step3_p1 .
+
+wf:craftanything_investigate_target_step3_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${target}\"" .
+
+wf:craftanything_investigate_target_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "craftanything_core_text_read" ;
+    :stepPurpose "Read the first lines of the target as text (paged); the second evidence entry." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step4_p1 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step4_p2 .
+
+wf:craftanything_investigate_target_step4_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"${target}\"" .
+
+wf:craftanything_investigate_target_step4_p2 a :ToolParameterBinding ;
+    :parameterName "limit" ;
+    :parameterValue "80" .
+
+wf:craftanything_investigate_target_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "craftanything_core_evidence_show" ;
+    :stepPurpose "List the evidence ledger; take the ids of the triage and read records — a finding may only cite ids that exist there." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step5_p1 .
+
+wf:craftanything_investigate_target_step5_p1 a :ToolParameterBinding ;
+    :parameterName "detail" ;
+    :parameterValue "\"summary\"" .
+
+wf:craftanything_investigate_target_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "craftanything_core_finding_record" ;
+    :stepPurpose "Record the settled answer; every cited evidence id is checked against the ledger." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step6_p1 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step6_p2 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step6_p3 .
+
+wf:craftanything_investigate_target_step6_p1 a :ToolParameterBinding ;
+    :parameterName "statement" ;
+    :parameterValue "\"${statement}\"" .
+
+wf:craftanything_investigate_target_step6_p2 a :ToolParameterBinding ;
+    :parameterName "confidence" ;
+    :parameterValue "\"observed\"" .
+
+wf:craftanything_investigate_target_step6_p3 a :ToolParameterBinding ;
+    :parameterName "evidence_ids" ;
+    :parameterValue "[\"${evidence_id}\"]" .
+
+wf:craftanything_investigate_target_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "craftanything_core_report_write" ;
+    :stepPurpose "Turn the investigation (brief, plan, findings, handoff) and the evidence ledger into a readable report." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step7_p1 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step7_p2 .
+
+wf:craftanything_investigate_target_step7_p1 a :ToolParameterBinding ;
+    :parameterName "format" ;
+    :parameterValue "\"markdown\"" .
+
+wf:craftanything_investigate_target_step7_p2 a :ToolParameterBinding ;
+    :parameterName "include_evidence" ;
+    :parameterValue "true" .
+
+wf:craftanything_investigate_target_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "craftanything_core_report_save" ;
+    :stepPurpose "Save the report to a relative path (must end in .md, .html, .htm or .txt); the exchange stages it and publishes it to every sink." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step8_p1 ;
+    :hasParameterBinding wf:craftanything_investigate_target_step8_p2 .
+
+wf:craftanything_investigate_target_step8_p1 a :ToolParameterBinding ;
+    :parameterName "path" ;
+    :parameterValue "\"investigation-report.md\"" .
+
+wf:craftanything_investigate_target_step8_p2 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${report}\"" .
+
+wf:craftanything_investigate_target_step9 a :ToolUseStep ;
+    :stepOrder 9 ;
+    :stepToolName "craftanything_core_handoff_write" ;
+    :stepPurpose "Rewrite the handoff note — where we are, what is next, traps to avoid — so the next turn resumes without re-reading." ;
+    :hasParameterBinding wf:craftanything_investigate_target_step9_p1 .
+
+wf:craftanything_investigate_target_step9_p1 a :ToolParameterBinding ;
+    :parameterName "text" ;
+    :parameterValue "\"${handoff}\"" .
+
+wf:skill_craftanything_investigate_target a :CraftSkill ;
+    rdfs:label "Investigate a target" ;
+    :skillName "craft-anything-investigate-target" ;
+    :skillWalksWorkflow wf:craftanything_investigate_target .
+
+wf:mailcraft_inspect_mailbox a :CraftWorkflow ;
+    rdfs:label "Inspect a mailbox" ;
+    rdfs:comment "Open the sample mailbox, read its accounts, folders and messages, read a message in full, list the contacts, and round-trip the mailbox back as data." ;
+    :workflowApp <http://knuckles.team/kg/artcraft/mailcraft#app> ;
+    :readsFrom wf:mailcraft_session ;
+    :writesTo wf:mailcraft_session ;
+    :hasToolUseContract wf:mailcraft_inspect_mailbox_contract .
+
+wf:mailcraft_inspect_mailbox_contract a :ToolUseContract ;
+    rdfs:label "Inspect a mailbox contract" ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step1 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step2 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step3 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step4 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step5 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step6 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step7 ;
+    :hasToolUseStep wf:mailcraft_inspect_mailbox_step8 .
+
+wf:mailcraft_inspect_mailbox_step1 a :ToolUseStep ;
+    :stepOrder 1 ;
+    :stepToolName "mailcraft_open_mailbox" ;
+    :stepPurpose "Open the mailbox; the built-in sample mailbox needs no account." ;
+    :hasParameterBinding wf:mailcraft_inspect_mailbox_step1_p1 .
+
+wf:mailcraft_inspect_mailbox_step1_p1 a :ToolParameterBinding ;
+    :parameterName "sample" ;
+    :parameterValue "true" .
+
+wf:mailcraft_inspect_mailbox_step2 a :ToolUseStep ;
+    :stepOrder 2 ;
+    :stepToolName "mailcraft_status" ;
+    :stepPurpose "The app's status: what is open and ready." .
+
+wf:mailcraft_inspect_mailbox_step3 a :ToolUseStep ;
+    :stepOrder 3 ;
+    :stepToolName "mailcraft_inspect_mailbox" ;
+    :stepPurpose "The mailbox's shape: accounts and their counts." .
+
+wf:mailcraft_inspect_mailbox_step4 a :ToolUseStep ;
+    :stepOrder 4 ;
+    :stepToolName "mailcraft_list_folders" ;
+    :stepPurpose "The folder tree with counts." .
+
+wf:mailcraft_inspect_mailbox_step5 a :ToolUseStep ;
+    :stepOrder 5 ;
+    :stepToolName "mailcraft_list_messages" ;
+    :stepPurpose "The messages, newest first; take the id of the one to read — it names ${message_id}." .
+
+wf:mailcraft_inspect_mailbox_step6 a :ToolUseStep ;
+    :stepOrder 6 ;
+    :stepToolName "mailcraft_read_message" ;
+    :stepPurpose "Read that message in full: subject, from, to, date, body." ;
+    :hasParameterBinding wf:mailcraft_inspect_mailbox_step6_p1 .
+
+wf:mailcraft_inspect_mailbox_step6_p1 a :ToolParameterBinding ;
+    :parameterName "id" ;
+    :parameterValue "\"${message_id}\"" .
+
+wf:mailcraft_inspect_mailbox_step7 a :ToolUseStep ;
+    :stepOrder 7 ;
+    :stepToolName "mailcraft_list_contacts" ;
+    :stepPurpose "The contacts in the mailbox." .
+
+wf:mailcraft_inspect_mailbox_step8 a :ToolUseStep ;
+    :stepOrder 8 ;
+    :stepToolName "mailcraft_save_mailbox" ;
+    :stepPurpose "Round-trip the mailbox back as data: no path argument (data mode) — the mailbox comes back as base64 in the result." .
+
+wf:skill_mailcraft_inspect_mailbox a :CraftSkill ;
+    rdfs:label "Inspect a mailbox" ;
+    :skillName "mailcraft-inspect-mailbox" ;
+    :skillWalksWorkflow wf:mailcraft_inspect_mailbox .
+
 wf:role_craft_suite_operator a :CraftBusinessRole ;
     rdfs:label "Craft Suite Operator" ;
     :roleRunsWorkflow wf:photocraft_edit_product_photo ;
@@ -3356,7 +3777,10 @@ wf:role_craft_suite_operator a :CraftBusinessRole ;
     :roleRunsWorkflow wf:solidcraft_product_model ;
     :roleRunsWorkflow wf:cadcraft_product_drawing ;
     :roleRunsWorkflow wf:materialcraft_product_material ;
-    :roleRunsWorkflow wf:texturecraft_texture_product .
+    :roleRunsWorkflow wf:texturecraft_texture_product ;
+    :roleRunsWorkflow wf:anicraft_compose_frame ;
+    :roleRunsWorkflow wf:craftanything_investigate_target ;
+    :roleRunsWorkflow wf:mailcraft_inspect_mailbox .
 
 wf:prompt_craft_suite_operator a :CraftAgentPrompt ;
     rdfs:label "Craft Suite Operator agent" ;
@@ -3378,6 +3802,9 @@ wf:prompt_craft_suite_operator a :CraftAgentPrompt ;
     :promptUsesSkill wf:skill_cadcraft_product_drawing ;
     :promptUsesSkill wf:skill_materialcraft_product_material ;
     :promptUsesSkill wf:skill_texturecraft_texture_product ;
+    :promptUsesSkill wf:skill_anicraft_compose_frame ;
+    :promptUsesSkill wf:skill_craftanything_investigate_target ;
+    :promptUsesSkill wf:skill_mailcraft_inspect_mailbox ;
     :promptUsesToolName "photocraft_doc_open" ;
     :promptUsesToolName "photocraft_cmd_image_crop" ;
     :promptUsesToolName "photocraft_cmd_image_imageSize" ;
@@ -3485,7 +3912,30 @@ wf:prompt_craft_suite_operator a :CraftAgentPrompt ;
     :promptUsesToolName "texturecraft_viewport_render" ;
     :promptUsesToolName "texturecraft_textures_export" ;
     :promptUsesToolName "texturecraft_mesh_export" ;
-    :promptUsesToolName "texturecraft_project_save" .
+    :promptUsesToolName "texturecraft_project_save" ;
+    :promptUsesToolName "anicraft_cmd_doc_set_stage" ;
+    :promptUsesToolName "anicraft_cmd_draw_rect" ;
+    :promptUsesToolName "anicraft_cmd_draw_ellipse" ;
+    :promptUsesToolName "anicraft_anicraft_document" ;
+    :promptUsesToolName "anicraft_anicraft_render" ;
+    :promptUsesToolName "anicraft_cmd_file_export_png" ;
+    :promptUsesToolName "craftanything_core_brief_write" ;
+    :promptUsesToolName "craftanything_core_plan_update" ;
+    :promptUsesToolName "craftanything_core_target_triage" ;
+    :promptUsesToolName "craftanything_core_text_read" ;
+    :promptUsesToolName "craftanything_core_evidence_show" ;
+    :promptUsesToolName "craftanything_core_finding_record" ;
+    :promptUsesToolName "craftanything_core_report_write" ;
+    :promptUsesToolName "craftanything_core_report_save" ;
+    :promptUsesToolName "craftanything_core_handoff_write" ;
+    :promptUsesToolName "mailcraft_open_mailbox" ;
+    :promptUsesToolName "mailcraft_status" ;
+    :promptUsesToolName "mailcraft_inspect_mailbox" ;
+    :promptUsesToolName "mailcraft_list_folders" ;
+    :promptUsesToolName "mailcraft_list_messages" ;
+    :promptUsesToolName "mailcraft_read_message" ;
+    :promptUsesToolName "mailcraft_list_contacts" ;
+    :promptUsesToolName "mailcraft_save_mailbox" .
 
 wf:role_marketing_asset_producer a :CraftBusinessRole ;
     rdfs:label "Marketing Asset Producer" ;
