@@ -135,7 +135,14 @@ def resolve_refresh_timeout(cli_value: float | None) -> float:
 
 
 async def refresh_app(app: str, timeout_s: float) -> ToolSnapshot:
-    """One live snapshot: the CLI's tool list and server version."""
+    """One live snapshot: the CLI's tool list and server version.
+
+    The CLI is started with the same consent posture the server declares
+    for the app (``upstreams.EXTRA_ARGS``), so the snapshot captures the
+    served surface: without ``--deep`` craft-anything hides its
+    target-content tools, and the live gate would report a drift the
+    server never shows.
+    """
     binary = shutil.which(f"{app}-cli")
     if binary is None:
         raise ContentError(
@@ -144,12 +151,16 @@ async def refresh_app(app: str, timeout_s: float) -> ToolSnapshot:
     from fastmcp import Client
     from fastmcp.client.transports import StdioTransport
 
+    from craft_suite_api.upstreams import EXTRA_ARGS
+
     try:
         # mode="legacy" talks to the app CLIs' protocol era directly; the
         # stdio transport sanitizes the child environment when env is None,
         # so the refresh passes the operator environment through.
         async with Client(
-            StdioTransport(binary, ["mcp"], env=os.environ.copy()),
+            StdioTransport(
+                binary, ["mcp", *EXTRA_ARGS.get(app, ())], env=os.environ.copy()
+            ),
             timeout=timeout_s,
             mode="legacy",
         ) as client:

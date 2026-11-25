@@ -184,7 +184,8 @@ async def test_pack_imports_without_orphans_and_class_query_reaches_subclasses(
     pack = await _pack()
 
     # The pack holds the core ontology, one app ontology per declared app,
-    # the app and workflow skills and the prompts of the packaged content.
+    # the two authored workflow ontology modules, the app and workflow
+    # skills and the prompts of the packaged content.
     import craft_suite_api
     from craft_suite_api.upstreams import APPS
 
@@ -192,7 +193,8 @@ async def test_pack_imports_without_orphans_and_class_query_reaches_subclasses(
     skill_count = len(list(root.joinpath("skills").glob("*/SKILL.md")))
     prompt_count = len(list(root.joinpath("prompts").glob("*.json")))
     kinds = Counter(entry.kind.value for entry in pack.archive.entries)
-    assert kinds["ontology"] == 1 + len(APPS)
+    workflow_modules = {"artcraft-workflows.ttl", "artcraft-workflows-vocabulary.ttl"}
+    assert kinds["ontology"] == 1 + len(APPS) + len(workflow_modules)
     assert kinds["skill"] == skill_count
     assert kinds["prompt"] == prompt_count
 

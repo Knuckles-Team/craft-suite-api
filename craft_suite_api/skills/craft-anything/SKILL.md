@@ -28,11 +28,15 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 | `craftanything_assets_image_generate` | Make a picture with fal. |
 | `craftanything_assets_model_generate` | Make a game-ready, low-poly 3D model (GLB) with fal. |
 | `craftanything_core_action_approve` | Permission check for a coding agent's action (tool name and input). |
+| `craftanything_core_archive_extract` | Extract every regular file of a ZIP/APK/IPA/JAR or ASAR (plus its . |
+| `craftanything_core_archive_show` | Content-addressed inventory of a ZIP/APK/IPA/JAR, Electron ASAR, app bundle or folder: every file with size, kind, role and sha256; nested archives opened to a bounded depth; ASAR integrity hashes and ZIP CRCs checked. |
+| `craftanything_core_archives_compare` | Compare two archives, app bundles or folders file by file: added, removed, changed (by sha256) and moved files. |
 | `craftanything_core_brief_write` | Set the investigation brief: the question, purpose, targets, constraints and what 'done' means. |
 | `craftanything_core_evidence_browse` | View part of a stored (or inline) evidence record: the summary, one part, one row of a list, a page of a list's rows (optionally only the rows matching given field values, cut to chosen fields, with the field names listed), or a part of a function dossier (pseudocode, assembly, basic_blocks, callers, callees, flow_*…), with coverage and next_offset. |
 | `craftanything_core_evidence_export` | Write every evidence record and unknown to a JSON bundle file. |
 | `craftanything_core_evidence_import` | Load a bundle written by core_evidence_export. |
 | `craftanything_core_evidence_show` | All evidence recorded in this session (detail=summary for a compact list; filter by operation or evidence_id). |
+| `craftanything_core_feature_find` | Literal text → matching strings, functions and imports → the code that uses them → the functions involved. |
 | `craftanything_core_finding_edit` | Correct a recorded finding without changing its id. |
 | `craftanything_core_finding_record` | Record a settled answer. |
 | `craftanything_core_handoff_write` | Rewrite the handoff note: where we are, what's next, traps to avoid. |
@@ -40,20 +44,25 @@ An app is `warming` while its command registry loads, `Ready` when it serves, `D
 | `craftanything_core_hypothesis_update` | Change a hypothesis's status (testing/supported/refuted/abandoned) and attach supporting or contradicting evidence ids and notes. |
 | `craftanything_core_investigation_show` | The working memory of this investigation: brief, plan with step status, hypotheses, findings (with evidence ids) and the latest handoff. |
 | `craftanything_core_journal_read` | Page through the project's append-only journal (tool calls, model turns, consents, errors), filtered by day, kind or tool. |
+| `craftanything_core_overview_show` | One-page summary of a program: format, architecture, entry, segments, counts of functions/strings/imports/exports, libraries, hardening, toolchain hints. |
 | `craftanything_core_person_ask` | Ask the person a question in the app and wait for the answer: a short question, up to six suggested answers shown as buttons, and optionally a typed reply. |
 | `craftanything_core_plan_update` | Replace the plan with a numbered list of steps, each todo/doing/done/blocked with a short why. |
 | `craftanything_core_report_save` | Save a report a client composed (Markdown, HTML or plain text) to an absolute path the person chose. |
 | `craftanything_core_report_write` | Turn the investigation (brief, plan, findings, hypotheses, handoff) and the evidence ledger into a readable report: what we looked at, what we found (each finding with its plain-English summary, confidence and cited evidence), open questions, and how it was done. |
 | `craftanything_core_session_show` | What's open, which target is active, Clean room or Deep mode, evidence and unknown counts, version. |
 | `craftanything_core_target_close` | Close the active target (or the one named). |
+| `craftanything_core_target_open` | Open a file, app bundle or folder as the active target. |
 | `craftanything_core_target_select` | Make another open target the active one. |
+| `craftanything_core_target_triage` | Say what a file is in plain English (format, OS, architecture, language/toolchain hints such as Go, Rust, . |
 | `craftanything_core_targets_list` | Every open target with its id, kind and sha256. |
+| `craftanything_core_text_read` | Read a text file (a script, Markdown, settings, a log) as text: an absolute path, or the active target. |
 | `craftanything_core_unknown_add` | Record something not yet known, with what would settle it. |
 | `craftanything_core_unknown_edit` | Change an unknown's status, evidence or resolution. |
 | `craftanything_core_unknown_verify` | Check that a resolved unknown has a resolution and cites evidence that exists and is intact. |
 | `craftanything_core_unknowns_show` | Recorded unknowns, filtered by status, severity or domain. |
 | `craftanything_enable_toolset` | Add a group of tools to this connection's tool list (the list then changes). |
 | `craftanything_list_toolsets` | List the groups of tools (native code, Android, web, Electron, runtime…) with how many tools each has and whether it is enabled in this connection. |
+| `craftanything_native_function_study` | Everything about one function in one record: facts, pseudo-C, assembly, basic blocks, callers, callees, references, strings, unresolved calls, API boundary and register value flow. |
 | `craftanything_rebuild_check` | For the builder: test the project's current build against the original now, with the same checks Craft Anything runs after each turn (a website's likeness at each width with the padding, colour, font and layout differences; an app's or game's picture against the original's; whether it builds; the mechanics sheet; credits). |
 
 ## Functionalities

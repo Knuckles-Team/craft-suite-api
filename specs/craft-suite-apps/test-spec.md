@@ -30,3 +30,4 @@ Governing spec: [spec.md](spec.md).
 | T-024 | `CONN-CRAFT-SUITE-API-APPS-R018.5` | `tests/test_lifecycle_readiness.py::test_ready_is_true_once_no_component_is_warming` (planned) | The answer follows `warming` and the detail names every state. |
 | T-025 | `CONN-CRAFT-SUITE-API-APPS-R018.4` | `tests/test_lifecycle_readiness.py::test_ready_shows_broken_backend_and_app_as_not_ready_and_recovers` (planned) | A broken component is visible in `/ready`. |
 | T-026 | `CONN-CRAFT-SUITE-API-APPS-R001.1` | `tests/test_tier1_degrade.py::test_backend_detail_is_rendered_from_the_lifecycle_state` (planned) | One source of backend state. |
+| T-027 | `CONN-CRAFT-SUITE-API-APPS-R021` | `tests/test_upstream_declarations.py::test_consent_flags_join_the_mcp_command` | mailcraft's command line carries `--allow mailbox,send` and craft-anything's carries `--deep`; the other seventeen apps' command lines hold no extra args, and `--allow-run` reaches no command line. |
