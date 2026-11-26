@@ -1,9 +1,39 @@
 # Craft Suite API connector
+## CLI or API | MCP
+
+![PyPI - Version](https://img.shields.io/pypi/v/craft-suite-api)
+![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')
+![PyPI - Downloads](https://img.shields.io/pypi/dd/craft-suite-api)
+![GitHub Repo stars](https://img.shields.io/github/stars/Knuckles-Team/craft-suite-api)
+![GitHub forks](https://img.shields.io/github/forks/Knuckles-Team/craft-suite-api)
+![GitHub contributors](https://img.shields.io/github/contributors/Knuckles-Team/craft-suite-api)
+![PyPI - License](https://img.shields.io/pypi/l/craft-suite-api)
+![GitHub](https://img.shields.io/github/license/Knuckles-Team/craft-suite-api)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/Knuckles-Team/craft-suite-api)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Knuckles-Team/craft-suite-api)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Knuckles-Team/craft-suite-api)
+![GitHub issues](https://img.shields.io/github/issues/Knuckles-Team/craft-suite-api)
+![GitHub top language](https://img.shields.io/github/languages/top/Knuckles-Team/craft-suite-api)
+![GitHub language count](https://img.shields.io/github/languages/count/Knuckles-Team/craft-suite-api)
+![GitHub repo size](https://img.shields.io/github/repo-size/Knuckles-Team/craft-suite-api)
+![GitHub repo file count (file type)](https://img.shields.io/github/directory-file-count/Knuckles-Team/craft-suite-api)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/craft-suite-api)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/craft-suite-api)
+
+> **Documentation** — Installation, deployment, and usage across the API, CLI, MCP,
+> and A2A agent interfaces are maintained in the
+> [official documentation](https://knuckles-team.github.io/craft-suite-api/).
+
+---
+
+## Overview
 
 The MCP connector for the ArtCraft suite. It serves **every operation of the
 ArtCraft backend API as one typed tool** (268 today), generated from the
 backend's published API description, and the suite's desktop apps as lazily
 loaded MCP upstreams (see [the apps spec](specs/craft-suite-apps/spec.md)).
+
+---
 
 ## Backend tools
 
@@ -27,10 +57,14 @@ Every refusal is a typed result `{cancelled, operation, reason, write_class}`:
 switch, or the SDK confirmation refusal. Every write decision is logged to the
 `craft_suite_api.audit` logger.
 
+---
+
 ## Package identity
 
 The connector is `craft-suite-api`, imported as `craft_suite_api`, with the
 `craft-suite-mcp` command and `CRAFT_SUITE_API_` configuration prefix.
+
+---
 
 ## Usage
 
@@ -49,6 +83,8 @@ unavailable.
 {"name":"craft_suite_omni_gen_image_models_handler","arguments":{}}
 ```
 
+---
+
 ## Provenance
 
 `craft_suite_api/api_spec/backend.openapi.json` is the backend's published API
@@ -62,8 +98,46 @@ source is under its own source-available licence: only the interface
 description is used. To take a new description, replace the pinned file,
 update the sha256 and run `python -m pytest tests -q`.
 
+---
+
 ## Validation boundary
 
 Tests use the real SDK HTTP, auth and MCP components with a fake transport at
 the backend boundary. Writes are proven there; live writes need the operator
 switch and a backend credential.
+
+---
+
+## Installation
+
+```bash
+uv pip install "craft-suite-api[mcp]"
+uv pip install "craft-suite-api[all]"
+```
+
+---
+
+## Documentation
+
+The complete documentation is published as the
+[official documentation site](https://knuckles-team.github.io/craft-suite-api/) and is
+the recommended reference for installation, deployment, and day-to-day operation.
+
+---
+
+## Repository Owners
+
+<img width="100%" height="180em" src="https://github-readme-stats.vercel.app/api?username=example&show_icons=true&hide_border=true&&count_private=true&include_all_commits=true" />
+
+![GitHub followers](https://img.shields.io/github/followers/example)
+![GitHub User's stars](https://img.shields.io/github/stars/example)
+
+---
+
+## Contribute
+
+Contributions are welcome! Please ensure code quality by running local checks before submitting pull requests:
+- Format code using `ruff format .`
+- Lint code using `ruff check .`
+- Validate type-safety with `mypy .`
+- Run test suites using `pytest`
